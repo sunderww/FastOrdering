@@ -9,21 +9,21 @@
 module.exports = {
 
   attributes: {
-  	
-  	name: { 
+
+  	name: {
   		type: 'string',
   		required: true
-  	}
+  	},
 
   	waiters: {
   		type: 'array', // an array of ids
   		defaultsTo: []
-  	}
+  	},
 
-  	plan_id: { 
+  	plan_id: {
   		type: 'string',
   		required: true
-  	}
+  	},
 
   	pos: {
   		// type should be pos
@@ -31,7 +31,7 @@ module.exports = {
   		type: 'json',
   		required: true
   	}
-    
+
   }
 
 };
