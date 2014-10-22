@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FastOrdering</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Fast Ordering</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main">Fast Ordering</string>
+    <string name="title_section1">Accueil</string>
+    <string name="title_section2">Commander</string>
+    <string name="title_section3">Modifier une commande</string>
+    <string name="title_section4">Notifications</string>
+    <string name="title_section5">Historique</string>
+    <string name="title_section6">Options</string>
+    <string name="title_section7">Déconnexion</string>
+    <string name="title_section8">A Propos</string>
+    <string name="navigation_drawer_open">Ouvre le volet de navigation</string>
+    <string name="navigation_drawer_close">Ferme le volet de navigation</string>
+    <string name="home_fragment">Home fragment</string>
+    <string name="order_fragment">Order fragment</string>
+    <string name="modify_fragment">Modify fragment</string>
+    <string name="notifications_fragment">Notifications fragment</string>
+    <string name="history_fragment">History fragment</string>
+    <string name="options_fragment">Options fragment</string>
+    <string name="logout_fragment">Logout fragment</string>
+    <string name="about_fragment">About fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="login_activity_bg">bg</string>
+    <string name="login_button">CONNEXION</string>
+    <string name="login_identifiant">IDENTIFIANT</string>
+    <string name="login_pass">MOT DE PASSE</string>
+    <string name="login_hint_pass">Mot de passe</string>
+    <string name="desc_white_rectangle">White transparent rectangle</string>
+    <string name="hint_login">Identifiant</string>
 
 </resources>

@@ -1,24 +1,38 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 
 
-public class Launcher extends Activity {
+public class LoginActivity extends Activity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launcher);
-    }
+        setContentView(R.layout.activity_login);
 
+        //Add event listener to connexion button
+        final Button button = (Button) findViewById(R.id.connexion_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+                startActivity(mainActivity);
+            }
+        });
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.launcher, menu);
+        getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
 
