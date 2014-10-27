@@ -4,6 +4,7 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -194,6 +195,12 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
+        if (position == 6) {
+            Intent mainActivity = new Intent(getActivity(), LoginActivity.class);
+            mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainActivity);
+            return;
+        }
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }

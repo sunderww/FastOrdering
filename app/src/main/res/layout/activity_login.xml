@@ -2,7 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.eip.fastordering.LoginActivity">
+    tools:context="com.eip.fastordering.LoginActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:id="@+id/layout_login">
 
     <ImageView
         android:layout_width="match_parent"
@@ -22,7 +25,7 @@
         android:contentDescription="@string/desc_white_rectangle"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="50dp">
     </ImageView>
 
     <TextView
@@ -47,7 +50,9 @@
         android:layout_alignStart="@+id/connexion_button"
         android:layout_alignRight="@+id/connexion_button"
         android:layout_alignEnd="@+id/connexion_button"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+        android:inputType="text"
+        android:singleLine="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -64,7 +69,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:ems="10"
         android:id="@+id/field_pass"
         android:hint="@string/login_hint_pass"
         android:layout_below="@+id/text_pass"
@@ -79,7 +83,6 @@
         android:layout_height="wrap_content"
         android:text="@string/login_button"
         android:id="@+id/connexion_button"
-        android:background="#ffffffff"
         android:layout_alignBottom="@+id/white_rect"
         android:layout_alignLeft="@+id/white_rect"
         android:layout_alignStart="@+id/white_rect"
@@ -101,7 +104,8 @@
         android:layout_alignRight="@+id/white_rect"
         android:layout_alignEnd="@+id/white_rect"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/desc_view_logo" />
 
 </RelativeLayout>
