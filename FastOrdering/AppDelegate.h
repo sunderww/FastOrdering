@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define kSocketIOHost   @"alexis-semren.com"
+#define kSocketIOPort   1337
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

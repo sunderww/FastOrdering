@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8408225D19F497A8009BE528 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408225C19F497A8009BE528 /* SRWebSocket.m */; };
+		8408226919F497BC009BE528 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408225F19F497BC009BE528 /* SocketIO.m */; };
+		8408226A19F497BC009BE528 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408226119F497BC009BE528 /* SocketIOJSONSerialization.m */; };
+		8408226B19F497BC009BE528 /* SocketIOPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408226319F497BC009BE528 /* SocketIOPacket.m */; };
+		8408226C19F497BC009BE528 /* SocketIOTransportWebsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408226619F497BC009BE528 /* SocketIOTransportWebsocket.m */; };
+		8408226D19F497BC009BE528 /* SocketIOTransportXHR.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408226819F497BC009BE528 /* SocketIOTransportXHR.m */; };
+		8408226F19F49940009BE528 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408226E19F49940009BE528 /* libicucore.dylib */; };
+		8408227119F49949009BE528 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408227019F49949009BE528 /* CFNetwork.framework */; };
+		8408227319F4994D009BE528 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408227219F4994D009BE528 /* Security.framework */; };
 		84C1A17619EDE8D100E64B40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17519EDE8D100E64B40 /* Foundation.framework */; };
 		84C1A17819EDE8D100E64B40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */; };
 		84C1A17A19EDE8D100E64B40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17919EDE8D100E64B40 /* UIKit.framework */; };
@@ -19,6 +28,16 @@
 		84C1A19119EDE8D100E64B40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17919EDE8D100E64B40 /* UIKit.framework */; };
 		84C1A19919EDE8D100E64B40 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A19719EDE8D100E64B40 /* InfoPlist.strings */; };
 		84C1A19B19EDE8D100E64B40 /* FastOrderingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A19A19EDE8D100E64B40 /* FastOrderingTests.m */; };
+		84C1A1B819EDEE8400E64B40 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1B719EDEE8400E64B40 /* LoginViewController.m */; };
+		84C1A1BE19EDF2E900E64B40 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1BD19EDF2E900E64B40 /* MainView.xib */; };
+		84C1A1C119EDF35C00E64B40 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1C019EDF35C00E64B40 /* MainViewController.m */; };
+		84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1C219EDF39600E64B40 /* LoginView.xib */; };
+		84C1A1C619EE02CC00E64B40 /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1C519EE02CC00E64B40 /* NotificationViewController.m */; };
+		84C1A1C819EE044800E64B40 /* NotificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1C719EE044800E64B40 /* NotificationView.xib */; };
+		84C1A1CA19EE08A600E64B40 /* TablePlanView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1C919EE08A600E64B40 /* TablePlanView.xib */; };
+		84C1A1CD19EE08B600E64B40 /* TablePlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1CC19EE08B600E64B40 /* TablePlanViewController.m */; };
+		84C1A1D019EE178400E64B40 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1CF19EE178400E64B40 /* MenuViewController.m */; };
+		84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1D119EE3CE300E64B40 /* MenuView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +51,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8408225B19F497A8009BE528 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		8408225C19F497A8009BE528 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
+		8408225E19F497BC009BE528 /* SocketIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIO.h; sourceTree = "<group>"; };
+		8408225F19F497BC009BE528 /* SocketIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIO.m; sourceTree = "<group>"; };
+		8408226019F497BC009BE528 /* SocketIOJSONSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOJSONSerialization.h; sourceTree = "<group>"; };
+		8408226119F497BC009BE528 /* SocketIOJSONSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOJSONSerialization.m; sourceTree = "<group>"; };
+		8408226219F497BC009BE528 /* SocketIOPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOPacket.h; sourceTree = "<group>"; };
+		8408226319F497BC009BE528 /* SocketIOPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOPacket.m; sourceTree = "<group>"; };
+		8408226419F497BC009BE528 /* SocketIOTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOTransport.h; sourceTree = "<group>"; };
+		8408226519F497BC009BE528 /* SocketIOTransportWebsocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOTransportWebsocket.h; sourceTree = "<group>"; };
+		8408226619F497BC009BE528 /* SocketIOTransportWebsocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOTransportWebsocket.m; sourceTree = "<group>"; };
+		8408226719F497BC009BE528 /* SocketIOTransportXHR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOTransportXHR.h; sourceTree = "<group>"; };
+		8408226819F497BC009BE528 /* SocketIOTransportXHR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIOTransportXHR.m; sourceTree = "<group>"; };
+		8408226E19F49940009BE528 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		8408227019F49949009BE528 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		8408227219F4994D009BE528 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		84C1A17219EDE8D100E64B40 /* FastOrdering.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastOrdering.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C1A17519EDE8D100E64B40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,6 +83,21 @@
 		84C1A19619EDE8D100E64B40 /* FastOrderingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FastOrderingTests-Info.plist"; sourceTree = "<group>"; };
 		84C1A19819EDE8D100E64B40 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84C1A19A19EDE8D100E64B40 /* FastOrderingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FastOrderingTests.m; sourceTree = "<group>"; };
+		84C1A1B619EDEE8400E64B40 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		84C1A1B719EDEE8400E64B40 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		84C1A1BD19EDF2E900E64B40 /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
+		84C1A1BF19EDF35C00E64B40 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		84C1A1C019EDF35C00E64B40 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		84C1A1C219EDF39600E64B40 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		84C1A1C419EE02CC00E64B40 /* NotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		84C1A1C519EE02CC00E64B40 /* NotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
+		84C1A1C719EE044800E64B40 /* NotificationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationView.xib; sourceTree = "<group>"; };
+		84C1A1C919EE08A600E64B40 /* TablePlanView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TablePlanView.xib; sourceTree = "<group>"; };
+		84C1A1CB19EE08B600E64B40 /* TablePlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TablePlanViewController.h; sourceTree = "<group>"; };
+		84C1A1CC19EE08B600E64B40 /* TablePlanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TablePlanViewController.m; sourceTree = "<group>"; };
+		84C1A1CE19EE178400E64B40 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		84C1A1CF19EE178400E64B40 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		84C1A1D119EE3CE300E64B40 /* MenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +105,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8408227319F4994D009BE528 /* Security.framework in Frameworks */,
+				8408227119F49949009BE528 /* CFNetwork.framework in Frameworks */,
+				8408226F19F49940009BE528 /* libicucore.dylib in Frameworks */,
 				84C1A17819EDE8D100E64B40 /* CoreGraphics.framework in Frameworks */,
 				84C1A17A19EDE8D100E64B40 /* UIKit.framework in Frameworks */,
 				84C1A17619EDE8D100E64B40 /* Foundation.framework in Frameworks */,
@@ -74,6 +127,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8408225919F4978D009BE528 /* SocketRocket */ = {
+			isa = PBXGroup;
+			children = (
+				8408225B19F497A8009BE528 /* SRWebSocket.h */,
+				8408225C19F497A8009BE528 /* SRWebSocket.m */,
+			);
+			name = SocketRocket;
+			path = FastOrdering;
+			sourceTree = "<group>";
+		};
+		8408225A19F49793009BE528 /* SocketIO */ = {
+			isa = PBXGroup;
+			children = (
+				8408225E19F497BC009BE528 /* SocketIO.h */,
+				8408225F19F497BC009BE528 /* SocketIO.m */,
+				8408226019F497BC009BE528 /* SocketIOJSONSerialization.h */,
+				8408226119F497BC009BE528 /* SocketIOJSONSerialization.m */,
+				8408226219F497BC009BE528 /* SocketIOPacket.h */,
+				8408226319F497BC009BE528 /* SocketIOPacket.m */,
+				8408226419F497BC009BE528 /* SocketIOTransport.h */,
+				8408226519F497BC009BE528 /* SocketIOTransportWebsocket.h */,
+				8408226619F497BC009BE528 /* SocketIOTransportWebsocket.m */,
+				8408226719F497BC009BE528 /* SocketIOTransportXHR.h */,
+				8408226819F497BC009BE528 /* SocketIOTransportXHR.m */,
+			);
+			name = SocketIO;
+			path = FastOrdering;
+			sourceTree = "<group>";
+		};
 		84C1A16919EDE8D100E64B40 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +178,11 @@
 		84C1A17419EDE8D100E64B40 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8408225919F4978D009BE528 /* SocketRocket */,
+				8408225A19F49793009BE528 /* SocketIO */,
+				8408227219F4994D009BE528 /* Security.framework */,
+				8408227019F49949009BE528 /* CFNetwork.framework */,
+				8408226E19F49940009BE528 /* libicucore.dylib */,
 				84C1A17519EDE8D100E64B40 /* Foundation.framework */,
 				84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */,
 				84C1A17919EDE8D100E64B40 /* UIKit.framework */,
@@ -107,6 +194,9 @@
 		84C1A17B19EDE8D100E64B40 /* FastOrdering */ = {
 			isa = PBXGroup;
 			children = (
+				84C1A1B019EDEE4500E64B40 /* Resources */,
+				84C1A1B219EDEE4500E64B40 /* Views */,
+				84C1A1B119EDEE4500E64B40 /* Sources */,
 				84C1A18419EDE8D100E64B40 /* AppDelegate.h */,
 				84C1A18519EDE8D100E64B40 /* AppDelegate.m */,
 				84C1A18719EDE8D100E64B40 /* Images.xcassets */,
@@ -144,6 +234,66 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		84C1A1B019EDEE4500E64B40 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		84C1A1B119EDEE4500E64B40 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				84C1A1B519EDEE5600E64B40 /* Helpers */,
+				84C1A1B419EDEE5200E64B40 /* Models */,
+				84C1A1B319EDEE4900E64B40 /* Controllers */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		84C1A1B219EDEE4500E64B40 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84C1A1C219EDF39600E64B40 /* LoginView.xib */,
+				84C1A1BD19EDF2E900E64B40 /* MainView.xib */,
+				84C1A1C719EE044800E64B40 /* NotificationView.xib */,
+				84C1A1C919EE08A600E64B40 /* TablePlanView.xib */,
+				84C1A1D119EE3CE300E64B40 /* MenuView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		84C1A1B319EDEE4900E64B40 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				84C1A1B619EDEE8400E64B40 /* LoginViewController.h */,
+				84C1A1B719EDEE8400E64B40 /* LoginViewController.m */,
+				84C1A1BF19EDF35C00E64B40 /* MainViewController.h */,
+				84C1A1C019EDF35C00E64B40 /* MainViewController.m */,
+				84C1A1C419EE02CC00E64B40 /* NotificationViewController.h */,
+				84C1A1C519EE02CC00E64B40 /* NotificationViewController.m */,
+				84C1A1CB19EE08B600E64B40 /* TablePlanViewController.h */,
+				84C1A1CC19EE08B600E64B40 /* TablePlanViewController.m */,
+				84C1A1CE19EE178400E64B40 /* MenuViewController.h */,
+				84C1A1CF19EE178400E64B40 /* MenuViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		84C1A1B419EDEE5200E64B40 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		84C1A1B519EDEE5600E64B40 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -153,6 +303,7 @@
 			buildPhases = (
 				84C1A16E19EDE8D100E64B40 /* Sources */,
 				84C1A16F19EDE8D100E64B40 /* Frameworks */,
+				84C1A1A419EDECAE00E64B40 /* ShellScript */,
 				84C1A17019EDE8D100E64B40 /* Resources */,
 			);
 			buildRules = (
@@ -220,7 +371,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C1A18019EDE8D100E64B40 /* InfoPlist.strings in Resources */,
+				84C1A1BE19EDF2E900E64B40 /* MainView.xib in Resources */,
+				84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */,
+				84C1A1CA19EE08A600E64B40 /* TablePlanView.xib in Resources */,
+				84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */,
 				84C1A18819EDE8D100E64B40 /* Images.xcassets in Resources */,
+				84C1A1C819EE044800E64B40 /* NotificationView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,13 +390,40 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		84C1A1A419EDECAE00E64B40 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		84C1A16E19EDE8D100E64B40 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8408226D19F497BC009BE528 /* SocketIOTransportXHR.m in Sources */,
+				84C1A1CD19EE08B600E64B40 /* TablePlanViewController.m in Sources */,
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
 				84C1A18219EDE8D100E64B40 /* main.m in Sources */,
+				8408226919F497BC009BE528 /* SocketIO.m in Sources */,
+				8408226C19F497BC009BE528 /* SocketIOTransportWebsocket.m in Sources */,
+				84C1A1B819EDEE8400E64B40 /* LoginViewController.m in Sources */,
+				8408226B19F497BC009BE528 /* SocketIOPacket.m in Sources */,
+				8408225D19F497A8009BE528 /* SRWebSocket.m in Sources */,
+				84C1A1D019EE178400E64B40 /* MenuViewController.m in Sources */,
+				8408226A19F497BC009BE528 /* SocketIOJSONSerialization.m in Sources */,
+				84C1A1C619EE02CC00E64B40 /* NotificationViewController.m in Sources */,
+				84C1A1C119EDF35C00E64B40 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,9 +540,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Lucas Bergognon (9656FHRK6E)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastOrdering/FastOrdering-Prefix.pch";
 				INFOPLIST_FILE = "FastOrdering/FastOrdering-Info.plist";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -370,9 +555,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Lucas Bergognon (9656FHRK6E)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FastOrdering/FastOrdering-Prefix.pch";
 				INFOPLIST_FILE = "FastOrdering/FastOrdering-Info.plist";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -437,6 +624,7 @@
 				84C1A1A019EDE8D100E64B40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		84C1A1A119EDE8D100E64B40 /* Build configuration list for PBXNativeTarget "FastOrderingTests" */ = {
 			isa = XCConfigurationList;
@@ -445,6 +633,7 @@
 				84C1A1A319EDE8D100E64B40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
