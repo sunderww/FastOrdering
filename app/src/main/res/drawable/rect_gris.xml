@@ -5,7 +5,8 @@
    >
 
     <!-- Specify a semi-transparent solid green background color -->
-    <solid android:color="#DDDDDD" />
+    <solid android:color="#DDDDDD"/>
+
     <corners android:radius="10px"></corners>
     <stroke  android:width="0dp" android:color="#DDDDDD"></stroke>
 
