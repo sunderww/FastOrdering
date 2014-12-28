@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class HistoryFragment extends Fragment {
@@ -16,6 +17,9 @@ public class HistoryFragment extends Fragment {
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    private ArrayList<Item> items = new ArrayList<Item>();
+    private AdapterHistory adapter;
 
 
     /**
@@ -31,6 +35,17 @@ public class HistoryFragment extends Fragment {
     }
 
     public HistoryFragment() {
+        addOrderToList("Commande #11: table #4, 2pa", "Le 12/12/12 à 12h56");
+        addOrderToList("Commande #10: table #4, 2pa", "Le 12/12/12 à 12h55");
+        addOrderToList("Commande #9: table #4, 2pa", "Le 12/12/12 à 12h54");
+        addOrderToList("Commande #8: table #4, 2pa", "Le 12/12/12 à 12h53");
+        addOrderToList("Commande #7: table #4, 2pa", "Le 12/12/12 à 12h52");
+        addOrderToList("Commande #6: table #4, 2pa", "Le 12/12/12 à 12h51");
+        addOrderToList("Commande #5: table #4, 2pa", "Le 12/12/12 à 12h50");
+        addOrderToList("Commande #4: table #4, 2pa", "Le 12/12/12 à 12h49");
+        addOrderToList("Commande #3: table #4, 2pa", "Le 12/12/12 à 12h48");
+        addOrderToList("Commande #2: table #4, 2pa", "Le 12/12/12 à 12h47");
+        addOrderToList("Commande #1: table #4, 2pa", "Le 12/12/12 à 12h46");
     }
 
     @Override
@@ -38,10 +53,10 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
 
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2" };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(container.getContext(), R.layout.row_history, R.id.history_label_one, values);
+        /***
+         * Create a custom adapter for the listview of orders
+         */
+        adapter = new AdapterHistory(container.getContext(), items);
         ListView lv = (ListView)rootView.findViewById(R.id.history_list);
         lv.setAdapter(adapter);
 
@@ -55,8 +70,15 @@ public class HistoryFragment extends Fragment {
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
-    private void addOrderToList() {
-
+    /***
+     * Add an item to the custom list view
+     * @param line_one, first line of the item
+     * @param line_two, second line of the item
+     */
+    public void addOrderToList(String line_one, String line_two) {
+        items.add(new Item(line_one, line_two));
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
     }
 
 }

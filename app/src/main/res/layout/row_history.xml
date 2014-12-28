@@ -4,7 +4,7 @@
     android:layout_height="wrap_content" >
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/history_icon"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:layout_width="35dp"
@@ -17,9 +17,10 @@
         android:text="kjjjj"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="5dp"
-        android:textSize="20dp">
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="8dp"
+        android:textSize="17dp"
+        android:singleLine="true">
     </TextView>
 
     <TextView
@@ -28,10 +29,11 @@
         android:textColor="#7f7f7f"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="33dp"
         android:layout_marginBottom="5dp"
-        android:textSize="15dp">
+        android:textSize="12dp"
+        android:singleLine="true">
     </TextView>
 
 </RelativeLayout>
