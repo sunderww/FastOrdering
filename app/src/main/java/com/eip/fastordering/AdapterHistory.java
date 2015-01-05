@@ -12,16 +12,16 @@ import java.util.ArrayList;
 /**
  * Created by Mewen on 28-Dec-14.
  */
-public class AdapterHistory extends ArrayAdapter<Item> {
+public class AdapterHistory extends ArrayAdapter<OrderStruct> {
     private final Context context;
-    private final ArrayList<Item> itemsArrayList;
+    private final ArrayList<OrderStruct> OrderStructsArrayList;
 
-    public AdapterHistory(Context context, ArrayList<Item> itemsArrayList) {
+    public AdapterHistory(Context context, ArrayList<OrderStruct> OrderStructsArrayList) {
 
-        super(context, R.layout.row_history, itemsArrayList);
+        super(context, R.layout.row_history, OrderStructsArrayList);
 
         this.context = context;
-        this.itemsArrayList = itemsArrayList;
+        this.OrderStructsArrayList = OrderStructsArrayList;
     }
 
     @Override
@@ -35,8 +35,8 @@ public class AdapterHistory extends ArrayAdapter<Item> {
         TextView labelView = (TextView) rowView.findViewById(R.id.history_label_one);
         TextView valueView = (TextView) rowView.findViewById(R.id.history_label_two);
 
-        labelView.setText(itemsArrayList.get(position).getTitle());
-        valueView.setText(itemsArrayList.get(position).getDescription());
+        labelView.setText(OrderStructsArrayList.get(position).getTitle());
+        valueView.setText(OrderStructsArrayList.get(position).getDescription());
 
         return rowView;
     }

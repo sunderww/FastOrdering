@@ -34,5 +34,20 @@
     <string name="version">Version 1.0.0</string>
     <string name="url_fo">eip.epitech.eu/2016/fastordering</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notification_clean">Tout effacer</string>
+    <string name="notification_desc_button">Custom button</string>
+    <string name="about_logo_desc">Logo FO</string>
+    <string name="about_background_desc">Custom background</string>
+    <string name="ipsum">kjjjj</string>
+    <string name="history_icon_desc">Custom icon</string>
+    <string name="notif_icon_desc">Custom icon</string>
+    <string name="notif_close_desc">Custom close</string>
+    <string name="delete">Effacer</string>
+    <string name="notification_list_empty">Aucune notification disponible</string>
+    <string name="notification_list_empty_text">Aucune notification</string>
+    <string name="history_list_empty_text">Aucun historique</string>
+    <string name="dialog_order_commande">Commande</string>
+    <string name="dialog_order_date">Date</string>
+    <string name="dialog_order_close">Fermer</string>
 
 </resources>

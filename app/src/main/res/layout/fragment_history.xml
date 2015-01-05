@@ -20,5 +20,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/history_list"
         android:layout_margin="20dp"
-        android:background="#DDDDDD"/>
+        android:background="#FFF"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/history_list_empty_text"
+        android:id="@+id/history_list_empty"
+        android:textSize="25sp"
+        android:textColor="#ffffffff"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
