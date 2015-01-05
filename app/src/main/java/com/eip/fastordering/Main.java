@@ -1,15 +1,19 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 public class Main extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -25,6 +29,7 @@ public class Main extends Activity
     private CharSequence mTitle;
 
     private Fragment[] mTabFragments;
+    Socket socket;
 
     public void OnFragmentInteractionListener(Uri uri)
     {
@@ -55,6 +60,44 @@ public class Main extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        Log.d("SOCKET", "*** INIT SOCKET ***");
+        socket = null;
+        try {
+            socket = IO.socket("http://localhost");
+            Log.d("SOCKET", "*** INIT OK SOCKET ***");
+        } catch (Exception e) {
+            Log.d("SOCKET", "*** INIT KO SOCKET ***");
+        }
+
+        if (socket != null) {
+            Log.d("SOCKET", "*** SET CB SOCKET ***");
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+
+                @Override
+                public void call(Object... args) {
+                    socket.emit("foo", "hi");
+                    socket.disconnect();
+                }
+
+            }).on("event", new Emitter.Listener() {
+
+                @Override
+                public void call(Object... args) {
+                }
+
+            }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+
+                @Override
+                public void call(Object... args) {
+                }
+
+            });
+            Log.d("SOCKET", "*** END SET CB SOCKET ***");
+            Log.d("SOCKET", "*** CONNECTING SOCKET ***");
+            socket.connect();
+            Log.d("SOCKET", "*** END CONNECTING SOCKET ***");
+        }
     }
 
     @Override
