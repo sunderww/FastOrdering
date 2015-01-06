@@ -24,7 +24,7 @@ import com.github.nkzawa.socketio.client.Socket;
 
 public class LoginActivity extends Activity {
 
-    Socket socket;
+    Socket socket = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +61,13 @@ public class LoginActivity extends Activity {
             }
         });
 
-        Log.d("SOCKET", "*** INIT SOCKET ***");
-        socket = null;
-
+        //Set options socket
         IO.Options opts = new IO.Options();
         opts.forceNew = true;
         opts.reconnection = true;
         opts.reconnectionAttempts = 3;
 
+        //Creation socket
         try {
             socket = IO.socket("http://alexis-semren.com:1337", opts);
             Log.d("SOCKET", "*** INIT OK SOCKET ***");
@@ -76,43 +75,33 @@ public class LoginActivity extends Activity {
             Log.d("SOCKET", "*** INIT KO SOCKET ***");
         }
 
+        //Init callback on events socket
         if (socket != null) {
-            Log.d("SOCKET", "*** SET CB SOCKET ***");
             socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 
                 @Override
                 public void call(Object... args) {
-                    socket.emit("foo", "hi");
-                    socket.disconnect();
+                    socket.emit("FO", "android_socket_co");
                 }
+            })
 
-            }).on("event", new Emitter.Listener() {
-
-                @Override
-                public void call(Object... args) {
-                }
-            }).on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
+            .on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
 
                 @Override
                 public void call(Object... args) {
                     Log.d("SOCKET", "SOCKET CONNECT ERROR");
+                    socket.off(Socket.EVENT_CONNECT_ERROR);
                 }
+            })
 
-            }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+            .on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
 
                 @Override
                 public void call(Object... args) {
+                    //To handle
                 }
 
             });
-            Log.d("SOCKET", "*** END SET CB SOCKET ***");
-            Log.d("SOCKET", "*** CONNECTING SOCKET ***");
-            socket.connect();
-            Log.d("SOCKET", "*** END CONNECTING SOCKET ***");
-            if (socket.connected())
-                Log.d("SOCKET", "CONNECTED");
-            else
-                Log.d("SOCKET", "NOT CONNECTED");
         }
     }
 
@@ -149,6 +138,15 @@ public class LoginActivity extends Activity {
     private void connectToServ() {
         Intent mainActivity = new Intent(LoginActivity.this, Main.class);
         mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        //Connect the socket
+        socket.connect();
+        if (socket.connected())
+            Log.d("SOCKET", "CONNECTED");
+        else
+            Log.d("SOCKET", "NOT CONNECTED");
+
+        //To move once socket ope
         startActivity(mainActivity);
     }
 }
