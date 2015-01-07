@@ -4,27 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
 
 public class LoginActivity extends Activity {
 
-    Socket socket = null;
+//  Socket socket = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,48 +62,51 @@ public class LoginActivity extends Activity {
             }
         });
 
-        //Set options socket
-        IO.Options opts = new IO.Options();
-        opts.forceNew = true;
-        opts.reconnection = true;
-        opts.reconnectionAttempts = 3;
-
-        //Creation socket
+        SocketIO socket = null;
         try {
-            socket = IO.socket("http://alexis-semren.com:1337", opts);
-            Log.d("SOCKET", "*** INIT OK SOCKET ***");
-        } catch (Exception e) {
-            Log.d("SOCKET", "*** INIT KO SOCKET ***");
+            socket = new SocketIO("http://alexis-semren.com:1337");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
-
-        //Init callback on events socket
-        if (socket != null) {
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-
-                @Override
-                public void call(Object... args) {
-                    socket.emit("FO", "android_socket_co");
+        socket.connect(new IOCallback() {
+            @Override
+            public void onMessage(JSONObject json, IOAcknowledge ack) {
+                try {
+                    System.out.println("Server said:" + json.toString(2));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            })
+            }
 
-            .on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
+            @Override
+            public void onMessage(String data, IOAcknowledge ack) {
+                System.out.println("Server said: " + data);
+            }
 
-                @Override
-                public void call(Object... args) {
-                    Log.d("SOCKET", "SOCKET CONNECT ERROR");
-                    socket.off(Socket.EVENT_CONNECT_ERROR);
-                }
-            })
+            @Override
+            public void onError(SocketIOException socketIOException) {
+                System.out.println("an Error occured");
+                socketIOException.printStackTrace();
+            }
 
-            .on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+            @Override
+            public void onDisconnect() {
+                System.out.println("Connection terminated.");
+            }
 
-                @Override
-                public void call(Object... args) {
-                    //To handle
-                }
+            @Override
+            public void onConnect() {
+                System.out.println("Connection established");
+            }
 
-            });
-        }
+            @Override
+            public void on(String event, IOAcknowledge ack, Object... args) {
+                System.out.println("Server triggered event '" + event + "'");
+            }
+        });
+
+        // This line is cached until the connection is establisched.
+        socket.send("Hello Server!");
     }
 
     @Override
@@ -138,13 +142,6 @@ public class LoginActivity extends Activity {
     private void connectToServ() {
         Intent mainActivity = new Intent(LoginActivity.this, Main.class);
         mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        //Connect the socket
-        socket.connect();
-        if (socket.connected())
-            Log.d("SOCKET", "CONNECTED");
-        else
-            Log.d("SOCKET", "NOT CONNECTED");
 
         //To move once socket ope
         startActivity(mainActivity);
