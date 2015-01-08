@@ -1,30 +1,50 @@
 package com.eip.fastordering;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Mewen on 28-Dec-14.
  */
 public class OrderStruct {
 
-    private String numOrder;
-    private String numTable;
-    private String numPA;
-    private String hour;
-    private String date;
+    private String _mNumOrder;
+    private String _mNumTable;
+    private String _mNumPA;
+    private String _mHour;
+    private String _mDate;
 
-    private String title;
-    private String description;
-
-    public OrderStruct(String title, String description) {
+    public OrderStruct(JSONObject cmd) {
         super();
-        this.title = title;
-        this.description = description;
+
+        try {
+            this._mNumOrder = cmd.getString("numOrder");
+            this._mNumTable = cmd.getString("numTable");
+            this._mNumPA = cmd.getString("numPA");
+            this._mHour = cmd.getString("hour");
+            this._mDate = cmd.getString("date");
+        } catch (JSONException e) {
+
+        }
     }
 
-    public String getTitle() {
-        return title;
+    public String get_mNumOrder() {
+        return _mNumOrder;
     }
 
-    public String getDescription() {
-        return description;
+    public String get_mNumTable() {
+        return _mNumTable;
+    }
+
+    public String get_mNumPA() {
+        return _mNumPA;
+    }
+
+    public String get_mHour() {
+        return _mHour;
+    }
+
+    public String get_mDate() {
+        return _mDate;
     }
 }

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Mewen on 04-Jan-15.
  */
@@ -35,10 +37,10 @@ public class DialogOrder extends AlertDialog {
             }
         });
 
-        TextView firstLine = (TextView) view.findViewById(R.id.dialog_first_line);
-        firstLine.setText(_mItem.getTitle());
-        TextView secondLine = (TextView) view.findViewById(R.id.dialog_second_line);
-        secondLine.setText(_mItem.getDescription());
+        ((TextView)view.findViewById(R.id.dialog_order_title)).setText(((TextView)view.findViewById(R.id.dialog_order_title)).getText() + _mItem.get_mNumOrder());
+        ((TextView)view.findViewById(R.id.dialog_order_table)).setText(((TextView)view.findViewById(R.id.dialog_order_table)).getText() + _mItem.get_mNumTable());
+        ((TextView)view.findViewById(R.id.dialog_order_pa)).setText(((TextView)view.findViewById(R.id.dialog_order_pa)).getText() + _mItem.get_mNumPA());
+        ((TextView)view.findViewById(R.id.dialog_order_hour)).setText(((TextView)view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + " à " + _mItem.get_mHour());
 
         return builder.create();
     }

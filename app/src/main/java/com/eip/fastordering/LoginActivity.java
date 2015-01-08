@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -131,8 +132,18 @@ public class LoginActivity extends Activity {
             @Override
             public void onError(SocketIOException socketIOException) {
                 Log.d("SOCKET", "ERROR");
-                
-                Toast.makeText(_mContext, "Hello World!", Toast.LENGTH_LONG).show();
+
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast msg = Toast.makeText(LoginActivity.this, R.string.login_toast_error, Toast.LENGTH_LONG);
+                        msg.show();
+                    }
+                });
+
+                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainActivity);
             }
 
             @Override
@@ -153,6 +164,29 @@ public class LoginActivity extends Activity {
                 Log.d("SOCKET", "MSG CREATED");
                 _mSocket.send(msg);
                 Log.d("SOCKET", "MSG SENT");
+
+                //TODO
+                //Check message callback check login
+                JSONArray arr = new JSONArray();
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("url", String.format("/dish/read"));
+                } catch (JSONException e) {
+
+                }
+                arr.put(obj);
+
+                _mSocket.emit("get", new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.d("GET", "" + objects[0]);
+                    }
+                }, obj);
+
+                //Change activity after login ok
+                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainActivity);
             }
 
             @Override
@@ -160,12 +194,5 @@ public class LoginActivity extends Activity {
                 Log.d("SOCKET", "EVENT " + event);
             }
         });
-
-        //Change to mainActivity
-        Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        //To move once socket ope
-        //startActivity(mainActivity);
     }
 }

@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -38,17 +41,18 @@ public class HistoryFragment extends Fragment {
     }
 
     public HistoryFragment() {
-        addOrderToList("Commande #11: table #4, 2pa", "Le 12/12/12 à 12h56");
-        addOrderToList("Commande #10: table #4, 2pa", "Le 12/12/12 à 12h55");
-        addOrderToList("Commande #9: table #4, 2pa", "Le 12/12/12 à 12h54");
-        addOrderToList("Commande #8: table #4, 2pa", "Le 12/12/12 à 12h53");
-        addOrderToList("Commande #7: table #4, 2pa", "Le 12/12/12 à 12h52");
-        addOrderToList("Commande #6: table #4, 2pa", "Le 12/12/12 à 12h51");
-        addOrderToList("Commande #5: table #4, 2pa", "Le 12/12/12 à 12h50");
-        addOrderToList("Commande #4: table #4, 2pa", "Le 12/12/12 à 12h49");
-        addOrderToList("Commande #3: table #4, 2pa", "Le 12/12/12 à 12h48");
-        addOrderToList("Commande #2: table #4, 2pa", "Le 12/12/12 à 12h47");
-        addOrderToList("Commande #1: table #4, 2pa", "Le 12/12/12 à 12h46");
+        JSONObject cmd = new JSONObject();
+        try {
+            cmd.put("numOrder", "12");
+            cmd.put("numTable", "2");
+            cmd.put("numPA", "4");
+            cmd.put("hour", "12:24");
+            cmd.put("date", "01/01/15");
+        } catch (JSONException e) {
+
+        }
+
+        addOrderToList(cmd);
     }
 
     @Override
@@ -88,13 +92,12 @@ public class HistoryFragment extends Fragment {
 
     /***
      * Add an item to the custom list view
-     * @param line_one, first line of the item
-     * @param line_two, second line of the item
+     * @param cmd, Command formatted in JSON
      */
-    public void addOrderToList(String line_one, String line_two) {
+    public void addOrderToList(JSONObject cmd) {
         if (items.size() >= sizeList)
             items.remove(sizeList -1);
-        items.add(0, new OrderStruct(line_one, line_two));
+        items.add(0, new OrderStruct(cmd));
         if (adapter != null)
             adapter.notifyDataSetChanged();
     }
