@@ -4,6 +4,13 @@ package com.eip.fastordering;
  * Created by Mewen on 28-Dec-14.
  */
 public class OrderStruct {
+
+    private String numOrder;
+    private String numTable;
+    private String numPA;
+    private String hour;
+    private String date;
+
     private String title;
     private String description;
 

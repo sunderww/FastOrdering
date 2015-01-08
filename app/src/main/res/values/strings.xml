@@ -49,5 +49,6 @@
     <string name="dialog_order_commande">Commande</string>
     <string name="dialog_order_date">Date</string>
     <string name="dialog_order_close">Fermer</string>
+    <string name="dialog_order_title">Commande #</string>
 
 </resources>

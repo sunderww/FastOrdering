@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,11 +28,14 @@ import io.socket.SocketIOException;
 
 public class LoginActivity extends Activity {
 
-//  Socket socket = null;
+    public SocketIO _mSocket = null;
+    private Context _mContext = null;
+    private final String _mIpServer = "http://alexis-semren.com:1337";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _mContext = this;
         setContentView(R.layout.activity_login);
 
         //Add event listener to connexion button
@@ -40,7 +46,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-
+        //Set key "enter" to validate to connect
         EditText addCourseText = (EditText) findViewById(R.id.field_pass);
         addCourseText.setOnKeyListener(new View.OnKeyListener()
         {
@@ -62,51 +68,12 @@ public class LoginActivity extends Activity {
             }
         });
 
-        SocketIO socket = null;
+        //Init the socket
         try {
-            socket = new SocketIO("http://alexis-semren.com:1337");
+            _mSocket = new SocketIO(_mIpServer);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        socket.connect(new IOCallback() {
-            @Override
-            public void onMessage(JSONObject json, IOAcknowledge ack) {
-                try {
-                    System.out.println("Server said:" + json.toString(2));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onMessage(String data, IOAcknowledge ack) {
-                System.out.println("Server said: " + data);
-            }
-
-            @Override
-            public void onError(SocketIOException socketIOException) {
-                System.out.println("an Error occured");
-                socketIOException.printStackTrace();
-            }
-
-            @Override
-            public void onDisconnect() {
-                System.out.println("Connection terminated.");
-            }
-
-            @Override
-            public void onConnect() {
-                System.out.println("Connection established");
-            }
-
-            @Override
-            public void on(String event, IOAcknowledge ack, Object... args) {
-                System.out.println("Server triggered event '" + event + "'");
-            }
-        });
-
-        // This line is cached until the connection is establisched.
-        socket.send("Hello Server!");
     }
 
     @Override
@@ -130,20 +97,75 @@ public class LoginActivity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        //Close keyboard if touch outside
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        EditText field1 = (EditText) findViewById(R.id.field_login);
-        EditText field2 = (EditText) findViewById(R.id.field_pass);
-        field1.clearFocus();
-        field2.clearFocus();
+
+        //Allow to loose focus of fields
+        EditText fieldLogin = (EditText) findViewById(R.id.field_login);
+        fieldLogin.clearFocus();
+
+        EditText fieldPass = (EditText) findViewById(R.id.field_pass);
+        fieldPass.clearFocus();
+
         return true;
     }
 
     private void connectToServ() {
+        //Connect and create the listeners for the socket
+        _mSocket.connect(new IOCallback() {
+            @Override
+            public void onMessage(JSONObject json, IOAcknowledge ack) {
+                try {
+                    Log.d("SOCKET", "DATA JSON: " + json.toString(2));
+                } catch (JSONException e) {
+                    Log.d("SOCKET", "ERROR JSON");
+                }
+            }
+
+            @Override
+            public void onMessage(String data, IOAcknowledge ack) {
+                Log.d("SOCKET", "DATA SERV: " + data);
+            }
+
+            @Override
+            public void onError(SocketIOException socketIOException) {
+                Log.d("SOCKET", "ERROR");
+                
+                Toast.makeText(_mContext, "Hello World!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onDisconnect() {
+                Log.d("SOCKET", "DECO");
+            }
+
+            @Override
+            public void onConnect() {
+                Log.d("SOCKET", "CO OK");
+                JSONObject msg = new JSONObject();
+                try {
+                    msg.put("name", ((EditText)findViewById(R.id.field_login)).getText().toString());
+                    msg.put("name", ((EditText)findViewById(R.id.field_pass)).getText().toString());
+                } catch (JSONException e) {
+
+                }
+                Log.d("SOCKET", "MSG CREATED");
+                _mSocket.send(msg);
+                Log.d("SOCKET", "MSG SENT");
+            }
+
+            @Override
+            public void on(String event, IOAcknowledge ack, Object... args) {
+                Log.d("SOCKET", "EVENT " + event);
+            }
+        });
+
+        //Change to mainActivity
         Intent mainActivity = new Intent(LoginActivity.this, Main.class);
         mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         //To move once socket ope
-        startActivity(mainActivity);
+        //startActivity(mainActivity);
     }
 }
