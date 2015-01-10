@@ -1,10 +1,9 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +23,9 @@ public class HistoryFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private ArrayList<OrderStruct> items = new ArrayList<OrderStruct>();
-    private AdapterHistory adapter;
-    private final int sizeList = 20;
+    static public ArrayList<OrderStruct> items = new ArrayList<OrderStruct>();
+    static private AdapterHistory adapter;
+    static private final int sizeList = 20;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -37,10 +36,8 @@ public class HistoryFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
-        return fragment;
-    }
 
-    public HistoryFragment() {
+        items.clear();
         JSONObject cmd = new JSONObject();
         try {
             cmd.put("numOrder", "12");
@@ -53,6 +50,18 @@ public class HistoryFragment extends Fragment {
         }
 
         addOrderToList(cmd);
+        try {
+            cmd.put("hour", "12:25");
+        } catch (JSONException e) {
+
+        }
+        addOrderToList(cmd);
+
+        return fragment;
+    }
+
+    public HistoryFragment() {
+
     }
 
     @Override
@@ -64,6 +73,7 @@ public class HistoryFragment extends Fragment {
          * Create a custom adapter for the listview of orders
          */
         adapter = new AdapterHistory(container.getContext(), items);
+
         ListView lv = (ListView)rootView.findViewById(R.id.history_list);
         lv.setAdapter(adapter);
         lv.setEmptyView(rootView.findViewById(R.id.history_list_empty));
@@ -94,7 +104,7 @@ public class HistoryFragment extends Fragment {
      * Add an item to the custom list view
      * @param cmd, Command formatted in JSON
      */
-    public void addOrderToList(JSONObject cmd) {
+    static public void addOrderToList(JSONObject cmd) {
         if (items.size() >= sizeList)
             items.remove(sizeList -1);
         items.add(0, new OrderStruct(cmd));

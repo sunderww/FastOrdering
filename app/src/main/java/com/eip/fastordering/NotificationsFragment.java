@@ -24,10 +24,10 @@ public class NotificationsFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    public ArrayList<NotifStruct> items = new ArrayList<NotifStruct>();
-    public AdapterNotif adapter;
-    private View rootView = null;
-    private final int sizeList = 20;
+    static public ArrayList<NotifStruct> items = new ArrayList<NotifStruct>();
+    static public AdapterNotif adapter;
+    static private View rootView = null;
+    static private final int sizeList = 20;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -38,10 +38,8 @@ public class NotificationsFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
-        return fragment;
-    }
 
-    public NotificationsFragment() {
+        items.clear();
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h00");
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h01");
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h02");
@@ -52,11 +50,17 @@ public class NotificationsFragment extends Fragment {
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h07");
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h08");
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h09");
+
+        return fragment;
     }
 
-    private void checkListEmpty() {
+    public NotificationsFragment() {
+
+    }
+
+    static private void checkListEmpty() {
         if (rootView != null) {
-            ImageButton button = (ImageButton) rootView.findViewById(R.id.notification_rectangle_red);
+            ImageButton button = (ImageButton) rootView.findViewById(R.id.notif_rectangle_red);
             TextView text = (TextView) rootView.findViewById(R.id.notification_clean_text);
             if (items.isEmpty()) {
                 button.setVisibility(View.GONE);
@@ -79,7 +83,7 @@ public class NotificationsFragment extends Fragment {
         adapter = new AdapterNotif(container.getContext(), items);
         final ListView lv = (ListView)rootView.findViewById(R.id.notification_list);
 
-        ImageButton button = (ImageButton) rootView.findViewById(R.id.notification_rectangle_red);
+        ImageButton button = (ImageButton) rootView.findViewById(R.id.notif_rectangle_red);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 items.clear();
@@ -167,7 +171,7 @@ public class NotificationsFragment extends Fragment {
      * @param line_one, first line of the item
      * @param line_two, second line of the item
      */
-    public void addNotificationToList(String line_one, String line_two) {
+    static public void addNotificationToList(String line_one, String line_two) {
         if (items.size() >= sizeList)
             items.remove(sizeList -1);
         items.add(0, new NotifStruct(line_one, line_two));

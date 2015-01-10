@@ -11,7 +11,8 @@
         android:id="@+id/dialog_order_title"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +22,8 @@
         android:text="@string/dialog_order_table"
         android:layout_below="@+id/dialog_order_title"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +35,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,10 +44,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/dialog_order_pa"
         android:id="@+id/dialog_order_pa"
-        android:layout_above="@+id/dialog_order_hour"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp" />
+        android:textSize="16sp"
+        android:layout_alignTop="@+id/dialog_order_table"
+        android:layout_toRightOf="@+id/dialog_order_table"
+        android:layout_toEndOf="@+id/dialog_order_table" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,5 +59,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp" />
+        android:layout_marginLeft="10dp"
+        android:textSize="16sp" />
 </RelativeLayout>

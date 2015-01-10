@@ -34,15 +34,15 @@ public class Main extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTabFragments = new Fragment[8];
+        mTabFragments = new Fragment[7];
         mTabFragments[0] = new HomeFragment().newInstance(1);
         mTabFragments[1] = new OrderFragment().newInstance(2);
         mTabFragments[2] = new ModifyFragment().newInstance(3);
         mTabFragments[3] = new NotificationsFragment().newInstance(4);
         mTabFragments[4] = new HistoryFragment().newInstance(5);
-        mTabFragments[5] = new OptionsFragment().newInstance(6);
+        //mTabFragments[5] = new OptionsFragment().newInstance(6);
+        mTabFragments[5] = new AboutFragment().newInstance(6);
         mTabFragments[6] = new LogoutFragment().newInstance(7);
-        mTabFragments[7] = new AboutFragment().newInstance(8);
 
         setContentView(R.layout.activity_main);
 
@@ -83,14 +83,14 @@ public class Main extends Activity
             case 5:
                 mTitle = getString(R.string.title_section5);
                 break;
+            //case 6:
+            //   mTitle = getString(R.string.title_section6);
+            //    break;
             case 6:
-                mTitle = getString(R.string.title_section6);
+                mTitle = getString(R.string.title_section8);
                 break;
             case 7:
                 mTitle = getString(R.string.title_section7);
-                break;
-            case 8:
-                mTitle = getString(R.string.title_section8);
                 break;
         }
     }
