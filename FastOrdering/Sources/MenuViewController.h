@@ -10,13 +10,9 @@
 
 @interface MenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView *  tableView;
-    IBOutlet UIButton *     backButton;
-    
-    NSArray *   data;
 }
 
-@property (nonatomic, retain) NSString *    parentId;
-
-- (IBAction)goBack;
+@property (nonatomic, retain) NSArray * categoryData;
+@property (nonatomic, retain) NSArray * dishData;
 
 @end

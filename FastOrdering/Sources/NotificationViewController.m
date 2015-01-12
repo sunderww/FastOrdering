@@ -7,6 +7,8 @@
 //
 
 #import "NotificationViewController.h"
+#import "NSManagedObject+create.h"
+#import "Notification.h"
 
 @interface NotificationViewController ()
 
@@ -26,7 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    data = [Notification allObjectsSortedWithDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,10 +53,11 @@
     UITableViewCell * cell = [_tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell) {
-//        cell = [[NSBundle mainBundle] loadNibNamed:@"AdListCell" owner:self options:nil][0];
+//        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", data[indexPath.row]];
     return cell;
 }
 

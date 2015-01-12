@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8403EDC41A51036E001421D3 /* UIColor+String.m in Sources */ = {isa = PBXBuildFile; fileRef = 8403EDC31A51036E001421D3 /* UIColor+String.m */; };
+		8403EDD01A5681F7001421D3 /* SyncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8403EDCF1A5681F7001421D3 /* SyncHelper.m */; };
+		8403EDD31A5685A4001421D3 /* FastOrdering.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8403EDD11A5685A4001421D3 /* FastOrdering.xcdatamodeld */; };
 		8408225D19F497A8009BE528 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408225C19F497A8009BE528 /* SRWebSocket.m */; };
 		8408226919F497BC009BE528 /* SocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408225F19F497BC009BE528 /* SocketIO.m */; };
 		8408226A19F497BC009BE528 /* SocketIOJSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 8408226119F497BC009BE528 /* SocketIOJSONSerialization.m */; };
@@ -16,6 +19,22 @@
 		8408226F19F49940009BE528 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408226E19F49940009BE528 /* libicucore.dylib */; };
 		8408227119F49949009BE528 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408227019F49949009BE528 /* CFNetwork.framework */; };
 		8408227319F4994D009BE528 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408227219F4994D009BE528 /* Security.framework */; };
+		84B1E9F71A569CC900985E57 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B1E9F61A569CC900985E57 /* CoreData.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		84B1EA2A1A569FA100985E57 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA291A569FA100985E57 /* Plan.m */; };
+		84B1EA2D1A569FA200985E57 /* Dish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA2C1A569FA200985E57 /* Dish.m */; };
+		84B1EA301A569FA200985E57 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA2F1A569FA200985E57 /* Table.m */; };
+		84B1EA331A569FA200985E57 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA321A569FA200985E57 /* Order.m */; };
+		84B1EA361A569FA200985E57 /* OrderedDish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA351A569FA200985E57 /* OrderedDish.m */; };
+		84B1EA391A569FA200985E57 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA381A569FA200985E57 /* Notification.m */; };
+		84B1EA3C1A569FA200985E57 /* DishCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA3B1A569FA200985E57 /* DishCategory.m */; };
+		84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */; };
+		84B1EA431A57681100985E57 /* SocketIO+SailsIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA411A57681100985E57 /* SocketIO+SailsIO.m */; };
+		84B1EA461A57CE3D00985E57 /* WSHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA451A57CE3D00985E57 /* WSHelper.m */; };
+		84B1EA4A1A59FF1300985E57 /* NSManagedObject+create.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA491A59FF1300985E57 /* NSManagedObject+create.m */; };
+		84B1EA4D1A5A014400985E57 /* DishCategory+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA4C1A5A014400985E57 /* DishCategory+Custom.m */; };
+		84B1EA501A5A033F00985E57 /* Dish+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA4F1A5A033F00985E57 /* Dish+Custom.m */; };
+		84B1EA531A5A057800985E57 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA521A5A057800985E57 /* AboutViewController.m */; };
+		84B1EA551A5A058700985E57 /* AboutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B1EA541A5A058700985E57 /* AboutView.xib */; };
 		84C1A17619EDE8D100E64B40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17519EDE8D100E64B40 /* Foundation.framework */; };
 		84C1A17819EDE8D100E64B40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */; };
 		84C1A17A19EDE8D100E64B40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17919EDE8D100E64B40 /* UIKit.framework */; };
@@ -51,6 +70,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8403EDC21A51036E001421D3 /* UIColor+String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+String.h"; sourceTree = "<group>"; };
+		8403EDC31A51036E001421D3 /* UIColor+String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+String.m"; sourceTree = "<group>"; };
+		8403EDCE1A5681F7001421D3 /* SyncHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncHelper.h; sourceTree = "<group>"; };
+		8403EDCF1A5681F7001421D3 /* SyncHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncHelper.m; sourceTree = "<group>"; };
+		8403EDD21A5685A4001421D3 /* FastOrdering.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FastOrdering.xcdatamodel; sourceTree = "<group>"; };
 		8408225B19F497A8009BE528 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		8408225C19F497A8009BE528 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 		8408225E19F497BC009BE528 /* SocketIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIO.h; sourceTree = "<group>"; };
@@ -67,6 +91,36 @@
 		8408226E19F49940009BE528 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		8408227019F49949009BE528 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8408227219F4994D009BE528 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		84B1E9F61A569CC900985E57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		84B1EA281A569FA100985E57 /* Plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plan.h; sourceTree = "<group>"; };
+		84B1EA291A569FA100985E57 /* Plan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plan.m; sourceTree = "<group>"; };
+		84B1EA2B1A569FA200985E57 /* Dish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dish.h; sourceTree = "<group>"; };
+		84B1EA2C1A569FA200985E57 /* Dish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dish.m; sourceTree = "<group>"; };
+		84B1EA2E1A569FA200985E57 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
+		84B1EA2F1A569FA200985E57 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
+		84B1EA311A569FA200985E57 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		84B1EA321A569FA200985E57 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
+		84B1EA341A569FA200985E57 /* OrderedDish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDish.h; sourceTree = "<group>"; };
+		84B1EA351A569FA200985E57 /* OrderedDish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDish.m; sourceTree = "<group>"; };
+		84B1EA371A569FA200985E57 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
+		84B1EA381A569FA200985E57 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
+		84B1EA3A1A569FA200985E57 /* DishCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishCategory.h; sourceTree = "<group>"; };
+		84B1EA3B1A569FA200985E57 /* DishCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishCategory.m; sourceTree = "<group>"; };
+		84B1EA3E1A57681100985E57 /* NSString+TrimmingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TrimmingAdditions.h"; sourceTree = "<group>"; };
+		84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TrimmingAdditions.m"; sourceTree = "<group>"; };
+		84B1EA401A57681100985E57 /* SocketIO+SailsIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SocketIO+SailsIO.h"; sourceTree = "<group>"; };
+		84B1EA411A57681100985E57 /* SocketIO+SailsIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SocketIO+SailsIO.m"; sourceTree = "<group>"; };
+		84B1EA441A57CE3D00985E57 /* WSHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSHelper.h; sourceTree = "<group>"; };
+		84B1EA451A57CE3D00985E57 /* WSHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSHelper.m; sourceTree = "<group>"; };
+		84B1EA481A59FF1300985E57 /* NSManagedObject+create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+create.h"; sourceTree = "<group>"; };
+		84B1EA491A59FF1300985E57 /* NSManagedObject+create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+create.m"; sourceTree = "<group>"; };
+		84B1EA4B1A5A014400985E57 /* DishCategory+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DishCategory+Custom.h"; sourceTree = "<group>"; };
+		84B1EA4C1A5A014400985E57 /* DishCategory+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DishCategory+Custom.m"; sourceTree = "<group>"; };
+		84B1EA4E1A5A033F00985E57 /* Dish+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Dish+Custom.h"; sourceTree = "<group>"; };
+		84B1EA4F1A5A033F00985E57 /* Dish+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Dish+Custom.m"; sourceTree = "<group>"; };
+		84B1EA511A5A057800985E57 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		84B1EA521A5A057800985E57 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		84B1EA541A5A058700985E57 /* AboutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutView.xib; sourceTree = "<group>"; };
 		84C1A17219EDE8D100E64B40 /* FastOrdering.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastOrdering.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C1A17519EDE8D100E64B40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -111,6 +165,7 @@
 				84C1A17819EDE8D100E64B40 /* CoreGraphics.framework in Frameworks */,
 				84C1A17A19EDE8D100E64B40 /* UIKit.framework in Frameworks */,
 				84C1A17619EDE8D100E64B40 /* Foundation.framework in Frameworks */,
+				84B1E9F71A569CC900985E57 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +182,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8403EDD41A568CC6001421D3 /* Managed Objects */ = {
+			isa = PBXGroup;
+			children = (
+				84B1EA3A1A569FA200985E57 /* DishCategory.h */,
+				84B1EA3B1A569FA200985E57 /* DishCategory.m */,
+				84B1EA371A569FA200985E57 /* Notification.h */,
+				84B1EA381A569FA200985E57 /* Notification.m */,
+				84B1EA341A569FA200985E57 /* OrderedDish.h */,
+				84B1EA351A569FA200985E57 /* OrderedDish.m */,
+				84B1EA311A569FA200985E57 /* Order.h */,
+				84B1EA321A569FA200985E57 /* Order.m */,
+				84B1EA2E1A569FA200985E57 /* Table.h */,
+				84B1EA2F1A569FA200985E57 /* Table.m */,
+				84B1EA2B1A569FA200985E57 /* Dish.h */,
+				84B1EA2C1A569FA200985E57 /* Dish.m */,
+				84B1EA281A569FA100985E57 /* Plan.h */,
+				84B1EA291A569FA100985E57 /* Plan.m */,
+			);
+			name = "Managed Objects";
+			sourceTree = "<group>";
+		};
 		8408225919F4978D009BE528 /* SocketRocket */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +232,28 @@
 			path = FastOrdering;
 			sourceTree = "<group>";
 		};
+		84B1EA3D1A57680400985E57 /* SailsIO */ = {
+			isa = PBXGroup;
+			children = (
+				84B1EA3E1A57681100985E57 /* NSString+TrimmingAdditions.h */,
+				84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */,
+				84B1EA401A57681100985E57 /* SocketIO+SailsIO.h */,
+				84B1EA411A57681100985E57 /* SocketIO+SailsIO.m */,
+			);
+			name = SailsIO;
+			sourceTree = "<group>";
+		};
+		84B1EA471A59FEBD00985E57 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				84B1EA481A59FF1300985E57 /* NSManagedObject+create.h */,
+				84B1EA491A59FF1300985E57 /* NSManagedObject+create.m */,
+				8403EDC21A51036E001421D3 /* UIColor+String.h */,
+				8403EDC31A51036E001421D3 /* UIColor+String.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		84C1A16919EDE8D100E64B40 = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +276,8 @@
 		84C1A17419EDE8D100E64B40 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84B1EA3D1A57680400985E57 /* SailsIO */,
+				84B1E9F61A569CC900985E57 /* CoreData.framework */,
 				8408225919F4978D009BE528 /* SocketRocket */,
 				8408225A19F49793009BE528 /* SocketIO */,
 				8408227219F4994D009BE528 /* Security.framework */,
@@ -200,6 +300,7 @@
 				84C1A18419EDE8D100E64B40 /* AppDelegate.h */,
 				84C1A18519EDE8D100E64B40 /* AppDelegate.m */,
 				84C1A18719EDE8D100E64B40 /* Images.xcassets */,
+				8403EDD11A5685A4001421D3 /* FastOrdering.xcdatamodeld */,
 				84C1A17C19EDE8D100E64B40 /* Supporting Files */,
 			);
 			path = FastOrdering;
@@ -244,6 +345,7 @@
 		84C1A1B119EDEE4500E64B40 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				84B1EA471A59FEBD00985E57 /* Categories */,
 				84C1A1B519EDEE5600E64B40 /* Helpers */,
 				84C1A1B419EDEE5200E64B40 /* Models */,
 				84C1A1B319EDEE4900E64B40 /* Controllers */,
@@ -259,6 +361,7 @@
 				84C1A1C719EE044800E64B40 /* NotificationView.xib */,
 				84C1A1C919EE08A600E64B40 /* TablePlanView.xib */,
 				84C1A1D119EE3CE300E64B40 /* MenuView.xib */,
+				84B1EA541A5A058700985E57 /* AboutView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -276,6 +379,8 @@
 				84C1A1CC19EE08B600E64B40 /* TablePlanViewController.m */,
 				84C1A1CE19EE178400E64B40 /* MenuViewController.h */,
 				84C1A1CF19EE178400E64B40 /* MenuViewController.m */,
+				84B1EA511A5A057800985E57 /* AboutViewController.h */,
+				84B1EA521A5A057800985E57 /* AboutViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -283,6 +388,11 @@
 		84C1A1B419EDEE5200E64B40 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8403EDD41A568CC6001421D3 /* Managed Objects */,
+				84B1EA4B1A5A014400985E57 /* DishCategory+Custom.h */,
+				84B1EA4C1A5A014400985E57 /* DishCategory+Custom.m */,
+				84B1EA4E1A5A033F00985E57 /* Dish+Custom.h */,
+				84B1EA4F1A5A033F00985E57 /* Dish+Custom.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -290,6 +400,10 @@
 		84C1A1B519EDEE5600E64B40 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				8403EDCE1A5681F7001421D3 /* SyncHelper.h */,
+				8403EDCF1A5681F7001421D3 /* SyncHelper.m */,
+				84B1EA441A57CE3D00985E57 /* WSHelper.h */,
+				84B1EA451A57CE3D00985E57 /* WSHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -374,6 +488,7 @@
 				84C1A1BE19EDF2E900E64B40 /* MainView.xib in Resources */,
 				84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */,
 				84C1A1CA19EE08A600E64B40 /* TablePlanView.xib in Resources */,
+				84B1EA551A5A058700985E57 /* AboutView.xib in Resources */,
 				84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */,
 				84C1A18819EDE8D100E64B40 /* Images.xcassets in Resources */,
 				84C1A1C819EE044800E64B40 /* NotificationView.xib in Resources */,
@@ -411,17 +526,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B1EA4A1A59FF1300985E57 /* NSManagedObject+create.m in Sources */,
+				84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */,
+				8403EDD31A5685A4001421D3 /* FastOrdering.xcdatamodeld in Sources */,
+				84B1EA2D1A569FA200985E57 /* Dish.m in Sources */,
 				8408226D19F497BC009BE528 /* SocketIOTransportXHR.m in Sources */,
 				84C1A1CD19EE08B600E64B40 /* TablePlanViewController.m in Sources */,
+				84B1EA531A5A057800985E57 /* AboutViewController.m in Sources */,
+				84B1EA391A569FA200985E57 /* Notification.m in Sources */,
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
 				84C1A18219EDE8D100E64B40 /* main.m in Sources */,
+				84B1EA501A5A033F00985E57 /* Dish+Custom.m in Sources */,
+				84B1EA361A569FA200985E57 /* OrderedDish.m in Sources */,
+				84B1EA331A569FA200985E57 /* Order.m in Sources */,
 				8408226919F497BC009BE528 /* SocketIO.m in Sources */,
+				84B1EA4D1A5A014400985E57 /* DishCategory+Custom.m in Sources */,
 				8408226C19F497BC009BE528 /* SocketIOTransportWebsocket.m in Sources */,
+				84B1EA3C1A569FA200985E57 /* DishCategory.m in Sources */,
 				84C1A1B819EDEE8400E64B40 /* LoginViewController.m in Sources */,
+				84B1EA301A569FA200985E57 /* Table.m in Sources */,
+				84B1EA461A57CE3D00985E57 /* WSHelper.m in Sources */,
+				8403EDC41A51036E001421D3 /* UIColor+String.m in Sources */,
 				8408226B19F497BC009BE528 /* SocketIOPacket.m in Sources */,
+				8403EDD01A5681F7001421D3 /* SyncHelper.m in Sources */,
 				8408225D19F497A8009BE528 /* SRWebSocket.m in Sources */,
+				84B1EA2A1A569FA100985E57 /* Plan.m in Sources */,
 				84C1A1D019EE178400E64B40 /* MenuViewController.m in Sources */,
 				8408226A19F497BC009BE528 /* SocketIOJSONSerialization.m in Sources */,
+				84B1EA431A57681100985E57 /* SocketIO+SailsIO.m in Sources */,
 				84C1A1C619EE02CC00E64B40 /* NotificationViewController.m in Sources */,
 				84C1A1C119EDF35C00E64B40 /* MainViewController.m in Sources */,
 			);
@@ -499,6 +631,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "e1ed0d61-0e6d-4a7a-bc76-52d0befb57b7";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -530,6 +663,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PROVISIONING_PROFILE = "e1ed0d61-0e6d-4a7a-bc76-52d0befb57b7";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -546,6 +680,7 @@
 				INFOPLIST_FILE = "FastOrdering/FastOrdering-Info.plist";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e1ed0d61-0e6d-4a7a-bc76-52d0befb57b7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -561,6 +696,7 @@
 				INFOPLIST_FILE = "FastOrdering/FastOrdering-Info.plist";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "e1ed0d61-0e6d-4a7a-bc76-52d0befb57b7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -636,6 +772,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8403EDD11A5685A4001421D3 /* FastOrdering.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8403EDD21A5685A4001421D3 /* FastOrdering.xcdatamodel */,
+			);
+			currentVersion = 8403EDD21A5685A4001421D3 /* FastOrdering.xcdatamodel */;
+			path = FastOrdering.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 84C1A16A19EDE8D100E64B40 /* Project object */;
 }

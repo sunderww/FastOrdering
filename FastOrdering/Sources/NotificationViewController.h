@@ -9,12 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface NotificationViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
-    IBOutlet UIButton *     backButton;
     IBOutlet UITableView *  tableView;
     
     NSArray *   data;
 }
-
-- (IBAction)goBack;
 
 @end

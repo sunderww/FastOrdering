@@ -7,6 +7,9 @@
 //
 
 #import "MenuViewController.h"
+#import "DishCategory+Custom.h"
+#import "Dish+Custom.h"
+#import "NSManagedObject+create.h"
 
 @interface MenuViewController ()
 
@@ -26,7 +29,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    if (!self.categoryData || !self.dishData) {
+        self.categoryData = [DishCategory categoriesWithParentId:nil];
+        self.dishData = [Dish dishesWithParentId:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,20 +49,44 @@
 #pragma mark - UITableView delegate and datasource methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (indexPath.section) {
+        PPLog(@"DISH SELECTED");
+    } else {
+        DishCategory * category = self.categoryData[indexPath.row];
+        MenuViewController * nextController = [[MenuViewController alloc] initWithNibName:@"MenuView" bundle:nil];
+
+        nextController.categoryData = category.subcategories.allObjects;
+        nextController.dishData = category.dishes.allObjects;
+        DLog(@"find a way to push this view controller without navigation controller or assign the main view a navigation controller");
+        [self.navigationController pushViewController:nextController animated:YES];
+    }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return data.count;
+    if (section)
+        return self.dishData.count;
+    return self.categoryData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString * CellIdentifier = @"NotificationCell";
+    static NSString * CellIdentifier = @"MenuCell";
     UITableViewCell * cell = [_tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (!cell) {
-//        cell = [[NSBundle mainBundle] loadNibNamed:@"AdListCell" owner:self options:nil][0];
+//        cell = [[NSBundle mainBundle] loadNibNamed:@"MenuCell" owner:self options:nil][0];
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    if (indexPath.section) {
+        Dish * dish = self.dishData[indexPath.row];
+        cell.textLabel.text = dish.name;
+    } else {
+        DishCategory * category = self.categoryData[indexPath.row];
+        cell.textLabel.text = category.name;
     }
     
     return cell;

@@ -10,9 +10,6 @@
 
 @interface TablePlanViewController : UIViewController {
     IBOutlet UIScrollView *  scrollView;
-    IBOutlet UIButton *      backButton;
 }
-
-- (IBAction)goBack;
 
 @end
