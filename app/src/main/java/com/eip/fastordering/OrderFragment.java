@@ -7,23 +7,99 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 
 public class OrderFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
+
+    /***
+     * Attributes
      */
+
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static ArrayList<ElementStruct> _mElements = new ArrayList<ElementStruct>();
+    private static CardStruct _mCard;
+    private static ArrayList<MenuStruct> _mMenus = new ArrayList<MenuStruct>();
 
     /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+     * Methods
      */
+
     public static OrderFragment newInstance(int sectionNumber) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
+
+        //TO delete
+        JSONObject elements = new JSONObject();
+        JSONArray arr = new JSONArray();
+        JSONObject elem = new JSONObject();
+        try {
+            elem.put("id", "26");
+            elem.put("price", 0);
+            elem.put("name", "toto");
+            arr.put(elem);
+            elem.put("price", "23");
+            elem.put("id", 12);
+            elem.put("name", "salade");
+            arr.put(elem);
+            elements.put("elements", arr);
+        } catch (JSONException e) {
+
+        }
+        getElements(elements);
+
+        JSONObject carte = new JSONObject();
+        JSONObject inside = new JSONObject();
+        JSONArray compo = new JSONArray();
+        JSONObject cat = new JSONObject();
+        JSONArray ids = new JSONArray();
+        try {
+            ids.put("1");
+            ids.put("2");
+            cat.put("name", "entrees");
+            cat.put("ids", ids);
+            compo.put(cat);
+            inside.put("composition", compo);
+            carte.put("alacarte", inside);
+        } catch (JSONException e) {
+
+        }
+        getCard(carte);
+
+        JSONObject menus = new JSONObject();
+        JSONArray menuarr = new JSONArray();
+        JSONObject menu = new JSONObject();
+        JSONArray compos = new JSONArray();
+        JSONObject compo1 = new JSONObject();
+        JSONArray cats = new JSONArray();
+        JSONObject cat1 = new JSONObject();
+        JSONArray ids1 = new JSONArray();
+        try {
+            ids1.put("1");
+            ids1.put("2");
+            cat1.put("name", "plats");
+            cat1.put("ids", ids1);
+            cats.put(cat1);
+            compo1.put("price", 12);
+            compo1.put("cat", cats);
+            compos.put(compo1);
+            menu.put("compositions", compos);
+            menu.put("name", "mousaillon");
+            menu.put("id", "1212");
+            menuarr.put(menu);
+            menus.put("menus", menuarr);
+        } catch (JSONException e) {
+
+        }
+        getMenus(menus);
+        //END TO delete
+
         return fragment;
     }
 
@@ -44,4 +120,30 @@ public class OrderFragment extends Fragment {
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
+    static private void getElements(JSONObject elements) {
+        JSONArray arr;
+        try {
+            arr = elements.getJSONArray("elements");
+            for (int i = 0; i < arr.length(); ++i)
+                _mElements.add(new ElementStruct(arr.getJSONObject(i)));
+        } catch (JSONException e) {
+
+        }
+    }
+
+    static private void getCard(JSONObject card) {
+        _mCard = new CardStruct(card);
+    }
+
+    static private void getMenus(JSONObject menus) {
+        JSONArray arr;
+        try {
+            arr = menus.getJSONArray("menus");
+            for (int i = 0; i < arr.length(); ++i) {
+                _mMenus.add(new MenuStruct(arr.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+
+        }
+    }
 }

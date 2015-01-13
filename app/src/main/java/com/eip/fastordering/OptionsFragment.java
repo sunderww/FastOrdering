@@ -1,7 +1,6 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,27 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OptionsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link OptionsFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
 public class OptionsFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
+
+    /***
+     * Attributes
      */
+
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+    /***
+     * Methods
      */
+
     public static OptionsFragment newInstance(int sectionNumber) {
         OptionsFragment fragment = new OptionsFragment();
         Bundle args = new Bundle();

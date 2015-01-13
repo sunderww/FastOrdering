@@ -3,26 +3,59 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.preference.DialogPreference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
-/**
- * Created by Mewen on 04-Jan-15.
- */
+import java.util.ArrayList;
+
+
 public class DialogOrder extends AlertDialog {
 
+    /***
+     * Attributes
+     */
     private Activity _mActivity;
     private OrderStruct _mItem;
+    private ArrayList<ContentOrderStruct> _mContent = new ArrayList<ContentOrderStruct>();
+
+    /***
+     * Methods
+     */
 
     DialogOrder(Activity activity, OrderStruct item) {
         super(activity);
 
         _mActivity = activity;
         _mItem = item;
+
+        //TO delete
+        JSONObject order = new JSONObject();
+        JSONArray arr = new JSONArray();
+        JSONObject comm = new JSONObject();
+        JSONArray arrComm = new JSONArray();
+        JSONObject itemOrder = new JSONObject();
+
+        try {
+            itemOrder.put("id", "1212");
+            itemOrder.put("comment", "bla bla bla");
+            itemOrder.put("cooking", "bleu");
+            arrComm.put(itemOrder);
+            comm.put("content", arrComm);
+            comm.put("menu_id", "222");
+            comm.put("global_comment", "wefefe");
+            arr.put(comm);
+            order.put("order", arr);
+        } catch (JSONException e) {
+
+        }
+        getDetailedOrder(order);
+        //END TO delete
     }
 
     public AlertDialog customView() {
@@ -43,5 +76,17 @@ public class DialogOrder extends AlertDialog {
         ((TextView)view.findViewById(R.id.dialog_order_hour)).setText(((TextView)view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + " à " + _mItem.get_mHour());
 
         return builder.create();
+    }
+
+    private void getDetailedOrder(JSONObject order) {
+        JSONArray arr;
+        try {
+            arr = order.getJSONArray("order");
+            for (int i = 0; i < arr.length(); ++i) {
+                _mContent.add(new ContentOrderStruct(arr.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+
+        }
     }
 }

@@ -9,16 +9,17 @@ import android.view.ViewGroup;
 
 
 public class ModifyFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
+
+    /***
+     * Attributes
      */
+
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+    /***
+     * Methods
      */
+
     public static ModifyFragment newInstance(int sectionNumber) {
         ModifyFragment fragment = new ModifyFragment();
         Bundle args = new Bundle();

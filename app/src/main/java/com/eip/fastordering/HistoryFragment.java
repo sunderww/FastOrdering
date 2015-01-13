@@ -3,13 +3,13 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,27 +17,30 @@ import java.util.ArrayList;
 
 
 public class HistoryFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
+
+    /***
+     * Attributes
      */
+
     private static final String ARG_SECTION_NUMBER = "section_number";
+    static public ArrayList<OrderStruct> _mItems = new ArrayList<OrderStruct>();
+    static private AdapterHistory _mAdapter;
+    static private final int _mSizeList = 20;
 
-    static public ArrayList<OrderStruct> items = new ArrayList<OrderStruct>();
-    static private AdapterHistory adapter;
-    static private final int sizeList = 20;
-
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+    /***
+     * Methods
      */
+
     public static HistoryFragment newInstance(int sectionNumber) {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
 
-        items.clear();
+        //TO delete
+        JSONObject orders = new JSONObject();
+        JSONArray arr = new JSONArray();
+        _mItems.clear();
         JSONObject cmd = new JSONObject();
         try {
             cmd.put("numOrder", "12");
@@ -45,17 +48,19 @@ public class HistoryFragment extends Fragment {
             cmd.put("numPA", "4");
             cmd.put("hour", "12:24");
             cmd.put("date", "01/01/15");
+            arr.put(cmd);
         } catch (JSONException e) {
 
         }
-
-        addOrderToList(cmd);
         try {
             cmd.put("hour", "12:25");
+            arr.put(cmd);
+            orders.put("orders", arr);
         } catch (JSONException e) {
 
         }
-        addOrderToList(cmd);
+        getLastOrders(orders);
+        //END TO delete
 
         return fragment;
     }
@@ -72,10 +77,10 @@ public class HistoryFragment extends Fragment {
         /***
          * Create a custom adapter for the listview of orders
          */
-        adapter = new AdapterHistory(container.getContext(), items);
+        _mAdapter = new AdapterHistory(container.getContext(), _mItems);
 
         ListView lv = (ListView)rootView.findViewById(R.id.history_list);
-        lv.setAdapter(adapter);
+        lv.setAdapter(_mAdapter);
         lv.setEmptyView(rootView.findViewById(R.id.history_list_empty));
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,11 +110,27 @@ public class HistoryFragment extends Fragment {
      * @param cmd, Command formatted in JSON
      */
     static public void addOrderToList(JSONObject cmd) {
-        if (items.size() >= sizeList)
-            items.remove(sizeList -1);
-        items.add(0, new OrderStruct(cmd));
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
+        if (_mItems.size() >= _mSizeList)
+            _mItems.remove(_mSizeList -1);
+        _mItems.add(0, new OrderStruct(cmd));
+        if (_mAdapter != null)
+            _mAdapter.notifyDataSetChanged();
+    }
+
+    static public void getLastOrders(JSONObject orders) {
+        JSONArray arrayOrders = null;
+        try {
+            arrayOrders = orders.getJSONArray("orders");
+        } catch (JSONException e) {
+
+        }
+        for (int i = 0; i < arrayOrders.length(); ++i) {
+            try {
+                addOrderToList(arrayOrders.getJSONObject(i));
+            } catch (JSONException e) {
+
+            }
+        }
     }
 
 }

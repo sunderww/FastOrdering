@@ -1,7 +1,6 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,16 +9,17 @@ import android.view.ViewGroup;
 
 
 public class AboutFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
+
+    /***
+     * Attributes
      */
+
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+     * Methods
      */
+
     public static AboutFragment newInstance(int sectionNumber) {
         AboutFragment fragment = new AboutFragment();
         Bundle args = new Bundle();

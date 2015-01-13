@@ -1,23 +1,30 @@
 package com.eip.fastordering;
 
-/**
- * Created by Mewen on 28-Dec-14.
- */
+
 public class NotifStruct {
-    private String title;
-    private String description;
+
+    /***
+     * Attributes
+     */
+
+    private String _mTitle;
+    private String _mDescription;
+
+    /***
+     * Methods
+     */
 
     public NotifStruct(String title, String description) {
         super();
-        this.title = title;
-        this.description = description;
+        this._mTitle = title;
+        this._mDescription = description;
     }
 
     public String getTitle() {
-        return title;
+        return _mTitle;
     }
 
     public String getDescription() {
-        return description;
+        return _mDescription;
     }
 }

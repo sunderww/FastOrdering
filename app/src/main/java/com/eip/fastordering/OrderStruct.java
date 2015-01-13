@@ -3,16 +3,22 @@ package com.eip.fastordering;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Mewen on 28-Dec-14.
- */
+
 public class OrderStruct {
+
+    /***
+     * Attributes
+     */
 
     private String _mNumOrder;
     private String _mNumTable;
     private String _mNumPA;
     private String _mHour;
     private String _mDate;
+
+    /***
+     * Methods
+     */
 
     public OrderStruct(JSONObject cmd) {
         super();

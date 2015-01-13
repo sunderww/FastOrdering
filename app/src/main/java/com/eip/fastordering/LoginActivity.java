@@ -13,10 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,11 +25,20 @@ import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
 
+
 public class LoginActivity extends Activity {
+
+    /***
+     * Attributes
+     */
 
     public SocketIO _mSocket = null;
     private Context _mContext = null;
     private final String _mIpServer = "http://alexis-semren.com:1337";
+
+    /***
+     * Methods
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +164,7 @@ public class LoginActivity extends Activity {
                 JSONObject msg = new JSONObject();
                 try {
                     msg.put("name", ((EditText)findViewById(R.id.field_login)).getText().toString());
-                    msg.put("name", ((EditText)findViewById(R.id.field_pass)).getText().toString());
+                    msg.put("pass", ((EditText)findViewById(R.id.field_pass)).getText().toString());
                 } catch (JSONException e) {
 
                 }
@@ -167,14 +174,12 @@ public class LoginActivity extends Activity {
 
                 //TODO
                 //Check message callback check login
-                JSONArray arr = new JSONArray();
                 JSONObject obj = new JSONObject();
                 try {
                     obj.put("url", String.format("/dish/read"));
                 } catch (JSONException e) {
 
                 }
-                arr.put(obj);
 
                 _mSocket.emit("get", new IOAcknowledge() {
                     @Override

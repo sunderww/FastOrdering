@@ -17,29 +17,30 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+
 public class NotificationsFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
+
+    /***
+     * Attributes
      */
+
     private static final String ARG_SECTION_NUMBER = "section_number";
+    static public ArrayList<NotifStruct> _mItems = new ArrayList<NotifStruct>();
+    static public AdapterNotif _mAdapter;
+    static private View _mRootView = null;
+    static private final int _mSizeList = 20;
 
-    static public ArrayList<NotifStruct> items = new ArrayList<NotifStruct>();
-    static public AdapterNotif adapter;
-    static private View rootView = null;
-    static private final int sizeList = 20;
-
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+    /***
+     * Methods
      */
+
     public static NotificationsFragment newInstance(int sectionNumber) {
         NotificationsFragment fragment = new NotificationsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
 
-        items.clear();
+        _mItems.clear();
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h00");
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h01");
         addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h02");
@@ -59,10 +60,10 @@ public class NotificationsFragment extends Fragment {
     }
 
     static private void checkListEmpty() {
-        if (rootView != null) {
-            ImageButton button = (ImageButton) rootView.findViewById(R.id.notif_rectangle_red);
-            TextView text = (TextView) rootView.findViewById(R.id.notification_clean_text);
-            if (items.isEmpty()) {
+        if (_mRootView != null) {
+            ImageButton button = (ImageButton) _mRootView.findViewById(R.id.notif_rectangle_red);
+            TextView text = (TextView) _mRootView.findViewById(R.id.notification_clean_text);
+            if (_mItems.isEmpty()) {
                 button.setVisibility(View.GONE);
                 text.setVisibility(View.GONE);
             } else {
@@ -75,27 +76,27 @@ public class NotificationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_notifications, container, false);
+        _mRootView = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         /***
          * Create a custom adapter for the listview of orders
          */
-        adapter = new AdapterNotif(container.getContext(), items);
-        final ListView lv = (ListView)rootView.findViewById(R.id.notification_list);
+        _mAdapter = new AdapterNotif(container.getContext(), _mItems);
+        final ListView lv = (ListView)_mRootView.findViewById(R.id.notification_list);
 
-        ImageButton button = (ImageButton) rootView.findViewById(R.id.notif_rectangle_red);
+        ImageButton button = (ImageButton) _mRootView.findViewById(R.id.notif_rectangle_red);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                items.clear();
-                adapter.notifyDataSetChanged();
+                _mItems.clear();
+                _mAdapter.notifyDataSetChanged();
                 checkListEmpty();
             }
         });
 
         checkListEmpty();
 
-        lv.setEmptyView(rootView.findViewById(R.id.notification_list_empty));
-        lv.setAdapter(adapter);
+        lv.setEmptyView(_mRootView.findViewById(R.id.notification_list_empty));
+        lv.setAdapter(_mAdapter);
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
@@ -108,7 +109,7 @@ public class NotificationsFragment extends Fragment {
                 String selected = (checkedCount > 1) ? "choisis" : "choisi";
                 mode.setTitle(checkedCount + " " + selected);
                 // Calls toggleSelection method from ListViewAdapter Class
-                adapter.toggleSelection(position);
+                _mAdapter.toggleSelection(position);
             }
 
             @Override
@@ -116,16 +117,16 @@ public class NotificationsFragment extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.delete:
                         // Calls getSelectedIds method from ListViewAdapter Class
-                        SparseBooleanArray selected = adapter
+                        SparseBooleanArray selected = _mAdapter
                                 .getSelectedIds();
                         // Captures all selected ids with a loop
                         for (int i = (selected.size() - 1); i >= 0; i--) {
                             if (selected.valueAt(i)) {
-                                NotifStruct selecteditem = adapter
+                                NotifStruct selecteditem = _mAdapter
                                         .getItem(selected.keyAt(i));
                                 // Remove selected items following the ids
-                                adapter.remove(selecteditem);
-                                items.remove(selecteditem);
+                                _mAdapter.remove(selecteditem);
+                                _mItems.remove(selecteditem);
                                 checkListEmpty();
                             }
                         }
@@ -146,7 +147,7 @@ public class NotificationsFragment extends Fragment {
             @Override
             public void onDestroyActionMode(ActionMode mode) {
                 // TODO Auto-generated method stub
-                adapter.removeSelection();
+                _mAdapter.removeSelection();
             }
 
             @Override
@@ -156,7 +157,7 @@ public class NotificationsFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return _mRootView;
     }
 
     @Override
@@ -172,11 +173,11 @@ public class NotificationsFragment extends Fragment {
      * @param line_two, second line of the item
      */
     static public void addNotificationToList(String line_one, String line_two) {
-        if (items.size() >= sizeList)
-            items.remove(sizeList -1);
-        items.add(0, new NotifStruct(line_one, line_two));
-        if (adapter != null)
-            adapter.notifyDataSetChanged();
+        if (_mItems.size() >= _mSizeList)
+            _mItems.remove(_mSizeList -1);
+        _mItems.add(0, new NotifStruct(line_one, line_two));
+        if (_mAdapter != null)
+            _mAdapter.notifyDataSetChanged();
         checkListEmpty();
     }
 
