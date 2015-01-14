@@ -3,6 +3,7 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,10 +130,12 @@ public class OrderFragment extends Fragment {
         } catch (JSONException e) {
 
         }
+        Log.d("ORDER", "1");
     }
 
     static private void getCard(JSONObject card) {
         _mCard = new CardStruct(card);
+        Log.d("ORDER", "2");
     }
 
     static private void getMenus(JSONObject menus) {
@@ -145,5 +148,6 @@ public class OrderFragment extends Fragment {
         } catch (JSONException e) {
 
         }
+        Log.d("ORDER", "3");
     }
 }

@@ -1,12 +1,14 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,7 +45,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         ((ListView)rootView.findViewById(R.id.home_list_order)).setEmptyView(((TextView)rootView.findViewById(R.id.home_empty_order)));
         ((ListView)rootView.findViewById(R.id.home_list_notif)).setEmptyView(((TextView)rootView.findViewById(R.id.home_empty_notif)));
@@ -75,6 +77,19 @@ public class HomeFragment extends Fragment {
         if (NotificationsFragment._mItems.size() >= 2)
             _mItemsNotif.add(1, NotificationsFragment._mItems.get(1));
         _mAdapterNotif.notifyDataSetChanged();
+
+        ((ImageButton)rootView.findViewById(R.id.home_rectangle_green)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction()
+//                        .replace(R.id.drawer_layout, Main._mTabFragments[1])
+//                        .commit();
+                NavigationDrawerFragment.mCurrentSelectedPosition = 1;
+                NavigationDrawerFragment.mDrawerListView.setItemChecked(1, true);
+                NavigationDrawerFragment.mCallbacks.onNavigationDrawerItemSelected(1);
+
+            }
+        });
 
         return rootView;
     }

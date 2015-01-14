@@ -20,9 +20,11 @@ public class DialogOrder extends AlertDialog {
     /***
      * Attributes
      */
+
     private Activity _mActivity;
     private OrderStruct _mItem;
     private ArrayList<ContentOrderStruct> _mContent = new ArrayList<ContentOrderStruct>();
+    private View _mView;
 
     /***
      * Methods
@@ -74,6 +76,23 @@ public class DialogOrder extends AlertDialog {
         ((TextView)view.findViewById(R.id.dialog_order_table)).setText(((TextView)view.findViewById(R.id.dialog_order_table)).getText() + _mItem.get_mNumTable() + ", ");
         ((TextView)view.findViewById(R.id.dialog_order_pa)).setText(((TextView)view.findViewById(R.id.dialog_order_pa)).getText() + _mItem.get_mNumPA());
         ((TextView)view.findViewById(R.id.dialog_order_hour)).setText(((TextView)view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + " à " + _mItem.get_mHour());
+
+        String lineSep = System.getProperty("line.separator");
+        String contenu = "";
+        for (int i = 0; i < _mContent.size(); ++i) {
+            ContentOrderStruct content = _mContent.get(i);
+            contenu += lineSep + lineSep + "Menu id: " + content.get_mId();
+            for (int j = 0; j < content.get_mItems().size(); ++j) {
+                ItemStruct item = content.get_mItems().get(j);
+                contenu += lineSep + "Id: " + item.get_mId();
+                if (item.get_mCooking().length() > 0)
+                    contenu += ", cuisson: " + item.get_mCooking();
+                if (item.get_mComment().length() > 0)
+                    contenu += ", commentaire: " + item.get_mComment();
+            }
+        }
+
+        ((TextView)view.findViewById(R.id.dialog_order_content)).setText(((TextView)view.findViewById(R.id.dialog_order_content)).getText() + " " + contenu);
 
         return builder.create();
     }
