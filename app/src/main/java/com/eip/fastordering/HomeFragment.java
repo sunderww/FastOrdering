@@ -80,14 +80,10 @@ public class HomeFragment extends Fragment {
 
         ((ImageButton)rootView.findViewById(R.id.home_rectangle_green)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                FragmentManager fragmentManager = getFragmentManager();
-//                fragmentManager.beginTransaction()
-//                        .replace(R.id.drawer_layout, Main._mTabFragments[1])
-//                        .commit();
                 NavigationDrawerFragment.mCurrentSelectedPosition = 1;
                 NavigationDrawerFragment.mDrawerListView.setItemChecked(1, true);
                 NavigationDrawerFragment.mCallbacks.onNavigationDrawerItemSelected(1);
-
+                ((Main)getActivity()).getActionBar().setTitle(getString(R.string.title_section2));
             }
         });
 

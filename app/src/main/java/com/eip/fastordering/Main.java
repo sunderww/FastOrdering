@@ -20,7 +20,7 @@ public class Main extends Activity
 
     private NavigationDrawerFragment _mNavigationDrawerFragment;
     private CharSequence _mTitle;
-    private Fragment[] _mTabFragments;
+    static public Fragment[] _mTabFragments;
 
     /***
      * Methods
