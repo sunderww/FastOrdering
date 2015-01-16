@@ -1,0 +1,35 @@
+/**
+ * Booking
+ *
+ * @module      :: Model
+ * @description :: A short summary of how this model works and what it represents.
+ * @docs		:: http://sailsjs.org/#!documentation/models
+ */
+
+module.exports = {
+
+  attributes: {
+  	
+  	date: { 
+  		type: 'date',
+  		required: true
+  	},
+
+    time: {
+      type: 'time',
+      required: true
+    },
+
+    name: {
+      type: 'string',
+      required: true
+    },
+
+  	restaurant_id: {
+  		type: 'string',
+  		required: true
+  	}
+    
+  }
+
+};
