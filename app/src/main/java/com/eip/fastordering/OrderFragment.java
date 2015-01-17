@@ -1,14 +1,12 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +25,8 @@ public class OrderFragment extends Fragment {
     private static ArrayList<ElementStruct> _mElements = new ArrayList<ElementStruct>();
     private static CardStruct _mCard;
     private static ArrayList<MenuStruct> _mMenus = new ArrayList<MenuStruct>();
+    private View _mRootView;
+    private Activity _mActivity;
 
     /**
      * Methods
@@ -112,13 +112,15 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_order, container, false);
-        return rootView;
+        _mRootView = inflater.inflate(R.layout.fragment_order, container, false);
+
+        return _mRootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        _mActivity = activity;
         ((Main) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
