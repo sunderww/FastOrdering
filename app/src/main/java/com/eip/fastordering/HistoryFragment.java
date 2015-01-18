@@ -1,7 +1,7 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class HistoryFragment extends Fragment {
+public class    HistoryFragment extends Fragment {
 
     /***
      * Attributes
