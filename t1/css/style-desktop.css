@@ -88,6 +88,26 @@
 				letter-spacing: -0.025em;
 			}
 
+	/* Button Alt */
+	
+		input[type="button"],
+		input[type="submit"],
+		input[type="reset"],
+		.button2
+		{
+			padding: 1em 2.35em 1em 2.35em;
+			font-size: 1.1em;
+		}
+
+			input[type="button"].big,
+			input[type="submit"].big,
+			input[type="reset"].big,
+			.button2.big
+			{
+				font-size: 1.5em;
+				letter-spacing: -0.025em;
+			}
+
 	/* Box */
 
 		.box
