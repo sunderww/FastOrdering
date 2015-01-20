@@ -2,16 +2,18 @@ package com.eip.fastordering;
 
 import android.app.Activity;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+=======
+import android.app.Fragment;
+>>>>>>> parent of 8e50411... Switch Fragment to support v4 + order view in prog pagerslidingtabstrip
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.astuetz.PagerSlidingTabStrip;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +33,7 @@ public class OrderFragment extends Fragment {
     private static CardStruct _mCard;
     private static ArrayList<MenuStruct> _mMenus = new ArrayList<MenuStruct>();
     private View _mRootView;
-    private FragmentActivity _mActivity;
+    private Activity _mActivity;
 
     /**
      * Methods
@@ -112,7 +114,6 @@ public class OrderFragment extends Fragment {
     }
 
     public OrderFragment() {
-
     }
 
     @Override
@@ -120,23 +121,13 @@ public class OrderFragment extends Fragment {
                              Bundle savedInstanceState) {
         _mRootView = inflater.inflate(R.layout.fragment_order, container, false);
 
-        // Initialize the ViewPager and set an adapter
-        ViewPager pager = (ViewPager) _mRootView.findViewById(R.id.pager);
-        pager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
-        pager.setOffscreenPageLimit(2);
-
-        // Bind the tabs to the ViewPager
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) _mRootView.findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
-
         return _mRootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        _mActivity = (FragmentActivity)activity;
-
+        _mActivity = activity;
         ((Main) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
@@ -169,37 +160,5 @@ public class OrderFragment extends Fragment {
 
         }
         Log.d("ORDER", "3");
-    }
-
-    public class MyPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
-
-        private final String[] TITLES = { "Menus", "A la carte", "Commande" };
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return TITLES[position];
-        }
-
-        @Override
-        public int getCount() {
-            return TITLES.length;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            Fragment frag = null;
-            if (position == 0)
-                frag = OrderMenuFragment.newInstance(position);
-            else if (position == 1)
-                frag = OrderCardFragment.newInstance(position);
-            else if (position == 2)
-                frag = OrderOrderFragment.newInstance(position);
-            return frag;
-        }
     }
 }
