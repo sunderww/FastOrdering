@@ -2,14 +2,12 @@ package com.eip.fastordering;
 
 import android.app.Activity;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-=======
 import android.app.Fragment;
->>>>>>> parent of 8e50411... Switch Fragment to support v4 + order view in prog pagerslidingtabstrip
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
