@@ -1,1 +1,4 @@
 include ':app'
+
+include ':multilevelexpindlistview'
+project(':multilevelexpindlistview').projectDir = new File('C:/Users/Mewen/Documents/GitHub/FastOrdering/app/libs/MultiLevelExpandableIndentableListView/multilevelexpindlistview')
