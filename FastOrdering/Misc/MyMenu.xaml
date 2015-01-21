@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="FastOrdering.Misc.MyMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FastOrdering.Misc"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" VerticalAlignment="Center">
+            <HyperlinkButton Name="Home" Click="HyperlinkButton_Click" Foreground="Black">Accueil</HyperlinkButton>
+        </StackPanel>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <HyperlinkButton Name="About" Click="HyperlinkButton_Click" Foreground="Black">A propos</HyperlinkButton>
+        </StackPanel>
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <HyperlinkButton Name="Options" Click="HyperlinkButton_Click" Foreground="Black">Options</HyperlinkButton>
+        </StackPanel>
+        <StackPanel Grid.Row="3" VerticalAlignment="Center">
+            <HyperlinkButton Name="Orders" Click="HyperlinkButton_Click" Foreground="Black">Historique des commandes</HyperlinkButton>
+        </StackPanel>
+        <StackPanel Grid.Row="4" VerticalAlignment="Center">
+            <HyperlinkButton Name="Notifications" Click="HyperlinkButton_Click" Foreground="Black">Dernières notifications</HyperlinkButton>
+        </StackPanel>
+        <StackPanel Grid.Row="5" VerticalAlignment="Center">
+            <HyperlinkButton Name="Logout" Click="HyperlinkButton_Click" Foreground="Black">Se déconnecter</HyperlinkButton>
+        </StackPanel>
+    </Grid>
+</UserControl>
