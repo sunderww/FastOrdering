@@ -28,5 +28,4 @@ dependencies {
     compile files('libs/socketio.jar')
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    compile project(':multilevelexpindlistview')
 }

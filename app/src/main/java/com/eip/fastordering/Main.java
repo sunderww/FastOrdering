@@ -3,15 +3,16 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.net.Uri;
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 
 
-public class Main extends Activity
+public class Main extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /***
@@ -61,7 +62,7 @@ public class Main extends Activity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, _mTabFragments[position])
                 .commit();

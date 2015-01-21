@@ -3,11 +3,17 @@ package com.eip.fastordering;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +23,10 @@ import java.util.List;
  */
 public class OrderMenuFragment extends Fragment {
 
-    private static final String GROUPS_KEY = "groups_key";
-    private MyAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
 
     public static OrderMenuFragment newInstance(int position) {
         OrderMenuFragment f = new OrderMenuFragment();
@@ -43,77 +49,68 @@ public class OrderMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_order_menu, container, false);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.content_recyclerview);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        // get the listview
+        expListView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
 
-        mAdapter = new MyAdapter(getActivity(), new View.OnClickListener() {
+        // preparing list data
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+        expListView.setGroupIndicator(null);
+
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public void onClick(View v) {
-                int position = mRecyclerView.getChildPosition(v);
-                mAdapter.toggleGroup(position);
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                if (expListView.getExpandableListAdapter().getChildrenCount(i) != 0)
+                    Toast.makeText(getActivity(), "Ce menu a plusieurs choix", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getActivity(), "Menu unique", Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
-        mRecyclerView.setAdapter(mAdapter);
-
-        //MyContent content = getDummyContent();
-        //mAdapter.add(content);
-        List<MyComment> comments = getDummyComments();
-        mAdapter.addAll(comments);
-
-        if (savedInstanceState != null) {
-            List<Integer> groups = savedInstanceState.getIntegerArrayList(GROUPS_KEY);
-            mAdapter.restoreGroups(groups);
-        }
 
         return rootView;
     }
 
-    private MyContent getDummyContent() {
-        return new MyContent("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed odio scelerisque, condimentum neque non, venenatis neque. Mauris nec feugiat felis, id porta nibh. In hac habitasse platea dictumst. Phasellus egestas rutrum justo, sit amet pharetra nulla egestas non. Vivamus ultricies ligula id mauris viverra, mattis volutpat turpis hendrerit. In hac habitasse platea dictumst. Nulla congue, lorem eu placerat luctus, metus lacus convallis est, non porta tellus nisi ut neque. Pellentesque posuere gravida tincidunt. Maecenas aliquet, nulla id vestibulum elementum, enim leo mattis ipsum, in lobortis quam enim pretium justo.");
-    }
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
 
-    private List<MyComment> getDummyComments() {
-        List<MyComment> comments = new ArrayList<MyComment>();
-        comments.add(new MyComment("poopsliquid", "You'd think that after he was pulled on the ground by the machine he might take a break and reevaluate his choices."));
-        comments.add(new MyComment("Nizzler", "that's what a skinny little weakling would do. You a skinny little weakling, /u/poopsliquid?"));
-        comments.get(0).addChild(comments.get(1));
-        comments.add(new MyComment("banedes", "Hell yeah get him man. We don't need no more thinks at the gym."));
-        comments.get(1).addChild(comments.get(2));
-        comments.add(new MyComment("Nizzler", "What a scrawny little twerp."));
-        comments.get(2).addChild(comments.get(3));
-        comments.add(new MyComment("Daibhead", "When the machine starts working out on you its time to try something else."));
-        comments.get(0).addChild(comments.get(4));
-        comments.add(new MyComment("bigtfatty", "Got to say I'm pretty impressed he held on though and didn't drop (and possibly break) the weights."));
-        comments.get(0).addChild(comments.get(5));
+        // Adding child data
+        listDataHeader.add("Top 250");
+        listDataHeader.add("Now Showing");
+        listDataHeader.add("Coming Soon..");
 
-        comments.add(new MyComment("wwickeddogg", "Good practice for when you are dragging your dead girlfriends body out of the house with one hand while also trying to keep the dog out of the way with the other hand."));
-        comments.add(new MyComment("banedes", "Amen been there brother I have been there."));
-        comments.get(6).addChild(comments.get(7));
-        comments.add(new MyComment("GratefulGreg89", "I know right haven't we all?"));
-        comments.get(7).addChild(comments.get(8));
-        comments.add(new MyComment("SoefianB", "I was there yesterday"));
-        comments.get(8).addChild(comments.get(9));
-        comments.add(new MyComment("Aznleroy", "For me it was ABOUT A WEEK AGO. WEEK AGO."));
-        comments.get(9).addChild(comments.get(10));
-        comments.add(new MyComment("neurorgasm", "If I remember correctly, everybody was catching bullet holes that day."));
-        comments.get(10).addChild(comments.get(11));
-        comments.add(new MyComment("HippolyteClio", "I went that long once, never again."));
-        comments.get(10).addChild(comments.get(12));
-        comments.add(new MyComment("heyYOUguys1", "did you just about a week ago yourself?"));
-        comments.get(10).addChild(comments.get(13));
-        comments.add(new MyComment("MrMontage", "Exactly, it's a very functional exercise."));
-        comments.get(6).addChild(comments.get(14));
+        // Adding child data
+        List<String> top250 = new ArrayList<String>();
+        top250.add("The Shawshank Redemption");
+        top250.add("The Godfather");
+        top250.add("The Godfather: Part II");
+        top250.add("Pulp Fiction");
+        top250.add("The Good, the Bad and the Ugly");
+        top250.add("The Dark Knight");
+        top250.add("12 Angry Men");
 
-        comments.add(new MyComment("CranberryNapalm", "Ah, the Lat Lean-Back Single Plate Hop-Pull. Do you even lift, bros?"));
-        comments.add(new MyComment("toke81", "Do you even hop and pull?"));
-        comments.get(15).addChild(comments.get(16));
-        comments.add(new MyComment("itza_me", "Nothing beats this rowing machine mastery for me."));
-        comments.add(new MyComment("All_The_Ragrets", "One... One... One... One... One..."));
-        comments.get(17).addChild(comments.get(18));
-        comments.add(new MyComment("leeboof", "Not even one..."));
-        comments.get(18).addChild(comments.get(19));
-        return comments;
+        List<String> nowShowing = new ArrayList<String>();
+        nowShowing.add("The Conjuring");
+        nowShowing.add("Despicable Me 2");
+        nowShowing.add("Turbo");
+        nowShowing.add("Grown Ups 2");
+        nowShowing.add("Red 2");
+        nowShowing.add("The Wolverine");
+
+        List<String> comingSoon = new ArrayList<String>();
+        comingSoon.add("2 Guns");
+        comingSoon.add("The Smurfs 2");
+        comingSoon.add("The Spectacular Now");
+        comingSoon.add("The Canyons");
+        comingSoon.add("Europa Report");
+
+        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), nowShowing);
+        //listDataChild.put(listDataHeader.get(2), comingSoon);
     }
 }
