@@ -60,7 +60,7 @@ public class OrderFragment extends Fragment {
         } catch (JSONException e) {
 
         }
-        getElements(elements);
+        fetchElements(elements);
 
         JSONObject carte = new JSONObject();
         JSONObject inside = new JSONObject();
@@ -78,13 +78,14 @@ public class OrderFragment extends Fragment {
         } catch (JSONException e) {
 
         }
-        getCard(carte);
+        fetchCard(carte);
 
         JSONObject menus = new JSONObject();
         JSONArray menuarr = new JSONArray();
         JSONObject menu = new JSONObject();
         JSONArray compos = new JSONArray();
         JSONObject compo1 = new JSONObject();
+        JSONObject compo2 = new JSONObject();
         JSONArray cats = new JSONArray();
         JSONObject cat1 = new JSONObject();
         JSONArray ids1 = new JSONArray();
@@ -94,18 +95,27 @@ public class OrderFragment extends Fragment {
             cat1.put("name", "plats");
             cat1.put("ids", ids1);
             cats.put(cat1);
+
+            compo1.put("name", "Entrees + Plats");
             compo1.put("price", 12);
             compo1.put("cat", cats);
+
+            compo2.put("name", "Plats + Desserts");
+            compo2.put("price", 12);
+            compo2.put("cat", cats);
+
             compos.put(compo1);
+            compos.put(compo2);
+
             menu.put("compositions", compos);
-            menu.put("name", "mousaillon");
+            menu.put("name", "Mousaillon");
             menu.put("id", "1212");
             menuarr.put(menu);
             menus.put("menus", menuarr);
         } catch (JSONException e) {
 
         }
-        getMenus(menus);
+        fetchMenus(menus);
         //END TO delete
 
         return fragment;
@@ -141,7 +151,7 @@ public class OrderFragment extends Fragment {
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
-    static private void getElements(JSONObject elements) {
+    static private void fetchElements(JSONObject elements) {
         JSONArray arr;
         try {
             arr = elements.getJSONArray("elements");
@@ -153,12 +163,12 @@ public class OrderFragment extends Fragment {
         Log.d("ORDER", "1");
     }
 
-    static private void getCard(JSONObject card) {
+    static private void fetchCard(JSONObject card) {
         _mCard = new CardStruct(card);
         Log.d("ORDER", "2");
     }
 
-    static private void getMenus(JSONObject menus) {
+    static private void fetchMenus(JSONObject menus) {
         JSONArray arr;
         try {
             arr = menus.getJSONArray("menus");
@@ -169,6 +179,18 @@ public class OrderFragment extends Fragment {
 
         }
         Log.d("ORDER", "3");
+    }
+
+    public static CardStruct get_mCard() {
+        return _mCard;
+    }
+
+    public static ArrayList<MenuStruct> get_mMenus() {
+        return _mMenus;
+    }
+
+    public static ArrayList<ElementStruct> get_mElements() {
+        return _mElements;
     }
 
     public class MyPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {

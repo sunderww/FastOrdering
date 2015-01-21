@@ -36,4 +36,12 @@ public class CategoryStruct {
 
         }
     }
+
+    public String get_mCategoryName() {
+        return _mCategoryName;
+    }
+
+    public ArrayList<String> get_mIds() {
+        return _mIds;
+    }
 }

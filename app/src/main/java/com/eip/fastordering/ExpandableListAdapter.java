@@ -94,7 +94,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView image = (ImageView) convertView.findViewById(R.id.expandableIcon);
 
         if(getChildrenCount(groupPosition) != 0){
-            int imageResourceId = isExpanded ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float;
+            int imageResourceId = isExpanded ? R.drawable.ic_action_collapse : R.drawable.ic_action_expand;
             image.setImageResource(imageResourceId);
 
             image.setVisibility(View.VISIBLE);
