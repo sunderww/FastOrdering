@@ -21,7 +21,7 @@
         android:paddingLeft="25dp"
         android:text="Test"
         android:layout_gravity="center_horizontal"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/expandableIcon"
         android:layout_toEndOf="@+id/expandableIcon" />
