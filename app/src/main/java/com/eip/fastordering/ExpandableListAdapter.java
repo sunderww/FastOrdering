@@ -20,12 +20,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
+    private boolean _mRadio;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+                                 HashMap<String, List<String>> listChildData, boolean radio) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+        this._mRadio = radio;
     }
 
     @Override
@@ -48,13 +50,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item, null);
+            if (!_mRadio)
+                convertView = infalInflater.inflate(R.layout.list_item, null);
+            else
+                convertView = infalInflater.inflate(R.layout.list_radio, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
-
+        TextView txtListChild;
+        if (!_mRadio)
+            txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+        else
+            txtListChild = (TextView) convertView.findViewById(R.id.lblListItemRadio);
         txtListChild.setText(childText);
+
         return convertView;
     }
 

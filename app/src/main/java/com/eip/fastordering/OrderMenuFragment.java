@@ -53,7 +53,7 @@ public class OrderMenuFragment extends Fragment {
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, false);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -62,7 +62,7 @@ public class OrderMenuFragment extends Fragment {
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
-                if (expListView.getExpandableListAdapter().getChildrenCount(i) != 0)
+                if (expListView.getExpandableListAdapter().getChildrenCount(i) > 1)
                     Toast.makeText(getActivity(), "Ce menu a plusieurs choix", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getActivity(), "Menu unique", Toast.LENGTH_SHORT).show();
@@ -70,10 +70,11 @@ public class OrderMenuFragment extends Fragment {
             }
         });
 
+
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Fragment frag = new OrderMenuCompoFragment();
+                Fragment frag = new OrderMenuCompoFragment().newInstance(listDataHeader.get(groupPosition), listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition));
 
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();

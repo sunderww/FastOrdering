@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/about_bg"
-        android:contentDescription="@string/login_activity_bg"
-        android:src="@drawable/bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"/>
+    android:layout_height="match_parent"
+    android:padding="10dp">
 
     <ExpandableListView
         android:id="@+id/lvExp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:background="@color/color_bg"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="100dp" />
 
     <ImageButton
-        android:id="@+id/order_compo_rectangle"
+        android:id="@+id/order_order_rectangle"
         android:layout_width="match_parent"
         android:clickable="true"
         android:background="@drawable/green_button"
@@ -39,18 +29,16 @@
     </ImageButton>
 
     <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:id="@+id/order_compo_button_text"
-    android:textSize="25sp"
-    android:textColor="#FFF"
-    android:singleLine="true"
-    android:layout_alignTop="@+id/order_compo_rectangle"
-    android:layout_centerHorizontal="true"
-    android:layout_marginTop="8dp"
-        android:text="@string/order_compo_add" />
-
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/order_order_button_text"
+        android:textSize="25sp"
+        android:textColor="#FFF"
+        android:singleLine="true"
+        android:layout_alignTop="@+id/order_order_rectangle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/order_order_send_text" />
 
 </RelativeLayout>

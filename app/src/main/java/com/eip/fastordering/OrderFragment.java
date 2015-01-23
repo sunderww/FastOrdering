@@ -83,18 +83,23 @@ public class OrderFragment extends Fragment {
         JSONObject menus = new JSONObject();
         JSONArray menuarr = new JSONArray();
         JSONObject menu = new JSONObject();
+        JSONObject menu2 = new JSONObject();
         JSONArray compos = new JSONArray();
         JSONObject compo1 = new JSONObject();
         JSONObject compo2 = new JSONObject();
         JSONArray cats = new JSONArray();
         JSONObject cat1 = new JSONObject();
+        JSONObject cat2 = new JSONObject();
         JSONArray ids1 = new JSONArray();
         try {
-            ids1.put("1");
-            ids1.put("2");
-            cat1.put("name", "plats");
+            ids1.put("Salade");
+            ids1.put("Chips");
+            cat1.put("name", "Entrees");
             cat1.put("ids", ids1);
+            cat2.put("name", "Plats");
+            cat2.put("ids", ids1);
             cats.put(cat1);
+            cats.put(cat2);
 
             compo1.put("name", "Entrees + Plats");
             compo1.put("price", 12);
@@ -110,7 +115,14 @@ public class OrderFragment extends Fragment {
             menu.put("compositions", compos);
             menu.put("name", "Mousaillon");
             menu.put("id", "1212");
+
+            menu2.put("compositions", compos);
+            menu2.put("name", "Pirate");
+            menu2.put("id", "1213");
+
             menuarr.put(menu);
+            menuarr.put(menu2);
+
             menus.put("menus", menuarr);
         } catch (JSONException e) {
 
@@ -218,9 +230,9 @@ public class OrderFragment extends Fragment {
             if (position == 0)
                 frag = OrderMenuFragment.newInstance(position);
             else if (position == 1)
-                frag = OrderMenuFragment.newInstance(position);
+                frag = OrderCardFragment.newInstance(position);
             else if (position == 2)
-                frag = OrderMenuFragment.newInstance(position);
+                frag = OrderOrderFragment.newInstance(position);
             return frag;
         }
     }
