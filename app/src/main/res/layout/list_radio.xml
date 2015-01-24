@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="48dp"
-    android:padding="10dp" >
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/lblListItemRadio"
@@ -17,10 +17,14 @@
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/nbDish"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:inputType="number" />
+        android:inputType="number"
+        android:editable="true"
+        android:numeric="integer"
+        android:focusable="false"
+        android:enabled="true" />
 
 </RelativeLayout>

@@ -1,29 +1,36 @@
 package com.eip.fastordering;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import java.util.HashMap;
 import java.util.List;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapter extends BaseExpandableListAdapter implements View.OnTouchListener {
 
     private Context _context;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
     private boolean _mRadio;
+    //static int _childPosition;
+    //static int _groupPosition;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData, boolean radio) {
+                                 HashMap<String, List<String>> listChildData, HashMap<String, List<String>> listDataNb, boolean radio) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -36,25 +43,72 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .get(childPosititon);
     }
 
+    private String getChildNb(int groupPosition, int childPosition) {
+        return OrderMenuCompoFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
+                .get(childPosition);
+    }
+
+    private void setChildNb(int groupPosition, int childPosition, String value) {
+        Log.d("SET CHIDL NB", "GP:" + groupPosition + " CP:" + childPosition + " VA:" + value);
+        OrderMenuCompoFragment.set_idmListDataNb(groupPosition, childPosition, value);
+    }
+
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
 
+        Log.d("DEBUG NB", "" + childText + " GP:" + groupPosition + " CP:" + childPosition);
+        if (_mRadio)
+            Log.d("DEBUUUUUG CHILD", "" + childText + " " + getChildNb(groupPosition, childPosition));
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
             if (!_mRadio)
                 convertView = infalInflater.inflate(R.layout.list_item, null);
-            else
+            else {
                 convertView = infalInflater.inflate(R.layout.list_radio, null);
-        }
+
+                //final ViewHolder holder = new ViewHolder();
+                //holder.edtCode = (EditText) convertView.findViewById(R.id.nbDish);
+                //holder.edtCode.setOnTouchListener(this);
+                //convertView.setOnTouchListener(this);
+                //convertView.setTag(holder);
+
+                EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
+                nb.setText(getChildNb(groupPosition, childPosition));
+                nb.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        Log.d("ON CHANGED", "GP:" + groupPosition + " CP:" + childPosition + " " + s);
+                        setChildNb(groupPosition, childPosition, s.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+            }
+        } //else {
+        //    if (_mRadio) {
+        //        ViewHolder holder = (ViewHolder) convertView.getTag();
+        //        holder.edtCode.setText(getChildNb(groupPosition, childPosition));
+        //    }
+        //}
 
         TextView txtListChild;
         if (!_mRadio)
@@ -93,6 +147,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -125,7 +180,31 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
+    public boolean areAllItemsEnabled() {
+        return true;
+    }
+
+    @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        Log.d("@@@", "DOUBLE FIRED");
+        if (view instanceof EditText) {
+            EditText editText = (EditText) view;
+            editText.setFocusable(true);
+            editText.setFocusableInTouchMode(true);
+        } else {
+            ViewHolder holder = (ViewHolder) view.getTag();
+            holder.edtCode.setFocusable(false);
+            holder.edtCode.setFocusableInTouchMode(false);
+        }
+        return false;
+    }
+
+    private class ViewHolder {
+        EditText edtCode;
     }
 }

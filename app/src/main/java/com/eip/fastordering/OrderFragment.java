@@ -91,13 +91,15 @@ public class OrderFragment extends Fragment {
         JSONObject cat1 = new JSONObject();
         JSONObject cat2 = new JSONObject();
         JSONArray ids1 = new JSONArray();
+        JSONArray ids2 = new JSONArray();
         try {
             ids1.put("Salade");
             ids1.put("Chips");
+            ids2.put("Glace");
             cat1.put("name", "Entrees");
             cat1.put("ids", ids1);
             cat2.put("name", "Plats");
-            cat2.put("ids", ids1);
+            cat2.put("ids", ids2);
             cats.put(cat1);
             cats.put(cat2);
 
