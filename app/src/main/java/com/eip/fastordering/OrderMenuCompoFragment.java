@@ -1,14 +1,17 @@
 package com.eip.fastordering;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -60,22 +63,18 @@ public class OrderMenuCompoFragment extends Fragment{
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, _mListDataNb, true);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, _mListDataNb, true, getActivity());
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
         expListView.setGroupIndicator(null);
-
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        ((RelativeLayout)rootView.findViewById(R.id.order_compo_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                EditText text = (EditText)v.findViewById(R.id.nbDish);
-                //text.setFocusable(true);
-                //text.setFocusableInTouchMode(true);
-                //ExpandableListAdapter._childPosition = childPosition;
-                //ExpandableListAdapter._groupPosition = groupPosition;
-                Log.d("CHILD", "FIIIIIRED");
-                return false;
+            public void onClick(View v) {
+                if (!(v instanceof EditText)) {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                }
             }
         });
 
@@ -86,19 +85,13 @@ public class OrderMenuCompoFragment extends Fragment{
                 //TO DO
                 //Get every dish + number and add to the order and close fragment
                 int groupCount = listAdapter.getGroupCount();
-                Log.d("COUNT I MAX", "" + groupCount);
                 for (int i = 0; i < groupCount; ++i) {
                     int childCount = listAdapter.getChildrenCount(i);
-                    Log.d("CHILD J MAX", "" + childCount);
-                    Log.d("CHILD I IP", "" + i);
                     for (int j = 0; j < childCount; ++j) {
-                        Log.d("CHILD J IP", "" + j);
                         View view = listAdapter.getChildView(i, j, false, null, null);
                         if (view != null) {
                             TextView txt = (TextView)view.findViewById(R.id.lblListItemRadio);
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
-                            if (nb.getText().length() == 0)
-                                Log.d("NOT FOUND", "NB");
                             Log.d("NB", "" + txt.getText() + " " + nb.getText());
                         }
                     }

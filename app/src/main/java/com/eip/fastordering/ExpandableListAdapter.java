@@ -1,6 +1,8 @@
 package com.eip.fastordering;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -8,11 +10,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -26,15 +27,40 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
     private boolean _mRadio;
-    //static int _childPosition;
-    //static int _groupPosition;
+    static int _childPosition;
+    static int _groupPosition;
+    TextWatcher _watcher;
+    FragmentActivity _mFACtivity;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData, HashMap<String, List<String>> listDataNb, boolean radio) {
+                                 HashMap<String, List<String>> listChildData, HashMap<String, List<String>> listDataNb, boolean radio,
+                                 FragmentActivity fActivity) {
+        this._mFACtivity = fActivity;
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         this._mRadio = radio;
+        this._watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.d("TOTO2", "===============================");
+                //Log.d("ON CHANGED", "GP:" + _groupPosition + " CP:" + _childPosition + " " + s);
+                //Log.d("ON CHANGED", "GP:" + groupPosition + " CP:" + childPosition + " " + s);
+                //Log.d("DB BEF", "" + OrderMenuCompoFragment.get_mListDataNb());
+                setChildNb(_groupPosition, _childPosition, s.toString());
+                //Log.d("DB AFT", "" + OrderMenuCompoFragment.get_mListDataNb());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
     }
 
     @Override
@@ -49,7 +75,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     }
 
     private void setChildNb(int groupPosition, int childPosition, String value) {
-        Log.d("SET CHIDL NB", "GP:" + groupPosition + " CP:" + childPosition + " VA:" + value);
+        //Log.d("SET CHIDL NB", "GP:" + groupPosition + " CP:" + childPosition + " VA:" + value);
         OrderMenuCompoFragment.set_idmListDataNb(groupPosition, childPosition, value);
     }
 
@@ -64,10 +90,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
         final String childText = (String) getChild(groupPosition, childPosition);
 
-        Log.d("DEBUG NB", "" + childText + " GP:" + groupPosition + " CP:" + childPosition);
-        if (_mRadio)
-            Log.d("DEBUUUUUG CHILD", "" + childText + " " + getChildNb(groupPosition, childPosition));
-
+        if (_mRadio) {
+            //Log.d("TOTO", "====================================");
+            //    Log.d("DEBUUUUUG CHILD", "" + childText + " " + getChildNb(groupPosition, childPosition));
+            //Log.d("TOTO", "" + childText);
+            //Log.d("DATAS", "" + OrderMenuCompoFragment.get_mListDataNb());
+        }
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -75,46 +103,46 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             if (!_mRadio)
                 convertView = infalInflater.inflate(R.layout.list_item, null);
             else {
+                //Log.d("DEBUG NB", "" + childText + " GP:" + groupPosition + " CP:" + childPosition);
+
                 convertView = infalInflater.inflate(R.layout.list_radio, null);
 
-                //final ViewHolder holder = new ViewHolder();
-                //holder.edtCode = (EditText) convertView.findViewById(R.id.nbDish);
-                //holder.edtCode.setOnTouchListener(this);
-                //convertView.setOnTouchListener(this);
-                //convertView.setTag(holder);
+                final ViewHolder holder = new ViewHolder();
+                holder.edtCode = (EditText) convertView.findViewById(R.id.nbDish);
+                holder.edtCode.setOnTouchListener(this);
+                convertView.setOnTouchListener(this);
+                convertView.setTag(holder);
 
                 EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
+
+                //Log.d("SET TEXT", "SET TEXT " + groupPosition + " " + childPosition);
                 nb.setText(getChildNb(groupPosition, childPosition));
-                nb.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        Log.d("ON CHANGED", "GP:" + groupPosition + " CP:" + childPosition + " " + s);
-                        setChildNb(groupPosition, childPosition, s.toString());
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
+                nb.addTextChangedListener(_watcher);
             }
-        } //else {
-        //    if (_mRadio) {
-        //        ViewHolder holder = (ViewHolder) convertView.getTag();
-        //        holder.edtCode.setText(getChildNb(groupPosition, childPosition));
-        //    }
-        //}
+        } else {
+            if (_mRadio) {
+                EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
+                nb.removeTextChangedListener(_watcher);
+                //Log.d("SETTING TEXT", "GP:" + groupPosition + " CP:" + childPosition);
+                nb.setText(getChildNb(groupPosition, childPosition));
+                nb.addTextChangedListener(_watcher);
+            }
+        }
 
         TextView txtListChild;
         if (!_mRadio)
             txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-        else
+        else {
             txtListChild = (TextView) convertView.findViewById(R.id.lblListItemRadio);
+
+            EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
+            PosHolder pos = new PosHolder();
+            pos.childPos = childPosition;
+            pos.groupPos = groupPosition;
+            nb.setTag(pos);
+
+        }
         txtListChild.setText(childText);
 
         return convertView;
@@ -152,6 +180,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null); // R.layout.list_group //android.R.layout.simple_expandable_list_item_1
+
+            convertView.setOnTouchListener(new GroupTouchListener());
         }
 
         ImageView image = (ImageView) convertView.findViewById(R.id.expandableIcon);
@@ -191,20 +221,46 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        Log.d("@@@", "DOUBLE FIRED");
         if (view instanceof EditText) {
             EditText editText = (EditText) view;
+            _groupPosition = ((PosHolder)editText.getTag()).groupPos;
+            _childPosition = ((PosHolder)editText.getTag()).childPos;
+            //Log.d("@@@", "AFTER FIRED " + _groupPosition + " " + _childPosition);
+            editText.setSelectAllOnFocus(true);
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
         } else {
             ViewHolder holder = (ViewHolder) view.getTag();
             holder.edtCode.setFocusable(false);
             holder.edtCode.setFocusableInTouchMode(false);
+            if (_mRadio) {
+                Log.d("CLOSE", "KEYBOARD");
+                InputMethodManager inputMethodManager = (InputMethodManager) _mFACtivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(_mFACtivity.getCurrentFocus().getWindowToken(), 0);
+            }
         }
+        Log.d("TOUCH", "TOUCH");
         return false;
     }
 
     private class ViewHolder {
         EditText edtCode;
+    }
+
+    private class PosHolder {
+        int childPos;
+        int groupPos;
+    }
+
+    private class GroupTouchListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (_mFACtivity != null) {
+                InputMethodManager inputMethodManager = (InputMethodManager) _mFACtivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(_mFACtivity.getCurrentFocus().getWindowToken(), 0);
+            }
+            return false;
+        }
     }
 }

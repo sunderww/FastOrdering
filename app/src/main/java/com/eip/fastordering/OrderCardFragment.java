@@ -51,7 +51,7 @@ public class OrderCardFragment extends Fragment {
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, null, false);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, null, false, null);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
