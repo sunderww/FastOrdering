@@ -224,7 +224,7 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Accept" Label="Connexion" Click="AppBarButton_Click" />
+            <AppBarButton Icon="Accept" Label="Connexion" Click="AppBarButton_Click" Command="{Binding Connect}" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

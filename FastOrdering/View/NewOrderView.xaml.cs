@@ -1,5 +1,4 @@
-﻿using FastOrdering.Misc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,8 +19,8 @@ namespace FastOrdering.View {
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class OrdersView : Page {
-		public OrdersView() {
+	public sealed partial class NewOrderView : Page {
+		public NewOrderView() {
 			this.InitializeComponent();
 			DrawerLayout.InitializeDrawerLayout();
 		}
@@ -39,10 +38,6 @@ namespace FastOrdering.View {
 				DrawerLayout.CloseDrawer();
 			else
 				DrawerLayout.OpenDrawer();
-		}
-
-		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
-			Frame.Navigate(typeof(NewOrderView));
 		}
 	}
 }

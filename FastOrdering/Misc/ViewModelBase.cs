@@ -16,7 +16,8 @@ namespace FastOrdering.Misc {
 		}
 
 		private bool NotifyPropertyChanged<T>(ref T variable, T valeur, [CallerMemberName] string nomPropriete = null) {
-			if (object.Equals(variable, valeur)) return false;
+			if (object.Equals(variable, valeur))
+				return false;
 
 			variable = valeur;
 			NotifyPropertyChanged(nomPropriete);

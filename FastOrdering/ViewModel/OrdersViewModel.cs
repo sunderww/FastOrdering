@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace FastOrdering.ViewModel {
 	public class OrdersViewModel : ViewModelBase {
-		public OrdersViewModel() {}
+		public OrdersViewModel() {
+			new Socket("receive_order");
+		}
 	}
 }

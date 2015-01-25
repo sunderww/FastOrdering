@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FastOrdering.ViewModel {
-	public class LoginViewModel : ViewModelBase {
+	public class NewOrderViewModel : ViewModelBase {
 		public ICommand Connect { get; private set; }
 
-		public LoginViewModel() {
-			Connect = new RelayCommand(ConnectUser);
+		public NewOrderViewModel() {
+			Connect = new RelayCommand(Order);
 		}
 
-		private void ConnectUser() {
+		private void Order() {
 			System.Diagnostics.Debug.WriteLine("toto");
+
+			new Socket("send_order");
 		}
 	}
 }

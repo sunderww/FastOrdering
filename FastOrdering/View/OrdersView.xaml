@@ -91,8 +91,14 @@
             </Grid>
 
             <Grid>
-                <misc:MyMenu />
+                <!--<misc:MyMenu />-->
             </Grid>
         </drawerLayout:DrawerLayout>
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Add" Label="Commander" Click="AppBarButton_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>
