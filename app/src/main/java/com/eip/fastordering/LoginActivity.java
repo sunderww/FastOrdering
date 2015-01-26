@@ -121,89 +121,89 @@ public class LoginActivity extends Activity {
 
     private void connectToServ() {
 
-        Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(mainActivity);
+//        Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+//        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(mainActivity);
 
 
         //Connect and create the listeners for the socket
-//        _mSocket.connect(new IOCallback() {
-//            @Override
-//            public void onMessage(JSONObject json, IOAcknowledge ack) {
-//                try {
-//                    Log.d("SOCKET", "DATA JSON: " + json.toString(2));
-//                } catch (JSONException e) {
-//                    Log.d("SOCKET", "ERROR JSON");
-//                }
-//            }
-//
-//            @Override
-//            public void onMessage(String data, IOAcknowledge ack) {
-//                Log.d("SOCKET", "DATA SERV: " + data);
-//            }
-//
-//            @Override
-//            public void onError(SocketIOException socketIOException) {
-//                Log.d("SOCKET", "ERROR");
-//
-//                LoginActivity.this.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast msg = Toast.makeText(LoginActivity.this, R.string.login_toast_error, Toast.LENGTH_LONG);
-//                        msg.show();
-//                    }
-//                });
-//
-//                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-//                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mainActivity);
-//            }
-//
-//            @Override
-//            public void onDisconnect() {
-//                Log.d("SOCKET", "DECO");
-//            }
-//
-//            @Override
-//            public void onConnect() {
-//                Log.d("SOCKET", "CO OK");
-//                JSONObject msg = new JSONObject();
-//                try {
-//                    msg.put("name", ((EditText)findViewById(R.id.field_login)).getText().toString());
-//                    msg.put("pass", ((EditText)findViewById(R.id.field_pass)).getText().toString());
-//                } catch (JSONException e) {
-//
-//                }
-//                Log.d("SOCKET", "MSG CREATED");
-//                _mSocket.send(msg);
-//                Log.d("SOCKET", "MSG SENT");
-//
-//                //TODO
-//                //Check message callback check login
-//                JSONObject obj = new JSONObject();
-//                try {
-//                    obj.put("url", String.format("/dish/read"));
-//                } catch (JSONException e) {
-//
-//                }
-//
-//                _mSocket.emit("get", new IOAcknowledge() {
-//                    @Override
-//                    public void ack(Object... objects) {
-//                        Log.d("GET", "" + objects[0]);
-//                    }
-//                }, obj);
-//
-//                //Change activity after login ok
-//                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-//                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mainActivity);
-//            }
-//
-//            @Override
-//            public void on(String event, IOAcknowledge ack, Object... args) {
-//                Log.d("SOCKET", "EVENT " + event);
-//            }
-//        });
+        _mSocket.connect(new IOCallback() {
+            @Override
+            public void onMessage(JSONObject json, IOAcknowledge ack) {
+                try {
+                    Log.d("SOCKET", "DATA JSON: " + json.toString(2));
+                } catch (JSONException e) {
+                    Log.d("SOCKET", "ERROR JSON");
+                }
+            }
+
+            @Override
+            public void onMessage(String data, IOAcknowledge ack) {
+                Log.d("SOCKET", "DATA SERV: " + data);
+            }
+
+            @Override
+            public void onError(SocketIOException socketIOException) {
+                Log.d("SOCKET", "ERROR");
+
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast msg = Toast.makeText(LoginActivity.this, R.string.login_toast_error, Toast.LENGTH_LONG);
+                        msg.show();
+                    }
+                });
+
+                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainActivity);
+            }
+
+            @Override
+            public void onDisconnect() {
+                Log.d("SOCKET", "DECO");
+            }
+
+            @Override
+            public void onConnect() {
+                Log.d("SOCKET", "CO OK");
+                JSONObject msg = new JSONObject();
+                try {
+                    msg.put("name", ((EditText)findViewById(R.id.field_login)).getText().toString());
+                    msg.put("pass", ((EditText)findViewById(R.id.field_pass)).getText().toString());
+                } catch (JSONException e) {
+
+                }
+                Log.d("SOCKET", "MSG CREATED");
+                _mSocket.send(msg);
+                Log.d("SOCKET", "MSG SENT");
+
+                //TODO
+                //Check message callback check login
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("url", String.format("/dish/read"));
+                } catch (JSONException e) {
+
+                }
+
+                _mSocket.emit("get", new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.d("GET", "" + objects[0]);
+                    }
+                }, obj);
+
+                //Change activity after login ok
+                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainActivity);
+            }
+
+            @Override
+            public void on(String event, IOAcknowledge ack, Object... args) {
+                Log.d("SOCKET", "EVENT " + event);
+            }
+        });
     }
 }
