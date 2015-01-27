@@ -3,6 +3,8 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +23,14 @@ import java.util.List;
 /**
  * Created by Mewen on 22-Jan-15.
  */
-public class OrderMenuCompoFragment extends Fragment{
+public class OrderMenuCompoFragment extends Fragment {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
+
     static List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+
     private static HashMap<String, List<String>> _mListDataNb;
     String _mMenu;
     String _mCompo;
@@ -63,11 +67,12 @@ public class OrderMenuCompoFragment extends Fragment{
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, _mListDataNb, true, getActivity());
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), false);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
         expListView.setGroupIndicator(null);
+        expListView.setEmptyView(rootView.findViewById(R.id.order_compo_none));
         ((RelativeLayout)rootView.findViewById(R.id.order_compo_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +101,7 @@ public class OrderMenuCompoFragment extends Fragment{
                         }
                     }
                 }
+                getFragmentManager().popBackStack();
             }
         });
 

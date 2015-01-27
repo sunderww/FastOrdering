@@ -47,15 +47,23 @@ public class OrderFragment extends Fragment {
         JSONObject elements = new JSONObject();
         JSONArray arr = new JSONArray();
         JSONObject elem = new JSONObject();
+        JSONObject elem2 = new JSONObject();
+        JSONObject elem3 = new JSONObject();
         try {
-            elem.put("id", "26");
+            elem.put("id", "1");
             elem.put("price", 0);
-            elem.put("name", "toto");
+            elem.put("name", "Mais");
+
+            elem2.put("id", "2");
+            elem2.put("price", 12);
+            elem2.put("name", "Surimi");
+
+            elem3.put("id", "3");
+            elem3.put("price", 12);
+            elem3.put("name", "Steack");
             arr.put(elem);
-            elem.put("price", "23");
-            elem.put("id", 12);
-            elem.put("name", "salade");
-            arr.put(elem);
+            arr.put(elem2);
+            arr.put(elem3);
             elements.put("elements", arr);
         } catch (JSONException e) {
 
@@ -67,12 +75,19 @@ public class OrderFragment extends Fragment {
         JSONArray compo = new JSONArray();
         JSONObject cat = new JSONObject();
         JSONArray ids = new JSONArray();
+        JSONObject cat3 = new JSONObject();
+        JSONArray ids3 = new JSONArray();
         try {
             ids.put("1");
             ids.put("2");
-            cat.put("name", "entrees");
+            ids3.put("3");
+            cat.put("name", "Entrees");
             cat.put("ids", ids);
             compo.put(cat);
+            cat3.put("name", "Plats");
+            cat3.put("ids", ids3);
+            compo.put(cat3);
+            inside.put("id", "0");
             inside.put("composition", compo);
             carte.put("alacarte", inside);
         } catch (JSONException e) {
@@ -93,9 +108,9 @@ public class OrderFragment extends Fragment {
         JSONArray ids1 = new JSONArray();
         JSONArray ids2 = new JSONArray();
         try {
-            ids1.put("Salade");
-            ids1.put("Chips");
-            ids2.put("Glace");
+            ids1.put("1");
+            ids1.put("2");
+            ids2.put("3");
             cat1.put("name", "Entrees");
             cat1.put("ids", ids1);
             cat2.put("name", "Plats");
@@ -206,6 +221,14 @@ public class OrderFragment extends Fragment {
     public static ArrayList<ElementStruct> get_mElements() {
         return _mElements;
     }
+
+    public static String getNameElementById(String id) {
+        for (ElementStruct elem : _mElements) {
+            if (elem.get_mId().equals(id))
+                return elem.get_mName();
+        }
+      return "";
+    };
 
     public class MyPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 

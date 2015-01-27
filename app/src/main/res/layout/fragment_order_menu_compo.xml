@@ -52,6 +52,15 @@
     android:layout_marginTop="8dp"
         android:text="@string/order_compo_add" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/order_compo_none_text"
+        android:id="@+id/order_compo_none"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text" />
 
 
 </RelativeLayout>

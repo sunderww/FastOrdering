@@ -26,20 +26,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
-    private boolean _mRadio;
+    private boolean _mElement;
     static int _childPosition;
     static int _groupPosition;
     TextWatcher _watcher;
     FragmentActivity _mFACtivity;
+    private boolean _mCard;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData, HashMap<String, List<String>> listDataNb, boolean radio,
-                                 FragmentActivity fActivity) {
+    public ExpandableListAdapter(Context context, List<String> listDataHeader,HashMap<String, List<String>> listChildData,
+                                 boolean element, HashMap<String, List<String>> listDataNb, FragmentActivity fActivity, boolean card) {
         this._mFACtivity = fActivity;
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
-        this._mRadio = radio;
+        this._mElement = element;
+        this._mCard = card;
         this._watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,13 +71,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     }
 
     private String getChildNb(int groupPosition, int childPosition) {
+        if (_mCard)
+            return OrderCardFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
+                    .get(childPosition);
         return OrderMenuCompoFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
                 .get(childPosition);
     }
 
     private void setChildNb(int groupPosition, int childPosition, String value) {
         //Log.d("SET CHIDL NB", "GP:" + groupPosition + " CP:" + childPosition + " VA:" + value);
-        OrderMenuCompoFragment.set_idmListDataNb(groupPosition, childPosition, value);
+        if (_mCard)
+            OrderCardFragment.set_idmListDataNb(groupPosition, childPosition, value);
+        else
+            OrderMenuCompoFragment.set_idmListDataNb(groupPosition, childPosition, value);
     }
 
     @Override
@@ -88,9 +95,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final String childText;
 
-        if (_mRadio) {
+        if (!_mElement)
+            childText = (String) getChild(groupPosition, childPosition);
+        else
+            childText = OrderFragment.getNameElementById((String)getChild(groupPosition, childPosition));
+
+
+        if (_mElement) {
             //Log.d("TOTO", "====================================");
             //    Log.d("DEBUUUUUG CHILD", "" + childText + " " + getChildNb(groupPosition, childPosition));
             //Log.d("TOTO", "" + childText);
@@ -100,7 +113,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            if (!_mRadio)
+            if (!_mElement)
                 convertView = infalInflater.inflate(R.layout.list_item, null);
             else {
                 //Log.d("DEBUG NB", "" + childText + " GP:" + groupPosition + " CP:" + childPosition);
@@ -121,7 +134,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                 nb.addTextChangedListener(_watcher);
             }
         } else {
-            if (_mRadio) {
+            if (_mElement) {
                 EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
                 nb.removeTextChangedListener(_watcher);
                 //Log.d("SETTING TEXT", "GP:" + groupPosition + " CP:" + childPosition);
@@ -131,7 +144,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         }
 
         TextView txtListChild;
-        if (!_mRadio)
+        if (!_mElement)
             txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
         else {
             txtListChild = (TextView) convertView.findViewById(R.id.lblListItemRadio);
@@ -233,7 +246,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             ViewHolder holder = (ViewHolder) view.getTag();
             holder.edtCode.setFocusable(false);
             holder.edtCode.setFocusableInTouchMode(false);
-            if (_mRadio) {
+            if (_mElement) {
                 Log.d("CLOSE", "KEYBOARD");
                 InputMethodManager inputMethodManager = (InputMethodManager) _mFACtivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(_mFACtivity.getCurrentFocus().getWindowToken(), 0);

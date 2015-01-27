@@ -60,4 +60,7 @@
     <string name="home_commander_text">COMMANDER</string>
     <string name="order_compo_add">AJOUTER</string>
     <string name="order_order_send_text">ENVOYER</string>
+    <string name="order_menu_none_text">Aucun menu disponible</string>
+    <string name="order_compo_none_text">Aucune composition disponible</string>
+    <string name="order_card_none_text">Aucune carte disponible</string>
 </resources>

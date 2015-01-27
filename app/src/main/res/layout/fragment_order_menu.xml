@@ -2,12 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:paddingBottom="20dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp">
 
     <ExpandableListView
         android:id="@+id/lvExp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:background="@color/color_bg" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/order_menu_none_text"
+        android:id="@+id/order_menu_none"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text" />
 
 </RelativeLayout>

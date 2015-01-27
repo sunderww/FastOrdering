@@ -53,11 +53,12 @@ public class OrderMenuFragment extends Fragment {
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, null, false, null);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, false, null, null, false);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
         expListView.setGroupIndicator(null);
+        expListView.setEmptyView(rootView.findViewById(R.id.order_menu_none));
 
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override

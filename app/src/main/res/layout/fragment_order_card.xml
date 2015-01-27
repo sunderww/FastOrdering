@@ -2,12 +2,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:id="@+id/order_card_layout"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="20dp">
 
     <ExpandableListView
         android:id="@+id/lvExp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:background="@color/color_bg" />
+        android:background="@color/color_bg"
+        android:layout_marginBottom="100dp" />
+
+    <ImageButton
+        android:id="@+id/order_compo_rectangle"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:background="@drawable/green_button"
+        android:contentDescription="@string/notification_desc_button"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+    </ImageButton>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/order_compo_button_text"
+        android:textSize="25sp"
+        android:textColor="#FFF"
+        android:singleLine="true"
+        android:layout_alignTop="@+id/order_compo_rectangle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/order_compo_add" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/order_card_none_text"
+        android:id="@+id/order_card_none"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text" />
 
 </RelativeLayout>
