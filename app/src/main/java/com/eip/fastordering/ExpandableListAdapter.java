@@ -199,13 +199,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
         ImageView image = (ImageView) convertView.findViewById(R.id.expandableIcon);
 
-        if(getChildrenCount(groupPosition) != 0){
+        if(getChildrenCount(groupPosition) > 0){
             int imageResourceId = isExpanded ? R.drawable.ic_action_collapse : R.drawable.ic_action_expand;
             image.setImageResource(imageResourceId);
+            if (getChildrenCount(groupPosition) == 1 && !_mElement)
+                image.setImageResource(R.drawable.ic_action_invisible);
 
-            image.setVisibility(View.VISIBLE);
         } else {
-            image.setVisibility(View.INVISIBLE);
+            image.setImageResource(R.drawable.ic_action_invisible);
         }
 
         //TextView lblListHeader = (TextView) convertView.findViewById(android.R.id.text1);
@@ -238,7 +239,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             EditText editText = (EditText) view;
             _groupPosition = ((PosHolder)editText.getTag()).groupPos;
             _childPosition = ((PosHolder)editText.getTag()).childPos;
-            //Log.d("@@@", "AFTER FIRED " + _groupPosition + " " + _childPosition);
             editText.setSelectAllOnFocus(true);
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
@@ -247,12 +247,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             holder.edtCode.setFocusable(false);
             holder.edtCode.setFocusableInTouchMode(false);
             if (_mElement) {
-                Log.d("CLOSE", "KEYBOARD");
                 InputMethodManager inputMethodManager = (InputMethodManager) _mFACtivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(_mFACtivity.getCurrentFocus().getWindowToken(), 0);
             }
         }
-        Log.d("TOUCH", "TOUCH");
         return false;
     }
 

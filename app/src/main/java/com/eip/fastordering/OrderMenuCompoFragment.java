@@ -35,6 +35,8 @@ public class OrderMenuCompoFragment extends Fragment {
     String _mMenu;
     String _mCompo;
 
+    View _mRootView;
+
     public static OrderMenuCompoFragment newInstance(String menuId, String compo) {
         OrderMenuCompoFragment instance = new OrderMenuCompoFragment();
         Bundle b = new Bundle();
@@ -54,26 +56,45 @@ public class OrderMenuCompoFragment extends Fragment {
 
     }
 
+    private void checkListEmpty() {
+        if (_mRootView != null) {
+            ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_compo_rectangle);
+            TextView text = (TextView) _mRootView.findViewById(R.id.order_compo_button_text);
+            if (listDataHeader.isEmpty()) {
+                button.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
+            } else {
+                button.setVisibility(View.VISIBLE);
+                text.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle args = getArguments();
         _mMenu = args.getString("menuId");
         _mCompo = args.getString("compo");
 
-        View rootView = inflater.inflate(R.layout.fragment_order_menu_compo, container, false);
+        _mRootView = inflater.inflate(R.layout.fragment_order_menu_compo, container, false);
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+        _mListDataNb = new HashMap<String, List<String>>();
+
 
         // get the listview
-        expListView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
+        expListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
         // preparing list data
         prepareListData();
+        checkListEmpty();
 
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), false);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
         expListView.setGroupIndicator(null);
-        expListView.setEmptyView(rootView.findViewById(R.id.order_compo_none));
-        ((RelativeLayout)rootView.findViewById(R.id.order_compo_layout)).setOnClickListener(new View.OnClickListener() {
+        expListView.setEmptyView(_mRootView.findViewById(R.id.order_compo_none));
+        ((RelativeLayout)_mRootView.findViewById(R.id.order_compo_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!(v instanceof EditText)) {
@@ -83,7 +104,7 @@ public class OrderMenuCompoFragment extends Fragment {
             }
         });
 
-        ImageButton addButton = (ImageButton)rootView.findViewById(R.id.order_compo_rectangle);
+        ImageButton addButton = (ImageButton)_mRootView.findViewById(R.id.order_compo_rectangle);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,14 +126,10 @@ public class OrderMenuCompoFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return _mRootView;
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-        _mListDataNb = new HashMap<String, List<String>>();
-
         for (MenuStruct item : OrderFragment.get_mMenus()) {
             if (item.get_mName().equals(_mMenu)) {
                 for (CompositionStruct compo : item.get_mCat()) {

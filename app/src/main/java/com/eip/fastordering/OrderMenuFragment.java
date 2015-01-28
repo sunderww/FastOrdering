@@ -64,9 +64,16 @@ public class OrderMenuFragment extends Fragment {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 if (expListView.getExpandableListAdapter().getChildrenCount(i) > 1)
-                    Toast.makeText(getActivity(), "Ce menu a plusieurs choix", Toast.LENGTH_SHORT).show();
-                else
+                    ;
+                else {
+                    Fragment frag = new OrderMenuCompoFragment().newInstance(listDataHeader.get(i), listDataChild.get(listDataHeader.get(i)).get(0));
+                    Log.d("IDS", "" + listDataHeader.get(i) + " " + listDataChild.get(listDataHeader.get(i)).get(0));
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(getParentFragment().getId(), frag).addToBackStack(null).commit();
                     Toast.makeText(getActivity(), "Menu unique", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
                 return false;
             }
         });

@@ -31,6 +31,7 @@ public class OrderCardFragment extends Fragment {
     static List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     private static HashMap<String, List<String>> _mListDataNb;
+    View _mRootView;
 
     public static OrderCardFragment newInstance(int position) {
         OrderCardFragment f = new OrderCardFragment();
@@ -49,23 +50,41 @@ public class OrderCardFragment extends Fragment {
 
     }
 
+    private void checkListEmpty() {
+        if (_mRootView != null) {
+            ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_compo_rectangle);
+            TextView text = (TextView) _mRootView.findViewById(R.id.order_compo_button_text);
+            if (listDataHeader.isEmpty()) {
+                button.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
+            } else {
+                button.setVisibility(View.VISIBLE);
+                text.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_order_card, container, false);
+        _mRootView = inflater.inflate(R.layout.fragment_order_card, container, false);
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+        _mListDataNb = new HashMap<String, List<String>>();
 
         // get the listview
-        expListView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
+        expListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
 
         // preparing list data
-        prepareListData();
+        //prepareListData();
+        checkListEmpty();
 
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), true);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
         expListView.setGroupIndicator(null);
-        expListView.setEmptyView(rootView.findViewById(R.id.order_card_none));
-        ((RelativeLayout)rootView.findViewById(R.id.order_card_layout)).setOnClickListener(new View.OnClickListener() {
+        expListView.setEmptyView(_mRootView.findViewById(R.id.order_card_none));
+        ((RelativeLayout)_mRootView.findViewById(R.id.order_card_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!(v instanceof EditText)) {
@@ -75,7 +94,7 @@ public class OrderCardFragment extends Fragment {
             }
         });
 
-        ImageButton addButton = (ImageButton)rootView.findViewById(R.id.order_compo_rectangle);
+        ImageButton addButton = (ImageButton)_mRootView.findViewById(R.id.order_compo_rectangle);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,14 +115,10 @@ public class OrderCardFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return _mRootView;
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-        _mListDataNb = new HashMap<String, List<String>>();
-
         for (CategoryStruct item : OrderFragment.get_mCard().get_mCategories()) {
             listDataHeader.add(item.get_mCategoryName());
             List<String> ids = new ArrayList<String>();

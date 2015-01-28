@@ -99,6 +99,7 @@ public class OrderFragment extends Fragment {
         JSONArray menuarr = new JSONArray();
         JSONObject menu = new JSONObject();
         JSONObject menu2 = new JSONObject();
+        JSONArray compos2 = new JSONArray();
         JSONArray compos = new JSONArray();
         JSONObject compo1 = new JSONObject();
         JSONObject compo2 = new JSONObject();
@@ -133,7 +134,9 @@ public class OrderFragment extends Fragment {
             menu.put("name", "Mousaillon");
             menu.put("id", "1212");
 
-            menu2.put("compositions", compos);
+            compos2.put(compo1);
+
+            menu2.put("compositions", compos2);
             menu2.put("name", "Pirate");
             menu2.put("id", "1213");
 
@@ -144,6 +147,7 @@ public class OrderFragment extends Fragment {
         } catch (JSONException e) {
 
         }
+        Log.d("MENUS", menus.toString());
         fetchMenus(menus);
         //END TO delete
 
