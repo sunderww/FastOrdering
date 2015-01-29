@@ -17,30 +17,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter implements View.OnTouchListener {
 
     private Context _context;
-    private List<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
+    private List<String> _listDataHeader;
     private HashMap<String, List<String>> _listDataChild;
     private boolean _mElement;
     static int _childPosition;
     static int _groupPosition;
     TextWatcher _watcher;
     FragmentActivity _mFACtivity;
-    private boolean _mCard;
+    private int _mType;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,HashMap<String, List<String>> listChildData,
-                                 boolean element, HashMap<String, List<String>> listDataNb, FragmentActivity fActivity, boolean card) {
+                                 boolean element, HashMap<String, List<String>> listDataNb, FragmentActivity fActivity, int type) {
         this._mFACtivity = fActivity;
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
         this._mElement = element;
-        this._mCard = card;
+        this._mType = type;
         this._watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -66,24 +67,33 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+        String value = "";
+        value = this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosititon);
+        return value;
     }
 
     private String getChildNb(int groupPosition, int childPosition) {
-        if (_mCard)
-            return OrderCardFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
+        String value = "0";
+        if (_mType == 2)
+            value = OrderCardFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
                     .get(childPosition);
-        return OrderMenuCompoFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
+        else if (_mType == 1)
+            value = OrderMenuCompoFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
                 .get(childPosition);
+        else if (_mType == 3)
+            value = OrderOrderFragment.get_mListDataNb().get(this._listDataHeader.get(groupPosition))
+                    .get(childPosition);
+        return value;
     }
 
     private void setChildNb(int groupPosition, int childPosition, String value) {
         //Log.d("SET CHIDL NB", "GP:" + groupPosition + " CP:" + childPosition + " VA:" + value);
-        if (_mCard)
+        if (_mType == 2)
             OrderCardFragment.set_idmListDataNb(groupPosition, childPosition, value);
-        else
+        else if (_mType == 1)
             OrderMenuCompoFragment.set_idmListDataNb(groupPosition, childPosition, value);
+        else if (_mType == 3)
+            OrderOrderFragment.set_idmListDataNb(groupPosition, childPosition, value);
     }
 
     @Override
@@ -103,12 +113,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             childText = OrderFragment.getNameElementById((String)getChild(groupPosition, childPosition));
 
 
-        if (_mElement) {
-            //Log.d("TOTO", "====================================");
-            //    Log.d("DEBUUUUUG CHILD", "" + childText + " " + getChildNb(groupPosition, childPosition));
-            //Log.d("TOTO", "" + childText);
-            //Log.d("DATAS", "" + OrderMenuCompoFragment.get_mListDataNb());
-        }
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -125,6 +129,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                 holder.edtCode.setOnTouchListener(this);
                 convertView.setOnTouchListener(this);
                 convertView.setTag(holder);
+
+                TextView txt = (TextView)convertView.findViewById(R.id.lblListItemRadio);
+                txt.setTag(_listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition));
+//                txt.setText((String)getChild(groupPosition, childPosition));
 
                 EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
 
@@ -189,6 +197,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
 
+        for (MenuStruct menu : OrderFragment.get_mMenus()) {
+            if (headerTitle.equals(menu.get_mId()))
+                headerTitle = menu.get_mName();
+        }
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -199,13 +212,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
         ImageView image = (ImageView) convertView.findViewById(R.id.expandableIcon);
 
-        if(getChildrenCount(groupPosition) > 0){
+        if (getChildrenCount(groupPosition) > 0){
             int imageResourceId = isExpanded ? R.drawable.ic_action_collapse : R.drawable.ic_action_expand;
             image.setImageResource(imageResourceId);
-            if (getChildrenCount(groupPosition) == 1 && !_mElement)
+            if (getChildrenCount(groupPosition) == 1 && !_mElement) {
                 image.setImageResource(R.drawable.ic_action_invisible);
-
-        } else {
+            }
+        }
+        else {
             image.setImageResource(R.drawable.ic_action_invisible);
         }
 
@@ -252,6 +266,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             }
         }
         return false;
+    }
+
+    public HashMap<String, List<String>> get_listDataChild() {
+        return _listDataChild;
+    }
+
+    public List<String> get_listDataHeader() {
+        return _listDataHeader;
     }
 
     private class ViewHolder {

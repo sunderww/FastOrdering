@@ -75,10 +75,10 @@ public class OrderCardFragment extends Fragment {
         expListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
 
         // preparing list data
-        //prepareListData();
+        prepareListData();
         checkListEmpty();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), true);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), 2);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -98,8 +98,6 @@ public class OrderCardFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TO DO
-                //Get every dish + number and add to the order and close fragment
                 int groupCount = listAdapter.getGroupCount();
                 for (int i = 0; i < groupCount; ++i) {
                     int childCount = listAdapter.getChildrenCount(i);
@@ -108,8 +106,16 @@ public class OrderCardFragment extends Fragment {
                         if (view != null) {
                             TextView txt = (TextView)view.findViewById(R.id.lblListItemRadio);
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
-                            Log.d("NB", "" + txt.getText() + " " + nb.getText());
+                            Log.d("NB", "" + listAdapter.getGroup(i).toString() + " " + txt.getTag().toString() + " " + nb.getText());
+                            if (Integer.parseInt(nb.getText().toString()) > 0)
+                                OrderOrderFragment.addCardElementToOrder(listAdapter.getGroup(i).toString(), txt.getTag().toString(), nb.getText().toString());
                         }
+                    }
+                }
+                for (int i = 0; i < listDataHeader.size(); ++i) {
+                    for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); ++j) {
+                        _mListDataNb.get(listDataHeader.get(i)).set(j, "0");
+                        listAdapter.notifyDataSetChanged();
                     }
                 }
             }

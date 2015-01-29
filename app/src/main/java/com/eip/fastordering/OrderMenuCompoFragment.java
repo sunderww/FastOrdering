@@ -88,7 +88,7 @@ public class OrderMenuCompoFragment extends Fragment {
         prepareListData();
         checkListEmpty();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), false);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), 1);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -108,9 +108,8 @@ public class OrderMenuCompoFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TO DO
-                //Get every dish + number and add to the order and close fragment
                 int groupCount = listAdapter.getGroupCount();
+                HashMap<String, String> dishes = new HashMap<String, String>();
                 for (int i = 0; i < groupCount; ++i) {
                     int childCount = listAdapter.getChildrenCount(i);
                     for (int j = 0; j < childCount; ++j) {
@@ -119,9 +118,12 @@ public class OrderMenuCompoFragment extends Fragment {
                             TextView txt = (TextView)view.findViewById(R.id.lblListItemRadio);
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
                             Log.d("NB", "" + txt.getText() + " " + nb.getText());
+                            if (Integer.parseInt(nb.getText().toString()) > 0)
+                                dishes.put(txt.getTag().toString(), nb.getText().toString());
                         }
                     }
                 }
+                OrderOrderFragment.addMenuToOrder(_mMenu, dishes);
                 getFragmentManager().popBackStack();
             }
         });
@@ -131,7 +133,7 @@ public class OrderMenuCompoFragment extends Fragment {
 
     private void prepareListData() {
         for (MenuStruct item : OrderFragment.get_mMenus()) {
-            if (item.get_mName().equals(_mMenu)) {
+            if (item.get_mId().equals(_mMenu)) {
                 for (CompositionStruct compo : item.get_mCat()) {
                     if (compo.get_mNameCompo().equals(_mCompo)) {
                         for (CategoryStruct cat : compo.get_mCat()) {

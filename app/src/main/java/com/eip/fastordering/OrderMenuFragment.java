@@ -53,7 +53,7 @@ public class OrderMenuFragment extends Fragment {
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, false, null, null, false);
+        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, false, null, null, 0);
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -100,7 +100,7 @@ public class OrderMenuFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
 
         for(MenuStruct item : OrderFragment.get_mMenus()) {
-            listDataHeader.add(item.get_mName());
+            listDataHeader.add(item.get_mId());
 
             if (item.get_mCat().size() > 0) {
                 List<String> subMenus = new ArrayList<String>();
