@@ -15,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -41,17 +44,16 @@ public class NotificationsFragment extends Fragment {
         fragment.setArguments(args);
 
         _mItems.clear();
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h00");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h01");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h02");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h03");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h04");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h05");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h06");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h07");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h08");
-        addNotificationToList("Table #11: Entree pretes", "Le 12/12/12 à 14h09");
+        JSONObject notif = new JSONObject();
+        try {
+            notif.put("numTable", "11");
+            notif.put("msg", "Entree pretes");
+            notif.put("date", "12/12/12");
+            notif.put("hour", "12:12");
+        } catch (JSONException e) {
 
+        }
+        addNotificationToList(notif);
         return fragment;
     }
 
@@ -167,15 +169,10 @@ public class NotificationsFragment extends Fragment {
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
-    /***
-     * Add an item to the custom list view
-     * @param line_one, first line of the item
-     * @param line_two, second line of the item
-     */
-    static public void addNotificationToList(String line_one, String line_two) {
+    static public void addNotificationToList(JSONObject notif) {
         if (_mItems.size() >= _mSizeList)
             _mItems.remove(_mSizeList -1);
-        _mItems.add(0, new NotifStruct(line_one, line_two));
+        _mItems.add(0, new NotifStruct(notif));
         if (_mAdapter != null)
             _mAdapter.notifyDataSetChanged();
         checkListEmpty();

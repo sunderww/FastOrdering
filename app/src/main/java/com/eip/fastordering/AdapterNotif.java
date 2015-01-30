@@ -46,8 +46,10 @@ public class AdapterNotif extends ArrayAdapter<NotifStruct> {
         TextView labelView = (TextView) rowView.findViewById(R.id.notif_label_one);
         TextView valueView = (TextView) rowView.findViewById(R.id.notif_label_two);
 
-        labelView.setText(_mNotifStructsArrayList.get(position).getTitle());
-        valueView.setText(_mNotifStructsArrayList.get(position).getDescription());
+        labelView.setText(getContext().getString(R.string.notif_text_table) + _mNotifStructsArrayList.get(position).get_mNumTable() +
+                getContext().getString(R.string.notif_text_point) + _mNotifStructsArrayList.get(position).get_mMsg());
+        valueView.setText(getContext().getString(R.string.on_the) + _mNotifStructsArrayList.get(position).get_mDate() +
+                getContext().getString(R.string.at) + _mNotifStructsArrayList.get(position).get_mHour());
 
         return rowView;
     }

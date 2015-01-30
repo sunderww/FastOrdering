@@ -61,12 +61,14 @@ public class OrderOrderFragment extends Fragment {
         if (_mRootView != null) {
             ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_order_rectangle);
             TextView text = (TextView) _mRootView.findViewById(R.id.order_order_button_text);
-            if (listDataHeader.isEmpty()) {
-                button.setVisibility(View.GONE);
-                text.setVisibility(View.GONE);
-            } else {
-                button.setVisibility(View.VISIBLE);
-                text.setVisibility(View.VISIBLE);
+            if (listDataHeader != null) {
+                if (listDataHeader.isEmpty()) {
+                    button.setVisibility(View.GONE);
+                    text.setVisibility(View.GONE);
+                } else {
+                    button.setVisibility(View.VISIBLE);
+                    text.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -115,6 +117,17 @@ public class OrderOrderFragment extends Fragment {
                         }
                     }
                 }
+
+                listAdapter.get_listDataHeader().clear();
+                listAdapter.get_listDataChild().clear();
+                _mListDataNb.clear();
+
+                for (CategoryStruct cat : OrderFragment.get_mCard().get_mCategories()) {
+                    listDataHeader.add(cat.get_mCategoryName());
+                    listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+                    _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+                }
+                listAdapter.notifyDataSetChanged();
             }
         });
 

@@ -63,4 +63,6 @@
     <string name="order_menu_none_text">Aucun menu disponible</string>
     <string name="order_compo_none_text">Aucune composition disponible</string>
     <string name="order_card_none_text">Aucune carte disponible</string>
+    <string name="notif_text_table">Table #</string>
+    <string name="notif_text_point">\u0020:\u0020</string>
 </resources>
