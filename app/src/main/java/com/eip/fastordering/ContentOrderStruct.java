@@ -37,7 +37,7 @@ public class ContentOrderStruct {
         } catch (JSONException e) {
 
         }
-        Log.d("MENU DETAILED", "" + _mId + " " + _mGlobalComment + " " + _mItems);
+        Log.d("MENU DETAILED", "" + _mId + " " + _mGlobalComment + " " + _mItems.toString());
     }
 
     public String get_mId() {

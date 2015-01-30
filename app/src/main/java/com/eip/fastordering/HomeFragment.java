@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void displayPopupOrder(OrderStruct item) {
-        DialogOrder alertBuilder = new DialogOrder(getActivity(), item);
+        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
         alertBuilder.customView().show();
     }
 

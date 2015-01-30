@@ -3,6 +3,11 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -21,20 +26,22 @@ public class DialogOrder extends AlertDialog {
      * Attributes
      */
 
-    private Activity _mActivity;
+    private FragmentActivity _mActivity;
     private OrderStruct _mItem;
     private ArrayList<ContentOrderStruct> _mContent = new ArrayList<ContentOrderStruct>();
     private View _mView;
+    private Fragment _mFrag;
 
     /***
      * Methods
      */
 
-    DialogOrder(Activity activity, OrderStruct item) {
+    DialogOrder(Activity activity, OrderStruct item, Fragment frag) {
         super(activity);
 
-        _mActivity = activity;
+        _mActivity = (FragmentActivity) activity;
         _mItem = item;
+        _mFrag = frag;
 
         //TO delete
         JSONObject order = new JSONObject();
@@ -44,12 +51,12 @@ public class DialogOrder extends AlertDialog {
         JSONObject itemOrder = new JSONObject();
 
         try {
-            itemOrder.put("id", "1212");
+            itemOrder.put("id", "3");
             itemOrder.put("comment", "bla bla bla");
             itemOrder.put("cooking", "bleu");
             arrComm.put(itemOrder);
             comm.put("content", arrComm);
-            comm.put("menu_id", "222");
+            comm.put("menu_id", "1212");
             comm.put("global_comment", "wefefe");
             arr.put(comm);
             order.put("order", arr);
@@ -66,6 +73,38 @@ public class DialogOrder extends AlertDialog {
         LayoutInflater inflater = _mActivity.getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_order, null);
         builder.setView(view);
+        builder.setPositiveButton(R.string.dialog_order_modify, new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                JSONObject content = new JSONObject();
+                JSONArray arrContent = new JSONArray();
+                JSONObject menu = new JSONObject();
+                JSONArray arrMenu = new JSONArray();
+                JSONObject order = new JSONObject();
+
+                try {
+                    content.put("id", "3");
+                    content.put("qty", "1");
+                    content.put("comment", "blabla");
+                    content.put("status", "0");
+                    content.put("options", "");
+                    arrContent.put(content);
+                    menu.put("content", arrContent);
+                    menu.put("menuId", "1212");
+                    menu.put("globalComment", "blablabla");
+                    arrMenu.put(menu);
+                    order.put("order", arrMenu);
+                } catch (JSONException e) {
+
+                }
+
+                Fragment frag = new OrderFragment().newInstance(1);
+                FragmentManager fm = _mActivity.getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(_mFrag.getId(), frag).addToBackStack(null).commit();
+            }
+        });
         builder.setNegativeButton(R.string.dialog_order_close, new OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();

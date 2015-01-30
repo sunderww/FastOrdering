@@ -89,12 +89,11 @@ public class HistoryFragment extends Fragment {
                 displayPopupOrder((OrderStruct) adapterView.getAdapter().getItem(i));
             }
         });
-
         return rootView;
     }
 
     private void displayPopupOrder(OrderStruct item) {
-        DialogOrder alertBuilder = new DialogOrder(getActivity(), item);
+        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
         alertBuilder.customView().show();
     }
 

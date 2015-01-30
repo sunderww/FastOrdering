@@ -186,6 +186,7 @@ public class OrderFragment extends Fragment {
 
     static private void fetchElements(JSONObject elements) {
         JSONArray arr;
+        _mElements.clear();
         try {
             arr = elements.getJSONArray("elements");
             for (int i = 0; i < arr.length(); ++i)
@@ -203,6 +204,7 @@ public class OrderFragment extends Fragment {
 
     static private void fetchMenus(JSONObject menus) {
         JSONArray arr;
+        _mMenus.clear();
         try {
             arr = menus.getJSONArray("menus");
             for (int i = 0; i < arr.length(); ++i) {

@@ -45,7 +45,10 @@ public class OrderMenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("RECREATE VIEW", "ORDER MENU");
         View rootView = inflater.inflate(R.layout.fragment_order_menu, container, false);
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
 
         // get the listview
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
@@ -96,9 +99,6 @@ public class OrderMenuFragment extends Fragment {
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-
         for(MenuStruct item : OrderFragment.get_mMenus()) {
             listDataHeader.add(item.get_mId());
 
