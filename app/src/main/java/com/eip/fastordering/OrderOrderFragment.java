@@ -36,11 +36,11 @@ public class OrderOrderFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
         _mListDataNb = new HashMap<String, List<String>>();
 
-        for (CategoryStruct cat : OrderFragment.get_mCard().get_mCategories()) {
-            listDataHeader.add(cat.get_mCategoryName());
-            listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
-            _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
-        }
+//        for (CategoryStruct cat : OrderFragment.get_mCard().get_mCategories()) {
+//            listDataHeader.add(cat.get_mCategoryName());
+//            listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+//            _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+//        }
 
         Bundle b = new Bundle();
         f.setArguments(b);
@@ -155,15 +155,15 @@ public class OrderOrderFragment extends Fragment {
         listAdapter.notifyDataSetChanged();
     }
 
-    static void addCardElementToOrder(String category, String idDish, String number) {
-        for (int i = 0; i < listDataHeader.size(); ++i) {
-            if (listDataHeader.get(i).equals(category)) {
+    static void addCardElementToOrder(String idCard, String idDish, String number) {
+        for (int i = 0; i < listAdapter.get_listDataHeader().size(); ++i) {
+            if (listAdapter.get_listDataHeader().get(i).equals(OrderFragment.getNameCatById(idCard))) {
                 //Verifie si plat deja present, si oui ajoute la qte
-                for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); ++j) {
-                    if (listDataChild.get(listDataHeader.get(i)).get(j).equals(idDish)) {
+                for (int j = 0; j < listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).size(); ++j) {
+                    if (listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).get(j).equals(idDish)) {
                         int one = Integer.parseInt(number);
-                        int two = Integer.parseInt(_mListDataNb.get(listDataHeader.get(i)).get(j));
-                        _mListDataNb.get(listDataHeader.get(i)).set(j, ((Integer)(one + two)).toString());
+                        int two = Integer.parseInt(_mListDataNb.get(listAdapter.get_listDataHeader().get(i)).get(j));
+                        _mListDataNb.get(listAdapter.get_listDataHeader().get(i)).set(j, ((Integer)(one + two)).toString());
                         listAdapter.notifyDataSetChanged();
                         return;
                     }
@@ -171,10 +171,19 @@ public class OrderOrderFragment extends Fragment {
 
                 //Sinon ajoute dans les listes
                 listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).add(listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).size(), idDish);
-                _mListDataNb.get(listDataHeader.get(i)).add(_mListDataNb.get(listDataHeader.get(i)).size(), number);
+                _mListDataNb.get(listAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(listAdapter.get_listDataHeader().get(i)).size(), number);
                 listAdapter.notifyDataSetChanged();
+                return;
             }
         }
+        listAdapter.get_listDataHeader().add("A la carte");
+        listAdapter.get_listDataChild().put("A la carte", new ArrayList<String>());
+        _mListDataNb.put("A la carte", new ArrayList<String>());
+        listAdapter.get_listDataChild().get("A la carte").add(0, idDish);
+        _mListDataNb.get("A la carte").add(0, number);
+
+        listAdapter.notifyDataSetChanged();
+
     }
 
     public static HashMap<String, List<String>> get_mListDataNb() {

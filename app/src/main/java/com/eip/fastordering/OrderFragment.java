@@ -236,6 +236,16 @@ public class OrderFragment extends Fragment {
       return "";
     };
 
+    public static String getNameCatById(String id) {
+        if (id.equals(_mCard.get_mId()))
+            return "A la carte";
+        for (MenuStruct menu : _mMenus) {
+            if (menu.get_mId().equals(id))
+                return menu.get_mName();
+        }
+        return "";
+    }
+
     public class MyPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
         private final String[] TITLES = { "Menus", "A la carte", "Commande" };

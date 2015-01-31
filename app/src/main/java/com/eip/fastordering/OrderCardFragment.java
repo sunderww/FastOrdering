@@ -108,7 +108,7 @@ public class OrderCardFragment extends Fragment {
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
                             Log.d("NB", "" + listAdapter.getGroup(i).toString() + " " + txt.getTag().toString() + " " + nb.getText());
                             if (Integer.parseInt(nb.getText().toString()) > 0)
-                                OrderOrderFragment.addCardElementToOrder(listAdapter.getGroup(i).toString(), txt.getTag().toString(), nb.getText().toString());
+                                OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString());
                         }
                     }
                 }

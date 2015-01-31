@@ -41,15 +41,15 @@ public class Main extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _mTabFragments = new Fragment[7];
+        _mTabFragments = new Fragment[6];
         _mTabFragments[0] = new HomeFragment().newInstance(1);
         _mTabFragments[1] = new OrderFragment().newInstance(2);
-        _mTabFragments[2] = new ModifyFragment().newInstance(3);
-        _mTabFragments[3] = new NotificationsFragment().newInstance(4);
-        _mTabFragments[4] = new HistoryFragment().newInstance(5);
+        //_mTabFragments[2] = new ModifyFragment().newInstance(3);
+        _mTabFragments[2] = new NotificationsFragment().newInstance(3);
+        _mTabFragments[3] = new HistoryFragment().newInstance(4);
         //mTabFragments[5] = new OptionsFragment().newInstance(6);
-        _mTabFragments[5] = new AboutFragment().newInstance(6);
-        _mTabFragments[6] = new LogoutFragment().newInstance(7);
+        _mTabFragments[4] = new AboutFragment().newInstance(5);
+        _mTabFragments[5] = new LogoutFragment().newInstance(6);
 
         setContentView(R.layout.activity_main);
 
@@ -81,22 +81,22 @@ public class Main extends FragmentActivity
             case 2:
                 _mTitle = getString(R.string.title_section2);
                 break;
+            //case 3:
+             //   _mTitle = getString(R.string.title_section3);
+            //    break;
             case 3:
-                _mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
                 _mTitle = getString(R.string.title_section4);
                 break;
-            case 5:
+            case 4:
                 _mTitle = getString(R.string.title_section5);
                 break;
             //case 6:
             //   mTitle = getString(R.string.title_section6);
             //    break;
-            case 6:
+            case 5:
                 _mTitle = getString(R.string.title_section8);
                 break;
-            case 7:
+            case 6:
                 _mTitle = getString(R.string.title_section7);
                 break;
         }
