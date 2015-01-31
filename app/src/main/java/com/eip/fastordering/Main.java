@@ -43,7 +43,7 @@ public class Main extends FragmentActivity
 
         _mTabFragments = new Fragment[6];
         _mTabFragments[0] = new HomeFragment().newInstance(1);
-        _mTabFragments[1] = new OrderFragment().newInstance(2);
+        _mTabFragments[1] = new OrderFragment().newInstance(2, null);
         //_mTabFragments[2] = new ModifyFragment().newInstance(3);
         _mTabFragments[2] = new NotificationsFragment().newInstance(3);
         _mTabFragments[3] = new HistoryFragment().newInstance(4);

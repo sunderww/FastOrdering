@@ -99,7 +99,7 @@ public class DialogOrder extends AlertDialog {
 
                 }
 
-                Fragment frag = new OrderFragment().newInstance(1);
+                Fragment frag = new OrderFragment().newInstance(1, order);
                 FragmentManager fm = _mActivity.getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(_mFrag.getId(), frag).addToBackStack(null).commit();

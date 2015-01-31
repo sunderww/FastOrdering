@@ -1,6 +1,7 @@
 package com.eip.fastordering;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,10 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,14 +32,18 @@ public class OrderOrderFragment extends Fragment {
     static List<String> listDataHeader;
     static HashMap<String, List<String>> listDataChild;
     private static HashMap<String, List<String>> _mListDataNb;
-    View _mRootView;
+    static View _mRootView;
 
-    public static OrderOrderFragment newInstance(int position) {
+    public static OrderOrderFragment newInstance(int position, JSONObject order) {
         OrderOrderFragment f = new OrderOrderFragment();
 
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
         _mListDataNb = new HashMap<String, List<String>>();
+
+        if (order != null) {
+            setDataOrderToLists(order);
+        }
 
 //        for (CategoryStruct cat : OrderFragment.get_mCard().get_mCategories()) {
 //            listDataHeader.add(cat.get_mCategoryName());
@@ -57,12 +66,32 @@ public class OrderOrderFragment extends Fragment {
 
     }
 
-    private void checkListEmpty() {
+    private static void setDataOrderToLists(JSONObject order) {
+        try {
+            JSONArray orders = order.getJSONArray("order");
+            for (int i = 0; i < orders.length(); ++i) {
+                JSONObject menu = orders.getJSONObject(i);
+                listDataHeader.add(menu.getString("menuId"));
+                JSONArray content = menu.getJSONArray("content");
+                listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+                _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+                for (int j = 0; j < content.length(); ++j) {
+                    JSONObject dish = content.getJSONObject(j);
+                    listDataChild.get(listDataHeader.get(listDataHeader.size() - 1)).add(listDataChild.get(listDataHeader.get(listDataHeader.size() - 1)).size(), dish.getString("id"));
+                    _mListDataNb.get(listDataHeader.get(listDataHeader.size() - 1)).add(_mListDataNb.get(listDataHeader.get(listDataHeader.size() - 1)).size(), dish.getString("qty"));
+                }
+            }
+        } catch (JSONException e) {
+
+        }
+    }
+
+    private static void checkListEmpty() {
         if (_mRootView != null) {
             ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_order_rectangle);
             TextView text = (TextView) _mRootView.findViewById(R.id.order_order_button_text);
-            if (listDataHeader != null) {
-                if (listDataHeader.isEmpty()) {
+            if (listAdapter.get_listDataHeader() != null) {
+                if (listAdapter.get_listDataHeader().isEmpty()) {
                     button.setVisibility(View.GONE);
                     text.setVisibility(View.GONE);
                 } else {
@@ -93,9 +122,9 @@ public class OrderOrderFragment extends Fragment {
 
         // preparing list data
         prepareListData();
-        checkListEmpty();
 
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), 3);
+        checkListEmpty();
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
@@ -122,11 +151,11 @@ public class OrderOrderFragment extends Fragment {
                 listAdapter.get_listDataChild().clear();
                 _mListDataNb.clear();
 
-                for (CategoryStruct cat : OrderFragment.get_mCard().get_mCategories()) {
-                    listDataHeader.add(cat.get_mCategoryName());
-                    listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
-                    _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
-                }
+//                for (CategoryStruct cat : OrderFragment.get_mCard().get_mCategories()) {
+//                    listDataHeader.add(cat.get_mCategoryName());
+//                    listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+//                    _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
+//                }
                 listAdapter.notifyDataSetChanged();
             }
         });
@@ -153,11 +182,12 @@ public class OrderOrderFragment extends Fragment {
             }
         }
         listAdapter.notifyDataSetChanged();
+        checkListEmpty();
     }
 
     static void addCardElementToOrder(String idCard, String idDish, String number) {
         for (int i = 0; i < listAdapter.get_listDataHeader().size(); ++i) {
-            if (listAdapter.get_listDataHeader().get(i).equals(OrderFragment.getNameCatById(idCard))) {
+            if (listAdapter.get_listDataHeader().get(i).equals(idCard)) {
                 //Verifie si plat deja present, si oui ajoute la qte
                 for (int j = 0; j < listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).size(); ++j) {
                     if (listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).get(j).equals(idDish)) {
@@ -165,6 +195,7 @@ public class OrderOrderFragment extends Fragment {
                         int two = Integer.parseInt(_mListDataNb.get(listAdapter.get_listDataHeader().get(i)).get(j));
                         _mListDataNb.get(listAdapter.get_listDataHeader().get(i)).set(j, ((Integer)(one + two)).toString());
                         listAdapter.notifyDataSetChanged();
+                        checkListEmpty();
                         return;
                     }
                 }
@@ -173,17 +204,17 @@ public class OrderOrderFragment extends Fragment {
                 listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).add(listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).size(), idDish);
                 _mListDataNb.get(listAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(listAdapter.get_listDataHeader().get(i)).size(), number);
                 listAdapter.notifyDataSetChanged();
+                checkListEmpty();
                 return;
             }
         }
-        listAdapter.get_listDataHeader().add("A la carte");
-        listAdapter.get_listDataChild().put("A la carte", new ArrayList<String>());
-        _mListDataNb.put("A la carte", new ArrayList<String>());
-        listAdapter.get_listDataChild().get("A la carte").add(0, idDish);
-        _mListDataNb.get("A la carte").add(0, number);
-
+        listAdapter.get_listDataHeader().add(OrderFragment.get_mCard().get_mId());
+        listAdapter.get_listDataChild().put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
+        _mListDataNb.put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
+        listAdapter.get_listDataChild().get(OrderFragment.get_mCard().get_mId()).add(0, idDish);
+        _mListDataNb.get(OrderFragment.get_mCard().get_mId()).add(0, number);
         listAdapter.notifyDataSetChanged();
-
+        checkListEmpty();
     }
 
     public static HashMap<String, List<String>> get_mListDataNb() {

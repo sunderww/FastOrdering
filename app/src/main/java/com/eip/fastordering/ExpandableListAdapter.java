@@ -202,6 +202,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             if (headerTitle.equals(menu.get_mId()))
                 headerTitle = menu.get_mName();
         }
+        if (headerTitle.equals(OrderFragment.get_mCard().get_mId()))
+            headerTitle = "A la carte";
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -229,7 +231,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                 .findViewById(R.id.lblListHeader);
         //lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
-
+        lblListHeader.setTag((String) getGroup(groupPosition));
         return convertView;
     }
 

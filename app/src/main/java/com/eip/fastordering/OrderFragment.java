@@ -32,16 +32,18 @@ public class OrderFragment extends Fragment {
     private static ArrayList<MenuStruct> _mMenus = new ArrayList<MenuStruct>();
     private View _mRootView;
     private FragmentActivity _mActivity;
+    static private JSONObject _mOrder;
 
     /**
      * Methods
      */
 
-    public static OrderFragment newInstance(int sectionNumber) {
+    public static OrderFragment newInstance(int sectionNumber, JSONObject order) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
+        _mOrder = order;
 
         //TO delete
         JSONObject elements = new JSONObject();
@@ -87,7 +89,7 @@ public class OrderFragment extends Fragment {
             cat3.put("name", "Plats");
             cat3.put("ids", ids3);
             compo.put(cat3);
-            inside.put("id", "0");
+            inside.put("id", "1451");
             inside.put("composition", compo);
             carte.put("alacarte", inside);
         } catch (JSONException e) {
@@ -273,7 +275,7 @@ public class OrderFragment extends Fragment {
             else if (position == 1)
                 frag = OrderCardFragment.newInstance(position);
             else if (position == 2)
-                frag = OrderOrderFragment.newInstance(position);
+                frag = OrderOrderFragment.newInstance(position, _mOrder);
             return frag;
         }
     }
