@@ -157,6 +157,7 @@ public class OrderOrderFragment extends Fragment {
 //                    _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
 //                }
                 listAdapter.notifyDataSetChanged();
+                checkListEmpty();
             }
         });
 
@@ -167,19 +168,42 @@ public class OrderOrderFragment extends Fragment {
     }
 
     static void addMenuToOrder(String menuId, HashMap<String, String> dishes) {
-        Log.d("ADD MENU", "" + menuId);
-        listAdapter.get_listDataHeader().add(menuId);
-        Log.d("DETAILS", "" + listAdapter.get_listDataHeader());
-        for (int i = 0; i < listAdapter.get_listDataHeader().size(); ++i) {
-            if (listAdapter.get_listDataHeader().get(i).equals(menuId)) {
-                listAdapter.get_listDataChild().put(menuId, new ArrayList<String>());
-                _mListDataNb.put(menuId, new ArrayList<String>());
+        List<String> listHeaderAdapter = listAdapter.get_listDataHeader();
+
+        int i = 0;
+        for (String menu : listHeaderAdapter) {
+            if (menu.equals(menuId)) {
+                int j = 0;
                 for (Map.Entry<String, String> dish : dishes.entrySet()) {
-                    listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).add(listAdapter.get_listDataChild().get(listAdapter.get_listDataHeader().get(i)).size(), dish.getKey());
-                    _mListDataNb.get(listDataHeader.get(i)).add(_mListDataNb.get(listDataHeader.get(i)).size(), dish.getValue());
+                    boolean found = false;
+                    for (String dishInOrder : listAdapter.get_listDataChild().get(menu)) {
+                        if (dishInOrder.equals(dish.getKey())) {
+                            int one = Integer.parseInt(_mListDataNb.get(menu).get(j));
+                            int two = Integer.parseInt(dish.getValue());
+                            _mListDataNb.get(menu).set(j, ((Integer)(one + two)).toString());
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        listAdapter.get_listDataChild().get(menu).add(dish.getKey());
+                        _mListDataNb.get(menu).add(dish.getValue());
+                    }
+                    ++j;
                 }
                 listAdapter.notifyDataSetChanged();
+                checkListEmpty();
+                return;
             }
+            ++i;
+        }
+
+        listHeaderAdapter.add(menuId);
+        listAdapter.get_listDataChild().put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
+        _mListDataNb.put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
+        for (Map.Entry<String, String> dish : dishes.entrySet()) {
+            listAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(listAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getKey());
+            _mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getValue());
         }
         listAdapter.notifyDataSetChanged();
         checkListEmpty();
