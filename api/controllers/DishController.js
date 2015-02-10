@@ -59,8 +59,7 @@ module.exports = {
    			return res.send(doc);
    		});
    	} else {
-   	    Dish.find( function(err, doc) {
-		    
+   	    Dish.find( function(err, doc) {		    
    		    return res.json({elements: doc});
    		});
    	}

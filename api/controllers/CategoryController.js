@@ -12,8 +12,8 @@ module.exports = {
    */
   create: function (req, res) {
    	Category.create({
-   		name:req.param("name"),
-	    collections : [6]
+	    name:req.param("name"),
+	    ids : ["54d9779f62c30f693817538f", "54d977a962c30f6938175390"],
    	}).exec(function(err,model){
    		if (err) {
    			return res.json({
