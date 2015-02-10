@@ -25,17 +25,23 @@ public class CompositionStruct {
      * Methods
      */
 
-    CompositionStruct(JSONObject cat) {
+    CompositionStruct(String cat, JSONArray compos, JSONObject cats) {
         JSONArray arr;
         try {
-            _mPrice = cat.getInt("price");
-            _mNameCompo = cat.getString("name");
-            arr = cat.getJSONArray("cat");
-            for (int i = 0; i < arr.length(); ++i) {
-                _mCat.add(new CategoryStruct(arr.getJSONObject(i)));
+            for (int i = 0; i < compos.length(); ++i) {
+                Log.d("JSON", "to found=" + cat + " current=" + compos.getJSONObject(i).getString("id"));
+                if (cat.equals(compos.getJSONObject(i).getString("id"))) {
+                    Log.d("JSON", "COMPO FOUND");
+                    _mPrice = compos.getJSONObject(i).getInt("price");
+                    _mNameCompo = compos.getJSONObject(i).getString("name");
+                    arr = compos.getJSONObject(i).getJSONArray("cat");
+                    for (int j = 0; j < arr.length(); ++j) {
+                        _mCat.add(new CategoryStruct(arr.getString(j), cats));
+                    }
+                }
             }
         } catch (JSONException e) {
-
+            Log.d("EXCEPT", "!!!!!!!!!!!");
         }
     }
 

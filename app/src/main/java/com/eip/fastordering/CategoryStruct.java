@@ -24,13 +24,18 @@ public class CategoryStruct {
      * Methods
      */
 
-    CategoryStruct(JSONObject cat) {
+    CategoryStruct(String cat, JSONObject cats) {
         JSONArray arr;
         try {
-            _mCategoryName = cat.getString("name");
-            arr = cat.getJSONArray("ids");
-            for (int i = 0; i < arr.length(); ++i) {
-                _mIds.add(arr.getString(i));
+            JSONArray arrCats = cats.getJSONArray("elements");
+            for (int j = 0; j < arrCats.length(); ++j) {
+                if (cat.equals(arrCats.getJSONObject(j).getString("id"))) {
+                    _mCategoryName = arrCats.getJSONObject(j).getString("name");
+                    arr = arrCats.getJSONObject(j).getJSONArray("ids");
+                    for (int i = 0; i < arr.length(); ++i) {
+                        _mIds.add(arr.getString(i));
+                    }
+                }
             }
         } catch (JSONException e) {
 

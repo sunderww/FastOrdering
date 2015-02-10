@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.socket.IOAcknowledge;
 
 
 public class Main extends FragmentActivity
@@ -28,14 +37,14 @@ public class Main extends FragmentActivity
     private CharSequence _mTitle;
     static public Fragment[] _mTabFragments;
 
+    static JSONObject menus;
+    static JSONArray compos;
+    static JSONObject cats;
+
     /***
      * Methods
      */
 
-    public void OnFragmentInteractionListener(Uri uri)
-    {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,82 @@ public class Main extends FragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("url", String.format("/elements"));
+        } catch (JSONException e) {
+        }
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.d("ELEMENTS", "" + objects[0]);
+                JSONObject rep = null;
+                try {
+                    rep = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+
+                }
+                Log.d("ELEMENTS 2", rep.toString());
+                OrderFragment.fetchElements(rep);
+            }
+        }, obj);
+
+        try {
+            obj.put("url", String.format("/menus"));
+        } catch (JSONException e) {
+        }
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.d("MENUS", "" + objects[0]);
+                try {
+                    menus = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+
+                }
+                Log.d("MENUS2", menus.toString());
+            }
+        }, obj);
+
+        try {
+            obj.put("url", String.format("/compos"));
+        } catch (JSONException e) {
+        }
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.d("COMPOS", "" + objects[0]);
+                try {
+                    compos = new JSONArray(objects[0].toString());
+                } catch (JSONException e) {
+
+                }
+                Log.d("COMPOS2", compos.toString());
+            }
+        }, obj);
+
+        try {
+            obj.put("url", String.format("/cats"));
+        } catch (JSONException e) {
+        }
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.d("CATS", "" + objects[0]);
+                try {
+                    cats = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+
+                }
+                Log.d("CATS2", cats.toString());
+                OrderFragment.fetchMenus(menus, compos, cats);
+                Log.d("FETCH", "DONE");
+            }
+        }, obj);
     }
 
     @Override

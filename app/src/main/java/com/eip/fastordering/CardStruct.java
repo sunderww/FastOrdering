@@ -28,7 +28,7 @@ public class CardStruct {
             _mId = alacarte.getString("id");
             arr = alacarte.getJSONArray("composition");
             for (int i = 0; i < arr.length(); ++i) {
-                _mCategories.add(new CategoryStruct(arr.getJSONObject(i)));
+                //_mCategories.add(new CategoryStruct(arr.getJSONObject(i)), null);
             }
         } catch (JSONException e) {
 

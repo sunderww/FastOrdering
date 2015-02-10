@@ -23,14 +23,14 @@ public class MenuStruct {
      * Methods
      */
 
-    MenuStruct(JSONObject menu) {
+    MenuStruct(JSONObject menu, JSONArray compos, JSONObject cats) {
         JSONArray arr;
         try {
             _mId = menu.getString("id");
             _mName = menu.getString("name");
-            arr = menu.getJSONArray("compositions");
+            arr = menu.getJSONArray("compo");
             for (int i = 0; i < arr.length(); ++i) {
-                _mCat.add(new CompositionStruct(arr.getJSONObject(i)));
+                _mCat.add(new CompositionStruct(arr.getString(i), compos, cats));
             }
         } catch (JSONException e) {
 

@@ -32,7 +32,7 @@ public class LoginActivity extends Activity {
      * Attributes
      */
 
-    public SocketIO _mSocket = null;
+    public static SocketIO _mSocket = null;
     private Context _mContext = null;
     private final String _mIpServer = "http://alexis-semren.com:1337";
 
@@ -175,24 +175,24 @@ public class LoginActivity extends Activity {
 
                 }
                 Log.d("SOCKET", "MSG CREATED");
-                _mSocket.send(msg);
-                Log.d("SOCKET", "MSG SENT");
-
-                //TODO
-                //Check message callback check login
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("url", String.format("/dish/read"));
-                } catch (JSONException e) {
-
-                }
-
-                _mSocket.emit("get", new IOAcknowledge() {
-                    @Override
-                    public void ack(Object... objects) {
-                        Log.d("GET", "" + objects[0]);
-                    }
-                }, obj);
+//                _mSocket.send(msg);
+//                Log.d("SOCKET", "MSG SENT");
+//
+//                //TODO
+//                //Check message callback check login
+//                JSONObject obj = new JSONObject();
+//                try {
+//                    obj.put("url", String.format("/dish/read"));
+//                } catch (JSONException e) {
+//
+//                }
+//
+//                _mSocket.emit("get", new IOAcknowledge() {
+//                    @Override
+//                    public void ack(Object... objects) {
+//                        Log.d("GET", "" + objects[0]);
+//                    }
+//                }, obj);
 
                 //Change activity after login ok
                 Intent mainActivity = new Intent(LoginActivity.this, Main.class);
