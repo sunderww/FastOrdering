@@ -12,7 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:background="@color/color_bg"
-        android:layout_marginBottom="100dp" />
+        android:layout_below="@+id/order_order_table"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp" />
 
     <ImageButton
         android:id="@+id/order_order_rectangle"
@@ -49,6 +53,53 @@
         android:id="@+id/order_order_none_text"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/color_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/order_order_table_text"
+        android:id="@+id/order_order_table"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/color_text" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/order_order_table_edit"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/order_order_table"
+        android:layout_toEndOf="@+id/order_order_table"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/order_order_pa_text"
+        android:id="@+id/order_order_pa"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/order_order_table_edit"
+        android:layout_toEndOf="@+id/order_order_table_edit"
+        android:layout_marginLeft="100dp"
+        android:textColor="@color/color_text" />
+
+    <EditText
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/order_order_pa_edit"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/order_order_pa"
+        android:layout_toEndOf="@+id/order_order_pa"
+        android:layout_marginLeft="10dp"
         android:textColor="@color/color_text" />
 
 </RelativeLayout>

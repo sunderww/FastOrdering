@@ -1,12 +1,15 @@
 package com.eip.fastordering;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
@@ -115,6 +118,7 @@ public class OrderOrderFragment extends Fragment {
 //            listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
 //            _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), new ArrayList<String>());
 //        }
+        _mRootView.setOnTouchListener(new GroupTouchListener());
 
         // get the listview
         expListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
@@ -146,6 +150,9 @@ public class OrderOrderFragment extends Fragment {
                         }
                     }
                 }
+                Log.d("TABLE", ((EditText)_mRootView.findViewById(R.id.order_order_table_edit)).getText().toString());
+                Log.d("PA", ((EditText)_mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString());
+
 
                 listAdapter.get_listDataHeader().clear();
                 listAdapter.get_listDataChild().clear();
@@ -247,5 +254,14 @@ public class OrderOrderFragment extends Fragment {
 
     public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
         _mListDataNb.get(listDataHeader.get(groupPosition)).set(childPosition, value);
+    }
+
+    private class GroupTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            return false;
+        }
     }
 }

@@ -66,4 +66,6 @@
     <string name="notif_text_table">Table #</string>
     <string name="notif_text_point">\u0020:\u0020</string>
     <string name="dialog_order_modify">Modifier</string>
+    <string name="order_order_table_text">Table #</string>
+    <string name="order_order_pa_text">PA :</string>
 </resources>

@@ -108,6 +108,7 @@ public class OrderMenuCompoFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean valid = false;
                 int groupCount = listAdapter.getGroupCount();
                 HashMap<String, String> dishes = new HashMap<String, String>();
                 for (int i = 0; i < groupCount; ++i) {
@@ -118,12 +119,15 @@ public class OrderMenuCompoFragment extends Fragment {
                             TextView txt = (TextView)view.findViewById(R.id.lblListItemRadio);
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
                             Log.d("NB", "" + txt.getText() + " " + nb.getText());
-                            if (Integer.parseInt(nb.getText().toString()) > 0)
+                            if (Integer.parseInt(nb.getText().toString()) > 0) {
                                 dishes.put(txt.getTag().toString(), nb.getText().toString());
+                                valid = true;
+                            }
                         }
                     }
                 }
-                OrderOrderFragment.addMenuToOrder(_mMenu, dishes);
+                if (valid)
+                    OrderOrderFragment.addMenuToOrder(_mMenu, dishes);
                 getFragmentManager().popBackStack();
             }
         });

@@ -8,8 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -169,7 +172,6 @@ public class OrderFragment extends Fragment {
         ViewPager pager = (ViewPager) _mRootView.findViewById(R.id.pager);
         pager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
         pager.setOffscreenPageLimit(2);
-
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) _mRootView.findViewById(R.id.tabs);
         tabs.setViewPager(pager);
