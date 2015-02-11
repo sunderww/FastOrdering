@@ -49,57 +49,57 @@ public class OrderFragment extends Fragment {
         _mOrder = order;
 
         //TO delete
-        JSONObject elements = new JSONObject();
-        JSONArray arr = new JSONArray();
-        JSONObject elem = new JSONObject();
-        JSONObject elem2 = new JSONObject();
-        JSONObject elem3 = new JSONObject();
-        try {
-            elem.put("id", "1");
-            elem.put("price", 0);
-            elem.put("name", "Mais");
-
-            elem2.put("id", "2");
-            elem2.put("price", 12);
-            elem2.put("name", "Surimi");
-
-            elem3.put("id", "3");
-            elem3.put("price", 12);
-            elem3.put("name", "Steack");
-            arr.put(elem);
-            arr.put(elem2);
-            arr.put(elem3);
-            elements.put("elements", arr);
-        } catch (JSONException e) {
-
-        }
-        Log.d("ORIGINAL ELEM", elements.toString());
+//        JSONObject elements = new JSONObject();
+//        JSONArray arr = new JSONArray();
+//        JSONObject elem = new JSONObject();
+//        JSONObject elem2 = new JSONObject();
+//        JSONObject elem3 = new JSONObject();
+//        try {
+//            elem.put("id", "1");
+//            elem.put("price", 0);
+//            elem.put("name", "Mais");
+//
+//            elem2.put("id", "2");
+//            elem2.put("price", 12);
+//            elem2.put("name", "Surimi");
+//
+//            elem3.put("id", "3");
+//            elem3.put("price", 12);
+//            elem3.put("name", "Steack");
+//            arr.put(elem);
+//            arr.put(elem2);
+//            arr.put(elem3);
+//            elements.put("elements", arr);
+//        } catch (JSONException e) {
+//
+//        }
+//        Log.d("ORIGINAL ELEM", elements.toString());
 //        fetchElements(elements);
 
-        JSONObject carte = new JSONObject();
-        JSONObject inside = new JSONObject();
-        JSONArray compo = new JSONArray();
-        JSONObject cat = new JSONObject();
-        JSONArray ids = new JSONArray();
-        JSONObject cat3 = new JSONObject();
-        JSONArray ids3 = new JSONArray();
-        try {
-            ids.put("1");
-            ids.put("2");
-            ids3.put("3");
-            cat.put("name", "Entrees");
-            cat.put("ids", ids);
-            compo.put(cat);
-            cat3.put("name", "Plats");
-            cat3.put("ids", ids3);
-            compo.put(cat3);
-            inside.put("id", "1451");
-            inside.put("composition", compo);
-            carte.put("alacarte", inside);
-        } catch (JSONException e) {
-
-        }
-        fetchCard(carte);
+//        JSONObject carte = new JSONObject();
+//        JSONObject inside = new JSONObject();
+//        JSONArray compo = new JSONArray();
+//        JSONObject cat = new JSONObject();
+//        JSONArray ids = new JSONArray();
+//        JSONObject cat3 = new JSONObject();
+//        JSONArray ids3 = new JSONArray();
+//        try {
+//            ids.put("1");
+//            ids.put("2");
+//            ids3.put("3");
+//            cat.put("name", "Entrees");
+//            cat.put("ids", ids);
+//            compo.put(cat);
+//            cat3.put("name", "Plats");
+//            cat3.put("ids", ids3);
+//            compo.put(cat3);
+//            inside.put("id", "1451");
+//            inside.put("composition", compo);
+//            carte.put("alacarte", inside);
+//        } catch (JSONException e) {
+//
+//        }
+//        fetchCard(carte);
 
 //        JSONObject menus = new JSONObject();
 //        JSONArray menuarr = new JSONArray();
@@ -253,8 +253,13 @@ public class OrderFragment extends Fragment {
         Log.d("ORDER", "1");
     }
 
-    static private void fetchCard(JSONObject card) {
-        _mCard = new CardStruct(card);
+//    static private void fetchCard(JSONObject card) {
+//        _mCard = new CardStruct(card);
+//        Log.d("ORDER", "2");
+//    }
+
+    static public void fetchCard(JSONObject card, JSONObject cats) {
+        _mCard = new CardStruct(card, cats);
         Log.d("ORDER", "2");
     }
 

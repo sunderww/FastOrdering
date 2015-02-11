@@ -40,6 +40,7 @@ public class Main extends FragmentActivity
     static JSONObject menus;
     static JSONArray compos;
     static JSONObject cats;
+    static JSONObject alacarte;
 
     /***
      * Methods
@@ -53,10 +54,8 @@ public class Main extends FragmentActivity
         _mTabFragments = new Fragment[6];
         _mTabFragments[0] = new HomeFragment().newInstance(1);
         _mTabFragments[1] = new OrderFragment().newInstance(2, null);
-        //_mTabFragments[2] = new ModifyFragment().newInstance(3);
         _mTabFragments[2] = new NotificationsFragment().newInstance(3);
         _mTabFragments[3] = new HistoryFragment().newInstance(4);
-        //mTabFragments[5] = new OptionsFragment().newInstance(6);
         _mTabFragments[4] = new AboutFragment().newInstance(5);
         _mTabFragments[5] = new LogoutFragment().newInstance(6);
 
@@ -71,6 +70,9 @@ public class Main extends FragmentActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        //
+        // Fetch /elements
+        //
         JSONObject obj = new JSONObject();
         try {
             obj.put("url", String.format("/elements"));
@@ -92,6 +94,9 @@ public class Main extends FragmentActivity
             }
         }, obj);
 
+        //
+        // Fetch /menus
+        //
         try {
             obj.put("url", String.format("/menus"));
         } catch (JSONException e) {
@@ -110,6 +115,9 @@ public class Main extends FragmentActivity
             }
         }, obj);
 
+        //
+        // Fetch /compos
+        //
         try {
             obj.put("url", String.format("/compos"));
         } catch (JSONException e) {
@@ -128,6 +136,9 @@ public class Main extends FragmentActivity
             }
         }, obj);
 
+        //
+        // Fetch /cats
+        //
         try {
             obj.put("url", String.format("/cats"));
         } catch (JSONException e) {
@@ -147,6 +158,77 @@ public class Main extends FragmentActivity
                 Log.d("FETCH", "DONE");
             }
         }, obj);
+
+        //
+        // Fetch /alacarte
+        //
+        try {
+            obj.put("url", String.format("/alacarte"));
+        } catch (JSONException e) {
+        }
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.d("ALACARTE", "" + objects[0]);
+                try {
+                    alacarte = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+
+                }
+                Log.d("ALACARTE", alacarte.toString());
+                OrderFragment.fetchCard(alacarte, cats);
+                Log.d("FETCH", "DONE");
+            }
+        }, obj);
+
+
+
+        //TEST ENVOI COMMANDE
+
+        JSONObject dish = new JSONObject();
+        JSONArray arrContent = new JSONArray();
+        JSONObject singleMenu = new JSONObject();
+        JSONArray arrOrder = new JSONArray();
+        JSONObject order = new JSONObject();
+        try {
+            dish.put("cuisson", "cramé");
+            dish.put("comment", "bleflewfle");
+            dish.put("qty", 12);
+            dish.put("id", "54d9779f62c30f693817538f");
+            arrContent.put(dish);
+            singleMenu.put("content", arrContent);
+            singleMenu.put("menuId", "54d9780d33c35f96385c8da2");
+            singleMenu.put("globalComment", "rien");
+            arrOrder.put(singleMenu);
+            order.put("order", arrOrder);
+            order.put("numPA", "2");
+            order.put("numTable", "7");
+        } catch (JSONException e) {
+
+        }
+//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+//            @Override
+//            public void ack(Object... objects) {
+//                Log.d("SENDORDER", "" + objects[0]);
+//            }
+//        }, order);
+//        Log.d("SENDORDER", "DONE");
+
+        try {
+            obj.put("url", String.format("/send_order"));
+            obj.put("rep", order);
+        } catch (JSONException e) {
+            Log.d("DOUTE", "DOUTE");
+        }
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.d("FETCH", "DONE");
+            }
+        }, obj);
+
     }
 
     @Override
