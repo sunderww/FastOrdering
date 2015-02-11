@@ -1,6 +1,7 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +37,11 @@ public class LoginActivity extends Activity {
     public static SocketIO _mSocket = null;
     private Context _mContext = null;
     private final String _mIpServer = "http://alexis-semren.com:1337";
+
+    static JSONObject menus;
+    static JSONArray compos;
+    static JSONObject cats;
+    static JSONObject alacarte;
 
     /***
      * Methods
@@ -125,6 +132,10 @@ public class LoginActivity extends Activity {
 //        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        startActivity(mainActivity);
 
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle(getBaseContext().getString(R.string.spinner_title));
+        progress.setMessage(getBaseContext().getString(R.string.spinner_desc));
+        progress.show();
 
         //Connect and create the listeners for the socket
         _mSocket.connect(new IOCallback() {
@@ -153,10 +164,11 @@ public class LoginActivity extends Activity {
                         msg.show();
                     }
                 });
+                progress.dismiss();
 
-                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainActivity);
+//                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+//                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(mainActivity);
             }
 
             @Override
@@ -194,10 +206,127 @@ public class LoginActivity extends Activity {
 //                    }
 //                }, obj);
 
+                //
+                // Fetch /elements
+                //
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("url", String.format("/elements"));
+                } catch (JSONException e) {
+                }
+
+                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.d("ELEMENTS", "" + objects[0]);
+                        JSONObject rep = null;
+                        try {
+                            rep = new JSONObject(objects[0].toString());
+                        } catch (JSONException e) {
+
+                        }
+                        Log.d("ELEMENTS 2", rep.toString());
+                        OrderFragment.fetchElements(rep);
+                    }
+                }, obj);
+
+                //
+                // Fetch /menus
+                //
+                try {
+                    obj.put("url", String.format("/menus"));
+                } catch (JSONException e) {
+                }
+
+                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.d("MENUS", "" + objects[0]);
+                        try {
+                            menus = new JSONObject(objects[0].toString());
+                        } catch (JSONException e) {
+
+                        }
+                        Log.d("MENUS2", menus.toString());
+                    }
+                }, obj);
+
+                //
+                // Fetch /compos
+                //
+                try {
+                    obj.put("url", String.format("/compos"));
+                } catch (JSONException e) {
+                }
+
+                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.d("COMPOS", "" + objects[0]);
+                        try {
+                            compos = new JSONArray(objects[0].toString());
+                        } catch (JSONException e) {
+
+                        }
+                        Log.d("COMPOS2", compos.toString());
+                    }
+                }, obj);
+
+                //
+                // Fetch /cats
+                //
+                try {
+                    obj.put("url", String.format("/cats"));
+                } catch (JSONException e) {
+                }
+
+                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.d("CATS", "" + objects[0]);
+                        try {
+                            cats = new JSONObject(objects[0].toString());
+                        } catch (JSONException e) {
+
+                        }
+                        Log.d("CATS2", cats.toString());
+                        OrderFragment.fetchMenus(menus, compos, cats);
+                        Log.d("FETCH", "DONE");
+                    }
+                }, obj);
+
+                //
+                // Fetch /alacarte
+                //
+                try {
+                    obj.put("url", String.format("/alacarte"));
+                } catch (JSONException e) {
+                }
+
+                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+                    @Override
+                    public void ack(Object... objects) {
+                        Log.d("ALACARTE", "" + objects[0]);
+                        try {
+                            alacarte = new JSONObject(objects[0].toString());
+                        } catch (JSONException e) {
+
+                        }
+                        Log.d("ALACARTE", alacarte.toString());
+                        OrderFragment.fetchCard(alacarte, cats);
+                        Log.d("FETCH", "DONE");
+                        progress.dismiss();
+                        Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+                        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainActivity);
+                    }
+                }, obj);
+
+
                 //Change activity after login ok
-                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainActivity);
+//                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+//                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(mainActivity);
             }
 
             @Override

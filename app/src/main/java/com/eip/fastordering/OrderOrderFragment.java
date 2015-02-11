@@ -25,6 +25,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import io.socket.IOAcknowledge;
+
 /**
  * Created by Mewen on 18-Jan-15.
  */
@@ -138,22 +140,72 @@ public class OrderOrderFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int groupCount = listAdapter.getGroupCount();
-                for (int i = 0; i < groupCount; ++i) {
-                    int childCount = listAdapter.getChildrenCount(i);
-                    for (int j = 0; j < childCount; ++j) {
-                        View view = listAdapter.getChildView(i, j, false, null, null);
-                        if (view != null) {
-                            TextView txt = (TextView)view.findViewById(R.id.lblListItemRadio);
-                            EditText nb = (EditText) view.findViewById(R.id.nbDish);
-                            Log.d("NB", "" + listAdapter.getGroup(i).toString() + " " + txt.getTag().toString() + " " + nb.getText());
+
+                JSONObject orderJSON = new JSONObject();
+                JSONObject dish;
+                JSONArray content;
+                JSONObject menu;
+                JSONArray arrMenus = new JSONArray();
+
+                try {
+                    int groupCount = listAdapter.getGroupCount();
+                    for (int i = 0; i < groupCount; ++i) {
+                        Log.d("ONE", "ONE");
+                        content = new JSONArray();
+                        int childCount = listAdapter.getChildrenCount(i);
+                        for (int j = 0; j < childCount; ++j) {
+                            Log.d("TWO", "TWO");
+                            View view = listAdapter.getChildView(i, j, false, null, null);
+                            if (view != null) {
+                                dish = new JSONObject();
+                                TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
+                                EditText nb = (EditText) view.findViewById(R.id.nbDish);
+                                dish.put("id", txt.getTag().toString());
+                                dish.put("qty", Integer.parseInt(nb.getText().toString()));
+                                dish.put("comment", "blabla");
+                                dish.put("cuisson", "cramé");
+                                Log.d("NB", "" + listAdapter.getGroup(i).toString() + " " + txt.getTag().toString() + " " + nb.getText());
+                                content.put(dish);
+                            }
                         }
+                        menu = new JSONObject();
+                        menu.put("content", content);
+                        menu.put("menuId", listAdapter.getGroup(i).toString());
+                        arrMenus.put(menu);
                     }
+                    //SET UP ORDER JSON
+                    orderJSON.put("numTable", ((EditText) _mRootView.findViewById(R.id.order_order_table_edit)).getText().toString());
+                    orderJSON.put("numPA", ((EditText)_mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString());
+                    orderJSON.put("globalComment", "toto");
+                    orderJSON.put("order", arrMenus);
+
+                    Log.d("COMMANDE READY", orderJSON.toString());
                 }
+                catch (JSONException e) {
+
+                }
+
+                //SEND JSON HERE
+
+//                JSONObject obj = new JSONObject();
+//                try {
+//                    obj.put("url", String.format("/send_order"));
+//                    obj.put("rep", orderJSON);
+//                } catch (JSONException e) {
+//                    Log.d("DOUTE", "DOUTE");
+//                }
+//
+//                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+//                    @Override
+//                    public void ack(Object... objects) {
+//                        Log.d("FETCH", "DONE");
+//                    }
+//                }, obj);
+
                 Log.d("TABLE", ((EditText)_mRootView.findViewById(R.id.order_order_table_edit)).getText().toString());
                 Log.d("PA", ((EditText)_mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString());
-
-
+                ((EditText)_mRootView.findViewById(R.id.order_order_table_edit)).setText("");
+                ((EditText)_mRootView.findViewById(R.id.order_order_pa_edit)).setText("");
                 listAdapter.get_listDataHeader().clear();
                 listAdapter.get_listDataChild().clear();
                 _mListDataNb.clear();

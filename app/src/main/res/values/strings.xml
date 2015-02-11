@@ -68,4 +68,6 @@
     <string name="dialog_order_modify">Modifier</string>
     <string name="order_order_table_text">Table #</string>
     <string name="order_order_pa_text">PA :</string>
+    <string name="spinner_title">Chargement</string>
+    <string name="spinner_desc">Connexion en cours...</string>
 </resources>
