@@ -180,6 +180,14 @@ public class OrderOrderFragment extends Fragment {
                     orderJSON.put("order", arrMenus);
 
                     Log.d("COMMANDE READY", orderJSON.toString());
+
+                    LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
+                        @Override
+                        public void ack(Object... objects) {
+                            Log.d("SENDORDER", "" + objects[0]);
+                        }
+                    }, orderJSON);
+                    Log.d("SENDORDER", "DONE");
                 }
                 catch (JSONException e) {
 

@@ -207,13 +207,13 @@ public class Main extends FragmentActivity
         } catch (JSONException e) {
 
         }
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                Log.d("SENDORDER", "" + objects[0]);
-//            }
-//        }, order);
-//        Log.d("SENDORDER", "DONE");
+        LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                Log.d("SENDORDER", "" + objects[0]);
+            }
+        }, order);
+        Log.d("SENDORDER", "DONE");
 
 //        try {
 //            obj.put("url", String.format("/send_order"));

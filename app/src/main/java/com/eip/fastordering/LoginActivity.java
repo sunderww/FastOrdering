@@ -82,13 +82,6 @@ public class LoginActivity extends Activity {
                 return false;
             }
         });
-
-        //Init the socket
-        try {
-            _mSocket = new SocketIO(_mIpServer);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -135,9 +128,14 @@ public class LoginActivity extends Activity {
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setTitle(getBaseContext().getString(R.string.spinner_title));
         progress.setMessage(getBaseContext().getString(R.string.spinner_desc));
+        progress.setCanceledOnTouchOutside(false);
         progress.show();
-
-        //Connect and create the listeners for the socket
+        //Init the socket
+        try {
+            _mSocket = new SocketIO(_mIpServer);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }        //Connect and create the listeners for the socket
         _mSocket.connect(new IOCallback() {
             @Override
             public void onMessage(JSONObject json, IOAcknowledge ack) {
@@ -187,24 +185,6 @@ public class LoginActivity extends Activity {
 
                 }
                 Log.d("SOCKET", "MSG CREATED");
-//                _mSocket.send(msg);
-//                Log.d("SOCKET", "MSG SENT");
-//
-//                //TODO
-//                //Check message callback check login
-//                JSONObject obj = new JSONObject();
-//                try {
-//                    obj.put("url", String.format("/dish/read"));
-//                } catch (JSONException e) {
-//
-//                }
-//
-//                _mSocket.emit("get", new IOAcknowledge() {
-//                    @Override
-//                    public void ack(Object... objects) {
-//                        Log.d("GET", "" + objects[0]);
-//                    }
-//                }, obj);
 
                 //
                 // Fetch /elements
