@@ -11,8 +11,8 @@
 #import "TablePlanViewController.h"
 #import "MenuViewController.h"
 #import "AboutViewController.h"
-#import "SocketIO.h"
 #import "AppDelegate.h"
+#import "SocketHelper.h"
 
 @interface MainViewController ()
 
@@ -33,7 +33,7 @@
 {
     [super viewDidLoad];
 
-    [self connectToSocketIO];
+    [self syncDatabase];
     panelShown = NO;
     panelView.hidden = NO;
     overlay.alpha = 0;
@@ -48,37 +48,39 @@
 
 #pragma mark - Helper methods
 
-- (void)connectToSocketIO {
-    // Handshake
-//    NSString * URLString = [NSString stringWithFormat:@"http://%@:%d/dish", kSocketIOHost, kSocketIOPort];
-//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-//    
-//    [request setHTTPMethod: @"GET"];
-//    
-//    NSError *requestError;
-//    NSURLResponse *urlResponse = nil;
-//    NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
-//    DPPLog(@"%@", [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding]);
+- (void)syncDatabase {
+    SyncHelper * syncer = [SyncHelper new];
     
-    socket = [[SocketIO alloc] initWithDelegate:self];
-    [socket connectToHost:kSocketIOHost onPort:kSocketIOPort withParams:@{@"cookie":@"12345"}];
-    
-    [socket get:@"/dish" withData:nil callback:^(id response) {
-        DPPLog(@"%@", response);
-    }];
-    
-//    [socket connectToHost:kSocketIOHost onPort:kSocketIOPort];
-//    [socket sendEvent:@"/dish/read" withData:@{}];
-//    [socket sendMessage:@"/dish/read"];
+    [SocketHelper connectSocket];
+    classesToSync = 0;
 //
-//    NSString *url = @"/dish/read";
-//    NSDictionary *params = @{@"url" : url};
-//    [socket sendEvent:@"get" withData:params];
+//    [[SocketHelper sharedSocket] put:@"/dish" withData:@{@"name":@"Test", @"available":@YES, @"price":@6.5} callback:^(id response) {
+//        DPPLog(@"%@", [response class]);
+//        DPPLog(@"%@", response);
+//    }];
+
+    NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table"];
+    syncer.delegate = self;
+    for (NSString * class in classes) {
+        classesToSync++;
+        [syncer syncClassNamed:class];
+    }
+    [syncer syncDeletedObjectsOfClasses:classes];
+}
+
+- (void)syncEnded {
+    NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+    NSError * error;
+    
+    if (![context save:&error])
+        PPLog(@"%@", error);
+    DLog(@"END SYNC");
+    // should hide a loader
 }
 
 - (void)loadDatabase {
+    // http://stackoverflow.com/questions/10417353/how-to-deal-with-a-multiple-user-database
     DPPLog(@"Should try to load the correct db with coredata");
-    
 }
 
 - (void)hidePanel {
@@ -136,36 +138,19 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - SocketIO delegate methods
+#pragma mark - ParseSyncer delegate methods
 
-- (void)socketIO:(SocketIO *)socket didReceiveMessage:(SocketIOPacket *)packet {
-    PPLog(@"MESSAGE %@", packet);
+- (void)syncDidFailWithError:(NSError *)error forClass:(NSString *)className {
+    PPLog(@"%@ > %@", className, error);
+    if (!--classesToSync)
+        [self syncEnded];
 }
 
-- (void)socketIO:(SocketIO *)socket didReceiveJSON:(SocketIOPacket *)packet {
-    PPLog(@"JSON %@", packet);
+- (void)syncDidStopForClass:(NSString *)className {
+    DLog(@"sync OK %@", className);
+    if (!--classesToSync)
+        [self syncEnded];
 }
-
-- (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
-    PPLog(@"EVENT %@", packet);
-}
-
-- (void)socketIO:(SocketIO *)socket didSendMessage:(SocketIOPacket *)packet {
-    PPLog(@"SENT %@", packet);
-}
-
-- (void)socketIODidConnect:(SocketIO *)socket {
-    PPLog(@"CONNECT");
-}
-
-- (void)socketIODidDisconnect:(SocketIO *)socket disconnectedWithError:(NSError *)error {
-    PPLog(@"DECO %@", error);
-}
-
-- (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
-    PPLog(@"%@", error);
-}
-
 
 /*
 #pragma mark - Navigation

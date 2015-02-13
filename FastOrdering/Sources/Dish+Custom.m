@@ -19,11 +19,13 @@
     NSError * error;
     
     if (!parentId) {
-        DLog(@"Find how to search with nil in coredata");
-        return @[];
+        request.predicate = [NSPredicate predicateWithFormat:@"categories.@count = 0"];
+//        DLog(@"Find how to search with nil in coredata");
+//        return @[];
+    } else {
+        request.predicate = [NSPredicate predicateWithFormat:@"ANY categories.serverId = %@" argumentArray:@[parentId]];
     }
-    
-    request.predicate = [NSPredicate predicateWithFormat:@"category.serverId = %@" argumentArray:@[parentId]];
+
     results = [context executeFetchRequest:request error:&error];
     if (error)
         PPLog(@"%@", error);

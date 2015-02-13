@@ -83,7 +83,7 @@
     
     if (indexPath.section) {
         Dish * dish = self.dishData[indexPath.row];
-        cell.textLabel.text = dish.name;
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@€)", dish.name, dish.price];
     } else {
         DishCategory * category = self.categoryData[indexPath.row];
         cell.textLabel.text = category.name;

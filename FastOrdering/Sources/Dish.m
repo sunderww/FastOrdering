@@ -2,13 +2,14 @@
 //  Dish.m
 //  FastOrdering
 //
-//  Created by Sunder on 02/01/2015.
+//  Created by Sunder on 12/02/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
 #import "Dish.h"
 #import "DishCategory.h"
 #import "OrderedDish.h"
+#import "Plan.h"
 
 
 @implementation Dish
@@ -19,7 +20,8 @@
 @dynamic price;
 @dynamic serverId;
 @dynamic updatedAt;
-@dynamic category;
+@dynamic categories;
 @dynamic ordered;
+@dynamic plan;
 
 @end

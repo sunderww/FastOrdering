@@ -11,10 +11,19 @@
 @import CoreData;
 
 #pragma mark - Server defines
-//#define kSocketIOHost       @"alexis-semren.com"
-//#define kSocketIOPort       1337
-#define kSocketIOHost       @"127.0.0.1"
-#define kSocketIOPort       1337
+
+// uncomment this line to use alexis' server
+//#define USE_ALEXIS_SERVER
+
+#ifdef USE_ALEXIS_SERVER
+    #define kSocketIOHost       @"alexis-semren.com"
+    #define kSocketIOPort       1337
+    #undef USE_ALEXIS_SERVER
+#else
+    #define kSocketIOHost       @"127.0.0.1"
+    #define kSocketIOPort       1337
+#endif
+#define kSocketIOURL        [NSString stringWithFormat:@"%@:%d", kSocketIOHost, kSocketIOPort]
 #define kAboutLink          @"http://eip.epitech.eu/2016/fastordering"
 
 #pragma mark - Other defines

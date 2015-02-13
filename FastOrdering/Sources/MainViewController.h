@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SocketIO+SailsIO.h"
+#import "SyncHelper.h"
 
-@interface MainViewController : UIViewController <SocketIODelegate> {
+@interface MainViewController : UIViewController <SyncerDelegate> {
     IBOutlet UIButton *     logOutButton;
     IBOutlet UIButton *     mainButton;
     IBOutlet UIButton *     tableButton;
@@ -22,9 +22,9 @@
     IBOutlet UIView *       centralView;
     IBOutlet UIView *       overlay;
     IBOutlet UILabel *      titleLabel;
-    
-    SocketIO *              socket;
+
     BOOL                    panelShown;
+    NSUInteger              classesToSync;
     UIViewController *      controller;
 }
 

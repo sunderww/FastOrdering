@@ -2,7 +2,7 @@
 //  DishCategory.m
 //  FastOrdering
 //
-//  Created by Sunder on 02/01/2015.
+//  Created by Sunder on 12/02/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -16,11 +16,11 @@
 @dynamic colorString;
 @dynamic createdAt;
 @dynamic name;
+@dynamic price;
 @dynamic serverId;
 @dynamic updatedAt;
-@dynamic price;
-@dynamic subcategories;
 @dynamic dishes;
 @dynamic parent;
+@dynamic subcategories;
 
 @end

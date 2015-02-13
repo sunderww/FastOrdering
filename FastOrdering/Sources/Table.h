@@ -2,7 +2,7 @@
 //  Table.h
 //  FastOrdering
 //
-//  Created by Sunder on 02/01/2015.
+//  Created by Sunder on 12/02/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -17,8 +17,8 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) Plan *plan;
 @property (nonatomic, retain) NSSet *orders;
+@property (nonatomic, retain) Plan *plan;
 @end
 
 @interface Table (CoreDataGeneratedAccessors)
