@@ -22,6 +22,12 @@
     IBOutlet UIView *       centralView;
     IBOutlet UIView *       overlay;
     IBOutlet UILabel *      titleLabel;
+    
+    IBOutlet UILabel *      lastOrdersLabel;
+    IBOutlet UILabel *      lastNotificationsLabel;
+    IBOutlet UITableView *  lastOrdersTableView;
+    IBOutlet UITableView *  lastNotificationsTableView;
+    IBOutlet UIButton *     orderButton;
 
     BOOL                    panelShown;
     NSUInteger              classesToSync;
