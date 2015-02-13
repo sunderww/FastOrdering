@@ -9,7 +9,6 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DishCategory" inverseName="dishes" inverseEntity="DishCategory" syncable="YES"/>
         <relationship name="ordered" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderedDish" inverseName="dish" inverseEntity="OrderedDish" syncable="YES"/>
-        <relationship name="plan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" syncable="YES"/>
     </entity>
     <entity name="DishCategory" representedClassName="DishCategory" syncable="YES">
         <attribute name="colorString" optional="YES" attributeType="String" syncable="YES"/>
@@ -61,7 +60,7 @@
     </entity>
     <elements>
         <element name="DishCategory" positionX="-18" positionY="27" width="128" height="180"/>
-        <element name="Dish" positionX="9" positionY="54" width="128" height="178"/>
+        <element name="Dish" positionX="9" positionY="54" width="128" height="163"/>
         <element name="Notification" positionX="9" positionY="108" width="128" height="73"/>
         <element name="Order" positionX="0" positionY="99" width="128" height="148"/>
         <element name="OrderedDish" positionX="-9" positionY="90" width="128" height="148"/>

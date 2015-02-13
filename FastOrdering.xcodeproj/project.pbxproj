@@ -34,7 +34,7 @@
 		84BF7D891A8CB86A00EC912B /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF7D881A8CB86A00EC912B /* Plan.m */; };
 		84BF7D8C1A8CB86A00EC912B /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF7D8B1A8CB86A00EC912B /* Order.m */; };
 		84BF7D8F1A8CB86A00EC912B /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF7D8E1A8CB86A00EC912B /* Table.m */; };
-		84BF7D921A8CBA5900EC912B /* Dish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF7D911A8CBA5900EC912B /* Dish.m */; };
+		84BF7D951A8E0C6600EC912B /* Dish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF7D941A8E0C6600EC912B /* Dish.m */; };
 		84C1A17619EDE8D100E64B40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17519EDE8D100E64B40 /* Foundation.framework */; };
 		84C1A17819EDE8D100E64B40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */; };
 		84C1A17A19EDE8D100E64B40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17919EDE8D100E64B40 /* UIKit.framework */; };
@@ -119,8 +119,8 @@
 		84BF7D8B1A8CB86A00EC912B /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		84BF7D8D1A8CB86A00EC912B /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
 		84BF7D8E1A8CB86A00EC912B /* Table.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
-		84BF7D901A8CBA5900EC912B /* Dish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dish.h; sourceTree = "<group>"; };
-		84BF7D911A8CBA5900EC912B /* Dish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dish.m; sourceTree = "<group>"; };
+		84BF7D931A8E0C6600EC912B /* Dish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dish.h; sourceTree = "<group>"; };
+		84BF7D941A8E0C6600EC912B /* Dish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dish.m; sourceTree = "<group>"; };
 		84C1A17219EDE8D100E64B40 /* FastOrdering.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastOrdering.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C1A17519EDE8D100E64B40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -185,8 +185,8 @@
 		8403EDD41A568CC6001421D3 /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
-				84BF7D901A8CBA5900EC912B /* Dish.h */,
-				84BF7D911A8CBA5900EC912B /* Dish.m */,
+				84BF7D931A8E0C6600EC912B /* Dish.h */,
+				84BF7D941A8E0C6600EC912B /* Dish.m */,
 				84BF7D8D1A8CB86A00EC912B /* Table.h */,
 				84BF7D8E1A8CB86A00EC912B /* Table.m */,
 				84BF7D8A1A8CB86A00EC912B /* Order.h */,
@@ -551,7 +551,7 @@
 				84C1A1D019EE178400E64B40 /* MenuViewController.m in Sources */,
 				84B1EA431A57681100985E57 /* SocketIO+SailsIO.m in Sources */,
 				84C1A1C619EE02CC00E64B40 /* NotificationViewController.m in Sources */,
-				84BF7D921A8CBA5900EC912B /* Dish.m in Sources */,
+				84BF7D951A8E0C6600EC912B /* Dish.m in Sources */,
 				84BF7D891A8CB86A00EC912B /* Plan.m in Sources */,
 				84008C7C1A7607640012F873 /* SocketIOTransportWebsocket.m in Sources */,
 				84C1A1C119EDF35C00E64B40 /* MainViewController.m in Sources */,

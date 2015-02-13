@@ -2,14 +2,14 @@
 //  Dish.h
 //  FastOrdering
 //
-//  Created by Sunder on 12/02/2015.
+//  Created by Sunder on 13/02/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DishCategory, OrderedDish, Plan;
+@class DishCategory, OrderedDish;
 
 @interface Dish : NSManagedObject
 
@@ -21,7 +21,6 @@
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSSet *categories;
 @property (nonatomic, retain) NSSet *ordered;
-@property (nonatomic, retain) Plan *plan;
 @end
 
 @interface Dish (CoreDataGeneratedAccessors)
