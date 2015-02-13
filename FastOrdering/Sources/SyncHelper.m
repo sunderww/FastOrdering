@@ -68,14 +68,16 @@
         } else if ([key hasSuffix:kParsingRelationManySuffix]) {
             NSString * name = [key stringByReplacingOccurrencesOfString:@"_ids" withString:@""];
             NSRelationshipDescription * rel = relationships[name];
-            
+
+            if (![value isKindOfClass:[NSArray class]]) {
+                if ([value isEqualToString:@""]) continue;
+                value = @[value];
+            }
             if (!rel || !rel.isToMany) {
                 PPLog(@"no to-many relationship named %@", name);
                 continue;
             }
 
-            if (![value isKindOfClass:[NSArray class]])
-                value = @[value];
             for (NSString * serverId in value) {
                 NSManagedObject * relation = [self objectOfClass:rel.destinationEntity.managedObjectClassName withId:serverId];
                 name = [NSString stringWithFormat:@"add%@Object:", [name capitalizedString]];

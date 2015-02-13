@@ -72,6 +72,10 @@
     return self.categoryData.count;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return section ? NSLocalizedString(@"Menu_DishHeader", @"") : NSLocalizedString(@"Menu_CategoryHeader", @"");
+}
+
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * CellIdentifier = @"MenuCell";
     UITableViewCell * cell = [_tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -83,10 +87,10 @@
     
     if (indexPath.section) {
         Dish * dish = self.dishData[indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@€)", dish.name, dish.price];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@€) - %@", dish.name, dish.price, dish.serverId];
     } else {
         DishCategory * category = self.categoryData[indexPath.row];
-        cell.textLabel.text = category.name;
+        cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", category.name, category.serverId];
     }
     
     return cell;
