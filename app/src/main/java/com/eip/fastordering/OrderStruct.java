@@ -1,5 +1,7 @@
 package com.eip.fastordering;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +32,7 @@ public class OrderStruct {
             this._mHour = cmd.getString("hour");
             this._mDate = cmd.getString("date");
         } catch (JSONException e) {
-
+            Log.d("ORDERSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
     }
 

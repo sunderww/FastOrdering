@@ -26,9 +26,8 @@ public class ElementStruct {
             _mPrice = elem.getDouble("price");
             _mName = elem.getString("name");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d("ELEMENTSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
-        Log.d("ELEMENTS", "" + _mId + " " + _mPrice + " " + _mName);
     }
 
     public String get_mId() {

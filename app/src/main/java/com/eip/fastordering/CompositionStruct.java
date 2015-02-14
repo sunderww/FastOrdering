@@ -29,9 +29,7 @@ public class CompositionStruct {
         JSONArray arr;
         try {
             for (int i = 0; i < compos.length(); ++i) {
-                Log.d("JSON", "to found=" + cat + " current=" + compos.getJSONObject(i).getString("id"));
                 if (cat.equals(compos.getJSONObject(i).getString("id"))) {
-                    Log.d("JSON", "COMPO FOUND");
                     _mPrice = compos.getJSONObject(i).getInt("price");
                     _mNameCompo = compos.getJSONObject(i).getString("name");
                     arr = compos.getJSONObject(i).getJSONArray("cat");
@@ -41,7 +39,7 @@ public class CompositionStruct {
                 }
             }
         } catch (JSONException e) {
-            Log.d("EXCEPT", "!!!!!!!!!!!");
+            Log.d("COMPOSITION STRUCT", "EXCEPTION JSON:" + e.toString());
         }
     }
 

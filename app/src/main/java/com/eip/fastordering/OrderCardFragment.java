@@ -26,12 +26,20 @@ import java.util.List;
  */
 public class OrderCardFragment extends Fragment {
 
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    static List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    /***
+     * Attributes
+     */
+
+    ExpandableListAdapter _mListAdapter;
+    ExpandableListView _mExpListView;
+    static List<String> _mListDataHeader;
+    HashMap<String, List<String>> _mListDataChild;
     private static HashMap<String, List<String>> _mListDataNb;
     View _mRootView;
+
+    /***
+     * Methods
+     */
 
     public static OrderCardFragment newInstance(int position) {
         OrderCardFragment f = new OrderCardFragment();
@@ -54,7 +62,7 @@ public class OrderCardFragment extends Fragment {
         if (_mRootView != null) {
             ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_compo_rectangle);
             TextView text = (TextView) _mRootView.findViewById(R.id.order_compo_button_text);
-            if (listDataHeader.isEmpty()) {
+            if (_mListDataHeader.isEmpty()) {
                 button.setVisibility(View.GONE);
                 text.setVisibility(View.GONE);
             } else {
@@ -67,23 +75,23 @@ public class OrderCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _mRootView = inflater.inflate(R.layout.fragment_order_card, container, false);
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        _mListDataHeader = new ArrayList<String>();
+        _mListDataChild = new HashMap<String, List<String>>();
         _mListDataNb = new HashMap<String, List<String>>();
 
         // get the listview
-        expListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
+        _mExpListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
 
         // preparing list data
         prepareListData();
         checkListEmpty();
 
-        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), 2);
+        _mListAdapter = new ExpandableListAdapter(getActivity(), _mListDataHeader, _mListDataChild, true, _mListDataNb, getActivity(), 2);
 
         // setting list adapter
-        expListView.setAdapter(listAdapter);
-        expListView.setGroupIndicator(null);
-        expListView.setEmptyView(_mRootView.findViewById(R.id.order_card_none));
+        _mExpListView.setAdapter(_mListAdapter);
+        _mExpListView.setGroupIndicator(null);
+        _mExpListView.setEmptyView(_mRootView.findViewById(R.id.order_card_none));
         ((RelativeLayout)_mRootView.findViewById(R.id.order_card_layout)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,24 +106,23 @@ public class OrderCardFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int groupCount = listAdapter.getGroupCount();
+                int groupCount = _mListAdapter.getGroupCount();
                 for (int i = 0; i < groupCount; ++i) {
-                    int childCount = listAdapter.getChildrenCount(i);
+                    int childCount = _mListAdapter.getChildrenCount(i);
                     for (int j = 0; j < childCount; ++j) {
-                        View view = listAdapter.getChildView(i, j, false, null, null);
+                        View view = _mListAdapter.getChildView(i, j, false, null, null);
                         if (view != null) {
                             TextView txt = (TextView)view.findViewById(R.id.lblListItemRadio);
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
-                            Log.d("NB", "" + listAdapter.getGroup(i).toString() + " " + txt.getTag().toString() + " " + nb.getText());
                             if (Integer.parseInt(nb.getText().toString()) > 0)
                                 OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString());
                         }
                     }
                 }
-                for (int i = 0; i < listDataHeader.size(); ++i) {
-                    for (int j = 0; j < listDataChild.get(listDataHeader.get(i)).size(); ++j) {
-                        _mListDataNb.get(listDataHeader.get(i)).set(j, "0");
-                        listAdapter.notifyDataSetChanged();
+                for (int i = 0; i < _mListDataHeader.size(); ++i) {
+                    for (int j = 0; j < _mListDataChild.get(_mListDataHeader.get(i)).size(); ++j) {
+                        _mListDataNb.get(_mListDataHeader.get(i)).set(j, "0");
+                        _mListAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -126,15 +133,15 @@ public class OrderCardFragment extends Fragment {
 
     private void prepareListData() {
         for (CategoryStruct item : OrderFragment.get_mCard().get_mCategories()) {
-            listDataHeader.add(item.get_mCategoryName());
+            _mListDataHeader.add(item.get_mCategoryName());
             List<String> ids = new ArrayList<String>();
             List<String> nb = new ArrayList<String>();
             for (String id : item.get_mIds()) {
                 ids.add(id);
                 nb.add("0");
             }
-            listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), ids);
-            _mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), nb);
+            _mListDataChild.put(_mListDataHeader.get(_mListDataHeader.size() - 1), ids);
+            _mListDataNb.put(_mListDataHeader.get(_mListDataHeader.size() - 1), nb);
         }
     }
 
@@ -143,6 +150,6 @@ public class OrderCardFragment extends Fragment {
     }
 
     public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
-        _mListDataNb.get(listDataHeader.get(groupPosition)).set(childPosition, value);
+        _mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
     }
 }

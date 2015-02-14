@@ -24,21 +24,15 @@ public class CardStruct {
 
     CardStruct(JSONObject card, JSONObject cats) {
         JSONObject alacarte;
-        String idCompo;
         try {
-            Log.d("ALACARTE", "1");
             alacarte = card.getJSONObject("alacarte");
-            Log.d("ALACARTE", "2");
             _mId = alacarte.getString("id");
-            Log.d("ALACARTE", "3");
-
             JSONArray arrCats = alacarte.getJSONArray("cats");
-            Log.d("ALACARTE", "4");
             for (int i = 0; i < arrCats.length(); ++i) {
                 _mCategories.add(new CategoryStruct(arrCats.getString(i), cats));
             }
         } catch (JSONException e) {
-            Log.d("ALACARTE", "ERRRRRRRRORRRR");
+            Log.d("CARDSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
     }
 

@@ -44,6 +44,11 @@ public class NotificationsFragment extends Fragment {
         fragment.setArguments(args);
 
         _mItems.clear();
+
+        //TODO
+        //Get request /notifications
+
+        //TODO Delete
         JSONObject notif = new JSONObject();
         try {
             notif.put("numTable", "11");
@@ -54,6 +59,8 @@ public class NotificationsFragment extends Fragment {
 
         }
         addNotificationToList(notif);
+        //TODO End delete
+
         return fragment;
     }
 

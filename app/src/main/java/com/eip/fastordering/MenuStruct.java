@@ -33,7 +33,7 @@ public class MenuStruct {
                 _mCat.add(new CompositionStruct(arr.getString(i), compos, cats));
             }
         } catch (JSONException e) {
-
+            Log.d("MENUSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
     }
 

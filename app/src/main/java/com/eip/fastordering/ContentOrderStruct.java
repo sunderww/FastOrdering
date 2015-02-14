@@ -35,9 +35,8 @@ public class ContentOrderStruct {
                 _mItems.add(new ItemStruct(arr.getJSONObject(i)));
             }
         } catch (JSONException e) {
-
+            Log.d("CONTENTORDERSTRUCT", "EXCEPTION JSON");
         }
-        Log.d("MENU DETAILED", "" + _mId + " " + _mGlobalComment + " " + _mItems.toString());
     }
 
     public String get_mId() {

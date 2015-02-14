@@ -37,11 +37,6 @@ public class Main extends FragmentActivity
     private CharSequence _mTitle;
     static public Fragment[] _mTabFragments;
 
-//    static JSONObject menus;
-//    static JSONArray compos;
-//    static JSONObject cats;
-//    static JSONObject alacarte;
-
     /***
      * Methods
      */
@@ -69,166 +64,6 @@ public class Main extends FragmentActivity
         _mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-//        //
-//        // Fetch /elements
-//        //
-//        JSONObject obj = new JSONObject();
-//        try {
-//            obj.put("url", String.format("/elements"));
-//        } catch (JSONException e) {
-//        }
-//
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                Log.d("ELEMENTS", "" + objects[0]);
-//                JSONObject rep = null;
-//                try {
-//                    rep = new JSONObject(objects[0].toString());
-//                } catch (JSONException e) {
-//
-//                }
-//                Log.d("ELEMENTS 2", rep.toString());
-//                OrderFragment.fetchElements(rep);
-//            }
-//        }, obj);
-//
-//        //
-//        // Fetch /menus
-//        //
-//        try {
-//            obj.put("url", String.format("/menus"));
-//        } catch (JSONException e) {
-//        }
-//
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                Log.d("MENUS", "" + objects[0]);
-//                try {
-//                    menus = new JSONObject(objects[0].toString());
-//                } catch (JSONException e) {
-//
-//                }
-//                Log.d("MENUS2", menus.toString());
-//            }
-//        }, obj);
-//
-//        //
-//        // Fetch /compos
-//        //
-//        try {
-//            obj.put("url", String.format("/compos"));
-//        } catch (JSONException e) {
-//        }
-//
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                Log.d("COMPOS", "" + objects[0]);
-//                try {
-//                    compos = new JSONArray(objects[0].toString());
-//                } catch (JSONException e) {
-//
-//                }
-//                Log.d("COMPOS2", compos.toString());
-//            }
-//        }, obj);
-//
-//        //
-//        // Fetch /cats
-//        //
-//        try {
-//            obj.put("url", String.format("/cats"));
-//        } catch (JSONException e) {
-//        }
-//
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                Log.d("CATS", "" + objects[0]);
-//                try {
-//                    cats = new JSONObject(objects[0].toString());
-//                } catch (JSONException e) {
-//
-//                }
-//                Log.d("CATS2", cats.toString());
-//                OrderFragment.fetchMenus(menus, compos, cats);
-//                Log.d("FETCH", "DONE");
-//            }
-//        }, obj);
-//
-//        //
-//        // Fetch /alacarte
-//        //
-//        try {
-//            obj.put("url", String.format("/alacarte"));
-//        } catch (JSONException e) {
-//        }
-//
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                Log.d("ALACARTE", "" + objects[0]);
-//                try {
-//                    alacarte = new JSONObject(objects[0].toString());
-//                } catch (JSONException e) {
-//
-//                }
-//                Log.d("ALACARTE", alacarte.toString());
-//                OrderFragment.fetchCard(alacarte, cats);
-//                Log.d("FETCH", "DONE");
-//            }
-//        }, obj);
-
-
-
-        //TEST ENVOI COMMANDE
-
-        JSONObject dish = new JSONObject();
-        JSONArray arrContent = new JSONArray();
-        JSONObject singleMenu = new JSONObject();
-        JSONArray arrOrder = new JSONArray();
-        JSONObject order = new JSONObject();
-        try {
-            dish.put("cuisson", "cramé");
-            dish.put("comment", "bleflewfle");
-            dish.put("qty", 12);
-            dish.put("id", "54d9779f62c30f693817538f");
-            arrContent.put(dish);
-            singleMenu.put("content", arrContent);
-            singleMenu.put("menuId", "54d9780d33c35f96385c8da2");
-            singleMenu.put("globalComment", "rien");
-            arrOrder.put(singleMenu);
-            order.put("order", arrOrder);
-            order.put("numPA", "2");
-            order.put("numTable", "7");
-        } catch (JSONException e) {
-
-        }
-        LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
-            @Override
-            public void ack(Object... objects) {
-                Log.d("SENDORDER", "" + objects[0]);
-            }
-        }, order);
-        Log.d("SENDORDER", "DONE");
-
-//        try {
-//            obj.put("url", String.format("/send_order"));
-//            obj.put("rep", order);
-//        } catch (JSONException e) {
-//            Log.d("DOUTE", "DOUTE");
-//        }
-//
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                Log.d("FETCH", "DONE");
-//            }
-//        }, obj);
-
     }
 
     @Override
@@ -248,18 +83,12 @@ public class Main extends FragmentActivity
             case 2:
                 _mTitle = getString(R.string.title_section2);
                 break;
-            //case 3:
-             //   _mTitle = getString(R.string.title_section3);
-            //    break;
             case 3:
                 _mTitle = getString(R.string.title_section4);
                 break;
             case 4:
                 _mTitle = getString(R.string.title_section5);
                 break;
-            //case 6:
-            //   mTitle = getString(R.string.title_section6);
-            //    break;
             case 5:
                 _mTitle = getString(R.string.title_section8);
                 break;

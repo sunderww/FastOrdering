@@ -54,6 +54,11 @@ public class AdapterNotif extends ArrayAdapter<NotifStruct> {
         return rowView;
     }
 
+    /***
+     * Method to add a single item to a list for multiple selection
+     * @param position
+     * @param value
+     */
     public void selectView(int position, boolean value) {
         if (value)
             _mSelectedNotifStructsIds.put(position, value);

@@ -44,6 +44,4 @@ public class AboutFragment extends Fragment {
         ((Main) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
-
-
 }

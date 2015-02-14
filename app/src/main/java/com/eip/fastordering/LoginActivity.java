@@ -37,11 +37,12 @@ public class LoginActivity extends Activity {
     public static SocketIO _mSocket = null;
     private Context _mContext = null;
     private final String _mIpServer = "http://alexis-semren.com:1337";
+    private ProgressDialog _mProgressDialog;
 
-    static JSONObject menus;
-    static JSONArray compos;
-    static JSONObject cats;
-    static JSONObject alacarte;
+    static JSONObject _mMenus;
+    static JSONArray _mCompos;
+    static JSONObject _mCats;
+    static JSONObject _mAlacarte;
 
     /***
      * Methods
@@ -115,21 +116,16 @@ public class LoginActivity extends Activity {
 
         EditText fieldPass = (EditText) findViewById(R.id.field_pass);
         fieldPass.clearFocus();
-
         return true;
     }
 
     private void connectToServ() {
+        _mProgressDialog = new ProgressDialog(this);
+        _mProgressDialog.setTitle(getBaseContext().getString(R.string.spinner_title));
+        _mProgressDialog.setMessage(getBaseContext().getString(R.string.spinner_desc));
+        _mProgressDialog.setCanceledOnTouchOutside(false);
+        _mProgressDialog.show();
 
-//        Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-//        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(mainActivity);
-
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setTitle(getBaseContext().getString(R.string.spinner_title));
-        progress.setMessage(getBaseContext().getString(R.string.spinner_desc));
-        progress.setCanceledOnTouchOutside(false);
-        progress.show();
         //Init the socket
         try {
             _mSocket = new SocketIO(_mIpServer);
@@ -153,7 +149,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onError(SocketIOException socketIOException) {
-                Log.d("SOCKET", "ERROR");
+                Log.d("SOCKET", "ERROR=" + socketIOException.toString());
 
                 LoginActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -162,11 +158,7 @@ public class LoginActivity extends Activity {
                         msg.show();
                     }
                 });
-                progress.dismiss();
-
-//                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-//                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mainActivity);
+                _mProgressDialog.dismiss();
             }
 
             @Override
@@ -176,143 +168,120 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onConnect() {
-                Log.d("SOCKET", "CO OK");
                 JSONObject msg = new JSONObject();
                 try {
                     msg.put("name", ((EditText)findViewById(R.id.field_login)).getText().toString());
                     msg.put("pass", ((EditText)findViewById(R.id.field_pass)).getText().toString());
                 } catch (JSONException e) {
-
-                }
-                Log.d("SOCKET", "MSG CREATED");
-
-                //
-                // Fetch /elements
-                //
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("url", String.format("/elements"));
-                } catch (JSONException e) {
+                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }
 
-                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-                    @Override
-                    public void ack(Object... objects) {
-                        Log.d("ELEMENTS", "" + objects[0]);
-                        JSONObject rep = null;
-                        try {
-                            rep = new JSONObject(objects[0].toString());
-                        } catch (JSONException e) {
-
-                        }
-                        Log.d("ELEMENTS 2", rep.toString());
-                        OrderFragment.fetchElements(rep);
-                    }
-                }, obj);
-
-                //
-                // Fetch /menus
-                //
-                try {
-                    obj.put("url", String.format("/menus"));
-                } catch (JSONException e) {
-                }
-
-                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-                    @Override
-                    public void ack(Object... objects) {
-                        Log.d("MENUS", "" + objects[0]);
-                        try {
-                            menus = new JSONObject(objects[0].toString());
-                        } catch (JSONException e) {
-
-                        }
-                        Log.d("MENUS2", menus.toString());
-                    }
-                }, obj);
-
-                //
-                // Fetch /compos
-                //
-                try {
-                    obj.put("url", String.format("/compos"));
-                } catch (JSONException e) {
-                }
-
-                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-                    @Override
-                    public void ack(Object... objects) {
-                        Log.d("COMPOS", "" + objects[0]);
-                        try {
-                            compos = new JSONArray(objects[0].toString());
-                        } catch (JSONException e) {
-
-                        }
-                        Log.d("COMPOS2", compos.toString());
-                    }
-                }, obj);
-
-                //
-                // Fetch /cats
-                //
-                try {
-                    obj.put("url", String.format("/cats"));
-                } catch (JSONException e) {
-                }
-
-                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-                    @Override
-                    public void ack(Object... objects) {
-                        Log.d("CATS", "" + objects[0]);
-                        try {
-                            cats = new JSONObject(objects[0].toString());
-                        } catch (JSONException e) {
-
-                        }
-                        Log.d("CATS2", cats.toString());
-                        OrderFragment.fetchMenus(menus, compos, cats);
-                        Log.d("FETCH", "DONE");
-                    }
-                }, obj);
-
-                //
-                // Fetch /alacarte
-                //
-                try {
-                    obj.put("url", String.format("/alacarte"));
-                } catch (JSONException e) {
-                }
-
-                LoginActivity._mSocket.emit("get", new IOAcknowledge() {
-                    @Override
-                    public void ack(Object... objects) {
-                        Log.d("ALACARTE", "" + objects[0]);
-                        try {
-                            alacarte = new JSONObject(objects[0].toString());
-                        } catch (JSONException e) {
-
-                        }
-                        Log.d("ALACARTE", alacarte.toString());
-                        OrderFragment.fetchCard(alacarte, cats);
-                        Log.d("FETCH", "DONE");
-                        progress.dismiss();
-                        Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-                        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(mainActivity);
-                    }
-                }, obj);
-
-
-                //Change activity after login ok
-//                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-//                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(mainActivity);
+                //Data to fetch from server
+                fetchElements();
+                fetchMenus();
+                fetchCompos();
+                fetchCats();
+                fetchAlacarte();
             }
 
             @Override
             public void on(String event, IOAcknowledge ack, Object... args) {
-                Log.d("SOCKET", "EVENT " + event);
+                Log.d("SOCKET ON", "EVENT " + event);
             }
         });
+    }
+
+    private void fetchElements() {
+        JSONObject obj = createObjectURL("/elements");
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                JSONObject rep = null;
+                try {
+                    rep = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                }
+                OrderFragment.fetchElements(rep);
+            }
+        }, obj);
+    }
+
+    private void fetchMenus() {
+        JSONObject obj = createObjectURL("/menus");
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                try {
+                    _mMenus = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                }
+            }
+        }, obj);
+    }
+
+    private void fetchCompos() {
+        JSONObject obj = createObjectURL("/compos");
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                try {
+                    _mCompos = new JSONArray(objects[0].toString());
+                } catch (JSONException e) {
+                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                }
+            }
+        }, obj);
+    }
+
+    private void fetchCats() {
+        JSONObject obj = createObjectURL("/cats");
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                try {
+                    _mCats = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                }
+                OrderFragment.fetchMenus(_mMenus, _mCompos, _mCats);
+            }
+        }, obj);
+    }
+
+    private void fetchAlacarte() {
+        JSONObject obj = createObjectURL("/alacarte");
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                try {
+                    _mAlacarte = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                }
+                OrderFragment.fetchCard(_mAlacarte, _mCats);
+                _mProgressDialog.dismiss();
+
+                Intent mainActivity = new Intent(LoginActivity.this, Main.class);
+                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainActivity);
+            }
+        }, obj);
+    }
+
+    private JSONObject createObjectURL(String URL) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("url", URL);
+        } catch (JSONException e) {
+            Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+        }
+        return obj;
     }
 }

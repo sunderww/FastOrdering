@@ -13,6 +13,7 @@ public class ItemStruct {
     /***
      * Attributes
      */
+
     private String _mId;
     private String _mComment;
     private String _mCooking;
@@ -27,9 +28,8 @@ public class ItemStruct {
             _mComment = item.getString("comment");
             _mCooking = item.getString("cooking");
         } catch (JSONException e) {
-
+            Log.d("ITEMSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
-        Log.d("ITEM DETAILED ORDER", "" + _mId + " " + _mComment + " " + _mCooking);
     }
 
     public String get_mId() {

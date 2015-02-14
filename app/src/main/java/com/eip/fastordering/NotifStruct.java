@@ -1,6 +1,8 @@
 package com.eip.fastordering;
 
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +28,7 @@ public class NotifStruct {
             _mDate = notif.getString("date");
             _mHour = notif.getString("hour");
         } catch (JSONException e) {
-
+            Log.d("NOTIFSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
     }
 

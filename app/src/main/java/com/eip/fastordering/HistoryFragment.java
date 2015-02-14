@@ -37,7 +37,10 @@ public class HistoryFragment extends Fragment {
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
 
-        //TO delete
+        //TODO
+        //Get request /get_last_orders
+
+        //TODO Delete
         JSONObject orders = new JSONObject();
         JSONArray arr = new JSONArray();
         _mItems.clear();
@@ -52,6 +55,7 @@ public class HistoryFragment extends Fragment {
         } catch (JSONException e) {
 
         }
+
         try {
             cmd.put("hour", "12:25");
             arr.put(cmd);
@@ -60,7 +64,7 @@ public class HistoryFragment extends Fragment {
 
         }
         getLastOrders(orders);
-        //END TO delete
+        //TODO End delete
 
         return fragment;
     }

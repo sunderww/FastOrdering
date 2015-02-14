@@ -38,7 +38,7 @@ public class CategoryStruct {
                 }
             }
         } catch (JSONException e) {
-
+            Log.d("CATEGORYSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
     }
 

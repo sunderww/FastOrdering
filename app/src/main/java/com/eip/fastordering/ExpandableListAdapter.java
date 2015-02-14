@@ -25,6 +25,10 @@ import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter implements View.OnTouchListener {
 
+    /***
+     * Attributes
+     */
+
     private Context _context;
     private List<String> _listDataHeader;
     private HashMap<String, List<String>> _listDataChild;
@@ -34,6 +38,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     TextWatcher _watcher;
     FragmentActivity _mFACtivity;
     private int _mType;
+
+    /***
+     * Methods
+     */
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,HashMap<String, List<String>> listChildData,
                                  boolean element, HashMap<String, List<String>> listDataNb, FragmentActivity fActivity, int type) {
@@ -51,12 +59,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //Log.d("TOTO2", "===============================");
-                //Log.d("ON CHANGED", "GP:" + _groupPosition + " CP:" + _childPosition + " " + s);
-                //Log.d("ON CHANGED", "GP:" + groupPosition + " CP:" + childPosition + " " + s);
-                //Log.d("DB BEF", "" + OrderMenuCompoFragment.get_mListDataNb());
                 setChildNb(_groupPosition, _childPosition, s.toString());
-                //Log.d("DB AFT", "" + OrderMenuCompoFragment.get_mListDataNb());
             }
 
             @Override
@@ -88,7 +91,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     }
 
     private void setChildNb(int groupPosition, int childPosition, String value) {
-        //Log.d("SET CHIDL NB", "GP:" + groupPosition + " CP:" + childPosition + " VA:" + value);
         if (_mType == 2)
             OrderCardFragment.set_idmListDataNb(groupPosition, childPosition, value);
         else if (_mType == 1)
@@ -113,7 +115,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         else
             childText = OrderFragment.getNameElementById((String)getChild(groupPosition, childPosition));
 
-
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -121,8 +122,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             if (!_mElement)
                 convertView = infalInflater.inflate(R.layout.list_item, null);
             else {
-                //Log.d("DEBUG NB", "" + childText + " GP:" + groupPosition + " CP:" + childPosition);
-
                 convertView = infalInflater.inflate(R.layout.list_radio, null);
 
                 final ViewHolder holder = new ViewHolder();
@@ -133,20 +132,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
                 TextView txt = (TextView)convertView.findViewById(R.id.lblListItemRadio);
                 txt.setTag(_listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition));
-//                txt.setText((String)getChild(groupPosition, childPosition));
 
                 EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
-
-                //Log.d("SET TEXT", "SET TEXT " + groupPosition + " " + childPosition);
                 nb.setText(getChildNb(groupPosition, childPosition));
-
                 nb.addTextChangedListener(_watcher);
             }
         } else {
             if (_mElement) {
                 EditText nb = (EditText)convertView.findViewById( R.id.nbDish);
                 nb.removeTextChangedListener(_watcher);
-                //Log.d("SETTING TEXT", "GP:" + groupPosition + " CP:" + childPosition);
                 nb.setText(getChildNb(groupPosition, childPosition));
                 nb.addTextChangedListener(_watcher);
             }
@@ -203,7 +197,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                 headerTitle = menu.get_mName();
         }
         if (headerTitle.equals(OrderFragment.get_mCard().get_mId()))
-            headerTitle = "A la carte";
+            headerTitle = _mFACtivity.getResources().getString(R.string.card);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -226,10 +220,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             image.setImageResource(R.drawable.ic_action_invisible);
         }
 
-        //TextView lblListHeader = (TextView) convertView.findViewById(android.R.id.text1);
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        //lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         lblListHeader.setTag((String) getGroup(groupPosition));
         return convertView;

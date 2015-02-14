@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -29,7 +30,6 @@ public class DialogOrder extends AlertDialog {
     private FragmentActivity _mActivity;
     private OrderStruct _mItem;
     private ArrayList<ContentOrderStruct> _mContent = new ArrayList<ContentOrderStruct>();
-    private View _mView;
     private Fragment _mFrag;
 
     /***
@@ -43,7 +43,10 @@ public class DialogOrder extends AlertDialog {
         _mItem = item;
         _mFrag = frag;
 
-        //TO delete
+        //TODO
+        //Ajouter JSON de resume de commande, au constructeur
+
+        //TODO Delete
         JSONObject order = new JSONObject();
         JSONArray arr = new JSONArray();
         JSONObject comm = new JSONObject();
@@ -63,8 +66,9 @@ public class DialogOrder extends AlertDialog {
         } catch (JSONException e) {
 
         }
+        //TODO End delete
+
         getDetailedOrder(order);
-        //END TO delete
     }
 
     public AlertDialog customView() {
@@ -77,6 +81,10 @@ public class DialogOrder extends AlertDialog {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                //TODO
+                //Remplacer avec le sommaire de la commande en JSON
+
+                //TODO Delete
                 JSONObject content = new JSONObject();
                 JSONArray arrContent = new JSONArray();
                 JSONObject menu = new JSONObject();
@@ -98,6 +106,7 @@ public class DialogOrder extends AlertDialog {
                 } catch (JSONException e) {
 
                 }
+                //TODO End delete
 
                 Fragment frag = new OrderFragment().newInstance(1, order);
                 FragmentManager fm = _mActivity.getSupportFragmentManager();
@@ -117,6 +126,8 @@ public class DialogOrder extends AlertDialog {
         ((TextView)view.findViewById(R.id.dialog_order_hour)).setText(((TextView)view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + " à " + _mItem.get_mHour());
 
         String lineSep = System.getProperty("line.separator");
+
+        //TODO Modify to better
         String contenu = "";
         for (int i = 0; i < _mContent.size(); ++i) {
             ContentOrderStruct content = _mContent.get(i);
@@ -144,7 +155,7 @@ public class DialogOrder extends AlertDialog {
                 _mContent.add(new ContentOrderStruct(arr.getJSONObject(i)));
             }
         } catch (JSONException e) {
-
+            Log.d("DIALOGORDER", "EXCEPTION JSON");
         }
     }
 }
