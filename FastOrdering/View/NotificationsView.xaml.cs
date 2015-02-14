@@ -1,5 +1,8 @@
-﻿using System;
+﻿using FastOrdering.Model;
+using FastOrdering.Misc;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -12,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -20,9 +24,18 @@ namespace FastOrdering.View {
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
 	public sealed partial class NotificationsView : Page {
+		public ObservableCollection<Notification> notifications;
+
 		public NotificationsView() {
 			this.InitializeComponent();
 			DrawerLayout.InitializeDrawerLayout();
+			Socket sock = new Socket("notification");
+			Notification notif = JsonConvert.DeserializeObject<Notification>(sock.ret);
+
+			notifications = new ObservableCollection<Notification>();
+			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now));
+			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today));
+			NotificationsListbox.ItemsSource = notifications;
 		}
 
 		/// <summary>
@@ -38,6 +51,10 @@ namespace FastOrdering.View {
 				DrawerLayout.CloseDrawer();
 			else
 				DrawerLayout.OpenDrawer();
+		}
+
+		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
+			notifications.Clear();
 		}
 	}
 }

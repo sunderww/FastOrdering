@@ -22,19 +22,20 @@
             <HyperlinkButton Name="Home" Click="HyperlinkButton_Click" Foreground="Black">Accueil</HyperlinkButton>
         </StackPanel>
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
-            <HyperlinkButton Name="About" Click="HyperlinkButton_Click" Foreground="Black">A propos</HyperlinkButton>
+            <HyperlinkButton Name="Ordering" Click="HyperlinkButton_Click" Foreground="Black">Commander</HyperlinkButton>
         </StackPanel>
         <StackPanel Grid.Row="2" VerticalAlignment="Center">
-            <HyperlinkButton Name="Options" Click="HyperlinkButton_Click" Foreground="Black">Options</HyperlinkButton>
+            <HyperlinkButton Name="Notifications" Click="HyperlinkButton_Click" Foreground="Black">Notifications</HyperlinkButton>
         </StackPanel>
         <StackPanel Grid.Row="3" VerticalAlignment="Center">
-            <HyperlinkButton Name="Orders" Click="HyperlinkButton_Click" Foreground="Black">Historique des commandes</HyperlinkButton>
+            <HyperlinkButton Name="Orders" Click="HyperlinkButton_Click" Foreground="Black">Historique</HyperlinkButton>
         </StackPanel>
         <StackPanel Grid.Row="4" VerticalAlignment="Center">
-            <HyperlinkButton Name="Notifications" Click="HyperlinkButton_Click" Foreground="Black">Dernières notifications</HyperlinkButton>
+            <HyperlinkButton Name="About" Click="HyperlinkButton_Click" Foreground="Black">A propos</HyperlinkButton>
+            <!--<HyperlinkButton Name="Options" Click="HyperlinkButton_Click" Foreground="Black">Options</HyperlinkButton>-->
         </StackPanel>
         <StackPanel Grid.Row="5" VerticalAlignment="Center">
-            <HyperlinkButton Name="Logout" Click="HyperlinkButton_Click" Foreground="Black">Se déconnecter</HyperlinkButton>
+            <HyperlinkButton Name="Logout" Click="HyperlinkButton_Click" Foreground="Black">Déconnexion</HyperlinkButton>
         </StackPanel>
     </Grid>
 </UserControl>

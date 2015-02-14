@@ -13,6 +13,9 @@
     <Page.DataContext>
         <viewmodel:OrdersViewModel />
     </Page.DataContext>
+    <Page.Resources>
+        <misc:StringFormatConverter x:Name="StringFormat"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -33,65 +36,24 @@
         <drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
             <Grid>
                 <Border Background="White" Opacity="0.9" CornerRadius="5" Margin="50">
-                    <ListBox>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Width="380">
-                            <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" />
-                            <TextBlock Foreground="Black" VerticalAlignment="Center" FontSize="14">Commande #22 : table #4, 2 pa</TextBlock>
-                        </StackPanel>
+                    <ListBox Name="OrdersListbox">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="280" Tapped="Grid_Tapped">
+                                    <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" Margin="-15,-15,0,0"/>
+                                    <TextBlock Text="{Binding Message, Converter={StaticResource StringFormat}, ConverterParameter='\{0}'}"
+                                               Foreground="Black" VerticalAlignment="Top" FontSize="14" Margin="55,0,0,0" />
+                                    <TextBlock Text="{Binding Time, Converter={StaticResource StringFormat}, ConverterParameter='\{0}'}"
+                                               Foreground="Gray" VerticalAlignment="Center" FontSize="10" Margin="55,0,0,0" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </Border>
             </Grid>
 
             <Grid>
-                <!--<misc:MyMenu />-->
+                <misc:MyMenu />
             </Grid>
         </drawerLayout:DrawerLayout>
     </Grid>

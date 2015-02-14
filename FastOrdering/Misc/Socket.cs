@@ -14,7 +14,7 @@ namespace FastOrdering.Misc {
 
 		public Socket(string eventString) {
 			socket = Quobject.SocketIoClientDotNet.Client.IO.Socket(uri);
-			Emitter em = socket.Emit(eventString);
+			//Emitter em = socket.Emit(eventString);
 			Emitter emit = socket.Emit(eventString, (data) => {
 				ret = data.ToString();
 				System.Diagnostics.Debug.WriteLine(data);

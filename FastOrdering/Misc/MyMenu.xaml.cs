@@ -27,8 +27,10 @@ namespace FastOrdering.Misc {
 				((Frame)Window.Current.Content).Navigate(typeof(ReceptionView));
 			else if (((HyperlinkButton)sender).Name == "About")
 				((Frame)Window.Current.Content).Navigate(typeof(AboutView));
-			else if (((HyperlinkButton)sender).Name == "Options")
-				((Frame)Window.Current.Content).Navigate(typeof(OptionsView));
+			else if (((HyperlinkButton)sender).Name == "Ordering")
+				((Frame)Window.Current.Content).Navigate(typeof(NewOrderView));
+			//else if (((HyperlinkButton)sender).Name == "Options")
+				//((Frame)Window.Current.Content).Navigate(typeof(OptionsView));
 			else if (((HyperlinkButton)sender).Name == "Orders")
 				((Frame)Window.Current.Content).Navigate(typeof(OrdersView));
 			else if (((HyperlinkButton)sender).Name == "Notifications")

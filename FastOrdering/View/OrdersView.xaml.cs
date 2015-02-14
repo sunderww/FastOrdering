@@ -1,6 +1,8 @@
 ﻿using FastOrdering.Misc;
+using FastOrdering.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -21,9 +23,15 @@ namespace FastOrdering.View {
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
 	public sealed partial class OrdersView : Page {
+		public ObservableCollection<Order> orders;
+
 		public OrdersView() {
 			this.InitializeComponent();
 			DrawerLayout.InitializeDrawerLayout();
+			orders = new ObservableCollection<Order>();
+			orders.Add(new Order(1, 5, DateTime.Now));
+			orders.Add(new Order(2, 3, DateTime.Today));
+			OrdersListbox.ItemsSource = orders;
 		}
 
 		/// <summary>
@@ -43,6 +51,10 @@ namespace FastOrdering.View {
 
 		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
 			Frame.Navigate(typeof(NewOrderView));
+		}
+
+		private void Grid_Tapped(object sender, TappedRoutedEventArgs e) {
+			System.Diagnostics.Debug.WriteLine("toto");
 		}
 	}
 }

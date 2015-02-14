@@ -85,7 +85,7 @@
             </Grid>
 
             <Grid>
-                <!--<misc:MyMenu />-->
+                <misc:MyMenu />
             </Grid>
         </drawerLayout:DrawerLayout>
     </Grid>
@@ -93,7 +93,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Add" Label="Ajouter plat" Margin="0,0,30,0" Command="{Binding Order}" />
-            <AppBarButton Icon="Send" Label="Envoyer" Margin="30,0,0,0" />
+            <AppBarButton Icon="Send" Label="Envoyer" Margin="30,0,0,0" Click="AppBarButton_Click" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

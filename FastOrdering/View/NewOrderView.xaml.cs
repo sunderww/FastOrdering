@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastOrdering.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Newtonsoft.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -38,6 +40,12 @@ namespace FastOrdering.View {
 				DrawerLayout.CloseDrawer();
 			else
 				DrawerLayout.OpenDrawer();
+		}
+
+		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
+			Order or = new Order(1, 2, DateTime.Now);
+			string json = JsonConvert.SerializeObject(or);
+			System.Diagnostics.Debug.WriteLine(json);
 		}
 	}
 }

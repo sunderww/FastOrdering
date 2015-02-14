@@ -1,4 +1,6 @@
 ﻿using FastOrdering.Misc;
+using Quobject.EngineIoClientDotNet.ComponentEmitter;
+using Quobject.SocketIoClientDotNet.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
