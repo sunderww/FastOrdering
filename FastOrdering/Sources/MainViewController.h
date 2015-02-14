@@ -22,7 +22,8 @@
     IBOutlet UIView *       centralView;
     IBOutlet UIView *       overlay;
     IBOutlet UILabel *      titleLabel;
-    
+
+    IBOutlet UIView *       mainView;
     IBOutlet UILabel *      lastOrdersLabel;
     IBOutlet UILabel *      lastNotificationsLabel;
     IBOutlet UITableView *  lastOrdersTableView;

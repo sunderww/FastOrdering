@@ -106,25 +106,29 @@
 
     if (sender == mainButton) {
         controller = nil;
+        mainView.hidden = NO;
         titleLabel.text = NSLocalizedString(@"mainPageTitle", @"");
-    } else if (sender == tableButton) {
-        controller = [[TablePlanViewController alloc] initWithNibName:@"TablePlanView" bundle:nil];
-        titleLabel.text = NSLocalizedString(@"tablePageTitle", @"");
-    } else if (sender == menuButton) {
-        controller = [[MenuViewController alloc] initWithNibName:@"MenuView" bundle:nil];
-        titleLabel.text = NSLocalizedString(@"menuPageTitle", @"");
-    } else if (sender == historyButton) {
-        controller = nil;
-        titleLabel.text = NSLocalizedString(@"historyPageTitle", @"");
-    } else if (sender == notificationsButton) {
-        controller = [[NotificationViewController alloc] initWithNibName:@"NotificationView" bundle:nil];
-        titleLabel.text = NSLocalizedString(@"notificationPageTitle", @"");
-    } else if (sender == aboutButton) {
-        controller = [[AboutViewController alloc] initWithNibName:@"AboutView" bundle:nil];
-        titleLabel.text = NSLocalizedString(@"aboutPageTitle", @"");
     } else {
-       DLog(@"UNKNOWN BUTTON %@", sender);
-        titleLabel.text = @"";
+        mainView.hidden = YES;
+        if (sender == tableButton) {
+            controller = [[TablePlanViewController alloc] initWithNibName:@"TablePlanView" bundle:nil];
+            titleLabel.text = NSLocalizedString(@"tablePageTitle", @"");
+        } else if (sender == menuButton) {
+            controller = [[MenuViewController alloc] initWithNibName:@"MenuView" bundle:nil];
+            titleLabel.text = NSLocalizedString(@"menuPageTitle", @"");
+        } else if (sender == historyButton) {
+            controller = nil;
+            titleLabel.text = NSLocalizedString(@"historyPageTitle", @"");
+        } else if (sender == notificationsButton) {
+            controller = [[NotificationViewController alloc] initWithNibName:@"NotificationView" bundle:nil];
+            titleLabel.text = NSLocalizedString(@"notificationPageTitle", @"");
+        } else if (sender == aboutButton) {
+            controller = [[AboutViewController alloc] initWithNibName:@"AboutView" bundle:nil];
+            titleLabel.text = NSLocalizedString(@"aboutPageTitle", @"");
+        } else {
+            DLog(@"UNKNOWN BUTTON %@", sender);
+            titleLabel.text = @"";
+        }
     }
 
     [self hidePanel];
