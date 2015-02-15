@@ -35,7 +35,12 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
-    '/elements' : 'DishController.read'
+    '/elements' : 'DishController.read',
+    '/menus' : 'MenuController.read',
+    '/compos' : 'MenuCompositionController.read',
+    '/alacarte' : 'MenuController.alacarte',
+    '/send_order' : 'OrderController.create',
+    '/cats' : 'CategoryController.list'
     
   /***************************************************************************
   *                                                                          *
