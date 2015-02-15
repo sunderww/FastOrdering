@@ -17,15 +17,21 @@
                 <outlet property="logOutButton" destination="1LT-ec-ZJw" id="wrB-38-ash"/>
                 <outlet property="mainButton" destination="EW3-vL-5oN" id="q7i-HK-TpQ"/>
                 <outlet property="mainView" destination="cVV-z0-27c" id="J7u-OB-Tww"/>
-                <outlet property="menuButton" destination="roW-KF-F95" id="MEs-lS-5z2"/>
                 <outlet property="notificationsButton" destination="9l0-P2-fJN" id="E4B-QS-pXz"/>
                 <outlet property="orderButton" destination="Avb-G7-tvt" id="6M0-mY-BcW"/>
                 <outlet property="overlay" destination="fEm-Hv-CFO" id="Ema-om-DA1"/>
                 <outlet property="panelButton" destination="dhb-zy-x8F" id="PPB-Na-iX2"/>
                 <outlet property="panelView" destination="eta-wW-jma" id="uFe-VT-R7a"/>
-                <outlet property="tableButton" destination="7vk-Ae-fyN" id="SwM-iT-0Rl"/>
+                <outlet property="takeOrderButton" destination="7vk-Ae-fyN" id="209-AE-aQI"/>
                 <outlet property="titleLabel" destination="2Vt-H7-qqm" id="DiJ-XF-mjq"/>
                 <outlet property="view" destination="iN0-l3-epB" id="nGD-pf-ybd"/>
+                <outletCollection property="panelButtons" destination="7vk-Ae-fyN" id="Qa1-HB-6QS"/>
+                <outletCollection property="panelButtons" destination="EW3-vL-5oN" id="VrT-wo-CDe"/>
+                <outletCollection property="panelButtons" destination="7vk-Ae-fyN" id="xN0-7z-Yyc"/>
+                <outletCollection property="panelButtons" destination="9l0-P2-fJN" id="Rtq-1x-h2i"/>
+                <outletCollection property="panelButtons" destination="4FA-rc-rJq" id="pGP-Sp-Gf6"/>
+                <outletCollection property="panelButtons" destination="5aW-jx-mvg" id="xlK-rA-9Bq"/>
+                <outletCollection property="panelButtons" destination="1LT-ec-ZJw" id="bKH-k1-roz"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -88,7 +94,7 @@
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="ozq-Jc-cq3">
                                     <rect key="frame" x="20" y="50" width="280" height="110"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.75151117700000003" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Notifications" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lfv-jm-xsr">
                                     <rect key="frame" x="20" y="180" width="280" height="20"/>
@@ -105,7 +111,7 @@
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" id="mXX-7a-OkE">
                                     <rect key="frame" x="20" y="210" width="280" height="110"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.75151117700000003" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Avb-G7-tvt">
                                     <rect key="frame" x="20" y="450" width="280" height="40"/>
@@ -116,6 +122,9 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <state key="highlighted" backgroundImage="green_button_pressed"/>
+                                    <connections>
+                                        <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="i0S-Fb-crN"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -135,72 +144,80 @@
                     <rect key="frame" x="-200" y="56" width="200" height="512"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EW3-vL-5oN">
-                            <rect key="frame" x="5" y="10" width="190" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EW3-vL-5oN">
+                            <rect key="frame" x="0.0" y="0.0" width="200" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Menu">
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="menu" backgroundImage="sidebar_button_default">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <state key="highlighted" backgroundImage="sidebar_button_pressed"/>
                             <connections>
                                 <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="Xr5-8P-X3x"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7vk-Ae-fyN">
-                            <rect key="frame" x="5" y="50" width="190" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7vk-Ae-fyN">
+                            <rect key="frame" x="0.0" y="40" width="200" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Select Table">
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="order" backgroundImage="sidebar_button_default">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <state key="highlighted" backgroundImage="sidebar_button_pressed"/>
                             <connections>
                                 <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="Ehe-x3-3C3"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="roW-KF-F95">
-                            <rect key="frame" x="5" y="90" width="190" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9l0-P2-fJN">
+                            <rect key="frame" x="0.0" y="80" width="200" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Visualize Menu">
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="notifications" backgroundImage="sidebar_button_default">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                            <connections>
-                                <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="iJ1-4S-Vdg"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4FA-rc-rJq">
-                            <rect key="frame" x="5" y="130" width="190" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Command History">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="vzU-Us-Bbe"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9l0-P2-fJN">
-                            <rect key="frame" x="5" y="170" width="190" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Notifications">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
+                            <state key="highlighted" backgroundImage="sidebar_button_pressed"/>
                             <connections>
                                 <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="x5t-Mw-oWK"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5aW-jx-mvg">
-                            <rect key="frame" x="5" y="210" width="190" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4FA-rc-rJq">
+                            <rect key="frame" x="0.0" y="120" width="200" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="About">
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="history" backgroundImage="sidebar_button_default">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <state key="highlighted" backgroundImage="sidebar_button_pressed"/>
+                            <connections>
+                                <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="vzU-Us-Bbe"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5aW-jx-mvg">
+                            <rect key="frame" x="0.0" y="160" width="200" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="about" backgroundImage="sidebar_button_default">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="sidebar_button_pressed"/>
                             <connections>
                                 <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="8WY-HF-5c6"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1LT-ec-ZJw">
-                            <rect key="frame" x="5" y="250" width="190" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1LT-ec-ZJw">
+                            <rect key="frame" x="0.0" y="200" width="200" height="40"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="LogOut">
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="LogOut" backgroundImage="sidebar_button_default">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <state key="highlighted" backgroundImage="sidebar_button_pressed"/>
                             <connections>
                                 <action selector="logOut" destination="-1" eventType="touchUpInside" id="nIC-Ly-egZ"/>
                             </connections>
@@ -218,6 +235,8 @@
         <image name="green_button_pressed" width="13" height="13"/>
         <image name="icon_list" width="28" height="28"/>
         <image name="logo" width="900" height="900"/>
+        <image name="sidebar_button_default" width="3" height="48"/>
+        <image name="sidebar_button_pressed" width="3" height="48"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

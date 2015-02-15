@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [loginButton setTitle:NSLocalizedString(@"LogIn", @"") forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning

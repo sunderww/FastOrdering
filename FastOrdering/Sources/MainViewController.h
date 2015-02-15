@@ -10,10 +10,11 @@
 #import "SyncHelper.h"
 
 @interface MainViewController : UIViewController <SyncerDelegate> {
+    IBOutletCollection(UIButton) NSArray *  panelButtons;
+
     IBOutlet UIButton *     logOutButton;
     IBOutlet UIButton *     mainButton;
-    IBOutlet UIButton *     tableButton;
-    IBOutlet UIButton *     menuButton;
+    IBOutlet UIButton *     takeOrderButton;
     IBOutlet UIButton *     historyButton;
     IBOutlet UIButton *     notificationsButton;
     IBOutlet UIButton *     aboutButton;

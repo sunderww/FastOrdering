@@ -39,6 +39,7 @@
 		84BF7D9E1A8F4A2000EC912B /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BF7D9C1A8F4A2000EC912B /* NotificationCell.xib */; };
 		84BF7DA21A8F4A4000EC912B /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF7DA01A8F4A4000EC912B /* OrderCell.m */; };
 		84BF7DA31A8F4A4000EC912B /* OrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BF7DA11A8F4A4000EC912B /* OrderCell.xib */; };
+		84BF7DA81A90217700EC912B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84BF7DAA1A90217700EC912B /* Localizable.strings */; };
 		84C1A17619EDE8D100E64B40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17519EDE8D100E64B40 /* Foundation.framework */; };
 		84C1A17819EDE8D100E64B40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */; };
 		84C1A17A19EDE8D100E64B40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17919EDE8D100E64B40 /* UIKit.framework */; };
@@ -131,6 +132,10 @@
 		84BF7D9F1A8F4A4000EC912B /* OrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCell.h; sourceTree = "<group>"; };
 		84BF7DA01A8F4A4000EC912B /* OrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCell.m; sourceTree = "<group>"; };
 		84BF7DA11A8F4A4000EC912B /* OrderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderCell.xib; sourceTree = "<group>"; };
+		84BF7DA41A90210100EC912B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		84BF7DA51A90210100EC912B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		84BF7DA91A90217700EC912B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84BF7DB01A90219B00EC912B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		84C1A17219EDE8D100E64B40 /* FastOrdering.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastOrdering.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C1A17519EDE8D100E64B40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -361,6 +366,7 @@
 		84C1A1B019EDEE4500E64B40 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84BF7DAA1A90217700EC912B /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -491,6 +497,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				fr,
 			);
 			mainGroup = 84C1A16919EDE8D100E64B40;
 			productRefGroup = 84C1A17319EDE8D100E64B40 /* Products */;
@@ -510,6 +517,7 @@
 			files = (
 				84BF7DA31A8F4A4000EC912B /* OrderCell.xib in Resources */,
 				84C1A18019EDE8D100E64B40 /* InfoPlist.strings in Resources */,
+				84BF7DA81A90217700EC912B /* Localizable.strings in Resources */,
 				84C1A1BE19EDF2E900E64B40 /* MainView.xib in Resources */,
 				84BF7D9E1A8F4A2000EC912B /* NotificationCell.xib in Resources */,
 				84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */,
@@ -606,10 +614,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		84BF7DAA1A90217700EC912B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84BF7DA91A90217700EC912B /* en */,
+				84BF7DB01A90219B00EC912B /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		84C1A17E19EDE8D100E64B40 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				84C1A17F19EDE8D100E64B40 /* en */,
+				84BF7DA41A90210100EC912B /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -618,6 +636,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				84C1A19819EDE8D100E64B40 /* en */,
+				84BF7DA51A90210100EC912B /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

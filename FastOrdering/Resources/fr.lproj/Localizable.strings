@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  FastOrdering
+
+  Created by Sunder on 15/02/2015.
+  Copyright (c) 2015 lucas.bergognon. All rights reserved.
+*/
+
+/* Main page */
+"Main Page"                     =   "Acceuil";
+"Last Orders"                   =   "Dernières commandes";
+"Last Notifications"            =   "Dernières notifications";
+
+/* */
+"No notification"               =   "Aucune notification";
+"Erase all"                     =   "Tout effacer";
+
+/* Vocabulary */
+"order"                         =   "commander";
+"menu"                          =   "acceuil";
+"notification"                  =   "notification";
+"notifications"                 =   "notifications";
+"history"                       =   "historique";
+"about"                         =   "à propos";
+"LogOut"                        =   "Déconnexion";
+"LogIn"                         =   "Se connecter";
