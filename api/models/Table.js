@@ -18,7 +18,9 @@ module.exports = {
   	waiters: {
   		type: 'array', // an array of ids
   		defaultsTo: []
-  	}
+  	},
+      findByName: function(name) {
+      }
     // ,
 
   	// plan_id: {
