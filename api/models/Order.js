@@ -19,17 +19,20 @@ module.exports = {
   		type: 'string',
   		required: true
   	},
-
+      diner_number :{
+	  type: 'integer',
+	  required: true
+      },
   	waiter_id: {
   		type: 'string', // the waiter is a user object
-  		required: true
+  //		required: true
   	}, 
-
-  	price: {
-  		type: 'float',
-  		required: true
-  	}
-    
+      comment: {type:"string"},
+      orders: {
+	  collection:"OrderContent",
+	  via: "ordercontent_id"
+      }
+      
   }
 
 };

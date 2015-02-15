@@ -7,16 +7,17 @@
 
 module.exports = {
 	
-
-
   /**
    * `OrderController.create()`
    */
   create: function (req, res) {
+
+      console.log(req.param("order"));
    	Order.create({
-   		table_id:req.param("table"),
-      waiter_id:req.param("waiter"),
-      price:0
+	    table_id:req.param("numTable"),
+	    diner_number:req.param("numPA"),
+	    comment: req.param("global_comment"),
+//	    waiter_id:req.param("waiter"),
    	}).exec(function(err,model){
    		if (err) {
    			return res.json({
