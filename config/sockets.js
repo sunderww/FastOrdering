@@ -23,9 +23,13 @@ module.exports.sockets = {
   ***************************************************************************/
   onConnect: function(session, socket) {
       console.log("Connect");
-//      socket.emit(, {});  
-    // By default, do nothing.
-//      return socket.json({toto:"toto"});
+
+      socket.on('send_order', function(json) {
+	  console.log(json['order'][0]);
+	  console.log(json.numPA);
+	  socket.emit('send_order', {data: 'foo!'});
+//	  socket.send("Toto a l'ecole");
+      });
   },
 
 
