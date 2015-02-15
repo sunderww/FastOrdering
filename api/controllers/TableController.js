@@ -6,8 +6,6 @@
  */
 
 module.exports = {
-	
-
 
   /**
    * `TableController.create()`
@@ -31,7 +29,6 @@ module.exports = {
     });
   },
 
-
   /**
    * `TableController.destroy()`
    */
@@ -41,7 +38,6 @@ module.exports = {
     });
   },
 
-
   /**
    * `TableController.update()`
    */
@@ -50,7 +46,6 @@ module.exports = {
       todo: 'update() is not implemented yet!'
     });
   },
-
 
   /**
    * `TableController.read()`
@@ -66,5 +61,6 @@ module.exports = {
       });
     }
   }
+
 };
 
