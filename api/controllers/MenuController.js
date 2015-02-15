@@ -57,6 +57,11 @@ module.exports = {
 	  Menu.find( function(err, doc) {
 	      return res.json({elements: doc});
 	  });
-  }
+  },
+    alacarte: function(req, res) {
+	MenuComposition.findByName("alacarte").exec(function(err, doc){
+	    res.json({alacarte: {id:0, name:"alacarte", cats:doc[0].cat}});
+	});
+    }
 };
 

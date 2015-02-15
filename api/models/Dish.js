@@ -9,19 +9,6 @@
 module.exports = {
 
   attributes: {
-  	
-  	// restaurant_id: {
-  	// 	type: 'string',
-  	// 	required: true
-  	// },
-
-	// categories / menus in which it is contained
-//  	category_id: { 
-  //		type: 'string',
-  //		defaultsTo: [],
-//      required: true
-  //	},
-
   	name: {
   		type: 'string',
   		required: true
@@ -35,7 +22,9 @@ module.exports = {
   	available: {
   		type: 'boolean',
   		defaultsTo: true
-  	}
-      
+  	},
+      dish_id: {
+	  model: "Category"
+      },      
   }
 };
