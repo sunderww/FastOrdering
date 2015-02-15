@@ -8,28 +8,26 @@
 module.exports = {
 	
 
-
   /**
    * `OrderController.create()`
    */
   create: function (req, res) {
    	Order.create({
-   		table_id:req.param("table"),
-      waiter_id:req.param("waiter"),
-      price:0
+	    table_id:req.param("numTable"),
+	    diner_number:req.param("numPA"),
+	    comment: req.param("globalComment")
    	}).exec(function(err,model){
-   		if (err) {
-   			return res.json({
-   				message: err.ValidationError
-   			});
-   		}
-   		else {
-   			return res.json({
-   				message: req.param('name') + " has been created"
-   			});  			
-   		}
-
+   //   		if (err) {
+   // 			return res.json({
+   //				message: err.ValidationError
+   //			});
+   //		}
+   //		else {
+		    console.log(model.id);
+   		    return model;
+   //		}
    	});
+      console.log("tt");
   },
 
 
@@ -52,6 +50,14 @@ module.exports = {
     });
   },
 
+  json: function (req, res) {
+    if (req.param("id")) {
+      Order.find({id: req.param("id")}, function(err, doc) {
+        return res.send(doc);
+      });
+    }
+    },
+
 
   /**
    * `OrderController.read()`
@@ -62,8 +68,14 @@ module.exports = {
         return res.send(doc);
       });
     } else {
-      Order.find( function(err, doc) {
-        return res.send(doc);
+      OrderedDish.find( function(err, doc) {
+	  var re;
+	  for (var i = 0; doc[i];i++) {
+	      Order.find({id :doc[i].order_id }, function(er, doo){
+//		  doc[i].order = doo;
+	      });
+	  }
+	  return res.json({ data: doc });
       });
     } 
   }

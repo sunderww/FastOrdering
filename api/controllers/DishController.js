@@ -61,7 +61,7 @@ module.exports = {
    	} else {
    	    Dish.find( function(err, doc) {		    
    		    return res.json({elements: doc});
-   		});
+  		});
    	}
    }  
 };
