@@ -10,7 +10,7 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.sockets.html
  */
 
-module.exports.sockets = {
+ module.exports.sockets = {
 
   /***************************************************************************
   *                                                                          *
@@ -22,10 +22,46 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
   onConnect: function(session, socket) {
-      console.log("Connect");
-//      socket.emit(, {});  
-    // By default, do nothing.
-//      return socket.json({toto:"toto"});
+    console.log("Connect");
+ 
+
+    socket.on('send_order', function(json) {
+     console.log("send_order");
+     Order.create({
+      table_id:json.numTable,
+      dinerNumber:json.numPA,
+      comments: json.globalComment
+    }).exec(function(err,model){
+      for (var i = json['order'].length; i >= 0; i--) {
+      
+     OrderedDish.create({
+      order_id:model.id,
+      dish_id:json['order'][i].content[0].id,
+      quantity:json['order'][i].content[0].qty,
+      comment:json['order'][i].content[0].comment,
+      menu_id:json['order'][i].menuId
+    }).exec(function(err,model){
+      console.log(err);
+    });
+      };
+
+
+    socket.emit(socket.id,'receiver_order', {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, time:model.time});
+  });
+  });
+
+    socket.on('get_order', function(json){
+      json.order
+      Order.findOne({id:json.order}, function(err, mod){
+        OrderedDish.find({order_id: json.order}, function(err2, mod2){
+          socket.emit(socket.id, "get_order", {numOrder:mod.id, numTable:mod.table_id, date:mod.date, hour:mod.hour, globalComment:mod.comment,order:mod2});
+        });
+      });
+    });
+
+
+
+
   },
 
 
@@ -50,12 +86,12 @@ module.exports.sockets = {
   * flashsockets by adding 'flashsocket' to this list:                       *
   *                                                                          *
   ***************************************************************************/
-   transports: [
-     'websocket',
-     'htmlfile',
-     'xhr-polling',
-     'jsonp-polling'
-   ],
+  transports: [
+  'websocket',
+  'htmlfile',
+  'xhr-polling',
+  'jsonp-polling'
+  ],
 
   /***************************************************************************
   *                                                                          *
@@ -64,7 +100,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-   adapter: 'memory',
+  adapter: 'memory',
 
   /***************************************************************************
   *                                                                          *
@@ -147,7 +183,7 @@ module.exports.sockets = {
   *                                                                          *
   ***************************************************************************/
 
-   authorization: false,
+  authorization: false,
 
   /***************************************************************************
   *                                                                          *
