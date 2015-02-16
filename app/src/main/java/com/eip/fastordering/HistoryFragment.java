@@ -99,10 +99,15 @@ public class HistoryFragment extends Fragment {
     }
 
     private void displayPopupOrder(OrderStruct item) {
-        JSONObject obj = LoginActivity.createObjectURL("/get_order");
-
         //TODO Uncomment after demo
-//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+//        JSONObject arg = new JSONObject();
+//        try {
+//            arg.put("orderId", item.get_mNumOrder());
+//        } catch (JSONException e) {
+//            Log.d("HISTORY FRAGMENT", "EXCEPTION JSON:" + e.toString());
+//        }
+//
+//        LoginActivity._mSocket.emit("get_order", new IOAcknowledge() {
 //            @Override
 //            public void ack(Object... objects) {
 //                try {
@@ -110,10 +115,10 @@ public class HistoryFragment extends Fragment {
 //                    DialogOrder alertBuilder = new DialogOrder(getActivity(), _mFragment, _mFullOrder);
 //                    alertBuilder.customView().show();
 //                } catch (JSONException e) {
-//                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+//
 //                }
-//           }
-//        }, obj);
+//            }
+//        }, arg);
 
 //        TODO For demo
         DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);

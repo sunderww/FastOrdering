@@ -46,6 +46,8 @@ public class DialogOrder extends AlertDialog {
         _mItem = new OrderStruct(fullOrder);
 
         getDetailedOrder(fullOrder);
+
+        //TODO Not forget global_comment
     }
 
     //TODO Delete after demo
