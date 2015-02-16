@@ -18,7 +18,6 @@ public class ContentOrderStruct {
      */
 
     private String _mId;
-    private String _mGlobalComment;
     private ArrayList<ItemStruct> _mItems = new ArrayList<ItemStruct>();
 
     /***
@@ -28,8 +27,7 @@ public class ContentOrderStruct {
     ContentOrderStruct(JSONObject menu) {
         JSONArray arr;
         try {
-            _mId = menu.getString("menu_id");
-            _mGlobalComment = menu.getString("global_comment");
+            _mId = menu.getString("menuId");
             arr = menu.getJSONArray("content");
             for (int i = 0; i < arr.length(); ++i) {
                 _mItems.add(new ItemStruct(arr.getJSONObject(i)));
@@ -41,10 +39,6 @@ public class ContentOrderStruct {
 
     public String get_mId() {
         return _mId;
-    }
-
-    public String get_mGlobalComment() {
-        return _mGlobalComment;
     }
 
     public ArrayList<ItemStruct> get_mItems() {

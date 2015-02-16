@@ -31,22 +31,31 @@ public class DialogOrder extends AlertDialog {
     private OrderStruct _mItem;
     private ArrayList<ContentOrderStruct> _mContent = new ArrayList<ContentOrderStruct>();
     private Fragment _mFrag;
+    private static JSONObject _mOrderDetailed;
 
     /***
      * Methods
      */
 
-    DialogOrder(Activity activity, OrderStruct item, Fragment frag) {
+    DialogOrder(Activity activity, Fragment frag, JSONObject fullOrder) {
+        super(activity);
+
+        _mOrderDetailed = fullOrder;
+        _mActivity = (FragmentActivity) activity;
+        _mFrag = frag;
+        _mItem = new OrderStruct(fullOrder);
+
+        getDetailedOrder(fullOrder);
+    }
+
+    //TODO Delete after demo
+    DialogOrder(Activity activity, OrderStruct item,Fragment frag) {
         super(activity);
 
         _mActivity = (FragmentActivity) activity;
-        _mItem = item;
         _mFrag = frag;
+        _mItem = item;
 
-        //TODO
-        //Ajouter JSON de resume de commande, au constructeur
-
-        //TODO Delete
         JSONObject order = new JSONObject();
         JSONArray arr = new JSONArray();
         JSONObject comm = new JSONObject();
@@ -56,18 +65,17 @@ public class DialogOrder extends AlertDialog {
         try {
             itemOrder.put("id", "3");
             itemOrder.put("comment", "bla bla bla");
-            itemOrder.put("cooking", "bleu");
+            itemOrder.put("options", "bleu");
+            itemOrder.put("status", "2");
+            itemOrder.put("qty", 2);
             arrComm.put(itemOrder);
             comm.put("content", arrComm);
-            comm.put("menu_id", "1212");
-            comm.put("global_comment", "wefefe");
+            comm.put("menuId", "1212");
             arr.put(comm);
             order.put("order", arr);
         } catch (JSONException e) {
 
         }
-        //TODO End delete
-
         getDetailedOrder(order);
     }
 
@@ -81,10 +89,10 @@ public class DialogOrder extends AlertDialog {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //TODO
-                //Remplacer avec le sommaire de la commande en JSON
+                //TODO Uncomment after demo
+                //Fragment frag = new OrderFragment().newInstance(1, _mOrderDetailed);
 
-                //TODO Delete
+                //TODO Delete after demo
                 JSONObject content = new JSONObject();
                 JSONArray arrContent = new JSONArray();
                 JSONObject menu = new JSONObject();
@@ -135,8 +143,8 @@ public class DialogOrder extends AlertDialog {
             for (int j = 0; j < content.get_mItems().size(); ++j) {
                 ItemStruct item = content.get_mItems().get(j);
                 contenu += lineSep + "Id: " + item.get_mId();
-                if (item.get_mCooking().length() > 0)
-                    contenu += ", cuisson: " + item.get_mCooking();
+                if (item.get_mOptions().length() > 0)
+                    contenu += ", options: " + item.get_mOptions();
                 if (item.get_mComment().length() > 0)
                     contenu += ", commentaire: " + item.get_mComment();
             }

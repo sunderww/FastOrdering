@@ -16,7 +16,9 @@ public class ItemStruct {
 
     private String _mId;
     private String _mComment;
-    private String _mCooking;
+    private String _mOptions;
+    private String _mStatus;
+    private int _mQty;
 
     /***
      * Methods
@@ -26,7 +28,9 @@ public class ItemStruct {
         try {
             _mId = item.getString("id");
             _mComment = item.getString("comment");
-            _mCooking = item.getString("cooking");
+            _mOptions = item.getString("options");
+            _mStatus = item.getString("status");
+            _mQty = item.getInt("qty");
         } catch (JSONException e) {
             Log.d("ITEMSTRUCT", "EXCEPTION JSON:" + e.toString());
         }
@@ -40,7 +44,15 @@ public class ItemStruct {
         return _mComment;
     }
 
-    public String get_mCooking() {
-        return _mCooking;
+    public String get_mOptions() {
+        return _mOptions;
+    }
+
+    public String get_mStatus() {
+        return _mStatus;
+    }
+
+    public int get_mQty() {
+        return _mQty;
     }
 }

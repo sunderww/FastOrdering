@@ -3,6 +3,7 @@ package com.eip.fastordering;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.socket.IOAcknowledge;
+
 
 public class HistoryFragment extends Fragment {
 
@@ -23,24 +26,23 @@ public class HistoryFragment extends Fragment {
      */
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    static private Fragment _mFragment;
     static public ArrayList<OrderStruct> _mItems = new ArrayList<OrderStruct>();
     static private AdapterHistory _mAdapter;
     static private final int _mSizeList = 20;
+    static private JSONObject _mFullOrder;
 
     /***
      * Methods
      */
 
     public static HistoryFragment newInstance(int sectionNumber) {
-        HistoryFragment fragment = new HistoryFragment();
+        _mFragment = new HistoryFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
+        _mFragment.setArguments(args);
 
-        //TODO
-        //Get request /get_last_orders
-
-        //TODO Delete
+        //TODO Delete after demo
         JSONObject orders = new JSONObject();
         JSONArray arr = new JSONArray();
         _mItems.clear();
@@ -66,7 +68,7 @@ public class HistoryFragment extends Fragment {
         getLastOrders(orders);
         //TODO End delete
 
-        return fragment;
+        return (HistoryFragment)_mFragment;
     }
 
     public HistoryFragment() {
@@ -97,6 +99,23 @@ public class HistoryFragment extends Fragment {
     }
 
     private void displayPopupOrder(OrderStruct item) {
+        JSONObject obj = LoginActivity.createObjectURL("/get_order");
+
+        //TODO Uncomment after demo
+//        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+//            @Override
+//            public void ack(Object... objects) {
+//                try {
+//                    _mFullOrder = new JSONObject(objects[0].toString());
+//                    DialogOrder alertBuilder = new DialogOrder(getActivity(), _mFragment, _mFullOrder);
+//                    alertBuilder.customView().show();
+//                } catch (JSONException e) {
+//                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+//                }
+//           }
+//        }, obj);
+
+//        TODO For demo
         DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
         alertBuilder.customView().show();
     }

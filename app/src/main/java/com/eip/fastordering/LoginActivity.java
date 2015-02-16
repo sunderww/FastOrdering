@@ -43,6 +43,7 @@ public class LoginActivity extends Activity {
     static JSONArray _mCompos;
     static JSONObject _mCats;
     static JSONObject _mAlacarte;
+    static JSONObject _mLastOrders;
 
     /***
      * Methods
@@ -177,18 +178,25 @@ public class LoginActivity extends Activity {
                 }
 
                 //Data to fetch from server
-                fetchElements();
-                fetchMenus();
-                fetchCompos();
-                fetchCats();
-                fetchAlacarte();
+                fetchAllMenu();
+                //TODO Uncomment once done
+                //fetchLastOrders();
             }
 
             @Override
             public void on(String event, IOAcknowledge ack, Object... args) {
                 Log.d("SOCKET ON", "EVENT " + event);
+                eventsToListen(event, args);
             }
         });
+    }
+
+    private void fetchAllMenu() {
+        fetchElements();
+        fetchMenus();
+        fetchCompos();
+        fetchCats();
+        fetchAlacarte();
     }
 
     private void fetchElements() {
@@ -275,7 +283,23 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
-    private JSONObject createObjectURL(String URL) {
+    private void fetchLastOrders() {
+        JSONObject obj = createObjectURL("/get_last_orders");
+
+        LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+            @Override
+            public void ack(Object... objects) {
+                try {
+                    _mLastOrders = new JSONObject(objects[0].toString());
+                } catch (JSONException e) {
+                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                }
+                HistoryFragment.getLastOrders(_mLastOrders);
+            }
+        }, obj);
+    }
+
+    static public JSONObject createObjectURL(String URL) {
         JSONObject obj = new JSONObject();
         try {
             obj.put("url", URL);
@@ -283,5 +307,24 @@ public class LoginActivity extends Activity {
             Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
         }
         return obj;
+    }
+
+    private void eventsToListen(String event, Object... args) {
+        switch (event) {
+            case "receive_order":
+                HistoryFragment.addOrderToList((JSONObject)args[0]);
+                break;
+
+            case "notifications":
+                NotificationsFragment.addNotificationToList((JSONObject)args[0]);
+                break;
+
+            case "update":
+                fetchAllMenu();
+                break;
+
+            default:
+                break;
+        }
     }
 }

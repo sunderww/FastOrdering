@@ -152,8 +152,11 @@ public class OrderOrderFragment extends Fragment {
                                 EditText nb = (EditText) view.findViewById(R.id.nbDish);
                                 dish.put("id", txt.getTag().toString());
                                 dish.put("qty", Integer.parseInt(nb.getText().toString()));
+
+                                //TODO Add fields
                                 dish.put("comment", "blabla");
                                 dish.put("cuisson", "cramé");
+
                                 content.put(dish);
                             }
                         }
@@ -165,9 +168,11 @@ public class OrderOrderFragment extends Fragment {
                     //SET UP ORDER JSON
                     orderJSON.put("numTable", ((EditText) _mRootView.findViewById(R.id.order_order_table_edit)).getText().toString());
                     orderJSON.put("numPA", ((EditText)_mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString());
-                    orderJSON.put("globalComment", "toto");
-                    orderJSON.put("order", arrMenus);
 
+                    //TODO Add field
+                    orderJSON.put("globalComment", "toto");
+
+                    orderJSON.put("order", arrMenus);
 
                     Log.d("COMMANDE READY", orderJSON.toString());
                     LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
