@@ -35,6 +35,10 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
+    '/login': {view: 'login'},
+    '/dashboard': {view: 'dashboard'},
+    '/kitchen': {view: 'kitchen'},
+
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',
     '/compos' : 'MenuCompositionController.read',
