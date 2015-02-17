@@ -33,11 +33,15 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': {
-    view: 'homepage'
+    //view: 'homepage'
+    view: 'static/index'
   },
     '/login': {view: 'login'},
     '/dashboard': {view: 'dashboard'},
     '/kitchen': {view: 'kitchen'},
+   // '/reservation': {
+    //  controller: 'BookingController',
+     // view: 'reservation/reservation'},
 
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',

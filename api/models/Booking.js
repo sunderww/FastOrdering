@@ -16,8 +16,8 @@ module.exports = {
   	},
 
     time: {
-      type: 'time',
-      required: true
+     type: 'time',
+     required: true
     },
 
     name: {

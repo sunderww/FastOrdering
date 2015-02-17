@@ -17,14 +17,24 @@
 
 module.exports = {
     
-  
+  'new':function(req, res){
+  	res.view();
+  },
+
+  create: function(req, res, next){
+  	Booking.create(req.params.all(), function bookingCreated(err, booking) {
+  		if (err) return next(err);
+  		res.json(booking);
+  	});
+  }
 
 
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to BookingController)
    */
-  _config: {}
+   // ???
+  //_config: {}
 
   
 };
