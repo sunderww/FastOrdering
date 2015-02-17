@@ -89,6 +89,90 @@
 
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap/affix.js"></script>
+    <script src="/js/bootstrap/alert.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/bootstrap/button.js"></script>
+    <script src="/js/bootstrap/carousel.js"></script>
+    <script src="/js/bootstrap/collapse.js"></script>
+    <script src="/js/bootstrap/dropdown.js"></script>
+    <script src="/js/bootstrap/holder.min.js"></script>
+    <script src="/js/bootstrap/modal.js"></script>
+    <script src="/js/bootstrap/popover.js"></script>
+    <script src="/js/bootstrap/scrollspy.js"></script>
+    <script src="/js/bootstrap/tab.js"></script>
+    <script src="/js/bootstrap/tooltip.js"></script>
+    <script src="/js/bootstrap/transition.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/demo.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/pages/charts/d3.js"></script>
+    <script src="/js/pages/charts/flot.js"></script>
+    <script src="/js/pages/charts/highcharts.js"></script>
+    <script src="/js/pages/login/EasePack.min.js"></script>
+    <script src="/js/pages/login/TweenLite.min.js"></script>
+    <script src="/js/pages/login/login.js"></script>
+    <script src="/js/pages/login/rAF.js"></script>
+    <script src="/js/pages/widgets.js"></script>
+    <script src="/js/utility/bootbox/bootbox.js"></script>
+    <script src="/js/utility/fittext/jquery.fittext.js"></script>
+    <script src="/js/utility/fullscreen/jquery.fullscreen.js"></script>
+    <script src="/js/utility/highlight/highlight.pack.js"></script>
+    <script src="/js/utility/hoverintent/jquery.hoverIntent.minified.js"></script>
+    <script src="/js/utility/jquery.expose/jquery.expose.js"></script>
+    <script src="/js/utility/jquery.spin/spin.min.js"></script>
+    <script src="/js/utility/jvectormap/assets/jquery-1.8.2.js"></script>
+    <script src="/js/utility/jvectormap/assets/jquery-jvectormap-map.js"></script>
+    <script src="/js/utility/jvectormap/assets/jquery-jvectormap-us-aea-en.js"></script>
+    <script src="/js/utility/jvectormap/assets/jquery-jvectormap-us-lcc-en.js"></script>
+    <script src="/js/utility/jvectormap/assets/jquery-jvectormap-us-merc-en.js"></script>
+    <script src="/js/utility/jvectormap/assets/jquery-jvectormap-us-mill-en.js"></script>
+    <script src="/js/utility/jvectormap/assets/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/js/utility/jvectormap/jquery-jvectormap.min.js"></script>
+    <script src="/js/utility/jvectormap/jquery-mousewheel.js"></script>
+    <script src="/js/utility/jvectormap/lib/abstract-canvas-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/abstract-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/abstract-shape-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/color-scale.js"></script>
+    <script src="/js/utility/jvectormap/lib/data-series.js"></script>
+    <script src="/js/utility/jvectormap/lib/jvectormap.js"></script>
+    <script src="/js/utility/jvectormap/lib/numeric-scale.js"></script>
+    <script src="/js/utility/jvectormap/lib/ordinal-scale.js"></script>
+    <script src="/js/utility/jvectormap/lib/proj.js"></script>
+    <script src="/js/utility/jvectormap/lib/simple-scale.js"></script>
+    <script src="/js/utility/jvectormap/lib/svg-canvas-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/svg-circle-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/svg-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/svg-group-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/svg-path-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/svg-shape-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/vector-canvas.js"></script>
+    <script src="/js/utility/jvectormap/lib/vml-canvas-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/vml-circle-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/vml-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/vml-group-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/vml-path-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/vml-shape-element.js"></script>
+    <script src="/js/utility/jvectormap/lib/world-map.js"></script>
+    <script src="/js/utility/multiselect/bootstrap-multiselect.js"></script>
+    <script src="/js/utility/nanoscroller/jquery.nanoscroller.min.js"></script>
+    <script src="/js/utility/pnofify/pnotify.custom.js"></script>
+    <script src="/js/utility/smoothscroll/jquery.smooth-scroll.min.js"></script>
+    <script src="/js/utility/underscore/underscore-min.js"></script>
+    <script src="/js/utility/underscore/underscore.js"></script>
+    <script src="/js/utility/utility.js"></script>
+    <script src="/js/utility/waypoints/jquery.waypoints.min.js"></script>
     <!--SCRIPTS END-->
+    <script>
+io.socket.request('send_order', {}, function (users) {
+  console.log(users); // list of users on the sever
+});
+//io.socket.emi('send_order', function(so){
+//console.log(so);
+//});
+
+    </script>
+
   </body>
 </html>
