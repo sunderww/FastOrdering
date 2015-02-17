@@ -144,41 +144,25 @@
         
             <!-- /.row -->
             <div class="row">
-
-            <% if (flash && flash.err) { %>
-                <ul class="alert alert-success">
-            <% Object.keys(flash.err).forEach(function(error) { %>
-                <li><%- JSON.stringify(flash.err[error]) %> </li>
-            <% }) %>
-            </ul>
-            <% } %>
-
-
-            <div class="col-lg-3"></div>
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Sign in</h3>
-                    </div>
-
-                    <div class="panel-body">
-                        <form action="/booking/create" method="POST" class="form-signin">
-                        <div class="form-group">
-                            <label>Name:</label>
-                            <input class="form-control" placeholder="Name" name="name">
-                            <label>Date :</label>
-                            <input type="date" class="form-control" placeholder="Enter text" name="date">
-                            <label>Time :</label>
-                            <input type="time" class="form-control" placeholder="Enter text" name="time"> 
-                            <input type="hidden" name="restaurant_id" value="1">
-                        </div>
-                        <input type="submit" class="btn btn-default" value="Submit"</input>
-                        <input type="hidden" name="_csrf" value="<%=_csrf %>" />
-                    </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3"></div>
+            	<div class="container">
+            		<h3>Bookings</h3>
+            		<table class="table">
+            			<tr>
+            				<td>Name</td>
+            				<td>Date</td>
+            				<td>Time</td>
+            			</tr>
+            			<% _.each(bookings, function(booking) { %>
+            			<tr data-id="<%= booking.id %>" data-model="booking">
+            				<td><%= booking.name %></td>
+            				<td><%= booking.date %></td>
+            				<td><%= booking.time %></td>
+            				<td><a href="/booking/edit/<%= booking.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+            				<td><a href="/booking/destroy/<%= booking.id %>" class="btn btn-sm btn-danger">Delete</a></td> 
+            			</tr>
+            			<% }) %>
+            		</table>
+            	</div>
             </div>
         </div>
             <!-- /.container-fluid -->

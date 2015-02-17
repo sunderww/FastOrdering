@@ -18,13 +18,56 @@
 module.exports = {
     
   'new':function(req, res){
+  	res.locals.flash = _.clone(req.session.flash);
   	res.view();
+  	req.session.flash = {};
   },
 
   create: function(req, res, next){
   	Booking.create(req.params.all(), function bookingCreated(err, booking) {
-  		if (err) return next(err);
+  		if (err) {
+  			console.log(err);
+  			req.session.flash = {
+  				err: err
+  			}
+
+
+  			return res.redirect('/booking/new');
+  		}
+
   		res.json(booking);
+	  	req.session.flash = {};
+  	});	
+  },
+
+  edit: function(req, res, next){
+  	Booking.findOne(req.param('id'), function foundBooking(err, booking) {
+  		if (err) return next(err);
+  		if (!booking) return next();
+
+  		res.view({
+  			booking: booking
+  		});
+  	});
+  },
+
+  update: function(req, res, next){
+  	Booking.update(req.param('id'), req.params.all(), function userUpdated(err) {
+  		if (err) {
+  			return res.redirect('/booking/edit/' + req.param('id'));
+  		}
+
+  		res.redirect('/booking/index');
+  	});
+  },
+
+  index: function(req, res, next){
+  	Booking.find(function foundBooking(err, bookings) {
+  		if (err) return next(err);
+
+  		res.view({
+  			bookings: bookings
+  		});
   	});
   }
 

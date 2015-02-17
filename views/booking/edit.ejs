@@ -145,15 +145,6 @@
             <!-- /.row -->
             <div class="row">
 
-            <% if (flash && flash.err) { %>
-                <ul class="alert alert-success">
-            <% Object.keys(flash.err).forEach(function(error) { %>
-                <li><%- JSON.stringify(flash.err[error]) %> </li>
-            <% }) %>
-            </ul>
-            <% } %>
-
-
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <div class="panel panel-default">
@@ -162,14 +153,14 @@
                     </div>
 
                     <div class="panel-body">
-                        <form action="/booking/create" method="POST" class="form-signin">
+                        <form action="/booking/update/<%= booking.id %>" method="POST" class="form-signin">
                         <div class="form-group">
                             <label>Name:</label>
-                            <input class="form-control" placeholder="Name" name="name">
+                            <input class="form-control" placeholder="Name" name="name" value="<%= booking.name %>">
                             <label>Date :</label>
-                            <input type="date" class="form-control" placeholder="Enter text" name="date">
+                            <input type="date" class="form-control" placeholder="Enter text" name="date" value="<%= booking.date %>" >
                             <label>Time :</label>
-                            <input type="time" class="form-control" placeholder="Enter text" name="time"> 
+                            <input type="time" class="form-control" placeholder="Enter text" name="time" value="<%= booking.time %>" > 
                             <input type="hidden" name="restaurant_id" value="1">
                         </div>
                         <input type="submit" class="btn btn-default" value="Submit"</input>

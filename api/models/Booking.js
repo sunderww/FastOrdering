@@ -15,10 +15,10 @@ module.exports = {
   		required: true
   	},
 
-    time: {
-     type: 'time',
-     required: true
-    },
+    //time: {
+    // type: 'time',
+    // required: true
+    //},
 
     name: {
       type: 'string',
