@@ -1,12 +1,18 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +42,8 @@ public class Main extends FragmentActivity
     private NavigationDrawerFragment _mNavigationDrawerFragment;
     private CharSequence _mTitle;
     static public Fragment[] _mTabFragments;
+    static public NotificationCompat.Builder _mBuilder;
+    static public NotificationManager _mNotifyMgr;
 
     /***
      * Methods
@@ -45,6 +53,19 @@ public class Main extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        _mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.logo).setAutoCancel(true);
+        Intent resultIntent = new Intent(this, Main.class);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        new Intent(),
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        _mBuilder.setContentIntent(resultPendingIntent);
+        _mNotifyMgr = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
 
         _mTabFragments = new Fragment[6];
         _mTabFragments[0] = new HomeFragment().newInstance(1);

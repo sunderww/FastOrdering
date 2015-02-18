@@ -1,8 +1,14 @@
 package com.eip.fastordering;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -32,16 +38,17 @@ public class NotificationsFragment extends Fragment {
     static public AdapterNotif _mAdapter;
     static private View _mRootView = null;
     static private final int _mSizeList = 20;
+    private static  NotificationsFragment _mFragment;
 
     /***
      * Methods
      */
 
     public static NotificationsFragment newInstance(int sectionNumber) {
-        NotificationsFragment fragment = new NotificationsFragment();
+        _mFragment = new NotificationsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
+        _mFragment.setArguments(args);
 
         _mItems.clear();
 
@@ -58,7 +65,7 @@ public class NotificationsFragment extends Fragment {
         addNotificationToList(notif);
         //TODO End delete
 
-        return fragment;
+        return _mFragment;
     }
 
     public NotificationsFragment() {
@@ -87,6 +94,7 @@ public class NotificationsFragment extends Fragment {
         /***
          * Create a custom adapter for the listview of orders
          */
+
         _mAdapter = new AdapterNotif(container.getContext(), _mItems);
         final ListView lv = (ListView)_mRootView.findViewById(R.id.notification_list);
 
@@ -180,6 +188,17 @@ public class NotificationsFragment extends Fragment {
         if (_mAdapter != null)
             _mAdapter.notifyDataSetChanged();
         checkListEmpty();
+        try {
+            createNotificationLauncher("Nouvelle notification", notif.getString("msg"));
+        } catch (JSONException e) {
+            Log.d("NOTIFICATIONSFRAGMENT", "EXCEPTION JSON:" + e.toString());
+        }
+    }
+
+    static public void createNotificationLauncher(String title, String text) {
+        Main._mBuilder.setContentTitle(title).setContentText(text);
+        int mNotificationId = 001;
+        Main._mNotifyMgr.notify(mNotificationId, Main._mBuilder.build());
     }
 
 }
