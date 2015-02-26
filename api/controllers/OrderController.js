@@ -12,6 +12,8 @@ module.exports = {
    * `OrderController.create()`
    */
   create: function (req, res) {
+
+      console.log(req.param("order"));
    	Order.create({
 	    table_id:req.param("numTable"),
 	    diner_number:req.param("numPA"),

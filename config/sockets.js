@@ -26,7 +26,6 @@ module.exports.sockets = {
 
       socket.on('send_order', function(json) {
 	  console.log("send_order");
-
           Order.create({
               table_id:json.numTable,
               diner_number:json.numPA,

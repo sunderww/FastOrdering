@@ -37,10 +37,9 @@ module.exports.routes = {
   },
     '/login': {view: 'login'},
     '/dashboard': {view: 'dashboard'},
-    '/kitchen': {view: "kitchen"},
-
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',
+    
     '/compos' : 'MenuCompositionController.read',
     '/alacarte' : 'MenuController.alacarte',
     '/send_order' : 'OrderController.create',
