@@ -6,17 +6,18 @@
  */
 
 module.exports = {
-	
-
-
   /**
    * `OrderedDishController.create()`
    */
   create: function (req, res) {
+	console.log(req.param("order_id"));
     OrderedDish.create({
-      order_id:req.param("order"),
-      dish_id:req.param("dish")
-      // :0
+
+        order_id:req.param("order_id"),
+	dish_id:req.param("dish"),
+	quantity:req.param("qty"),
+	comment:req.param("comment"),
+	menu_id:req.param("menuId")
     }).exec(function(err,model){
       if (err) {
         return res.json({

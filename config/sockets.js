@@ -25,10 +25,24 @@ module.exports.sockets = {
       console.log("Connect");
 
       socket.on('send_order', function(json) {
-	  console.log(json['order'][0]);
-	  console.log(json.numPA);
-	  socket.emit('send_order', {data: 'foo!'});
-//	  socket.send("Toto a l'ecole");
+	  console.log("send_order");
+          Order.create({
+              table_id:json.numTable,
+              diner_number:json.numPA,
+              comment: json.globalComment
+          }).exec(function(err,model){
+	      OrderedDish.create({
+		  order_id:model.id,
+		  dish_id:json['order'][0].content[0].id,
+		  quantity:json['order'][0].content[0].qty,
+		  comment:json['order'][0].content[0].comment,
+		  menu_id:json['order'][0].menuId
+	      }).exec(function(err,model){
+		  console.log(err);
+	      });
+
+	  socket.emit('receiver_order', {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, time:model.time});
+	  });
       });
   },
 

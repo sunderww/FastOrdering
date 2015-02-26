@@ -5,6 +5,7 @@
  * @description :: A short summary of how this model works and what it represents.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
+var moment = require('moment');
 
 module.exports = {
 
@@ -14,7 +15,14 @@ module.exports = {
   	// 	type: 'string',
   	// 	required: true
   	// },
-
+     date: {
+                type: 'string',
+          defaultsTo: function() {return moment().format("m/d/YYYY"); }
+      },
+      time: {
+          type: 'string',
+          defaultsTo: function() {return moment().format("h:mm");}
+      },
   	table_id: {
   		type: 'string',
   		required: true
