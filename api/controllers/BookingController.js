@@ -24,7 +24,11 @@ module.exports = {
   },
 
   create: function(req, res, next){
-  	Booking.create(req.params.all(), function bookingCreated(err, booking) {
+
+    var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
+    var params = { date:datetime, name:req.param('name'), restaurant_id:req.param('restaurant_id') };
+
+  	Booking.create(params, function bookingCreated(err, booking) {
   		if (err) {
   			console.log(err);
   			req.session.flash = {
@@ -64,6 +68,12 @@ module.exports = {
   index: function(req, res, next){
   	Booking.find(function foundBooking(err, bookings) {
   		if (err) return next(err);
+
+      //bookings.forEach(function(entry) {
+       // console.log(entry.date);
+        //entry.date = String(entry.date).substr(4)
+        //entry.date = String((sails.moment(entry.date, "MM DD YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
+      //});
 
   		res.view({
   			bookings: bookings
