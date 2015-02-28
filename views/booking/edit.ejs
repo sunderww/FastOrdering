@@ -1,0 +1,109 @@
+<body class="dashboard-page sb-l-o sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main">
+
+        <% include ../header.ejs %>
+        <% include ../sidebar.ejs %>
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+
+
+
+            <!-- Start: Topbar -->
+            <header id="topbar">
+                <div class="topbar-left">
+                    <ol class="breadcrumb">
+                        <li class="crumb-active">
+                            <a href="dashboard">Reservation</a>
+                        </li>
+                        <li class="crumb-icon">
+                            <a href="dashboard">
+                                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+                        </li>
+                        <li class="crumb-link">
+                            <a href="dashboard">Accueil</a>
+                        </li>
+                        <li class="crumb-trail">Reservation</li>
+                    </ol>
+                </div>
+
+            </header>
+            <!-- End: Topbar -->
+
+            <!-- Begin: Content -->
+            <section id="content" class="animated fadeIn">
+                <!-- Dashboard Tiles -->
+
+                <section id="content" class="animated fadeIn">
+
+                    <div class="row table-layout" id="modal-content">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Edit reservation</h3>
+                                </div>
+
+                                <div class="panel-body">
+                                    <form action="/booking/update/<%= booking.id %>" method="POST" class="form-signin">
+                                        <div class="form-group">
+                                            <label>Name:</label>
+                                            <input class="form-control" placeholder="Name" name="name" value="<%= booking.name %>">
+                                            <label>Date :</label>
+                                            <input type="date" class="form-control" placeholder="Enter text" name="date" value="<%= booking.date %>" >
+                                            <label>Time :</label>
+                                            <input type="time" class="form-control" placeholder="Enter text" name="time" value="<%= booking.time %>" > 
+                                            <input type="hidden" name="restaurant_id" value="1">
+                                        </div>
+                                        <input type="submit" class="btn btn-default" value="Submit"</input>
+                                        <a href="/booking/destroy/<%= booking.id %>" class="btn btn-sm btn-danger">Delete</a>
+                                        <input type="hidden" name="_csrf" value="<%=_csrf %>" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3"></div>
+                    </div>
+                </section>
+            </section>
+            <!-- End: Main -->
+
+            <!-- BEGIN: PAGE SCRIPTS -->
+
+            <!-- jQuery -->
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>
+
+
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Page Plugins -->
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Admin Forms Javascript -->
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>

@@ -17,8 +17,69 @@
 
 module.exports = {
     
-  
+  'new':function(req, res){
+  	res.locals.flash = _.clone(req.session.flash);
+  	res.view();
+  	req.session.flash = {};
+  },
 
+  create: function(req, res, next){
+
+    var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
+    var params = { date:datetime, name:req.param('name'), restaurant_id:req.param('restaurant_id') };
+
+  	Booking.create(params, function bookingCreated(err, booking) {
+  		if (err) {
+  			console.log(err);
+  			req.session.flash = {
+  				err: err
+  			}
+
+
+  			return res.redirect('/booking/new');
+  		}
+
+  		res.json(booking);
+	  	req.session.flash = {};
+  	});	
+  },
+
+  edit: function(req, res, next){
+  	Booking.findOne(req.param('id'), function foundBooking(err, booking) {
+  		if (err) return next(err);
+  		if (!booking) return next();
+
+  		res.view({
+  			booking: booking
+  		});
+  	});
+  },
+
+  update: function(req, res, next){
+  	Booking.update(req.param('id'), req.params.all(), function userUpdated(err) {
+  		if (err) {
+  			return res.redirect('/booking/edit/' + req.param('id'));
+  		}
+
+  		res.redirect('/booking/index');
+  	});
+  },
+
+  index: function(req, res, next){
+  	Booking.find(function foundBooking(err, bookings) {
+  		if (err) return next(err);
+
+      //bookings.forEach(function(entry) {
+       // console.log(entry.date);
+        //entry.date = String(entry.date).substr(4)
+        //entry.date = String((sails.moment(entry.date, "MM DD YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
+      //});
+
+  		res.view({
+  			bookings: bookings
+  		});
+  	});
+  },
 
   /**
    * Overrides for the settings in `config/controllers.js`

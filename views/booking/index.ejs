@@ -1,0 +1,151 @@
+<body class="dashboard-page sb-l-o sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main">
+
+        <% include ../header.ejs %>
+        <% include ../sidebar.ejs %>
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+
+
+
+            <!-- Start: Topbar -->
+            <header id="topbar">
+                <div class="topbar-left">
+                    <ol class="breadcrumb">
+                        <li class="crumb-active">
+                            <a href="dashboard">Reservation</a>
+                        </li>
+                        <li class="crumb-icon">
+                            <a href="dashboard">
+                                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+                        </li>
+                        <li class="crumb-link">
+                            <a href="dashboard">Accueil</a>
+                        </li>
+                        <li class="crumb-trail">Reservation</li>
+                    </ol>
+                </div>
+
+            </header>
+            <!-- End: Topbar -->
+
+
+
+            <!-- Begin: Content -->
+            <section id="content" class="animated fadeIn">
+                <!-- Dashboard Tiles -->
+
+                <section id="content" class="animated fadeIn">
+                    <div id='calendar'></div>
+                    <div class="row table-layout" id="modal-content">
+                        <div class="container">
+                            <h3>Bookings</h3>
+                            <table class="table">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Date</td>
+                                </tr>
+                                <% _.each(bookings, function(booking) { %>
+                                <tr data-id="<%= booking.id %>" data-model="booking">
+                                    <td><%= booking.name %></td>
+                                    <td><%= booking.date %></td>
+                                    <td><a href="/booking/edit/<%= booking.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+                                    <td><a href="/booking/destroy/<%= booking.id %>" class="btn btn-sm btn-danger">Delete</a></td> 
+                                </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- End: Main -->
+
+            <!-- BEGIN: PAGE SCRIPTS -->
+
+            <!-- jQuery -->
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>
+
+
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Page Plugins -->
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Admin Forms Javascript -->
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>
+
+            <!-- Full calendear -->
+            <link rel='stylesheet' href='/fullcalendar/fullcalendar.min.css' />
+            <script type="text/javascript" src='/fullcalendar/lib/moment.min.js'></script>
+            <script type="text/javascript" src='/fullcalendar/fullcalendar.min.js'></script>
+            <script type="text/javascript">
+                jQuery(document).ready(function() {
+
+                // page is now ready, initialize the calendar...
+
+                    $('#calendar').fullCalendar({
+                        header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,basicWeek,basicDay'
+                        },
+                        select: function(start, end) {
+                            var title = prompt('Event Title:');
+                            var eventData;
+                            if (title) {
+                                eventData = {
+                                    title: title,
+                                    start: start,
+                                    end: end
+                                    };
+                                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                            }
+                        $('#calendar').fullCalendar('unselect');
+                        },
+                        editable: false,
+                        eventLimit: true,
+                        events: [
+                        <% _.each(bookings, function(booking) { %>
+                        {
+                            id: '<%= booking.id %>',
+                            title: '<%= booking.name %>',
+                            start: '<%= booking.date %>'
+                        },
+                        <% }) %>
+                        ],
+                        eventClick: function(calEvent) {
+                            window.location="/booking/edit/" + calEvent.id;
+                        }
+                    // put your options and callbacks here
+                    })
+
+                });
+            </script>

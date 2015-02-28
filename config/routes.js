@@ -34,9 +34,18 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
+    //view: 'static/index'
   },
     '/login': {view: 'login'},
     '/dashboard': {view: 'dashboard'},
+
+    '/booking' : 'BookingController.index',
+    '/booking/new' : 'BookingController.new',
+    '/booking/edit' : 'BookingController.edit',
+   // '/reservation': {
+    //  controller: 'BookingController',
+     // view: 'reservation/reservation'},
+
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',
     '/kitchen' : 'OrderController.read',   
