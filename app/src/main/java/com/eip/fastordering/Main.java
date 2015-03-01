@@ -73,7 +73,7 @@ public class Main extends FragmentActivity
         _mTabFragments[2] = new NotificationsFragment().newInstance(3);
         _mTabFragments[3] = new HistoryFragment().newInstance(4);
         _mTabFragments[4] = new AboutFragment().newInstance(5);
-        _mTabFragments[5] = new LogoutFragment().newInstance(6);
+        _mTabFragments[5] = null;
 
         setContentView(R.layout.activity_main);
 

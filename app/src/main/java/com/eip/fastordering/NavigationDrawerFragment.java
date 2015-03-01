@@ -196,7 +196,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (position == 6) {
+        if (position == 5) {
             Intent mainActivity = new Intent(getActivity(), LoginActivity.class);
 
             mCurrentSelectedPosition = 0;
