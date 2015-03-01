@@ -21,6 +21,14 @@
 {
     LoginViewController * controller;
     
+#if DEBUG
+#ifdef kShouldDropDB
+    [self dropDB];
+#endif
+#endif
+    NSError * error;
+    NSLog(@"%@", [NSString stringWithContentsOfURL:[NSURL URLWithString:@"www.google.com"] encoding:NSUTF8StringEncoding error:&error]);
+    NSLog(@"%@", error);
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -81,6 +89,51 @@
         }
     }
 }
+
+#pragma mark - Core Data related methods
+
+#if DEBUG
+
+- (void)deleteAllObjects:(NSString *)entityDescription  {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *items = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    for (NSManagedObject *managedObject in items) {
+        [_managedObjectContext deleteObject:managedObject];
+        PPLog(@"%@ object deleted", entityDescription);
+    }
+    if (![_managedObjectContext save:&error]) {
+        PPLog(@"Error deleting %@ - error:%@", entityDescription, error);
+    }
+}
+
+- (void)dropDB {
+    for (NSString * key in self.managedObjectModel.entitiesByName)
+        [self deleteAllObjects:key];
+}
+
+- (void)printDB {
+    PPLog(@"========= DB DUMP");
+    
+    for (NSString * key in self.managedObjectModel.entitiesByName) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:key inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        NSError *error;
+        NSArray *items = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        
+        PPLog(@"%@ > %@", key, items);
+    }
+    
+    PPLog(@"=========== END");
+}
+
+#endif
 
 #pragma mark - Core Data stack
 

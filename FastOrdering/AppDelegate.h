@@ -13,7 +13,7 @@
 #pragma mark - Server defines
 
 // uncomment this line to use alexis' server
-//#define USE_ALEXIS_SERVER
+#define USE_ALEXIS_SERVER
 
 #ifdef USE_ALEXIS_SERVER
     #define kSocketIOHost       @"alexis-semren.com"
@@ -28,6 +28,8 @@
 
 #pragma mark - Other defines
 #define kClassNamesToSync   @[@"Plan", @"Table", @"Category", @"Dish"]
+// uncomment this line to begin with an empty db
+#define kShouldDropDB
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
