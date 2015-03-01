@@ -42,6 +42,7 @@ public class OrderOrderFragment extends Fragment {
     static HashMap<String, List<String>> _mListDataChild;
     private static HashMap<String, List<String>> _mListDataNb;
     static View _mRootView;
+    static private OrderStruct _mDetails;
 
     /***
      * Methods
@@ -71,6 +72,10 @@ public class OrderOrderFragment extends Fragment {
 
     public OrderOrderFragment() {
 
+    }
+
+    public static void setExistingOrder(OrderStruct order) {
+        _mDetails = order;
     }
 
     private static void setDataOrderToLists(JSONObject order) {
@@ -118,15 +123,17 @@ public class OrderOrderFragment extends Fragment {
         _mExpListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
         _mExpListView.setEmptyView(_mRootView.findViewById(R.id.order_order_none_text));
 
-        // preparing list data
-        prepareListData();
-
         _mListAdapter = new ExpandableListAdapter(getActivity(), _mListDataHeader, _mListDataChild, true, _mListDataNb, getActivity(), 3);
         checkListEmpty();
 
         // setting list adapter
         _mExpListView.setAdapter(_mListAdapter);
         _mExpListView.setGroupIndicator(null);
+
+        if (_mDetails != null) {
+            ((TextView)_mRootView.findViewById(R.id.order_order_table_edit)).setText(_mDetails.get_mNumTable());
+            ((TextView)_mRootView.findViewById(R.id.order_order_pa_edit)).setText(_mDetails.get_mNumPA());
+        }
 
         ImageButton addButton = (ImageButton)_mRootView.findViewById(R.id.order_order_rectangle);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -172,15 +179,15 @@ public class OrderOrderFragment extends Fragment {
                     //TODO Add field
                     orderJSON.put("globalComment", "toto");
 
-                    orderJSON.put("order", arrMenus);
+                        orderJSON.put("order", arrMenus);
 
-                    Log.d("COMMANDE READY", orderJSON.toString());
-                    LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
-                        @Override
-                        public void ack(Object... objects) {
-                            Log.d("SENDORDERFRAG", "" + objects[0]);
-                        }
-                    }, orderJSON);
+                        Log.d("COMMANDE READY", orderJSON.toString());
+                        LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
+                            @Override
+                            public void ack(Object... objects) {
+                                Log.d("SENDORDERFRAG", "" + objects[0]);
+                            }
+                        }, orderJSON);
                 }
                 catch (JSONException e) {
 
@@ -200,8 +207,6 @@ public class OrderOrderFragment extends Fragment {
         return _mRootView;
     }
 
-    private void prepareListData() {
-    }
 
     static void addMenuToOrder(String menuId, HashMap<String, String> dishes) {
         List<String> listHeaderAdapter = _mListAdapter.get_listDataHeader();

@@ -31,10 +31,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/dialog_order_hour"
         android:text="@string/dialog_order_hour"
-        android:layout_marginTop="20dp"
         android:textSize="16sp"
-        android:layout_below="@+id/dialog_order_table"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/dialog_order_pa"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,9 +43,9 @@
         android:text="@string/dialog_order_pa"
         android:id="@+id/dialog_order_pa"
         android:textSize="16sp"
-        android:layout_alignTop="@+id/dialog_order_table"
-        android:layout_toRightOf="@+id/dialog_order_table"
-        android:layout_toEndOf="@+id/dialog_order_table" />
+        android:layout_below="@+id/dialog_order_table"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -56,5 +56,5 @@
         android:layout_marginTop="20dp"
         android:textSize="16sp"
         android:layout_below="@+id/dialog_order_hour"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="20dp" />
 </RelativeLayout>

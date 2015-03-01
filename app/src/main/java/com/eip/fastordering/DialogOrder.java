@@ -65,14 +65,14 @@ public class DialogOrder extends AlertDialog {
         JSONObject itemOrder = new JSONObject();
 
         try {
-            itemOrder.put("id", "3");
+            itemOrder.put("id", "54d9779f62c30f693817538f");
             itemOrder.put("comment", "bla bla bla");
             itemOrder.put("options", "bleu");
             itemOrder.put("status", "2");
             itemOrder.put("qty", 2);
             arrComm.put(itemOrder);
             comm.put("content", arrComm);
-            comm.put("menuId", "1212");
+            comm.put("menuId", "54d978540bc970af38e34535");
             arr.put(comm);
             order.put("order", arr);
         } catch (JSONException e) {
@@ -91,9 +91,6 @@ public class DialogOrder extends AlertDialog {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //TODO Uncomment after demo
-                //Fragment frag = new OrderFragment().newInstance(1, _mOrderDetailed);
-
                 //TODO Delete after demo
                 JSONObject content = new JSONObject();
                 JSONArray arrContent = new JSONArray();
@@ -102,14 +99,14 @@ public class DialogOrder extends AlertDialog {
                 JSONObject order = new JSONObject();
 
                 try {
-                    content.put("id", "3");
+                    content.put("id", "54d9779f62c30f693817538f");
                     content.put("qty", "1");
                     content.put("comment", "blabla");
                     content.put("status", "0");
                     content.put("options", "");
                     arrContent.put(content);
                     menu.put("content", arrContent);
-                    menu.put("menuId", "1212");
+                    menu.put("menuId", "54d978540bc970af38e34535");
                     menu.put("globalComment", "blablabla");
                     arrMenu.put(menu);
                     order.put("order", arrMenu);
@@ -118,7 +115,7 @@ public class DialogOrder extends AlertDialog {
                 }
                 //TODO End delete
 
-                Fragment frag = new OrderFragment().newInstance(1, order);
+                Fragment frag = new OrderFragment().newInstance(1, order, _mItem);
                 FragmentManager fm = _mActivity.getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(_mFrag.getId(), frag).addToBackStack(null).commit();
@@ -131,7 +128,7 @@ public class DialogOrder extends AlertDialog {
         });
 
         ((TextView)view.findViewById(R.id.dialog_order_title)).setText(((TextView)view.findViewById(R.id.dialog_order_title)).getText() + _mItem.get_mNumOrder());
-        ((TextView)view.findViewById(R.id.dialog_order_table)).setText(((TextView)view.findViewById(R.id.dialog_order_table)).getText() + _mItem.get_mNumTable() + getContext().getString(R.string.comma));
+        ((TextView)view.findViewById(R.id.dialog_order_table)).setText(((TextView)view.findViewById(R.id.dialog_order_table)).getText() + _mItem.get_mNumTable());
         ((TextView)view.findViewById(R.id.dialog_order_pa)).setText(((TextView)view.findViewById(R.id.dialog_order_pa)).getText() + _mItem.get_mNumPA());
         ((TextView)view.findViewById(R.id.dialog_order_hour)).setText(((TextView)view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + getContext().getString(R.string.at) + _mItem.get_mHour());
 

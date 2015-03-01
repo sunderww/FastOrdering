@@ -36,17 +36,19 @@ public class OrderFragment extends Fragment {
     private View _mRootView;
     private static FragmentActivity _mActivity;
     static private JSONObject _mOrder;
+    static private OrderStruct _mDetails;
 
     /**
      * Methods
      */
 
-    public static OrderFragment newInstance(int sectionNumber, JSONObject order) {
+    public static OrderFragment newInstance(int sectionNumber, JSONObject order, OrderStruct details) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         _mOrder = order;
+        _mDetails = details;
         return fragment;
     }
 
@@ -67,6 +69,10 @@ public class OrderFragment extends Fragment {
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) _mRootView.findViewById(R.id.tabs);
         tabs.setViewPager(pager);
+
+        if (_mDetails != null) {
+            OrderOrderFragment.setExistingOrder(_mDetails);
+        }
 
         return _mRootView;
     }
