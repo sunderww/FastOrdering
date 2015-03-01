@@ -79,4 +79,5 @@
     <string name="dialog_box_dish">Plat :\u0020</string>
     <string name="dialog_box_option">, options :\u0020</string>
     <string name="dialog_box_comment">, commentaire :\u0020</string>
+    <string name="comma">,\u0020</string>
 </resources>
