@@ -120,7 +120,7 @@ public class NotificationsFragment extends Fragment {
                 // Capture total checked items
                 final int checkedCount = lv.getCheckedItemCount();
                 // Set the CAB title according to total checked items
-                String selected = (checkedCount > 1) ? "choisis" : "choisi";
+                String selected = (checkedCount > 1) ? getString(R.string.choose_plural) : getString(R.string.choose_singular);
                 mode.setTitle(checkedCount + " " + selected);
                 // Calls toggleSelection method from ListViewAdapter Class
                 _mAdapter.toggleSelection(position);

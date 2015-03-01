@@ -73,4 +73,6 @@
     <string name="card">A la carte</string>
     <string name="menus">Menus</string>
     <string name="order">Commande</string>
+    <string name="choose_singular">choisi</string>
+    <string name="choose_plural">choisis</string>
 </resources>
