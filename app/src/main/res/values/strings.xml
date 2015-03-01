@@ -75,4 +75,8 @@
     <string name="order">Commande</string>
     <string name="choose_singular">choisi</string>
     <string name="choose_plural">choisis</string>
+    <string name="dialog_box_menu">Menu :\u0020</string>
+    <string name="dialog_box_dish">Plat :\u0020</string>
+    <string name="dialog_box_option">, options :\u0020</string>
+    <string name="dialog_box_comment">, commentaire :\u0020</string>
 </resources>

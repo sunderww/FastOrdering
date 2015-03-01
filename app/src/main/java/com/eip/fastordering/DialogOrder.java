@@ -141,14 +141,14 @@ public class DialogOrder extends AlertDialog {
         String contenu = "";
         for (int i = 0; i < _mContent.size(); ++i) {
             ContentOrderStruct content = _mContent.get(i);
-            contenu += lineSep + lineSep + "Menu id: " + content.get_mId();
+            contenu += lineSep + lineSep + getContext().getString(R.string.dialog_box_menu) + OrderFragment.getNameCatById(content.get_mId());
             for (int j = 0; j < content.get_mItems().size(); ++j) {
                 ItemStruct item = content.get_mItems().get(j);
-                contenu += lineSep + "Id: " + item.get_mId();
+                contenu += lineSep + getContext().getString(R.string.dialog_box_dish) + OrderFragment.getNameElementById(item.get_mId());
                 if (item.get_mOptions().length() > 0)
-                    contenu += ", options: " + item.get_mOptions();
+                    contenu += getContext().getString(R.string.dialog_box_option) + item.get_mOptions();
                 if (item.get_mComment().length() > 0)
-                    contenu += ", commentaire: " + item.get_mComment();
+                    contenu += getContext().getString(R.string.dialog_box_comment) + item.get_mComment();
             }
         }
 
