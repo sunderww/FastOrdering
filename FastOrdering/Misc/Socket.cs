@@ -12,14 +12,23 @@ namespace FastOrdering.Misc {
 		private string uri = "http://alexis-semren.com:1337";
 		public string ret = "";
 
-		public Socket(string eventString) {
+		public Socket() {
 			socket = Quobject.SocketIoClientDotNet.Client.IO.Socket(uri);
+			socket.Connect();
+		}
+
+		public string Emit(string eventString) {
 			//Emitter em = socket.Emit(eventString);
 			Emitter emit = socket.Emit(eventString, (data) => {
 				ret = data.ToString();
 				System.Diagnostics.Debug.WriteLine(data);
-				socket.Disconnect();
+				System.Diagnostics.Debug.WriteLine("test");
 			});
+			return ret;
+		}
+
+		public void Disconnect() {
+			socket.Disconnect();
 		}
 	}
 }

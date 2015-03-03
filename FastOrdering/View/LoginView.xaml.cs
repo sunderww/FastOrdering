@@ -1,6 +1,4 @@
-﻿//using Quobject.EngineIoClientDotNet.ComponentEmitter;
-//using Quobject.SocketIoClientDotNet.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Networking.Sockets;
+using FastOrdering.Misc;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -36,6 +35,10 @@ namespace FastOrdering.View {
 		}
 
 		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
+			Socket sock = new Socket();
+			System.Diagnostics.Debug.WriteLine("emit");
+			System.Diagnostics.Debug.WriteLine(sock.Emit("/elements"));
+			sock.Disconnect();
 			Frame.Navigate(typeof(ReceptionView));
 		}
 	}

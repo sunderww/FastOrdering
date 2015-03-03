@@ -1,5 +1,6 @@
 ﻿using FastOrdering.Misc;
 using FastOrdering.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,8 +30,8 @@ namespace FastOrdering.View {
 			this.InitializeComponent();
 			DrawerLayout.InitializeDrawerLayout();
 			orders = new ObservableCollection<Order>();
-			orders.Add(new Order(1, 5, DateTime.Now));
-			orders.Add(new Order(2, 3, DateTime.Today));
+			orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
+			orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
 			OrdersListbox.ItemsSource = orders;
 		}
 
@@ -54,7 +55,22 @@ namespace FastOrdering.View {
 		}
 
 		private void Grid_Tapped(object sender, TappedRoutedEventArgs e) {
-			System.Diagnostics.Debug.WriteLine("toto");
+			int id = (int)(sender as Grid).Tag;
+			Order ord = orders.ElementAt(id - 1);
+
+			//Socket sock = new Socket("/get_order");
+			//Socket sock = new Socket();
+			//Notification notif = JsonConvert.DeserializeObject<Notification>(sock.Emit("/receive_order"));
+			//sock.Disconnect();
+
+			ordNum.Text = "Commande #" + ord.numOrder;
+			tablePA.Text = "Table #" + ord.numTable + ", PA :" + ord.numPA;
+			time.Text = "Le " + ord.Time.Day + "/" + ord.Time.Month + "/" + ord.Time.Year + " à " + ord.Time.Hour + ":" + ord.Time.Minute;
+			content.Text = "Contenu :";
+			menuId.Text = "Menu id : 1212";
+			//popupOrder.IsOpen = true;
+			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+
 		}
 	}
 }

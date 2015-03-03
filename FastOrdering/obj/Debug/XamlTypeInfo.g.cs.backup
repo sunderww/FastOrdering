@@ -124,7 +124,7 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
 
         private void InitTypeTables()
         {
-            _typeNameTable = new string[20];
+            _typeNameTable = new string[24];
             _typeNameTable[0] = "FastOrdering.Misc.MyMenu";
             _typeNameTable[1] = "Windows.UI.Xaml.Controls.UserControl";
             _typeNameTable[2] = "DrawerLayout.DrawerLayout";
@@ -136,17 +136,21 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
             _typeNameTable[8] = "FastOrdering.ViewModel.LoginViewModel";
             _typeNameTable[9] = "FastOrdering.Misc.ViewModelBase";
             _typeNameTable[10] = "Object";
-            _typeNameTable[11] = "FastOrdering.View.LoginView";
-            _typeNameTable[12] = "FastOrdering.ViewModel.NotificationsViewModel";
-            _typeNameTable[13] = "FastOrdering.View.NotificationsView";
-            _typeNameTable[14] = "FastOrdering.ViewModel.OptionsViewModel";
-            _typeNameTable[15] = "FastOrdering.View.OptionsView";
-            _typeNameTable[16] = "FastOrdering.ViewModel.OrdersViewModel";
-            _typeNameTable[17] = "FastOrdering.View.OrdersView";
-            _typeNameTable[18] = "FastOrdering.ViewModel.ReceptionViewModel";
-            _typeNameTable[19] = "FastOrdering.View.ReceptionView";
+            _typeNameTable[11] = "System.Windows.Input.ICommand";
+            _typeNameTable[12] = "FastOrdering.View.LoginView";
+            _typeNameTable[13] = "FastOrdering.ViewModel.NewOrderViewModel";
+            _typeNameTable[14] = "FastOrdering.View.NewOrderView";
+            _typeNameTable[15] = "FastOrdering.ViewModel.NotificationsViewModel";
+            _typeNameTable[16] = "FastOrdering.Misc.StringFormatConverter";
+            _typeNameTable[17] = "FastOrdering.View.NotificationsView";
+            _typeNameTable[18] = "FastOrdering.ViewModel.OptionsViewModel";
+            _typeNameTable[19] = "FastOrdering.View.OptionsView";
+            _typeNameTable[20] = "FastOrdering.ViewModel.OrdersViewModel";
+            _typeNameTable[21] = "FastOrdering.View.OrdersView";
+            _typeNameTable[22] = "FastOrdering.ViewModel.ReceptionViewModel";
+            _typeNameTable[23] = "FastOrdering.View.ReceptionView";
 
-            _typeTable = new global::System.Type[20];
+            _typeTable = new global::System.Type[24];
             _typeTable[0] = typeof(global::FastOrdering.Misc.MyMenu);
             _typeTable[1] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
             _typeTable[2] = typeof(global::DrawerLayout.DrawerLayout);
@@ -158,15 +162,19 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
             _typeTable[8] = typeof(global::FastOrdering.ViewModel.LoginViewModel);
             _typeTable[9] = typeof(global::FastOrdering.Misc.ViewModelBase);
             _typeTable[10] = typeof(global::System.Object);
-            _typeTable[11] = typeof(global::FastOrdering.View.LoginView);
-            _typeTable[12] = typeof(global::FastOrdering.ViewModel.NotificationsViewModel);
-            _typeTable[13] = typeof(global::FastOrdering.View.NotificationsView);
-            _typeTable[14] = typeof(global::FastOrdering.ViewModel.OptionsViewModel);
-            _typeTable[15] = typeof(global::FastOrdering.View.OptionsView);
-            _typeTable[16] = typeof(global::FastOrdering.ViewModel.OrdersViewModel);
-            _typeTable[17] = typeof(global::FastOrdering.View.OrdersView);
-            _typeTable[18] = typeof(global::FastOrdering.ViewModel.ReceptionViewModel);
-            _typeTable[19] = typeof(global::FastOrdering.View.ReceptionView);
+            _typeTable[11] = typeof(global::System.Windows.Input.ICommand);
+            _typeTable[12] = typeof(global::FastOrdering.View.LoginView);
+            _typeTable[13] = typeof(global::FastOrdering.ViewModel.NewOrderViewModel);
+            _typeTable[14] = typeof(global::FastOrdering.View.NewOrderView);
+            _typeTable[15] = typeof(global::FastOrdering.ViewModel.NotificationsViewModel);
+            _typeTable[16] = typeof(global::FastOrdering.Misc.StringFormatConverter);
+            _typeTable[17] = typeof(global::FastOrdering.View.NotificationsView);
+            _typeTable[18] = typeof(global::FastOrdering.ViewModel.OptionsViewModel);
+            _typeTable[19] = typeof(global::FastOrdering.View.OptionsView);
+            _typeTable[20] = typeof(global::FastOrdering.ViewModel.OrdersViewModel);
+            _typeTable[21] = typeof(global::FastOrdering.View.OrdersView);
+            _typeTable[22] = typeof(global::FastOrdering.ViewModel.ReceptionViewModel);
+            _typeTable[23] = typeof(global::FastOrdering.View.ReceptionView);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -206,15 +214,18 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
         private object Activate_6_AboutView() { return new global::FastOrdering.View.AboutView(); }
         private object Activate_8_LoginViewModel() { return new global::FastOrdering.ViewModel.LoginViewModel(); }
         private object Activate_9_ViewModelBase() { return new global::FastOrdering.Misc.ViewModelBase(); }
-        private object Activate_11_LoginView() { return new global::FastOrdering.View.LoginView(); }
-        private object Activate_12_NotificationsViewModel() { return new global::FastOrdering.ViewModel.NotificationsViewModel(); }
-        private object Activate_13_NotificationsView() { return new global::FastOrdering.View.NotificationsView(); }
-        private object Activate_14_OptionsViewModel() { return new global::FastOrdering.ViewModel.OptionsViewModel(); }
-        private object Activate_15_OptionsView() { return new global::FastOrdering.View.OptionsView(); }
-        private object Activate_16_OrdersViewModel() { return new global::FastOrdering.ViewModel.OrdersViewModel(); }
-        private object Activate_17_OrdersView() { return new global::FastOrdering.View.OrdersView(); }
-        private object Activate_18_ReceptionViewModel() { return new global::FastOrdering.ViewModel.ReceptionViewModel(); }
-        private object Activate_19_ReceptionView() { return new global::FastOrdering.View.ReceptionView(); }
+        private object Activate_12_LoginView() { return new global::FastOrdering.View.LoginView(); }
+        private object Activate_13_NewOrderViewModel() { return new global::FastOrdering.ViewModel.NewOrderViewModel(); }
+        private object Activate_14_NewOrderView() { return new global::FastOrdering.View.NewOrderView(); }
+        private object Activate_15_NotificationsViewModel() { return new global::FastOrdering.ViewModel.NotificationsViewModel(); }
+        private object Activate_16_StringFormatConverter() { return new global::FastOrdering.Misc.StringFormatConverter(); }
+        private object Activate_17_NotificationsView() { return new global::FastOrdering.View.NotificationsView(); }
+        private object Activate_18_OptionsViewModel() { return new global::FastOrdering.ViewModel.OptionsViewModel(); }
+        private object Activate_19_OptionsView() { return new global::FastOrdering.View.OptionsView(); }
+        private object Activate_20_OrdersViewModel() { return new global::FastOrdering.ViewModel.OrdersViewModel(); }
+        private object Activate_21_OrdersView() { return new global::FastOrdering.View.OrdersView(); }
+        private object Activate_22_ReceptionViewModel() { return new global::FastOrdering.ViewModel.ReceptionViewModel(); }
+        private object Activate_23_ReceptionView() { return new global::FastOrdering.View.ReceptionView(); }
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(int typeIndex)
         {
@@ -270,6 +281,7 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
             case 8:   //  FastOrdering.ViewModel.LoginViewModel
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("FastOrdering.Misc.ViewModelBase"));
                 userType.Activator = Activate_8_LoginViewModel;
+                userType.AddMemberName("Connect");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -285,65 +297,93 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
                 xamlType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 11:   //  FastOrdering.View.LoginView
+            case 11:   //  System.Windows.Input.ICommand
+                userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, null);
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 12:   //  FastOrdering.View.LoginView
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_11_LoginView;
+                userType.Activator = Activate_12_LoginView;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 12:   //  FastOrdering.ViewModel.NotificationsViewModel
+            case 13:   //  FastOrdering.ViewModel.NewOrderViewModel
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("FastOrdering.Misc.ViewModelBase"));
-                userType.Activator = Activate_12_NotificationsViewModel;
+                userType.Activator = Activate_13_NewOrderViewModel;
+                userType.AddMemberName("Connect");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 13:   //  FastOrdering.View.NotificationsView
+            case 14:   //  FastOrdering.View.NewOrderView
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_13_NotificationsView;
+                userType.Activator = Activate_14_NewOrderView;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 14:   //  FastOrdering.ViewModel.OptionsViewModel
+            case 15:   //  FastOrdering.ViewModel.NotificationsViewModel
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("FastOrdering.Misc.ViewModelBase"));
-                userType.Activator = Activate_14_OptionsViewModel;
+                userType.Activator = Activate_15_NotificationsViewModel;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 15:   //  FastOrdering.View.OptionsView
+            case 16:   //  FastOrdering.Misc.StringFormatConverter
+                userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_16_StringFormatConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 17:   //  FastOrdering.View.NotificationsView
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_15_OptionsView;
+                userType.Activator = Activate_17_NotificationsView;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 16:   //  FastOrdering.ViewModel.OrdersViewModel
+            case 18:   //  FastOrdering.ViewModel.OptionsViewModel
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("FastOrdering.Misc.ViewModelBase"));
-                userType.Activator = Activate_16_OrdersViewModel;
+                userType.Activator = Activate_18_OptionsViewModel;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 17:   //  FastOrdering.View.OrdersView
+            case 19:   //  FastOrdering.View.OptionsView
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_17_OrdersView;
+                userType.Activator = Activate_19_OptionsView;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 18:   //  FastOrdering.ViewModel.ReceptionViewModel
+            case 20:   //  FastOrdering.ViewModel.OrdersViewModel
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("FastOrdering.Misc.ViewModelBase"));
-                userType.Activator = Activate_18_ReceptionViewModel;
+                userType.Activator = Activate_20_OrdersViewModel;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 19:   //  FastOrdering.View.ReceptionView
+            case 21:   //  FastOrdering.View.OrdersView
                 userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_19_ReceptionView;
+                userType.Activator = Activate_21_OrdersView;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 22:   //  FastOrdering.ViewModel.ReceptionViewModel
+                userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("FastOrdering.Misc.ViewModelBase"));
+                userType.Activator = Activate_22_ReceptionViewModel;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 23:   //  FastOrdering.View.ReceptionView
+                userType = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_23_ReceptionView;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -362,6 +402,16 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
             var that = (global::DrawerLayout.DrawerLayout)instance;
             that.IsDrawerOpen = (global::System.Boolean)Value;
         }
+        private object get_1_LoginViewModel_Connect(object instance)
+        {
+            var that = (global::FastOrdering.ViewModel.LoginViewModel)instance;
+            return that.Connect;
+        }
+        private object get_2_NewOrderViewModel_Connect(object instance)
+        {
+            var that = (global::FastOrdering.ViewModel.NewOrderViewModel)instance;
+            return that.Connect;
+        }
 
         private global::Windows.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
         {
@@ -375,6 +425,18 @@ namespace FastOrdering.FastOrdering_XamlTypeInfo
                 xamlMember = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlMember(this, "IsDrawerOpen", "Boolean");
                 xamlMember.Getter = get_0_DrawerLayout_IsDrawerOpen;
                 xamlMember.Setter = set_0_DrawerLayout_IsDrawerOpen;
+                break;
+            case "FastOrdering.ViewModel.LoginViewModel.Connect":
+                userType = (global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType)GetXamlTypeByName("FastOrdering.ViewModel.LoginViewModel");
+                xamlMember = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlMember(this, "Connect", "System.Windows.Input.ICommand");
+                xamlMember.Getter = get_1_LoginViewModel_Connect;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "FastOrdering.ViewModel.NewOrderViewModel.Connect":
+                userType = (global::FastOrdering.FastOrdering_XamlTypeInfo.XamlUserType)GetXamlTypeByName("FastOrdering.ViewModel.NewOrderViewModel");
+                xamlMember = new global::FastOrdering.FastOrdering_XamlTypeInfo.XamlMember(this, "Connect", "System.Windows.Input.ICommand");
+                xamlMember.Getter = get_2_NewOrderViewModel_Connect;
+                xamlMember.SetIsReadOnly();
                 break;
             }
             return xamlMember;

@@ -7,12 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:misc="using:FastOrdering.Misc"
     xmlns:drawerLayout="using:DrawerLayout"
-    xmlns:viewmodel="using:FastOrdering.ViewModel"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.DataContext>
-        <viewmodel:ReceptionViewModel />
-    </Page.DataContext>
     <Page.Resources>
         <misc:StringFormatConverter x:Name="StringFormat"/>
     </Page.Resources>

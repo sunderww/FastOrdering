@@ -29,12 +29,12 @@ namespace FastOrdering.View {
 			this.InitializeComponent();
 			DrawerLayout.InitializeDrawerLayout();
 			notifications = new ObservableCollection<Notification>();
-			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now));
-			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today));
+			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now, notifications.Count));
+			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today, notifications.Count));
 			NotificationsListbox.ItemsSource = notifications;
 			orders = new ObservableCollection<Order>();
-			orders.Add(new Order(1, 5, DateTime.Now));
-			orders.Add(new Order(2, 3, DateTime.Today));
+			orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
+			orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
 			OrdersListbox.ItemsSource = orders;
 		}
 

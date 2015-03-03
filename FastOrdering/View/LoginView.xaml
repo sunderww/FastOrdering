@@ -5,7 +5,6 @@
     xmlns:local="using:FastOrdering.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewmodel="using:FastOrdering.ViewModel"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -197,9 +196,6 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Page.DataContext>
-        <viewmodel:LoginViewModel />
-    </Page.DataContext>
 
     <Grid x:Name="LayoutRoot" Style="{StaticResource LayoutGridStyle}">
         <Grid.RowDefinitions>
@@ -224,7 +220,7 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Accept" Label="Connexion" Click="AppBarButton_Click" Command="{Binding Connect}" />
+            <AppBarButton Icon="Accept" Label="Connexion" Click="AppBarButton_Click" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

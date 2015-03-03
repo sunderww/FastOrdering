@@ -43,7 +43,7 @@ namespace FastOrdering.View {
 		}
 
 		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
-			Order or = new Order(1, 2, DateTime.Now);
+			Order or = new Order(1, 2, DateTime.Now, 1);
 			string json = JsonConvert.SerializeObject(or);
 			System.Diagnostics.Debug.WriteLine(json);
 		}

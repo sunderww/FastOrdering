@@ -29,12 +29,14 @@ namespace FastOrdering.View {
 		public NotificationsView() {
 			this.InitializeComponent();
 			DrawerLayout.InitializeDrawerLayout();
-			Socket sock = new Socket("notification");
-			Notification notif = JsonConvert.DeserializeObject<Notification>(sock.ret);
+			Socket sock = new Socket();
+			Notification notif = JsonConvert.DeserializeObject<Notification>(sock.Emit("/notification"));
+			sock.Disconnect();
 
 			notifications = new ObservableCollection<Notification>();
-			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now));
-			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today));
+			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now, notifications.Count));
+			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today, notifications.Count));
+			notifications.Add(new Notification(3, "Desserts prêts", DateTime.Today, notifications.Count));
 			NotificationsListbox.ItemsSource = notifications;
 		}
 
@@ -55,6 +57,25 @@ namespace FastOrdering.View {
 
 		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
 			notifications.Clear();
+		}
+
+		private void Grid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) {
+			System.Diagnostics.Debug.WriteLine("toto");
+		}
+
+		private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
+			var velocities = e.Velocities;
+			System.Diagnostics.Debug.WriteLine(velocities.Linear.X);
+			int pos = 0;
+			if (velocities.Linear.X > 0.5) {
+				foreach (Notification n in notifications) {
+					if (n.ID == (int)(sender as Grid).Tag)
+						break;
+					++pos;
+				}
+				if (pos < notifications.Count)
+					notifications.RemoveAt(pos);
+			}
 		}
 	}
 }

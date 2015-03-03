@@ -7,12 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:misc="using:FastOrdering.Misc"
     xmlns:drawerLayout="using:DrawerLayout"
-    xmlns:viewmodel="using:FastOrdering.ViewModel"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Page.DataContext>
-        <viewmodel:NotificationsViewModel />
-    </Page.DataContext>
     <Page.Resources>
         <misc:StringFormatConverter x:Name="StringFormat"/>
     </Page.Resources>
@@ -39,7 +35,8 @@
                     <ListBox Name="NotificationsListbox">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Width="280">
+                                <Grid Width="280" Tag="{Binding ID}"
+                                      ManipulationMode="TranslateX" ManipulationStarted="Grid_ManipulationStarted" ManipulationCompleted="Grid_ManipulationCompleted">
                                     <Image Source="/Assets/Notifications.png" Width="70" Height="70" HorizontalAlignment="Left" Margin="-15,-15,0,0"/>
                                     <TextBlock Text="{Binding Message, Converter={StaticResource StringFormat}, ConverterParameter='\{0}'}"
                                                Foreground="Black" VerticalAlignment="Top" FontSize="14" Margin="55,0,0,0" />
