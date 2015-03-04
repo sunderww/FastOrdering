@@ -13,6 +13,13 @@
 #import "AboutViewController.h"
 #import "AppDelegate.h"
 #import "SocketHelper.h"
+#import "Order.h"
+#import "Notification.h"
+#import "NSManagedObject+create.h"
+#import "OrderCell.h"
+#import "NotificationCell.h"
+
+#define kTableViewCellHeight    55
 
 @interface MainViewController ()
 
@@ -41,9 +48,29 @@
     titleLabel.text = NSLocalizedString(@"Main Page", @"");
     lastNotificationsLabel.text = NSLocalizedString(@"Last Notifications", @"");
     lastOrdersLabel.text = NSLocalizedString(@"Last Orders", @"");
+    noOrderLabel.text = NSLocalizedString(@"No order", @"");
+    noNotificationLabel.text = NSLocalizedString(@"No notification", @"");
     for (UIButton * button in panelButtons)
         [button setTitle:NSLocalizedString(button.titleLabel.text, @"").capitalizedString forState:UIControlStateNormal];
     [orderButton setTitle:NSLocalizedString(@"order", @"").uppercaseString forState:UIControlStateNormal];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    lastOrders = [Order last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
+    lastNotifications = [Notification last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
+
+    CGRect frame = lastOrdersTableView.frame;
+    frame.size.height = lastOrders.count * kTableViewCellHeight;
+    lastOrdersTableView.frame = frame;
+    frame = lastNotificationsTableView.frame;
+    frame.size.height = lastNotifications.count * kTableViewCellHeight;
+    lastNotificationsTableView.frame = frame;
+    
+    noOrderLabel.hidden = lastOrders.count > 0;
+    noNotificationLabel.hidden = lastNotifications.count > 0;
+
+    [lastOrdersTableView reloadData];
+    [lastNotificationsTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -152,6 +179,44 @@
     DLog(@"sync OK %@", className);
     if (!--classesToSync)
         [self syncEnded];
+}
+
+#pragma mark - UITableView delegate and datasource methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return ((tableView == lastOrdersTableView) ? lastOrders.count : lastNotifications.count);
+}
+
+- (UITableViewCell *)orderCellAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString * CellIdentifier = @"OrderCell";
+
+    OrderCell * cell = [lastOrdersTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (!cell) {
+        cell = [[NSBundle mainBundle] loadNibNamed:@"OrderCell" owner:self options:nil][0];
+        cell = [[OrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+
+    [cell setOrder:lastOrders[indexPath.row]];
+    return cell;
+}
+
+- (UITableViewCell *)notificationCellAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString * CellIdentifier = @"notificationCell";
+    
+    NotificationCell * cell = [lastNotificationsTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (!cell) {
+        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
+        cell = [[NotificationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    [cell setNotification:lastNotifications[indexPath.row]];
+    return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return ((tableView == lastOrdersTableView) ? [self orderCellAtIndexPath:indexPath] : [self notificationCellAtIndexPath:indexPath]);
 }
 
 /*

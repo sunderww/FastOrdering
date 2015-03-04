@@ -13,6 +13,8 @@
 + (id)create;
 + (id)createWithClass:(NSString *)className;
 
++ (NSArray *)last:(NSUInteger)n withDescriptors:(NSArray *)descriptors;
+
 + (NSArray *)allObjects;
 + (NSArray *)allObjectsByPriority;
 + (NSArray *)allObjectsSortedWithDescriptors:(NSArray *)descriptors;

@@ -10,9 +10,10 @@
 "Main Page"                     =   "Acceuil";
 "Last Orders"                   =   "Dernières commandes";
 "Last Notifications"            =   "Dernières notifications";
+"No order"                      =   "Aucune commande";
+"No notification"               =   "Aucune notification";
 
 /* */
-"No notification"               =   "Aucune notification";
 "Erase all"                     =   "Tout effacer";
 
 /* Vocabulary */

@@ -24,6 +24,20 @@
     return results;
 }
 
++ (NSArray *)last:(NSUInteger)n withDescriptors:(NSArray *)descriptors {
+    NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([self class])];
+    NSArray * results;
+    NSError * error;
+
+    request.sortDescriptors = descriptors;
+    request.fetchLimit = n;
+    results = [context executeFetchRequest:request error:&error];
+    if (error)
+        PPLog(@"%@", error);
+    return results;
+}
+
 + (NSArray *)allObjects {
     return [self allObjectsSortedWithDescriptors:@[]];
 }

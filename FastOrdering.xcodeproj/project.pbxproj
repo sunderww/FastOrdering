@@ -51,7 +51,6 @@
 		84C1A19019EDE8D100E64B40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17519EDE8D100E64B40 /* Foundation.framework */; };
 		84C1A19119EDE8D100E64B40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17919EDE8D100E64B40 /* UIKit.framework */; };
 		84C1A19919EDE8D100E64B40 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A19719EDE8D100E64B40 /* InfoPlist.strings */; };
-		84C1A19B19EDE8D100E64B40 /* FastOrderingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A19A19EDE8D100E64B40 /* FastOrderingTests.m */; };
 		84C1A1B819EDEE8400E64B40 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1B719EDEE8400E64B40 /* LoginViewController.m */; };
 		84C1A1BE19EDF2E900E64B40 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1BD19EDF2E900E64B40 /* MainView.xib */; };
 		84C1A1C119EDF35C00E64B40 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1C019EDF35C00E64B40 /* MainViewController.m */; };
@@ -62,6 +61,17 @@
 		84C1A1CD19EE08B600E64B40 /* TablePlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1CC19EE08B600E64B40 /* TablePlanViewController.m */; };
 		84C1A1D019EE178400E64B40 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C1A1CF19EE178400E64B40 /* MenuViewController.m */; };
 		84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1D119EE3CE300E64B40 /* MenuView.xib */; };
+		84CDA3811AA67C0000D3D502 /* arrow-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA3711AA67C0000D3D502 /* arrow-icon.png */; };
+		84CDA3821AA67C0000D3D502 /* arrow-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA3721AA67C0000D3D502 /* arrow-icon@2x.png */; };
+		84CDA3831AA67C0000D3D502 /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA3731AA67C0000D3D502 /* checkmark.png */; };
+		84CDA3841AA67C0000D3D502 /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA3741AA67C0000D3D502 /* checkmark@2x.png */; };
+		84CDA3851AA67C0000D3D502 /* JKExpandTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA3761AA67C0000D3D502 /* JKExpandTableView.m */; };
+		84CDA3861AA67C0000D3D502 /* JKMultiSelectSubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA3781AA67C0000D3D502 /* JKMultiSelectSubTableViewCell.m */; };
+		84CDA3871AA67C0000D3D502 /* JKParentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA37A1AA67C0000D3D502 /* JKParentTableViewCell.m */; };
+		84CDA3881AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA37C1AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m */; };
+		84CDA3891AA67C0000D3D502 /* JKSubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA37E1AA67C0000D3D502 /* JKSubTableViewCell.m */; };
+		84CDA38A1AA67C0000D3D502 /* JKSubTableViewCellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA3801AA67C0000D3D502 /* JKSubTableViewCellCell.m */; };
+		84EF67231AA4001400702897 /* SyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF67221AA4001400702897 /* SyncTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,7 +161,6 @@
 		84C1A18E19EDE8D100E64B40 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		84C1A19619EDE8D100E64B40 /* FastOrderingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FastOrderingTests-Info.plist"; sourceTree = "<group>"; };
 		84C1A19819EDE8D100E64B40 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		84C1A19A19EDE8D100E64B40 /* FastOrderingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FastOrderingTests.m; sourceTree = "<group>"; };
 		84C1A1B619EDEE8400E64B40 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		84C1A1B719EDEE8400E64B40 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		84C1A1BD19EDF2E900E64B40 /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
@@ -167,6 +176,23 @@
 		84C1A1CE19EE178400E64B40 /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		84C1A1CF19EE178400E64B40 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		84C1A1D119EE3CE300E64B40 /* MenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuView.xib; sourceTree = "<group>"; };
+		84CDA3711AA67C0000D3D502 /* arrow-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-icon.png"; sourceTree = "<group>"; };
+		84CDA3721AA67C0000D3D502 /* arrow-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-icon@2x.png"; sourceTree = "<group>"; };
+		84CDA3731AA67C0000D3D502 /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
+		84CDA3741AA67C0000D3D502 /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
+		84CDA3751AA67C0000D3D502 /* JKExpandTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKExpandTableView.h; sourceTree = "<group>"; };
+		84CDA3761AA67C0000D3D502 /* JKExpandTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKExpandTableView.m; sourceTree = "<group>"; };
+		84CDA3771AA67C0000D3D502 /* JKMultiSelectSubTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKMultiSelectSubTableViewCell.h; sourceTree = "<group>"; };
+		84CDA3781AA67C0000D3D502 /* JKMultiSelectSubTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKMultiSelectSubTableViewCell.m; sourceTree = "<group>"; };
+		84CDA3791AA67C0000D3D502 /* JKParentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKParentTableViewCell.h; sourceTree = "<group>"; };
+		84CDA37A1AA67C0000D3D502 /* JKParentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKParentTableViewCell.m; sourceTree = "<group>"; };
+		84CDA37B1AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSingleSelectSubTableViewCell.h; sourceTree = "<group>"; };
+		84CDA37C1AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSingleSelectSubTableViewCell.m; sourceTree = "<group>"; };
+		84CDA37D1AA67C0000D3D502 /* JKSubTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSubTableViewCell.h; sourceTree = "<group>"; };
+		84CDA37E1AA67C0000D3D502 /* JKSubTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSubTableViewCell.m; sourceTree = "<group>"; };
+		84CDA37F1AA67C0000D3D502 /* JKSubTableViewCellCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSubTableViewCellCell.h; sourceTree = "<group>"; };
+		84CDA3801AA67C0000D3D502 /* JKSubTableViewCellCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSubTableViewCellCell.m; sourceTree = "<group>"; };
+		84EF67221AA4001400702897 /* SyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,6 +330,7 @@
 		84C1A17419EDE8D100E64B40 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84CDA36F1AA67C0000D3D502 /* ExpandTableView */,
 				84B1EA3D1A57680400985E57 /* SailsIO */,
 				84B1E9F61A569CC900985E57 /* CoreData.framework */,
 				8408225919F4978D009BE528 /* SocketRocket */,
@@ -348,7 +375,7 @@
 		84C1A19419EDE8D100E64B40 /* FastOrderingTests */ = {
 			isa = PBXGroup;
 			children = (
-				84C1A19A19EDE8D100E64B40 /* FastOrderingTests.m */,
+				84EF67221AA4001400702897 /* SyncTests.m */,
 				84C1A19519EDE8D100E64B40 /* Supporting Files */,
 			);
 			path = FastOrderingTests;
@@ -438,6 +465,37 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		84CDA36F1AA67C0000D3D502 /* ExpandTableView */ = {
+			isa = PBXGroup;
+			children = (
+				84CDA3701AA67C0000D3D502 /* img */,
+				84CDA3751AA67C0000D3D502 /* JKExpandTableView.h */,
+				84CDA3761AA67C0000D3D502 /* JKExpandTableView.m */,
+				84CDA3771AA67C0000D3D502 /* JKMultiSelectSubTableViewCell.h */,
+				84CDA3781AA67C0000D3D502 /* JKMultiSelectSubTableViewCell.m */,
+				84CDA3791AA67C0000D3D502 /* JKParentTableViewCell.h */,
+				84CDA37A1AA67C0000D3D502 /* JKParentTableViewCell.m */,
+				84CDA37B1AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.h */,
+				84CDA37C1AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m */,
+				84CDA37D1AA67C0000D3D502 /* JKSubTableViewCell.h */,
+				84CDA37E1AA67C0000D3D502 /* JKSubTableViewCell.m */,
+				84CDA37F1AA67C0000D3D502 /* JKSubTableViewCellCell.h */,
+				84CDA3801AA67C0000D3D502 /* JKSubTableViewCellCell.m */,
+			);
+			path = ExpandTableView;
+			sourceTree = "<group>";
+		};
+		84CDA3701AA67C0000D3D502 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				84CDA3711AA67C0000D3D502 /* arrow-icon.png */,
+				84CDA3721AA67C0000D3D502 /* arrow-icon@2x.png */,
+				84CDA3731AA67C0000D3D502 /* checkmark.png */,
+				84CDA3741AA67C0000D3D502 /* checkmark@2x.png */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -518,6 +576,8 @@
 				84BF7DA31A8F4A4000EC912B /* OrderCell.xib in Resources */,
 				84C1A18019EDE8D100E64B40 /* InfoPlist.strings in Resources */,
 				84BF7DA81A90217700EC912B /* Localizable.strings in Resources */,
+				84CDA3831AA67C0000D3D502 /* checkmark.png in Resources */,
+				84CDA3841AA67C0000D3D502 /* checkmark@2x.png in Resources */,
 				84C1A1BE19EDF2E900E64B40 /* MainView.xib in Resources */,
 				84BF7D9E1A8F4A2000EC912B /* NotificationCell.xib in Resources */,
 				84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */,
@@ -525,6 +585,8 @@
 				84B1EA551A5A058700985E57 /* AboutView.xib in Resources */,
 				84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */,
 				84C1A18819EDE8D100E64B40 /* Images.xcassets in Resources */,
+				84CDA3821AA67C0000D3D502 /* arrow-icon@2x.png in Resources */,
+				84CDA3811AA67C0000D3D502 /* arrow-icon.png in Resources */,
 				84C1A1C819EE044800E64B40 /* NotificationView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -560,15 +622,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84CDA3871AA67C0000D3D502 /* JKParentTableViewCell.m in Sources */,
 				84B1EA4A1A59FF1300985E57 /* NSManagedObject+create.m in Sources */,
 				84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */,
 				84BF7DA21A8F4A4000EC912B /* OrderCell.m in Sources */,
 				8403EDD31A5685A4001421D3 /* FastOrdering.xcdatamodeld in Sources */,
 				84008C791A7607640012F873 /* SocketIO.m in Sources */,
+				84CDA3851AA67C0000D3D502 /* JKExpandTableView.m in Sources */,
 				84C1A1CD19EE08B600E64B40 /* TablePlanViewController.m in Sources */,
 				84B1EA531A5A057800985E57 /* AboutViewController.m in Sources */,
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
+				84CDA3881AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m in Sources */,
 				84BF7D801A8CB86A00EC912B /* Notification.m in Sources */,
+				84CDA3891AA67C0000D3D502 /* JKSubTableViewCell.m in Sources */,
 				84C1A18219EDE8D100E64B40 /* main.m in Sources */,
 				84B1EA501A5A033F00985E57 /* Dish+Custom.m in Sources */,
 				84B1EA4D1A5A014400985E57 /* DishCategory+Custom.m in Sources */,
@@ -579,6 +645,7 @@
 				84008C6D1A75FAB40012F873 /* SocketHelper.m in Sources */,
 				84BF7D7D1A8CB86900EC912B /* DishCategory.m in Sources */,
 				84BF7D8C1A8CB86A00EC912B /* Order.m in Sources */,
+				84CDA38A1AA67C0000D3D502 /* JKSubTableViewCellCell.m in Sources */,
 				84BF7D8F1A8CB86A00EC912B /* Table.m in Sources */,
 				84BF7D9D1A8F4A2000EC912B /* NotificationCell.m in Sources */,
 				84BF7D831A8CB86A00EC912B /* OrderedDish.m in Sources */,
@@ -586,6 +653,7 @@
 				8408225D19F497A8009BE528 /* SRWebSocket.m in Sources */,
 				84C1A1D019EE178400E64B40 /* MenuViewController.m in Sources */,
 				84B1EA431A57681100985E57 /* SocketIO+SailsIO.m in Sources */,
+				84CDA3861AA67C0000D3D502 /* JKMultiSelectSubTableViewCell.m in Sources */,
 				84C1A1C619EE02CC00E64B40 /* NotificationViewController.m in Sources */,
 				84BF7D951A8E0C6600EC912B /* Dish.m in Sources */,
 				84BF7D891A8CB86A00EC912B /* Plan.m in Sources */,
@@ -599,7 +667,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84C1A19B19EDE8D100E64B40 /* FastOrderingTests.m in Sources */,
+				84EF67231AA4001400702897 /* SyncTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

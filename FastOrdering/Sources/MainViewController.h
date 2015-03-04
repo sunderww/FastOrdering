@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SyncHelper.h"
 
-@interface MainViewController : UIViewController <SyncerDelegate> {
+@interface MainViewController : UIViewController <SyncerDelegate, UITableViewDataSource, UITableViewDelegate> {
     IBOutletCollection(UIButton) NSArray *  panelButtons;
 
     IBOutlet UIButton *     logOutButton;
@@ -27,6 +27,8 @@
     IBOutlet UIView *       mainView;
     IBOutlet UILabel *      lastOrdersLabel;
     IBOutlet UILabel *      lastNotificationsLabel;
+    IBOutlet UILabel *      noOrderLabel;
+    IBOutlet UILabel *      noNotificationLabel;
     IBOutlet UITableView *  lastOrdersTableView;
     IBOutlet UITableView *  lastNotificationsTableView;
     IBOutlet UIButton *     orderButton;
@@ -34,6 +36,8 @@
     BOOL                    panelShown;
     NSUInteger              classesToSync;
     UIViewController *      controller;
+    NSArray *               lastOrders;
+    NSArray *               lastNotifications;
 }
 
 - (IBAction)buttonClicked:(id)sender;
