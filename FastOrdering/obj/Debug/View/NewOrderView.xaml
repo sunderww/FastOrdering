@@ -22,12 +22,12 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Image x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left" Tapped="DrawerIcon_Tapped"/>
+            <Image x:ConnectionId='7' x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left"                           />
             <TextBlock Grid.Column="1" Text="Commander" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
         </Grid>
         <!-- Drawer Layout -->
         <drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
-            <Hub x:Name="OrderHub" Foreground="Black" Margin="0, 40, 0, 0" SectionsInViewChanged="Hub_SectionsInViewChanged">
+            <Hub x:ConnectionId='1' x:Name="OrderHub" Foreground="Black" Margin="0, 40, 0, 0"                                                  >
                 <HubSection x:Name="SendOrderHubSection">
                     <HubSection.Header>
                         <TextBlock Text="Commande" FontSize="40" Margin="0, 0, 0, -50" />
@@ -109,8 +109,8 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <ToggleSwitch Grid.Row="0" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Entry">
+                                    <ToggleSwitch x:ConnectionId='5' Grid.Row="0" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                                                              >
                                         <ToggleSwitch.Header>
                                             <TextBlock Text="Entrées" FontSize="20" Foreground="Black" />
                                         </ToggleSwitch.Header>
@@ -140,8 +140,8 @@
                                         </ListView.ItemTemplate>
                                     </ListView>
 
-                                    <ToggleSwitch Grid.Row="2" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Dish">
+                                    <ToggleSwitch x:ConnectionId='6' Grid.Row="2" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                                                             >
                                         <ToggleSwitch.Header>
                                             <TextBlock Text="Plats" FontSize="20" Foreground="Black" />
                                         </ToggleSwitch.Header>
@@ -195,8 +195,8 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
-                                    <ToggleSwitch Grid.Row="0" OnContent="Mousaillon" OffContent="Mousaillon" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Menu">
+                                    <ToggleSwitch x:ConnectionId='2' Grid.Row="0" OnContent="Mousaillon" OffContent="Mousaillon" Foreground="Black"
+                                                                             >
                                     </ToggleSwitch>
                                     <ListView Grid.Row="1" x:Name="MenuList" Visibility="Collapsed">
                                         <Grid>
@@ -219,8 +219,8 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <ToggleSwitch Grid.Row="0" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Entry">
+                                        <ToggleSwitch x:ConnectionId='3' Grid.Row="0" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                                                              >
                                             <ToggleSwitch.Header>
                                                 <TextBlock Text="Entrées" FontSize="20" Foreground="Black" />
                                             </ToggleSwitch.Header>
@@ -250,8 +250,8 @@
                                             </ListView.ItemTemplate>
                                         </ListView>
 
-                                        <ToggleSwitch Grid.Row="2" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Dish">
+                                        <ToggleSwitch x:ConnectionId='4' Grid.Row="2" OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                                                             >
                                             <ToggleSwitch.Header>
                                                 <TextBlock Text="Plats" FontSize="20" Foreground="Black" />
                                             </ToggleSwitch.Header>
@@ -296,9 +296,10 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="SendOrderButton" Icon="Send" Label="Envoyer" Click="SendOrder" />
-            <AppBarButton x:Name="AddMenusElementsButton" Icon="Add" Label="Ajouter" Click="AddMenusElements" />
-            <AppBarButton x:Name="AddElementsButton" Icon="Add" Label="Ajouter" Click="AddElements" />
+            <AppBarButton x:ConnectionId='8' x:Name="SendOrderButton" Icon="Send" Label="Envoyer"                   />
+            <AppBarButton x:ConnectionId='9' x:Name="AddMenusElementsButton" Icon="Add" Label="Ajouter"                          />
+            <AppBarButton x:ConnectionId='10' x:Name="AddElementsButton" Icon="Add" Label="Ajouter"                     />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>
+

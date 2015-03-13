@@ -19,14 +19,17 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace FastOrdering.View {
+namespace FastOrdering.View
+{
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class OrdersView : Page {
+	public sealed partial class OrdersView : Page
+	{
 		public ObservableCollection<Order> orders;
 
-		public OrdersView() {
+		public OrdersView()
+		{
 			this.InitializeComponent();
 			DrawerLayout.InitializeDrawerLayout();
 			orders = new ObservableCollection<Order>();
@@ -40,21 +43,25 @@ namespace FastOrdering.View {
 		/// </summary>
 		/// <param name="e">Event data that describes how this page was reached.
 		/// This parameter is typically used to configure the page.</param>
-		protected override void OnNavigatedTo(NavigationEventArgs e) {
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
 		}
 
-		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e) {
+		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		{
 			if (DrawerLayout.IsDrawerOpen)
 				DrawerLayout.CloseDrawer();
 			else
 				DrawerLayout.OpenDrawer();
 		}
 
-		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
+		private void AppBarButton_Click(object sender, RoutedEventArgs e)
+		{
 			Frame.Navigate(typeof(NewOrderView));
 		}
 
-		private void Grid_Tapped(object sender, TappedRoutedEventArgs e) {
+		private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
+		{
 			int id = (int)(sender as Grid).Tag;
 			Order ord = orders.ElementAt(id - 1);
 

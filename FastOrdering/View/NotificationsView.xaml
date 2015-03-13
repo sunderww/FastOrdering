@@ -31,11 +31,16 @@
         <!-- Drawer Layout -->
         <drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
             <Grid>
-                <Border Background="White" Opacity="0.9" CornerRadius="5" Margin="50">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <Border x:Name="BorderNotif" Grid.Row="0" Background="White" Opacity="0.9" CornerRadius="5" Margin="50">
                     <ListBox Name="NotificationsListbox">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Width="280" Tag="{Binding ID}"
+                                <Grid Tag="{Binding ID}"
                                       ManipulationMode="TranslateX" ManipulationStarted="Grid_ManipulationStarted" ManipulationCompleted="Grid_ManipulationCompleted">
                                     <Image Source="/Assets/Notifications.png" Width="70" Height="70" HorizontalAlignment="Left" Margin="-15,-15,0,0"/>
                                     <TextBlock Text="{Binding Message, Converter={StaticResource StringFormat}, ConverterParameter='\{0}'}"
@@ -47,6 +52,8 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Border>
+                <TextBlock Grid.Row="1" x:Name="NoNotif" Text="Aucune notification" FontSize="30" Foreground="White"
+                           Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
 
             <Grid>

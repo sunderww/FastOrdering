@@ -17,12 +17,15 @@ using FastOrdering.Misc;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace FastOrdering.View {
+namespace FastOrdering.View
+{
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class LoginView : Page {
-		public LoginView() {
+	public sealed partial class LoginView : Page
+	{
+		public LoginView()
+		{
 			this.InitializeComponent();
 		}
 
@@ -31,10 +34,12 @@ namespace FastOrdering.View {
 		/// </summary>
 		/// <param name="e">Event data that describes how this page was reached.
 		/// This parameter is typically used to configure the page.</param>
-		protected override void OnNavigatedTo(NavigationEventArgs e) {
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
 		}
 
-		private void AppBarButton_Click(object sender, RoutedEventArgs e) {
+		private void AppBarButton_Click(object sender, RoutedEventArgs e)
+		{
 			Socket sock = new Socket();
 			System.Diagnostics.Debug.WriteLine("emit");
 			System.Diagnostics.Debug.WriteLine(sock.Emit("/elements"));

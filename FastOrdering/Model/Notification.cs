@@ -4,26 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FastOrdering.Model {
-	public class Notification {
-		public Notification(uint table, string msg, DateTime time, int id) {
-			_table = table;
-			_msg = msg;
-			_time = time;
-			_id = id;
+namespace FastOrdering.Model
+{
+	public class Notification
+	{
+		public Notification(int table, string msg, DateTime time, int id)
+		{
+			this.table = table;
+			this.msg = msg;
+			this.time = time;
+			this.id = id;
 		}
 
-		public int		ID { get { return _id; } }
-		public uint		numTable { get { return _table; } }
-		public string	Message { get { return "Table #" + _table + " : " + _msg; } }
-		public string	msg { get { return _msg; } }
-		public DateTime Time { get { return _time; } }
+		public int ID { get { return this.id; } }
+		public int numTable { get { return this.table; } }
+		public string Message { get { return "Table #" + this.table + " : " + this.msg; } }
+		public string Msg { get { return this.msg; } }
+		public DateTime Time { get { return this.time; } }
 		public DateTime date { get { return Time.Date; } }
-		public int		hour { get { return Time.Hour; } }
+		public int hour { get { return Time.Hour; } }
 
-		private int			_id;
-		private uint		_table;
-		private string		_msg;
-		private DateTime	_time;
+		private int id;
+		private int table;
+		private string msg;
+		private DateTime time;
 	}
 }
