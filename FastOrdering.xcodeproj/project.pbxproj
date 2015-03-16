@@ -71,6 +71,8 @@
 		84CDA3881AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA37C1AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m */; };
 		84CDA3891AA67C0000D3D502 /* JKSubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA37E1AA67C0000D3D502 /* JKSubTableViewCell.m */; };
 		84CDA38A1AA67C0000D3D502 /* JKSubTableViewCellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA3801AA67C0000D3D502 /* JKSubTableViewCellCell.m */; };
+		84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */; };
+		84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA38E1AA6A9D800D3D502 /* CommandView.xib */; };
 		84EF67231AA4001400702897 /* SyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF67221AA4001400702897 /* SyncTests.m */; };
 /* End PBXBuildFile section */
 
@@ -192,6 +194,9 @@
 		84CDA37E1AA67C0000D3D502 /* JKSubTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSubTableViewCell.m; sourceTree = "<group>"; };
 		84CDA37F1AA67C0000D3D502 /* JKSubTableViewCellCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKSubTableViewCellCell.h; sourceTree = "<group>"; };
 		84CDA3801AA67C0000D3D502 /* JKSubTableViewCellCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKSubTableViewCellCell.m; sourceTree = "<group>"; };
+		84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandViewController.h; sourceTree = "<group>"; };
+		84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandViewController.m; sourceTree = "<group>"; };
+		84CDA38E1AA6A9D800D3D502 /* CommandView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommandView.xib; sourceTree = "<group>"; };
 		84EF67221AA4001400702897 /* SyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -419,6 +424,7 @@
 				84C1A1C919EE08A600E64B40 /* TablePlanView.xib */,
 				84C1A1D119EE3CE300E64B40 /* MenuView.xib */,
 				84B1EA541A5A058700985E57 /* AboutView.xib */,
+				84CDA38E1AA6A9D800D3D502 /* CommandView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -438,6 +444,8 @@
 				84C1A1CF19EE178400E64B40 /* MenuViewController.m */,
 				84B1EA511A5A057800985E57 /* AboutViewController.h */,
 				84B1EA521A5A057800985E57 /* AboutViewController.m */,
+				84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */,
+				84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -583,6 +591,7 @@
 				84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */,
 				84C1A1CA19EE08A600E64B40 /* TablePlanView.xib in Resources */,
 				84B1EA551A5A058700985E57 /* AboutView.xib in Resources */,
+				84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */,
 				84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */,
 				84C1A18819EDE8D100E64B40 /* Images.xcassets in Resources */,
 				84CDA3821AA67C0000D3D502 /* arrow-icon@2x.png in Resources */,
@@ -634,6 +643,7 @@
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
 				84CDA3881AA67C0000D3D502 /* JKSingleSelectSubTableViewCell.m in Sources */,
 				84BF7D801A8CB86A00EC912B /* Notification.m in Sources */,
+				84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */,
 				84CDA3891AA67C0000D3D502 /* JKSubTableViewCell.m in Sources */,
 				84C1A18219EDE8D100E64B40 /* main.m in Sources */,
 				84B1EA501A5A033F00985E57 /* Dish+Custom.m in Sources */,

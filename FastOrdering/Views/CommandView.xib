@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommandViewController">
+            <connections>
+                <outlet property="alacarteButton" destination="Vbd-Xo-Ofh" id="47I-fN-Fha"/>
+                <outlet property="menuButton" destination="Jbc-DD-YwI" id="5oa-rd-7Nx"/>
+                <outlet property="reviewButton" destination="C1B-Vt-dVU" id="B2U-fe-YvT"/>
+                <outlet property="view" destination="iN0-l3-epB" id="ln4-jj-Vga"/>
+                <outletCollection property="clickedViews" destination="IAX-P5-7hU" id="uaU-0R-cl0"/>
+                <outletCollection property="clickedViews" destination="Rnj-8B-iFc" id="j7y-Uf-P8s"/>
+                <outletCollection property="clickedViews" destination="zMU-f0-0a0" id="Jvg-6h-9kN"/>
+                <outletCollection property="contentViews" destination="TNq-os-906" id="yHj-8l-JvJ"/>
+                <outletCollection property="contentViews" destination="TpI-yF-fk2" id="C9c-0R-knI"/>
+                <outletCollection property="contentViews" destination="l3u-CW-uLQ" id="NGg-qw-5yo"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="yDZ-LJ-DCe" userLabel="Header">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="If8-bP-o1S">
+                            <rect key="frame" x="107" y="13" width="1" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.69981751824817529" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <view contentMode="scaleToFill" id="jWp-0f-b7F">
+                            <rect key="frame" x="212" y="13" width="1" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.69981751820000004" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jbc-DD-YwI">
+                            <rect key="frame" x="5" y="10" width="100" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="r9k-1l-Mhx"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Vbd-Xo-Ofh">
+                            <rect key="frame" x="110" y="10" width="100" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="LUd-ei-P3w"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="C1B-Vt-dVU">
+                            <rect key="frame" x="215" y="10" width="100" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="OLy-3z-0Au"/>
+                            </connections>
+                        </button>
+                        <view tag="100" contentMode="scaleToFill" id="IAX-P5-7hU">
+                            <rect key="frame" x="5" y="45" width="100" height="5"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                        <view tag="101" contentMode="scaleToFill" id="Rnj-8B-iFc">
+                            <rect key="frame" x="110" y="45" width="100" height="5"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                        <view tag="102" contentMode="scaleToFill" id="zMU-f0-0a0">
+                            <rect key="frame" x="215" y="45" width="100" height="5"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.75151117700000003" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view tag="100" contentMode="scaleToFill" id="TNq-os-906">
+                    <rect key="frame" x="20" y="70" width="280" height="468"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.20734489049999999" green="0.82866674269999996" blue="0.89213617700000003" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view hidden="YES" tag="101" contentMode="scaleToFill" id="TpI-yF-fk2">
+                    <rect key="frame" x="20" y="70" width="280" height="468"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.064182253650000007" green="0.70201300180000004" blue="0.20452212589999999" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view hidden="YES" tag="102" contentMode="scaleToFill" id="l3u-CW-uLQ">
+                    <rect key="frame" x="20" y="70" width="280" height="468"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" red="0.5889883668" green="0.30100935220000002" blue="0.84394958939999998" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <point key="canvasLocation" x="139" y="154"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

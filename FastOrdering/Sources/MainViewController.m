@@ -18,6 +18,7 @@
 #import "NSManagedObject+create.h"
 #import "OrderCell.h"
 #import "NotificationCell.h"
+#import "CommandViewController.h"
 
 #define kTableViewCellHeight    55
 
@@ -139,7 +140,7 @@
 
     mainView.hidden = YES;
     if (sender == takeOrderButton || sender == orderButton) {
-        controller = [[MenuViewController alloc] initWithNibName:@"MenuView" bundle:nil];
+        controller = [[CommandViewController alloc] initWithNibName:@"CommandView" bundle:nil];
         titleLabel.text = NSLocalizedString(@"order", @"").capitalizedString;
     } else if (sender == historyButton) {
         controller = nil;

@@ -13,6 +13,11 @@
 "No order"                      =   "Aucune commande";
 "No notification"               =   "Aucune notification";
 
+/* Order page */
+"Menus"                         =   "Menus";
+"A la carte"                    =   "A la carte";
+"Order"                         =   "Commande";
+
 /* */
 "Erase all"                     =   "Tout effacer";
 
