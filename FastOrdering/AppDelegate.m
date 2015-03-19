@@ -22,6 +22,7 @@
     LoginViewController * controller;
     
 #if DEBUG
+  [self printDB];
 #ifdef kShouldDropDB
     [self dropDB];
 #endif

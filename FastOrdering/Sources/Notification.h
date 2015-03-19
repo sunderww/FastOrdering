@@ -2,7 +2,7 @@
 //  Notification.h
 //  FastOrdering
 //
-//  Created by Sunder on 12/02/2015.
+//  Created by Sunder on 18/03/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -14,5 +14,6 @@
 
 @property (nonatomic, retain) NSString * contentString;
 @property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSDate * updatedAt;
 
 @end

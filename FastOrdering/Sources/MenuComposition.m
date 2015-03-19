@@ -1,25 +1,24 @@
 //
-//  Dish.m
+//  MenuComposition.m
 //  FastOrdering
 //
 //  Created by Sunder on 18/03/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
-#import "Dish.h"
+#import "MenuComposition.h"
 #import "DishCategory.h"
-#import "OrderedDish.h"
+#import "Menu.h"
 
 
-@implementation Dish
+@implementation MenuComposition
 
-@dynamic available;
 @dynamic createdAt;
-@dynamic name;
-@dynamic price;
-@dynamic serverId;
 @dynamic updatedAt;
+@dynamic serverId;
+@dynamic price;
+@dynamic name;
 @dynamic categories;
-@dynamic ordered;
+@dynamic menu;
 
 @end

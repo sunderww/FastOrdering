@@ -1,21 +1,20 @@
 //
-//  Plan.m
+//  Menu.m
 //  FastOrdering
 //
 //  Created by Sunder on 18/03/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
-#import "Plan.h"
-#import "Table.h"
+#import "Menu.h"
 
 
-@implementation Plan
+@implementation Menu
 
+@dynamic name;
 @dynamic createdAt;
-@dynamic serverId;
-@dynamic sizeString;
 @dynamic updatedAt;
-@dynamic tables;
+@dynamic serverId;
+@dynamic compositions;
 
 @end

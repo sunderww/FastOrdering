@@ -93,7 +93,7 @@
 //        DPPLog(@"%@", response);
 //    }];
 
-    NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table"];
+    NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
     syncer.delegate = self;
     for (NSString * class in classes) {
         classesToSync++;

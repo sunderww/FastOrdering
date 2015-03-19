@@ -2,7 +2,7 @@
 //  DishCategory.h
 //  FastOrdering
 //
-//  Created by Sunder on 12/02/2015.
+//  Created by Sunder on 18/03/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSSet *dishes;
 @property (nonatomic, retain) DishCategory *parent;
 @property (nonatomic, retain) NSSet *subcategories;
+@property (nonatomic, retain) NSSet *compositions;
 @end
 
 @interface DishCategory (CoreDataGeneratedAccessors)
@@ -35,5 +36,10 @@
 - (void)removeSubcategoriesObject:(DishCategory *)value;
 - (void)addSubcategories:(NSSet *)values;
 - (void)removeSubcategories:(NSSet *)values;
+
+- (void)addCompositionsObject:(NSManagedObject *)value;
+- (void)removeCompositionsObject:(NSManagedObject *)value;
+- (void)addCompositions:(NSSet *)values;
+- (void)removeCompositions:(NSSet *)values;
 
 @end
