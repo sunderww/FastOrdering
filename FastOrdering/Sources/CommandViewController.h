@@ -7,12 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OrderMenuModel.h"
+#import "OrderALaCarteModel.h"
+#import "SLExpandableTableView.h"
 
 @interface CommandViewController : UIViewController {
     IBOutlet UIButton *     menuButton;
     IBOutlet UIButton *     alacarteButton;
     IBOutlet UIButton *     reviewButton;
-    
+  
+    OrderMenuModel *        menuModel;
+    OrderALaCarteModel *    carteModel;
+  
+    IBOutlet SLExpandableTableView *  menuTableView;
+    IBOutlet SLExpandableTableView *  carteTableView;
+  
     IBOutletCollection(UIView) NSArray * clickedViews;
     IBOutletCollection(UIView) NSArray * contentViews;
 }
