@@ -41,9 +41,9 @@ namespace FastOrdering.View
 		private void AppBarButton_Click(object sender, RoutedEventArgs e)
 		{
 			Socket sock = new Socket();
-			System.Diagnostics.Debug.WriteLine("emit");
-			System.Diagnostics.Debug.WriteLine(sock.Emit("/elements"));
-			sock.Disconnect();
+			//System.Diagnostics.Debug.WriteLine("emit");
+			//System.Diagnostics.Debug.WriteLine(sock.Emit("/elements"));
+			//sock.Disconnect();
 			Frame.Navigate(typeof(ReceptionView));
 		}
 	}

@@ -16,8 +16,21 @@ namespace FastOrdering.Misc
 
 		public Socket()
 		{
+			System.Diagnostics.Debug.WriteLine("begin");
 			socket = Quobject.SocketIoClientDotNet.Client.IO.Socket(this.uri);
-			socket.Connect();
+			socket.On(SocketIO.EVENT_CONNECT, () =>
+			{
+				socket.Emit("hi");
+				System.Diagnostics.Debug.WriteLine("emit");
+			});
+			socket.On("hi", (data) =>
+			{
+				System.Diagnostics.Debug.WriteLine("cb");
+				System.Diagnostics.Debug.WriteLine(data);
+				socket.Disconnect();
+			});
+			System.Diagnostics.Debug.WriteLine("end");
+			//socket.Connect();
 		}
 
 		public string Emit(string eventString)

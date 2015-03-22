@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,15 @@ namespace FastOrdering.Model
 {
 	public class Order : INotifyPropertyChanged
 	{
-		public Order(int table, int pa, DateTime time, int nb)
+		public Order(int table, int pa, DateTime time, int id)
 		{
 			this.table = table;
 			this.pa = pa;
 			this.time = time;
-			this.nb = nb;
+			this.id = id;
 		}
 
-		public int numOrder { get { return this.nb; } }
+		public int numOrder { get { return this.id; } }
 		public int numTable
 		{
 			get { return this.table; }
@@ -43,14 +44,26 @@ namespace FastOrdering.Model
 			}
 		}
 		public DateTime Time { get { return this.time; } }
-		public string Message { get { return "Commande #" + this.nb + ", Table #" + this.table + ", PA : " + this.pa; } }
+		public string Message { get { return "Commande #" + this.id + ", Table #" + this.table + ", PA : " + this.pa; } }
 
-		private int nb;
+		private int id;
+		public int ID
+		{
+			get { return id; }
+		}
 		private int table;
 		private int pa;
 		private DateTime time;
-		private User user;
-		private Status status;
+		private ObservableCollection<MyDictionary<Menu>> menus = new ObservableCollection<MyDictionary<Menu>>();
+		public ObservableCollection<MyDictionary<Menu>> Menus
+		{
+			get { return menus; }
+		}
+		private ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
+		public ObservableCollection<MyDictionary<Dish>> Dishes
+		{
+			get { return dishes; }
+		}
 
 		#region INotifyPropertyChanged
 		public void NotifyPropertyChanged(string nomPropriete)
@@ -61,16 +74,11 @@ namespace FastOrdering.Model
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
+	}
 
-		private enum Status
-		{
-			WAITING,
-			IN_PROGRESS,
-			ENTRY_OK,
-			DISH_OK,
-			DESSERT_OK,
-			REFUSE,
-			QUESTION
-		}
+	public class MyDictionary<T>
+	{
+		public T Key { get; set; }
+		public int Value { get; set; }
 	}
 }

@@ -25,15 +25,41 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class NewOrderView : Page
 	{
-		public ObservableCollection<string> entries = new ObservableCollection<string>();
-		public ObservableCollection<string> Entries
+		private ObservableCollection<Dish> entries = new ObservableCollection<Dish>();
+		public ObservableCollection<Dish> Entries
 		{
 			get { return entries; }
 		}
-		public ObservableCollection<string> dishes = new ObservableCollection<string>();
-		public ObservableCollection<string> Dishes
+		private ObservableCollection<Dish> dishes = new ObservableCollection<Dish>();
+		public ObservableCollection<Dish> Dishes
 		{
 			get { return dishes; }
+		}
+		private ObservableCollection<Dish> desserts = new ObservableCollection<Dish>();
+		public ObservableCollection<Dish> Desserts
+		{
+			get { return desserts; }
+		}
+		private ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
+		public ObservableCollection<Menu> Menus
+		{
+			get { return menus; }
+		}
+
+		private Order ord = new Order(0, 0, DateTime.Now, 1);
+		public Order Ord
+		{
+			get { return ord; }
+			set { }
+		}
+
+		private ListView menuList = null;
+		private Grid menuCompo = null;
+
+		private Menu selectedMenu = null;
+		public Menu SelectedMenu
+		{
+			get { return selectedMenu; }
 		}
 
 		public NewOrderView()
@@ -42,15 +68,22 @@ namespace FastOrdering.View
 			this.DataContext = this;
 			DrawerLayout.InitializeDrawerLayout();
 
-			entries.Add("Salade");
-			entries.Add("Foie gras");
-			entries.Add("Radis");
+			entries.Add(new Dish(0, 5, "Salade", "entry"));
+			entries.Add(new Dish(1, 15, "Foie gras", "entry"));
+			entries.Add(new Dish(2, 3, "Radis", "entry"));
 
-			dishes.Add("Bavette");
-			dishes.Add("Moules frites");
-			dishes.Add("Magret de canard");
-			dishes.Add("Couscous");
-			dishes.Add("Boeuf bourguignon");
+			dishes.Add(new Dish(3, 9, "Bavette", "dish"));
+			dishes.Add(new Dish(4, 8, "Moules frites", "dish"));
+			dishes.Add(new Dish(5, 13, "Magret de canard", "dish"));
+			dishes.Add(new Dish(6, 12, "Couscous", "dish"));
+			dishes.Add(new Dish(7, 10, "Boeuf bourguignon", "dish"));
+
+			desserts.Add(new Dish(8, 4, "Glace", "dessert"));
+			desserts.Add(new Dish(9, 5, "Gâteau", "dessert"));
+			desserts.Add(new Dish(10, 3, "Salade de fruits", "dessert"));
+
+			menus.Add(new Menu(0, "Mousaillon", "Visible", "Visible"));
+			menus.Add(new Menu(1, "Pirate", "Collapsed", "Collapsed"));
 		}
 
 		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
@@ -63,25 +96,18 @@ namespace FastOrdering.View
 
 		private void SendOrder(object sender, RoutedEventArgs e)
 		{
-			Order or = new Order(1, 2, DateTime.Now, 1);
+			var or = new Order(1, 2, DateTime.Now, 1);
 			string json = JsonConvert.SerializeObject(or);
 			System.Diagnostics.Debug.WriteLine(json);
 		}
 
-		public Order ord = new Order(0, 0, DateTime.Now, 1);
-		public Order Ord
-		{
-			get { return ord; }
-			set { }
-		}
-
 		private void ToggleSwitch_Entry(object sender, RoutedEventArgs e)
 		{
-			ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-			Grid g = toggleSwitch.Parent as Grid;
+			var toggleSwitch = sender as ToggleSwitch;
+			var g = toggleSwitch.Parent as StackPanel;
 			ListView entries = null;
 
-			foreach (UIElement elem in g.Children)
+			foreach (var elem in g.Children)
 			{
 				entries = elem as ListView;
 				if (entries != null && entries.Name == "EntryList")
@@ -99,11 +125,11 @@ namespace FastOrdering.View
 
 		private void ToggleSwitch_Dish(object sender, RoutedEventArgs e)
 		{
-			ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-			Grid g = toggleSwitch.Parent as Grid;
+			var toggleSwitch = sender as ToggleSwitch;
+			var g = toggleSwitch.Parent as StackPanel;
 			ListView dishes = null;
 
-			foreach (UIElement elem in g.Children)
+			foreach (var elem in g.Children)
 			{
 				dishes = elem as ListView;
 				if (dishes != null && dishes.Name == "DishList")
@@ -119,16 +145,38 @@ namespace FastOrdering.View
 			}
 		}
 
+		private void ToggleSwitch_Dessert(object sender, RoutedEventArgs e)
+		{
+			var toggleSwitch = sender as ToggleSwitch;
+			var g = toggleSwitch.Parent as StackPanel;
+			ListView desserts = null;
+
+			foreach (var elem in g.Children)
+			{
+				desserts = elem as ListView;
+				if (desserts != null && desserts.Name == "DessertList")
+					break;
+			}
+
+			if (toggleSwitch != null && dishes != null)
+			{
+				if (toggleSwitch.IsOn == true)
+					desserts.Visibility = Visibility.Visible;
+				else
+					desserts.Visibility = Visibility.Collapsed;
+			}
+		}
+
 		private void ToggleSwitch_Menu(object sender, RoutedEventArgs e)
 		{
-			ToggleSwitch toggleSwitch = sender as ToggleSwitch;
-			Grid g = toggleSwitch.Parent as Grid;
-			ListView menus = null;
+			var toggleSwitch = sender as ToggleSwitch;
+			var g = toggleSwitch.Parent as Grid;
+			Grid menus = null;
 
-			foreach (UIElement elem in g.Children)
+			foreach (var elem in g.Children)
 			{
-				menus = elem as ListView;
-				if (menus != null && menus.Name == "MenuList")
+				menus = elem as Grid;
+				if (menus != null && menus.Name == "MenuCompo")
 					break;
 			}
 
@@ -141,14 +189,11 @@ namespace FastOrdering.View
 			}
 		}
 
-		private void AddElements(object sender, RoutedEventArgs e)
+		private void BackToOrder(object sender, RoutedEventArgs e)
 		{
-
-		}
-
-		private void AddMenusElements(object sender, RoutedEventArgs e)
-		{
-
+			menuList.Visibility = Visibility.Visible;
+			menuCompo.Visibility = Visibility.Collapsed;
+			BackToOrderButton.Visibility = Visibility.Collapsed;
 		}
 
 		private void Hub_SectionsInViewChanged(object sender, SectionsInViewChangedEventArgs e)
@@ -156,21 +201,106 @@ namespace FastOrdering.View
 			if (OrderHub.SectionsInView[0] == SendOrderHubSection)
 			{
 				SendOrderButton.Visibility = Visibility.Visible;
-				AddMenusElementsButton.Visibility = Visibility.Collapsed;
-				AddElementsButton.Visibility = Visibility.Collapsed;
+				BackToOrderButton.Visibility = Visibility.Collapsed;
 			}
 			else if (OrderHub.SectionsInView[0] == AlacarteHubSection)
 			{
 				SendOrderButton.Visibility = Visibility.Collapsed;
-				AddMenusElementsButton.Visibility = Visibility.Visible;
-				AddElementsButton.Visibility = Visibility.Collapsed;
+				BackToOrderButton.Visibility = Visibility.Collapsed;
 			}
-			else
-			{
+			else if (OrderHub.SectionsInView[0] == MenusHubSection)
 				SendOrderButton.Visibility = Visibility.Collapsed;
-				AddMenusElementsButton.Visibility = Visibility.Collapsed;
-				AddElementsButton.Visibility = Visibility.Visible;
+		}
+
+		private void Menu_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			TextBlock tb = sender as TextBlock;
+			foreach (var menu in menus)
+			{
+				if (menu.IDMenu == int.Parse(tb.Tag.ToString()))
+				{
+					selectedMenu = menu;
+					break;
+				}
+			}
+			menuList.Visibility = Visibility.Collapsed;
+			menuCompo.Visibility = Visibility.Visible;
+			selectedMenu.Entry = (tb.Text == "Entrées + Plats" || tb.Name == "SingleMenu") ? "Visible" : "Collapsed";
+			selectedMenu.Dessert = (tb.Text == "Plats + Desserts" || tb.Name == "SingleMenu") ? "Visible" : "Collapsed";
+			menuCompo.DataContext = selectedMenu;
+			BackToOrderButton.Visibility = Visibility.Visible;
+		}
+
+		private void Control_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (sender is ListView)
+				menuList = sender as ListView;
+			else if (sender is Grid)
+				menuCompo = sender as Grid;
+		}
+
+		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+		{
+			TextBox tb = sender as TextBox;
+
+			if (tb.Name == "Entries")
+			{
+				foreach (var entry in entries)
+					if (entry.ID == int.Parse(tb.Tag.ToString()))
+					{
+						foreach (var dish in ord.Dishes)
+						{
+							if (dish.Key == entry)
+								ord.Dishes.Remove(dish);
+							break;
+						}
+						MyDictionary<Dish> d = new MyDictionary<Dish>();
+						d.Key = entry;
+						d.Value = int.Parse(tb.Text);
+						if (d.Value > 0)
+							ord.Dishes.Add(d);
+						break;
+					}
+			}
+			else if (tb.Name == "Dishes")
+			{
+				foreach (var dish in dishes)
+					if (dish.ID == int.Parse(tb.Tag.ToString()))
+					{
+						foreach (var dis in ord.Dishes)
+						{
+							if (dis.Key == dish)
+								ord.Dishes.Remove(dis);
+							break;
+						}
+						MyDictionary<Dish> d = new MyDictionary<Dish>();
+						d.Key = dish;
+						d.Value = int.Parse(tb.Text);
+						if (d.Value > 0)
+							ord.Dishes.Add(d);
+						break;
+					}
+			}
+			else if (tb.Name == "Desserts")
+			{
+				foreach (var dessert in desserts)
+					if (dessert.ID == int.Parse(tb.Tag.ToString()))
+					{
+						foreach (var dish in ord.Dishes)
+						{
+							if (dish.Key == dessert)
+								ord.Dishes.Remove(dish);
+							break;
+						}
+						MyDictionary<Dish> d = new MyDictionary<Dish>();
+						d.Key = dessert;
+						d.Value = int.Parse(tb.Text);
+						if (d.Value > 0)
+							ord.Dishes.Add(d);
+						break;
+					}
 			}
 		}
+
 	}
 }

@@ -26,6 +26,46 @@ namespace FastOrdering.View
 	{
 		public ObservableCollection<Notification> notifications;
 		public ObservableCollection<Order> orders;
+		public string firstNotifMsg;
+		public string FirstNotifMsg
+		{
+			get { return firstNotifMsg; }
+		}
+		public DateTime firstNotifTime;
+		public DateTime FirstNotifTime
+		{
+			get { return firstNotifTime; }
+		}
+		public string secondNotifMsg;
+		public string SecondNotifMsg
+		{
+			get { return secondNotifMsg; }
+		}
+		public DateTime secondNotifTime;
+		public DateTime SecondNotifTime
+		{
+			get { return secondNotifTime; }
+		}
+		public string firstOrderMsg;
+		public string FirstOrderMsg
+		{
+			get { return firstOrderMsg; }
+		}
+		public DateTime firstOrderTime;
+		public DateTime FirstOrderTime
+		{
+			get { return firstOrderTime; }
+		}
+		public string secondOrderMsg;
+		public string SecondOrderMsg
+		{
+			get { return secondOrderMsg; }
+		}
+		public DateTime secondOrderTime;
+		public DateTime SecondOrderTime
+		{
+			get { return secondOrderTime; }
+		}
 
 		public ReceptionView()
 		{
@@ -34,11 +74,23 @@ namespace FastOrdering.View
 			notifications = new ObservableCollection<Notification>();
 			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now, notifications.Count));
 			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today, notifications.Count));
-			NotificationsListbox.ItemsSource = notifications;
+
+			int idx = notifications.IndexOf(notifications.Last());
+			firstNotifMsg = notifications.Last().Message;
+			firstNotifTime = notifications.Last().Time;
+			secondNotifMsg = notifications.ElementAt(idx - 1).Message;
+			secondNotifTime = notifications.ElementAt(idx - 1).Time;
+
 			orders = new ObservableCollection<Order>();
 			orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
 			orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
-			OrdersListbox.ItemsSource = orders;
+			idx = orders.IndexOf(orders.Last());
+			firstOrderMsg = orders.Last().Message;
+			firstOrderTime = orders.Last().Time;
+			secondOrderMsg = orders.ElementAt(idx - 1).Message;
+			secondOrderTime = orders.ElementAt(idx - 1).Time;
+
+			this.DataContext = this;
 		}
 
 		/// <summary>
