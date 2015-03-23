@@ -11,19 +11,21 @@
 #import "OrderALaCarteModel.h"
 #import "SLExpandableTableView.h"
 
-@interface CommandViewController : UIViewController {
-    IBOutlet UIButton *     menuButton;
-    IBOutlet UIButton *     alacarteButton;
-    IBOutlet UIButton *     reviewButton;
+@interface CommandViewController : UIViewController <OrderALaCarteDelegate, OrderMenuDelegate> {
+  IBOutlet UIButton *     menuButton;
+  IBOutlet UIButton *     alacarteButton;
+  IBOutlet UIButton *     reviewButton;
   
-    OrderMenuModel *        menuModel;
-    OrderALaCarteModel *    carteModel;
+  OrderMenuModel *        menuModel;
+  OrderALaCarteModel *    carteModel;
   
-    IBOutlet SLExpandableTableView *  menuTableView;
-    IBOutlet SLExpandableTableView *  carteTableView;
+  IBOutlet SLExpandableTableView *  menuTableView;
+  IBOutlet SLExpandableTableView *  carteTableView;
   
-    IBOutletCollection(UIView) NSArray * clickedViews;
-    IBOutletCollection(UIView) NSArray * contentViews;
+  IBOutletCollection(UIView) NSArray * clickedViews;
+  IBOutletCollection(UIView) NSArray * contentViews;
+  
+  UIViewController *      presentController;
 }
 
 - (IBAction)buttonClicked:(UIButton *)sender;

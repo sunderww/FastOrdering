@@ -8,9 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import "SLExpandableTableView.h"
+#import "Dish.h"
+
+@protocol OrderALaCarteDelegate <NSObject>
+
+- (void)dishClicked:(Dish *)dish;
+
+@end
 
 @interface OrderALaCarteModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate> {
 
 }
+
+@property (nonatomic, retain) id<OrderALaCarteDelegate> delegate;
 
 @end

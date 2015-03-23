@@ -11,6 +11,7 @@
 #import "Menu.h"
 #import "MenuComposition.h"
 #import "MenuExpandableCell.h"
+#import "CommandMenuViewController.h"
 
 @implementation OrderMenuModel
 
@@ -64,12 +65,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return ((NSArray *)compositions[section]).count;
+  return ((NSArray *)compositions[section]).count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString * CellIdentifier = @"CompositionCell";
-  MenuComposition * composition = compositions[indexPath.section][indexPath.row];
+  MenuComposition * composition = compositions[indexPath.section][indexPath.row - 1];
 
   UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   
@@ -78,8 +79,13 @@
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
   }
   
-  cell.textLabel.text = [NSString stringWithFormat:@"%@", composition.name];
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", composition.name, composition.serverId];
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  MenuComposition * composition = compositions[indexPath.section][indexPath.row - 1];
+  [self.delegate menuCompositionClicked:composition];
 }
 
 

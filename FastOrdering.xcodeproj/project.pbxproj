@@ -34,6 +34,11 @@
 		844B06AC1ABBB58C00DCFBB3 /* Menu+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06AB1ABBB58C00DCFBB3 /* Menu+Custom.m */; };
 		844B06B31ABBB76400DCFBB3 /* SLExpandableTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06B21ABBB76400DCFBB3 /* SLExpandableTableView.m */; };
 		844B06B81ABD4CF600DCFBB3 /* MenuExpandableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06B71ABD4CF600DCFBB3 /* MenuExpandableCell.m */; };
+		844B06BC1ABF804800DCFBB3 /* CommandMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06BA1ABF804800DCFBB3 /* CommandMenuViewController.m */; };
+		844B06BD1ABF804800DCFBB3 /* CommandMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844B06BB1ABF804800DCFBB3 /* CommandMenuView.xib */; };
+		844B06C01ABF81FA00DCFBB3 /* CategoryExpandableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06BF1ABF81FA00DCFBB3 /* CategoryExpandableCell.m */; };
+		844B06C41ABF88D800DCFBB3 /* DishCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06C21ABF88D800DCFBB3 /* DishCell.m */; };
+		844B06C51ABF88D800DCFBB3 /* DishCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844B06C31ABF88D800DCFBB3 /* DishCell.xib */; };
 		84B1E9F71A569CC900985E57 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B1E9F61A569CC900985E57 /* CoreData.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */; };
 		84B1EA431A57681100985E57 /* SocketIO+SailsIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA411A57681100985E57 /* SocketIO+SailsIO.m */; };
@@ -135,6 +140,14 @@
 		844B06B21ABBB76400DCFBB3 /* SLExpandableTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLExpandableTableView.m; sourceTree = "<group>"; };
 		844B06B61ABD4CF600DCFBB3 /* MenuExpandableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuExpandableCell.h; sourceTree = "<group>"; };
 		844B06B71ABD4CF600DCFBB3 /* MenuExpandableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuExpandableCell.m; sourceTree = "<group>"; };
+		844B06B91ABF804800DCFBB3 /* CommandMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandMenuViewController.h; sourceTree = "<group>"; };
+		844B06BA1ABF804800DCFBB3 /* CommandMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandMenuViewController.m; sourceTree = "<group>"; };
+		844B06BB1ABF804800DCFBB3 /* CommandMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommandMenuView.xib; path = ../Sources/CommandMenuView.xib; sourceTree = "<group>"; };
+		844B06BE1ABF81FA00DCFBB3 /* CategoryExpandableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryExpandableCell.h; sourceTree = "<group>"; };
+		844B06BF1ABF81FA00DCFBB3 /* CategoryExpandableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryExpandableCell.m; sourceTree = "<group>"; };
+		844B06C11ABF88D800DCFBB3 /* DishCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishCell.h; sourceTree = "<group>"; };
+		844B06C21ABF88D800DCFBB3 /* DishCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishCell.m; sourceTree = "<group>"; };
+		844B06C31ABF88D800DCFBB3 /* DishCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DishCell.xib; sourceTree = "<group>"; };
 		84B1E9F61A569CC900985E57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		84B1EA3E1A57681100985E57 /* NSString+TrimmingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TrimmingAdditions.h"; sourceTree = "<group>"; };
 		84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TrimmingAdditions.m"; sourceTree = "<group>"; };
@@ -317,8 +330,13 @@
 				84BF7D9F1A8F4A4000EC912B /* OrderCell.h */,
 				84BF7DA01A8F4A4000EC912B /* OrderCell.m */,
 				84BF7DA11A8F4A4000EC912B /* OrderCell.xib */,
+				844B06C11ABF88D800DCFBB3 /* DishCell.h */,
+				844B06C21ABF88D800DCFBB3 /* DishCell.m */,
+				844B06C31ABF88D800DCFBB3 /* DishCell.xib */,
 				844B06B61ABD4CF600DCFBB3 /* MenuExpandableCell.h */,
 				844B06B71ABD4CF600DCFBB3 /* MenuExpandableCell.m */,
+				844B06BE1ABF81FA00DCFBB3 /* CategoryExpandableCell.h */,
+				844B06BF1ABF81FA00DCFBB3 /* CategoryExpandableCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -435,6 +453,7 @@
 				84C1A1D119EE3CE300E64B40 /* MenuView.xib */,
 				84B1EA541A5A058700985E57 /* AboutView.xib */,
 				84CDA38E1AA6A9D800D3D502 /* CommandView.xib */,
+				844B06BB1ABF804800DCFBB3 /* CommandMenuView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -456,6 +475,8 @@
 				84B1EA521A5A057800985E57 /* AboutViewController.m */,
 				84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */,
 				84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */,
+				844B06B91ABF804800DCFBB3 /* CommandMenuViewController.h */,
+				844B06BA1ABF804800DCFBB3 /* CommandMenuViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -575,8 +596,10 @@
 				84C1A1CA19EE08A600E64B40 /* TablePlanView.xib in Resources */,
 				84B1EA551A5A058700985E57 /* AboutView.xib in Resources */,
 				84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */,
+				844B06C51ABF88D800DCFBB3 /* DishCell.xib in Resources */,
 				84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */,
 				84C1A18819EDE8D100E64B40 /* Images.xcassets in Resources */,
+				844B06BD1ABF804800DCFBB3 /* CommandMenuView.xib in Resources */,
 				84C1A1C819EE044800E64B40 /* NotificationView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -621,6 +644,7 @@
 				84C1A1CD19EE08B600E64B40 /* TablePlanViewController.m in Sources */,
 				84B1EA531A5A057800985E57 /* AboutViewController.m in Sources */,
 				844B06B81ABD4CF600DCFBB3 /* MenuExpandableCell.m in Sources */,
+				844B06C41ABF88D800DCFBB3 /* DishCell.m in Sources */,
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
 				844B06881AB942BF00DCFBB3 /* Dish.m in Sources */,
 				844B06911AB942C000DCFBB3 /* Notification.m in Sources */,
@@ -636,6 +660,7 @@
 				844B06A91ABBB2B000DCFBB3 /* OrderALaCarteModel.m in Sources */,
 				844B06A61ABBB29A00DCFBB3 /* OrderMenuModel.m in Sources */,
 				8403EDC41A51036E001421D3 /* UIColor+String.m in Sources */,
+				844B06BC1ABF804800DCFBB3 /* CommandMenuViewController.m in Sources */,
 				84008C7B1A7607640012F873 /* SocketIOPacket.m in Sources */,
 				84008C7A1A7607640012F873 /* SocketIOJSONSerialization.m in Sources */,
 				84008C6D1A75FAB40012F873 /* SocketHelper.m in Sources */,
@@ -652,6 +677,7 @@
 				84008C7C1A7607640012F873 /* SocketIOTransportWebsocket.m in Sources */,
 				84C1A1C119EDF35C00E64B40 /* MainViewController.m in Sources */,
 				84008C7D1A7607640012F873 /* SocketIOTransportXHR.m in Sources */,
+				844B06C01ABF81FA00DCFBB3 /* CategoryExpandableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

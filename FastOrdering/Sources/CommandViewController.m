@@ -7,6 +7,7 @@
 //
 
 #import "CommandViewController.h"
+#import "CommandMenuViewController.h"
 
 @interface CommandViewController ()
 
@@ -19,6 +20,8 @@
   
   menuModel = [OrderMenuModel new];
   carteModel = [OrderALaCarteModel new];
+  menuModel.delegate = self;
+  carteModel.delegate = self;
   menuTableView.dataSource = menuModel;
   menuTableView.delegate = menuModel;
   carteTableView.dataSource = carteModel;
@@ -34,6 +37,30 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Menu and ALaCarte delegate methods
+
+- (void)menuCompositionClicked:(MenuComposition *)composition {
+  CommandMenuViewController * controller = [[CommandMenuViewController alloc] initWithNibName:@"CommandMenuView" bundle:nil];
+
+  controller.composition = composition;
+  presentController = controller;
+
+  CGRect frame = presentController.view.frame;
+  frame.origin.x += frame.size.width;
+  presentController.view.frame = frame;
+  
+  [self.view addSubview:presentController.view];
+  [UIView animateWithDuration:0.5 animations:^{
+    CGRect frame = presentController.view.frame;
+    frame.origin.x -= frame.size.width;
+    presentController.view.frame = frame;
+  }];
+}
+
+- (void)dishClicked:(Dish *)dish {
+  
 }
 
 #pragma mark - IBAction methods

@@ -8,10 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "SLExpandableTableView.h"
+#import "MenuComposition.h"
+
+@protocol OrderMenuDelegate <NSObject>
+
+- (void)menuCompositionClicked:(MenuComposition *)composition;
+
+@end
 
 @interface OrderMenuModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate> {
   NSArray * menus;
   NSArray * compositions;
 }
+
+@property (nonatomic, retain) id<OrderMenuDelegate> delegate;
 
 @end
