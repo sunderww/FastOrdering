@@ -30,9 +30,13 @@ public class OrderFragment extends Fragment {
      */
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+
     private static ArrayList<ElementStruct> _mElements = new ArrayList<ElementStruct>();
     private static CardStruct _mCard;
     private static ArrayList<MenuStruct> _mMenus = new ArrayList<MenuStruct>();
+    private static ArrayList<CategoryStruct> _mCats = new ArrayList<CategoryStruct>();
+    private static ArrayList<CompositionStruct> _mCompos = new ArrayList<CompositionStruct>();
+
     private View _mRootView;
     private static FragmentActivity _mActivity;
     static private JSONObject _mOrder;
@@ -102,18 +106,77 @@ public class OrderFragment extends Fragment {
         _mCard = new CardStruct(card, cats);
     }
 
-    static public void fetchMenus(JSONObject menus, JSONArray compos, JSONObject cats) {
+    /* OLD */
+//    static public void fetchMenus(JSONObject menus, JSONArray compos, JSONObject cats) {
+//        JSONArray arr;
+//        _mMenus.clear();
+//        try {
+//            arr = menus.getJSONArray("elements");
+//            for (int i = 0; i < arr.length(); ++i) {
+//                _mMenus.add(new MenuStruct(arr.getJSONObject(i), compos, cats));
+//            }
+//        } catch (JSONException e) {
+//            Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
+//        }
+//    }
+
+    static public void fetchMenus(JSONObject menus, JSONObject compos, JSONObject cats) {
         JSONArray arr;
         _mMenus.clear();
+        _mCompos.clear();
+        _mCats.clear();
+
+        //Create all the cats
         try {
-            arr = menus.getJSONArray("elements");
+            arr = cats.getJSONArray("elements");
             for (int i = 0; i < arr.length(); ++i) {
-                _mMenus.add(new MenuStruct(arr.getJSONObject(i), compos, cats));
+                _mCats.add(new CategoryStruct(arr.getJSONObject(i)));
             }
         } catch (JSONException e) {
             Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
         }
+
+        //Add the dishes to the categories
+        for (ElementStruct item : _mElements) {
+            for (String idCat: item.get_mIdsCat()) {
+                for (CategoryStruct cat: _mCats) {
+                    if (cat.get_mId().equals(idCat)) {
+                        cat.get_mIdsDish().add(item.get_mId());
+                    }
+                }
+            }
+        }
+
+        //Create all the compos and add the categories to them
+        try {
+            arr = compos.getJSONArray("elements");
+            for (int i = 0; i < arr.length(); ++i) {
+                _mCompos.add(new CompositionStruct(arr.getJSONObject(i), _mCats));
+            }
+        } catch (JSONException e) {
+            Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
+        }
+
+        //Create all the menu
+        try {
+            arr = menus.getJSONArray("menus");
+            for (int i = 0; i < arr.length(); ++i) {
+                _mMenus.add(new MenuStruct(arr.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
+        }
+
+        //Add the compositions to the menus
+        for (CompositionStruct compo : _mCompos) {
+            for (MenuStruct menu: _mMenus) {
+                if (compo.get_mMenuId().equals(menu.get_mId())) {
+                    menu.get_mCat().add(compo);
+                }
+            }
+        }
     }
+
 
     public static CardStruct get_mCard() {
         return _mCard;

@@ -18,11 +18,22 @@ public class CategoryStruct {
      */
 
     private String _mCategoryName;
+    private String _mId;
     private ArrayList<String> _mIds = new ArrayList<String>();
+    private ArrayList<String> _mIdsDish = new ArrayList<String>();
 
     /***
      * Methods
      */
+
+    CategoryStruct(JSONObject cat) {
+        try {
+            _mCategoryName = cat.getString("name");
+            _mId = cat.getString("id");
+        } catch (JSONException e) {
+            Log.d("CATEGORYSTRUCT", "EXCEPTION JSON:" + e.toString());
+        }
+    }
 
     CategoryStruct(String cat, JSONObject cats) {
         JSONArray arr;
@@ -48,5 +59,13 @@ public class CategoryStruct {
 
     public ArrayList<String> get_mIds() {
         return _mIds;
+    }
+
+    public ArrayList<String> get_mIdsDish() {
+        return _mIdsDish;
+    }
+
+    public String get_mId() {
+        return _mId;
     }
 }

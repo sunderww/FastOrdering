@@ -40,7 +40,7 @@ public class LoginActivity extends Activity {
     private ProgressDialog _mProgressDialog;
 
     static JSONObject _mMenus;
-    static JSONArray _mCompos;
+    static JSONObject _mCompos;
     static JSONObject _mCats;
     static JSONObject _mAlacarte;
     static JSONObject _mLastOrders;
@@ -238,7 +238,7 @@ public class LoginActivity extends Activity {
             @Override
             public void ack(Object... objects) {
                 try {
-                    _mCompos = new JSONArray(objects[0].toString());
+                    _mCompos = new JSONObject(objects[0].toString());
                 } catch (JSONException e) {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }

@@ -17,11 +17,20 @@ public class MenuStruct {
 
     private String _mId;
     private String _mName;
-    private ArrayList<CompositionStruct> _mCat = new ArrayList<CompositionStruct>();
+    private ArrayList<CompositionStruct> _mCats = new ArrayList<CompositionStruct>();
 
     /***
      * Methods
      */
+
+    MenuStruct(JSONObject menu) {
+        try {
+            _mId = menu.getString("id");
+            _mName = menu.getString("name");
+        } catch (JSONException e) {
+
+        }
+    }
 
     MenuStruct(JSONObject menu, JSONArray compos, JSONObject cats) {
         JSONArray arr;
@@ -30,7 +39,7 @@ public class MenuStruct {
             _mName = menu.getString("name");
             arr = menu.getJSONArray("compo");
             for (int i = 0; i < arr.length(); ++i) {
-                _mCat.add(new CompositionStruct(arr.getString(i), compos, cats));
+                _mCats.add(new CompositionStruct(arr.getString(i), compos, cats));
             }
         } catch (JSONException e) {
             Log.d("MENUSTRUCT", "EXCEPTION JSON:" + e.toString());
@@ -46,6 +55,6 @@ public class MenuStruct {
     }
 
     public ArrayList<CompositionStruct> get_mCat() {
-        return _mCat;
+        return _mCats;
     }
 }
