@@ -54,8 +54,8 @@ namespace FastOrdering.Model
 		private int table;
 		private int pa;
 		private DateTime time;
-		private ObservableCollection<MyDictionary<Menu>> menus = new ObservableCollection<MyDictionary<Menu>>();
-		public ObservableCollection<MyDictionary<Menu>> Menus
+		private ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
+		public ObservableCollection<Menu> Menus
 		{
 			get { return menus; }
 		}

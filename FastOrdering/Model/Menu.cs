@@ -19,29 +19,45 @@ namespace FastOrdering.Model
 			this.hasNoCompo = (entryDish == "Visible" || dishDessert == "Visible") ? "Collapsed" : "Visible";
 			this.Entry = "Collapsed";
 			this.Dessert = "Collapsed";
-			entries.Add(new Dish(0, 5, "Salade", "entry"));
-			entries.Add(new Dish(2, 3, "Radis", "entry"));
 
-			dishes.Add(new Dish(3, 9, "Bavette", "dish"));
-			dishes.Add(new Dish(4, 8, "Moules frites", "dish"));
-			dishes.Add(new Dish(7, 10, "Boeuf bourguignon", "dish"));
+			MyDictionary<Dish> d = new MyDictionary<Dish>();
+			d.Key = new Dish(0, 5, "Salade", "entry");
+			d.Value = 0;
+			entries.Add(d);
+			MyDictionary<Dish> d2 = new MyDictionary<Dish>();
+			d2.Key = new Dish(2, 3, "Radis", "entry");
+			entries.Add(d2);
 
-			desserts.Add(new Dish(8, 4, "Glace", "dessert"));
-			desserts.Add(new Dish(9, 5, "Gâteau", "dessert"));
+			MyDictionary<Dish> d3 = new MyDictionary<Dish>();
+			d3.Key = new Dish(3, 9, "Bavette", "dish");
+			dishes.Add(d3);
+			MyDictionary<Dish> d1 = new MyDictionary<Dish>();
+			d1.Key = new Dish(4, 8, "Moules frites", "dish");
+			dishes.Add(d1);
+			MyDictionary<Dish> d4 = new MyDictionary<Dish>();
+			d4.Key = new Dish(7, 10, "Boeuf bourguignon", "dish");
+			dishes.Add(d4);
+
+			MyDictionary<Dish> d5 = new MyDictionary<Dish>();
+			d5.Key = new Dish(8, 4, "Glace", "dessert");
+			desserts.Add(d5);
+			MyDictionary<Dish> d6 = new MyDictionary<Dish>();
+			d6.Key = new Dish(9, 5, "Gâteau", "dessert");
+			desserts.Add(d6);
 		}
 
-		private ObservableCollection<Dish> entries = new ObservableCollection<Dish>();
-		public ObservableCollection<Dish> Entries
+		private ObservableCollection<MyDictionary<Dish>> entries = new ObservableCollection<MyDictionary<Dish>>();
+		public ObservableCollection<MyDictionary<Dish>> Entries
 		{
 			get { return entries; }
 		}
-		private ObservableCollection<Dish> dishes = new ObservableCollection<Dish>();
-		public ObservableCollection<Dish> Dishes
+		private ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
+		public ObservableCollection<MyDictionary<Dish>> Dishes
 		{
 			get { return dishes; }
 		}
-		private ObservableCollection<Dish> desserts = new ObservableCollection<Dish>();
-		public ObservableCollection<Dish> Desserts
+		private ObservableCollection<MyDictionary<Dish>> desserts = new ObservableCollection<MyDictionary<Dish>>();
+		public ObservableCollection<MyDictionary<Dish>> Desserts
 		{
 			get { return desserts; }
 		}

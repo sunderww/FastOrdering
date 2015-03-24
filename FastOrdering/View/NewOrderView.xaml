@@ -27,266 +27,282 @@
         </Grid>
         <!-- Drawer Layout -->
         <drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
-            <Hub x:Name="OrderHub" Foreground="Black" Margin="0, 40, 0, 0" SectionsInViewChanged="Hub_SectionsInViewChanged">
-                <HubSection x:Name="SendOrderHubSection">
-                    <HubSection.Header>
-                        <TextBlock Text="Commande" FontSize="40" Margin="0, 0, 0, -50" />
-                    </HubSection.Header>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
+            <Grid>
+                <Hub x:Name="OrderHub" Foreground="Black" Margin="0, 40, 0, 0" SectionsInViewChanged="Hub_SectionsInViewChanged">
+                    <HubSection x:Name="SendOrderHubSection">
+                        <HubSection.Header>
+                            <TextBlock Text="Commande" FontSize="40" Margin="0, 0, 0, -50" />
+                        </HubSection.Header>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
-                            <Border Grid.Row="0" Padding="20" Background="White" Opacity="0.9" CornerRadius="5" Margin="30, 50, 30, 50">
-                                <Grid x:Name="ContentPanel">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
-                                    <StackPanel Orientation="Horizontal" DataContext="{Binding Ord}">
-                                        <TextBlock Grid.Row="0" Text="Commande #" Foreground="Black" FontSize="20" />
-                                        <TextBlock Grid.Row="0" Text="{Binding ID}" Foreground="Black" FontSize="20" />
-                                    </StackPanel>
-                                    <Grid Grid.Row="1" Margin="0,10,0,0" DataContext="{Binding Ord}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock Grid.Column="0" Text="Table #" Foreground="Black" FontSize="20" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="1" FontSize="20" BorderBrush="Black" InputScope="Number"
-                                                 BorderThickness="1" Text="{Binding numTable, Mode=TwoWay}" />
-                                        <TextBlock Grid.Column="2" Text="Pax" Foreground="Black" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                                        <TextBox Grid.Column="3" FontSize="20" BorderBrush="Black" InputScope="Number"
-                                                 BorderThickness="1" Text="{Binding numPA, Mode=TwoWay}" />
-                                    </Grid>
-                                </Grid>
-                            </Border>
-
-                            <Border Grid.Row="1" Padding="20" Background="White" Opacity="0.9" CornerRadius="5"
-                                    Margin="30, 0, 30, 30">
-                                <Grid x:Name="ContentPanel2">
-                                    <ListView x:Name="EntryList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Value}" FontSize="20" />
-                                                    <TextBlock Text="x" FontSize="20" />
-                                                    <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
-                                                               FontSize="20" Margin="10, 0, 0, 0" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </HubSection>
-
-                <HubSection x:Name="AlacarteHubSection">
-                    <HubSection.Header>
-                        <TextBlock Text="A la carte" FontSize="40" Margin="0, 0, 0, -50" />
-                    </HubSection.Header>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <Border Grid.Row="0" Padding="20" Background="White" Opacity="0.9" CornerRadius="5" Margin="30, 50, 30, 30">
-                                <Grid x:Name="ContentPanel">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <!--<RowDefinition Height="*" />-->
-                                        <RowDefinition Height="Auto" />
-                                        <!--<RowDefinition Height="*" />-->
-                                        <RowDefinition Height="Auto" />
-                                        <!--<RowDefinition Height="*" />-->
-                                    </Grid.RowDefinitions>
-
-                                    <StackPanel Grid.Row="0">
-                                        <ToggleSwitch OnContent="Entrées" OffContent="Entrées" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Entry">
-                                        </ToggleSwitch>
-                                        <ListView x:Name="EntryList" Visibility="Collapsed"
-                                              ItemsSource="{Binding Entries}">
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
-                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
-                                                        <TextBox x:Name="Entries" InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1"
-                                                             Tag="{Binding ID}" LostFocus="TextBox_LostFocus" />
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Row="1">
-                                        <ToggleSwitch OnContent="Plats" OffContent="Plats" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Dish">
-                                        </ToggleSwitch>
-                                        <ListView x:Name="DishList" Visibility="Collapsed"
-                                              ItemsSource="{Binding Dishes}">
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
-                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
-                                                        <TextBox x:Name="Dishes" InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1"
-                                                             Tag="{Binding ID}" LostFocus="TextBox_LostFocus" />
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Row="2">
-                                        <ToggleSwitch OnContent="Desserts" OffContent="Desserts" Foreground="Black"
-                                                  Toggled="ToggleSwitch_Dessert">
-                                        </ToggleSwitch>
-                                        <ListView x:Name="DessertList" Visibility="Collapsed"
-                                              ItemsSource="{Binding Desserts}">
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
-                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
-                                                        <TextBox x:Name="Desserts" InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1"
-                                                             Tag="{Binding ID}" LostFocus="TextBox_LostFocus" />
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </StackPanel>
-
-                                </Grid>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </HubSection>
-
-                <HubSection x:Name="MenusHubSection">
-                    <HubSection.Header>
-                        <TextBlock Text="Menus" FontSize="40" Margin="0, 0, 0, -50" />
-                    </HubSection.Header>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <Border Grid.Row="0" Padding="20" Background="White" Opacity="0.9" CornerRadius="5"
-                                    Margin="30, 50, 30, 30">
-                                <Grid x:Name="Menus">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
-                                    <ListView Grid.Row="0" x:Name="MenuList" ItemsSource="{Binding Menus}" Loaded="Control_Loaded">
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListViewItem">
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                    </Grid.RowDefinitions>
-
-                                                    <ToggleSwitch Grid.Row="0" OnContent="{Binding Name}"
-                                                                  OffContent="{Binding Name}" Visibility="{Binding HasCompo}"
-                                                                  Foreground="Black" Toggled="ToggleSwitch_Menu">
-                                                    </ToggleSwitch>
-                                                    <Grid Grid.Row="1" x:Name="MenuCompo" Visibility="Collapsed">
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto" />
-                                                            <RowDefinition Height="Auto" />
-                                                        </Grid.RowDefinitions>
-                                                        <TextBlock Grid.Row="0" Text="Entrées + Plats" FontSize="18"
-                                                                       VerticalAlignment="Center" Margin="20, 10, 0, 0"
-                                                                       Visibility="{Binding EntryDish}" Tapped="Menu_Tapped"
-                                                                       Tag="{Binding IDMenu}"/>
-                                                        <TextBlock Grid.Row="1" Text="Plats + Desserts" FontSize="18"
-                                                                       VerticalAlignment="Center" Margin="20, 20, 0, 20"
-                                                                       Visibility="{Binding DishDessert}" Tapped="Menu_Tapped"
-                                                                       Tag="{Binding IDMenu}"/>
-                                                    </Grid>
-                                                    <TextBlock Grid.Row="2" Text="{Binding Name}" FontSize="25"
-                                                               Tag="{Binding IDMenu}" x:Name="SingleMenu"
-                                                               Visibility="{Binding HasNoCompo}" Tapped="Menu_Tapped"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-
-                                    <Grid x:Name="MenuCompo" Grid.Row="0" Visibility="Collapsed" Loaded="Control_Loaded">
+                                <Border Grid.Row="0" Padding="20" Background="White" Opacity="0.9" CornerRadius="5" Margin="30, 50, 30, 50">
+                                    <Grid x:Name="ContentPanel">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <StackPanel Grid.Row="0" Visibility="{Binding Entry}">
-                                            <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                        <StackPanel Orientation="Horizontal" DataContext="{Binding Ord}">
+                                            <TextBlock Grid.Row="0" Text="Commande #" Foreground="Black" FontSize="20" />
+                                            <TextBlock Grid.Row="0" Text="{Binding ID}" Foreground="Black" FontSize="20" />
+                                        </StackPanel>
+                                        <Grid Grid.Row="1" Margin="0,10,0,0" DataContext="{Binding Ord}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" Text="Table #" Foreground="Black" FontSize="20" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="1" FontSize="20" BorderBrush="Black" InputScope="Number"
+                                                 BorderThickness="1" Text="{Binding numTable, Mode=TwoWay}" />
+                                            <TextBlock Grid.Column="2" Text="Pax" Foreground="Black" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="3" FontSize="20" BorderBrush="Black" InputScope="Number"
+                                                 BorderThickness="1" Text="{Binding numPA, Mode=TwoWay}" />
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+
+                                <Border Grid.Row="1" Padding="20" Background="White" Opacity="0.9" CornerRadius="5"
+                                    Margin="30, 0, 30, 30">
+                                    <ScrollViewer>
+                                        <StackPanel>
+                                            <ListView x:Name="MenusList" DataContext="{Binding Ord}" ItemsSource="{Binding Menus}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding Name}" FontSize="20" />
+                                                            <ListView x:Name="EntryList" ItemsSource="{Binding Entries}" Margin="20, 0, 0, 0">
+                                                                <ListView.ItemContainerStyle>
+                                                                    <Style TargetType="ListViewItem">
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                    </Style>
+                                                                </ListView.ItemContainerStyle>
+                                                                <ListView.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Text="{Binding Value}" FontSize="16" />
+                                                                            <TextBlock Text="x" FontSize="16" />
+                                                                            <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
+                                                                               FontSize="16" Margin="10, 0, 0, 0" />
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </ListView.ItemTemplate>
+                                                            </ListView>
+                                                            <ListView x:Name="DishList" ItemsSource="{Binding Dishes}" Margin="20, 0, 0, 0">
+                                                                <ListView.ItemContainerStyle>
+                                                                    <Style TargetType="ListViewItem">
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                    </Style>
+                                                                </ListView.ItemContainerStyle>
+                                                                <ListView.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Text="{Binding Value}" FontSize="16" />
+                                                                            <TextBlock Text="x" FontSize="16" />
+                                                                            <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
+                                                                               FontSize="16" Margin="10, 0, 0, 0" />
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </ListView.ItemTemplate>
+                                                            </ListView>
+                                                            <ListView x:Name="DessertList" ItemsSource="{Binding Desserts}" Margin="20, 0, 0, 0">
+                                                                <ListView.ItemContainerStyle>
+                                                                    <Style TargetType="ListViewItem">
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                    </Style>
+                                                                </ListView.ItemContainerStyle>
+                                                                <ListView.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Text="{Binding Value}" FontSize="16" />
+                                                                            <TextBlock Text="x" FontSize="16" />
+                                                                            <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
+                                                                               FontSize="16" Margin="10, 0, 0, 0" />
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </ListView.ItemTemplate>
+                                                            </ListView>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+
+                                            <ListView x:Name="EntryList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Value}" FontSize="20" />
+                                                            <TextBlock Text="x" FontSize="20" />
+                                                            <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
+                                                               FontSize="20" Margin="10, 0, 0, 0" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </HubSection>
+
+                    <HubSection x:Name="AlacarteHubSection">
+                        <HubSection.Header>
+                            <TextBlock Text="A la carte" FontSize="40" Margin="0, 0, 0, -50" />
+                        </HubSection.Header>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0" Padding="20" Background="White" Opacity="0.9" CornerRadius="5" Margin="30, 50, 30, 30">
+                                    <ScrollViewer>
+                                        <Grid x:Name="ContentPanel">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <!--<RowDefinition Height="*" />-->
+                                                <RowDefinition Height="Auto" />
+                                                <!--<RowDefinition Height="*" />-->
+                                                <RowDefinition Height="Auto" />
+                                                <!--<RowDefinition Height="*" />-->
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Grid.Row="0">
+                                                <ToggleSwitch OnContent="Entrées" OffContent="Entrées" Foreground="Black"
                                                   Toggled="ToggleSwitch_Entry">
-                                                <ToggleSwitch.Header>
-                                                    <TextBlock Text="Entrées" FontSize="20" Foreground="Black" />
-                                                </ToggleSwitch.Header>
-                                            </ToggleSwitch>
-                                            <ListView x:Name="EntryList" Visibility="Collapsed" ItemsSource="{Binding Entries}">
+                                                </ToggleSwitch>
+                                                <ListView x:Name="EntryList" Visibility="Collapsed"
+                                              ItemsSource="{Binding Entries}">
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style TargetType="ListViewItem">
+                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
+                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
+                                                                <TextBox x:Name="Entries" InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1"
+                                                             Tag="{Binding ID}" LostFocus="TextBox_LostFocus" />
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="1">
+                                                <ToggleSwitch OnContent="Plats" OffContent="Plats" Foreground="Black"
+                                                  Toggled="ToggleSwitch_Dish">
+                                                </ToggleSwitch>
+                                                <ListView x:Name="DishList" Visibility="Collapsed"
+                                              ItemsSource="{Binding Dishes}">
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style TargetType="ListViewItem">
+                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
+                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
+                                                                <TextBox x:Name="Dishes" InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1"
+                                                             Tag="{Binding ID}" LostFocus="TextBox_LostFocus" />
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="2">
+                                                <ToggleSwitch OnContent="Desserts" OffContent="Desserts" Foreground="Black"
+                                                  Toggled="ToggleSwitch_Dessert">
+                                                </ToggleSwitch>
+                                                <ListView x:Name="DessertList" Visibility="Collapsed"
+                                              ItemsSource="{Binding Desserts}">
+                                                    <ListView.ItemContainerStyle>
+                                                        <Style TargetType="ListViewItem">
+                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                        </Style>
+                                                    </ListView.ItemContainerStyle>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
+                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
+                                                                <TextBox x:Name="Desserts" InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1"
+                                                             Tag="{Binding ID}" LostFocus="TextBox_LostFocus" />
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </HubSection>
+
+                    <HubSection x:Name="MenusHubSection">
+                        <HubSection.Header>
+                            <TextBlock Text="Menus" FontSize="40" Margin="0, 0, 0, -50" />
+                        </HubSection.Header>
+                        <DataTemplate>
+                            <ScrollViewer>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Padding="20" Background="White" Opacity="0.9" CornerRadius="5"
+                                    Margin="30, 50, 30, 30">
+                                        <Grid x:Name="Menus">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <ListView Grid.Row="0" x:Name="MenuList" ItemsSource="{Binding Menus}" Loaded="Control_Loaded">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -297,90 +313,156 @@
                                                         <Grid>
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
                                                             </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
-                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
-                                                            <TextBox InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1" />
+
+                                                            <ToggleSwitch Grid.Row="0" OnContent="{Binding Name}"
+                                                                  OffContent="{Binding Name}" Visibility="{Binding HasCompo}"
+                                                                  Foreground="Black" Toggled="ToggleSwitch_Menu">
+                                                            </ToggleSwitch>
+                                                            <Grid Grid.Row="1" x:Name="MenuCompo" Visibility="Collapsed">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto" />
+                                                                    <RowDefinition Height="Auto" />
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock Grid.Row="0" Text="Entrées + Plats" FontSize="18"
+                                                                       VerticalAlignment="Center" Margin="20, 10, 0, 0"
+                                                                       Visibility="{Binding EntryDish}" Tapped="Menu_Tapped"
+                                                                       Tag="{Binding IDMenu}"/>
+                                                                <TextBlock Grid.Row="1" Text="Plats + Desserts" FontSize="18"
+                                                                       VerticalAlignment="Center" Margin="20, 20, 0, 20"
+                                                                       Visibility="{Binding DishDessert}" Tapped="Menu_Tapped"
+                                                                       Tag="{Binding IDMenu}"/>
+                                                            </Grid>
+                                                            <TextBlock Grid.Row="2" Text="{Binding Name}" FontSize="25"
+                                                               Tag="{Binding IDMenu}" x:Name="SingleMenu"
+                                                               Visibility="{Binding HasNoCompo}" Tapped="Menu_Tapped"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </ListView>
-                                        </StackPanel>
 
-                                        <StackPanel Grid.Row="1">
-                                            <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                            <Grid x:Name="MenuCompo" Grid.Row="0" Visibility="Collapsed" Loaded="Control_Loaded">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <StackPanel Grid.Row="0" Visibility="{Binding Entry}">
+                                                    <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                                  Toggled="ToggleSwitch_Entry">
+                                                        <ToggleSwitch.Header>
+                                                            <TextBlock Text="Entrées" FontSize="20" Foreground="Black" />
+                                                        </ToggleSwitch.Header>
+                                                    </ToggleSwitch>
+                                                    <ListView x:Name="EntryList" Visibility="Collapsed" ItemsSource="{Binding Entries}">
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="Auto" />
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Row="0" Grid.Column="0" DataContext="{Binding Key}"
+                                                                       Text="{Binding Name}" FontSize="14"
+                                                                       VerticalAlignment="Center" Margin="15, 0, 0, 0" />
+                                                                    <TextBox x:Name="Entries" InputScope="Number" Text="0"
+                                                                     Grid.Row="0" Grid.Column="1" LostFocus="TextBoxMenu_LostFocus"
+                                                                     DataContext="{Binding Key}" Tag="{Binding ID}" />
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="1">
+                                                    <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
                                                   Toggled="ToggleSwitch_Dish">
-                                                <ToggleSwitch.Header>
-                                                    <TextBlock Text="Plats" FontSize="20" Foreground="Black" />
-                                                </ToggleSwitch.Header>
-                                            </ToggleSwitch>
-                                            <ListView x:Name="DishList" Visibility="Collapsed" ItemsSource="{Binding Dishes}">
-                                                <ListView.ItemContainerStyle>
-                                                    <Style TargetType="ListViewItem">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                    </Style>
-                                                </ListView.ItemContainerStyle>
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid HorizontalAlignment="Stretch">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
-                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
-                                                            <TextBox InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1" />
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                        </StackPanel>
+                                                        <ToggleSwitch.Header>
+                                                            <TextBlock Text="Plats" FontSize="20" Foreground="Black" />
+                                                        </ToggleSwitch.Header>
+                                                    </ToggleSwitch>
+                                                    <ListView x:Name="DishList" Visibility="Collapsed" ItemsSource="{Binding Dishes}">
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid HorizontalAlignment="Stretch">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="Auto" />
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Row="0" Grid.Column="0" DataContext="{Binding Key}"
+                                                                       Text="{Binding Name}" FontSize="14"
+                                                                       VerticalAlignment="Center" Margin="15, 0, 0, 0" />
+                                                                    <TextBox x:Name="Dishes" InputScope="Number" Text="0"
+                                                                     Grid.Row="0" Grid.Column="1" LostFocus="TextBoxMenu_LostFocus"
+                                                                     Tag="{Binding ID}" DataContext="{Binding Key}" />
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackPanel>
 
-                                        <StackPanel Grid.Row="2" Visibility="{Binding Dessert}">
-                                            <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
+                                                <StackPanel Grid.Row="2" Visibility="{Binding Dessert}">
+                                                    <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
                                                   Toggled="ToggleSwitch_Dessert">
-                                                <ToggleSwitch.Header>
-                                                    <TextBlock Text="Desserts" FontSize="20" Foreground="Black" />
-                                                </ToggleSwitch.Header>
-                                            </ToggleSwitch>
-                                            <ListView x:Name="DessertList" Visibility="Collapsed" ItemsSource="{Binding Desserts}">
-                                                <ListView.ItemContainerStyle>
-                                                    <Style TargetType="ListViewItem">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                    </Style>
-                                                </ListView.ItemContainerStyle>
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid HorizontalAlignment="Stretch">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*" />
-                                                                <ColumnDefinition Width="Auto" />
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontSize="14"
-                                                               VerticalAlignment="Center" Margin="15, 0, 0, 0" />
-                                                            <TextBox InputScope="Number" Text="0" Grid.Row="0" Grid.Column="1" />
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                        </StackPanel>
-                                    </Grid>
+                                                        <ToggleSwitch.Header>
+                                                            <TextBlock Text="Desserts" FontSize="20" Foreground="Black" />
+                                                        </ToggleSwitch.Header>
+                                                    </ToggleSwitch>
+                                                    <ListView x:Name="DessertList" Visibility="Collapsed" ItemsSource="{Binding Desserts}">
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid HorizontalAlignment="Stretch">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="Auto" />
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Grid.Row="0" Grid.Column="0" DataContext="{Binding Key}"
+                                                                       Text="{Binding Name}" FontSize="14"
+                                                                       VerticalAlignment="Center" Margin="15, 0, 0, 0" />
+                                                                    <TextBox x:Name="Desserts" InputScope="Number" Text="0"
+                                                                     Grid.Row="0" Grid.Column="1" LostFocus="TextBoxMenu_LostFocus"
+                                                                     Tag="{Binding ID}" DataContext="{Binding Key}" />
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
                                 </Grid>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </HubSection>
-            </Hub>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </HubSection>
+                </Hub>
+            </Grid>
 
             <Grid>
                 <!--<misc:MyMenu />-->

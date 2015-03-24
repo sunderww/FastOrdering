@@ -191,6 +191,7 @@ namespace FastOrdering.View
 
 		private void BackToOrder(object sender, RoutedEventArgs e)
 		{
+			selectedMenu = null;
 			menuList.Visibility = Visibility.Visible;
 			menuCompo.Visibility = Visibility.Collapsed;
 			BackToOrderButton.Visibility = Visibility.Collapsed;
@@ -209,13 +210,16 @@ namespace FastOrdering.View
 				BackToOrderButton.Visibility = Visibility.Collapsed;
 			}
 			else if (OrderHub.SectionsInView[0] == MenusHubSection)
+			{
 				SendOrderButton.Visibility = Visibility.Collapsed;
+				BackToOrderButton.Visibility = menuCompo.Visibility;
+			}
 		}
 
 		private void Menu_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			TextBlock tb = sender as TextBlock;
-			foreach (var menu in menus)
+			foreach (var menu in Menus)
 			{
 				if (menu.IDMenu == int.Parse(tb.Tag.ToString()))
 				{
@@ -242,64 +246,99 @@ namespace FastOrdering.View
 		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
+			ObservableCollection<Dish> collection = null;
 
 			if (tb.Name == "Entries")
-			{
-				foreach (var entry in entries)
-					if (entry.ID == int.Parse(tb.Tag.ToString()))
-					{
-						foreach (var dish in ord.Dishes)
-						{
-							if (dish.Key == entry)
-								ord.Dishes.Remove(dish);
-							break;
-						}
-						MyDictionary<Dish> d = new MyDictionary<Dish>();
-						d.Key = entry;
-						d.Value = int.Parse(tb.Text);
-						if (d.Value > 0)
-							ord.Dishes.Add(d);
-						break;
-					}
-			}
+				collection = entries;
 			else if (tb.Name == "Dishes")
-			{
-				foreach (var dish in dishes)
-					if (dish.ID == int.Parse(tb.Tag.ToString()))
-					{
-						foreach (var dis in ord.Dishes)
-						{
-							if (dis.Key == dish)
-								ord.Dishes.Remove(dis);
-							break;
-						}
-						MyDictionary<Dish> d = new MyDictionary<Dish>();
-						d.Key = dish;
-						d.Value = int.Parse(tb.Text);
-						if (d.Value > 0)
-							ord.Dishes.Add(d);
-						break;
-					}
-			}
+				collection = dishes;
 			else if (tb.Name == "Desserts")
-			{
-				foreach (var dessert in desserts)
-					if (dessert.ID == int.Parse(tb.Tag.ToString()))
+				collection = desserts;
+
+			if (collection == null)
+				return;
+
+			foreach (var dish in collection)
+				if (dish.ID == int.Parse(tb.Tag.ToString()))
+				{
+					foreach (var d in ord.Dishes)
 					{
-						foreach (var dish in ord.Dishes)
-						{
-							if (dish.Key == dessert)
-								ord.Dishes.Remove(dish);
-							break;
-						}
-						MyDictionary<Dish> d = new MyDictionary<Dish>();
-						d.Key = dessert;
-						d.Value = int.Parse(tb.Text);
-						if (d.Value > 0)
-							ord.Dishes.Add(d);
+						if (d.Key.ID == dish.ID)
+							ord.Dishes.Remove(d);
 						break;
 					}
+					MyDictionary<Dish> newDish = new MyDictionary<Dish>();
+					newDish.Key = dish;
+					newDish.Value = int.Parse(tb.Text);
+					if (newDish.Value > 0)
+						ord.Dishes.Add(newDish);
+					break;
+				}
+		}
+
+		private void TextBoxMenu_LostFocus(object sender, RoutedEventArgs e)
+		{
+			TextBox tb = sender as TextBox;
+			ObservableCollection<Dish> collection = null;
+			ObservableCollection<MyDictionary<Dish>> menuCollection = null;
+
+			if (selectedMenu == null)
+				return;
+
+			if (tb.Name == "Entries")
+				collection = entries;
+			else if (tb.Name == "Dishes")
+				collection = dishes;
+			else if (tb.Name == "Desserts")
+				collection = desserts;
+
+			if (collection == null)
+				return;
+
+			foreach (var menu in ord.Menus)
+				if (menu.IDMenu == selectedMenu.IDMenu && tb.Name == "Entries")
+				{
+					menuCollection = menu.Entries;
+					break;
+				}
+				else if (menu.IDMenu == selectedMenu.IDMenu && tb.Name == "Dishes")
+				{
+					menuCollection = menu.Dishes;
+					break;
+				}
+				else if (menu.IDMenu == selectedMenu.IDMenu && tb.Name == "Desserts")
+				{
+					menuCollection = menu.Desserts;
+					break;
+				}
+
+			if (menuCollection == null)
+			{
+				ord.Menus.Add(new Menu(selectedMenu.IDMenu, selectedMenu.Name, selectedMenu.EntryDish, selectedMenu.DishDessert));
+				if (tb.Name == "Entries")
+					menuCollection = ord.Menus.Last().Entries;
+				else if (tb.Name == "Dishes")
+					menuCollection = ord.Menus.Last().Dishes;
+				else if (tb.Name == "Desserts")
+					menuCollection = ord.Menus.Last().Desserts;
 			}
+
+			foreach (var dish in collection)
+				if (dish.ID == int.Parse(tb.Tag.ToString()))
+				{
+					foreach (var d in menuCollection)
+					{
+						if (d.Key.ID == dish.ID)
+							menuCollection.Remove(d);
+						break;
+					}
+					MyDictionary<Dish> newDish = new MyDictionary<Dish>();
+					newDish.Key = dish;
+					newDish.Value = int.Parse(tb.Text);
+					if (newDish.Value > 0)
+						menuCollection.Add(newDish);
+					break;
+				}
 		}
 
 	}
