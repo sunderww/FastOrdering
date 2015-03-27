@@ -22,6 +22,25 @@ public class CardStruct {
      * Methods
      */
 
+    CardStruct(JSONObject card,  ArrayList<CategoryStruct> cats) {
+        JSONObject alacarte;
+        try {
+            alacarte = card.getJSONObject("alacarte");
+            _mId = alacarte.getString("id");
+            JSONArray arrCats = alacarte.getJSONArray("categories_ids");
+            for (int i = 0; i < arrCats.length(); ++i) {
+                String idCat = arrCats.getString(i);
+                for (CategoryStruct curCat : cats) {
+                    if (curCat.get_mId().equals(idCat)) {
+                        _mCategories.add(curCat);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.d("CARDSTRUCT", "EXCEPTION JSON:" + e.toString());
+        }
+    }
+
     CardStruct(JSONObject card, JSONObject cats) {
         JSONObject alacarte;
         try {

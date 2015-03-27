@@ -45,6 +45,10 @@ public class CompositionStruct {
                         }
                     }
                 }
+                Log.d("COMPOSITION", "" + _mNameCompo );
+                for (CategoryStruct item: _mCat) {
+                    //Log.d("COMPOS CATS", item);
+                }
             } catch (JSONException e) {
                 Log.d("COMPOSITION STRUCT", "EXCEPTION JSON:" + e.toString());
             }

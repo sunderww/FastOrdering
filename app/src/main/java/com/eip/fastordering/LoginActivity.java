@@ -273,7 +273,8 @@ public class LoginActivity extends Activity {
                 } catch (JSONException e) {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }
-                OrderFragment.fetchCard(_mAlacarte, _mCats);
+                OrderFragment.fetchCard(_mAlacarte);
+//                OrderFragment.fetchCard(_mAlacarte, _mCats);
                 _mProgressDialog.dismiss();
 
                 Intent mainActivity = new Intent(LoginActivity.this, Main.class);

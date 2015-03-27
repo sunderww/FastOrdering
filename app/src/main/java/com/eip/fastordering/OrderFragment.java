@@ -102,8 +102,13 @@ public class OrderFragment extends Fragment {
         }
     }
 
-    static public void fetchCard(JSONObject card, JSONObject cats) {
-        _mCard = new CardStruct(card, cats);
+    /* OLD */
+//    static public void fetchCard(JSONObject card, JSONObject cats) {
+//        _mCard = new CardStruct(card, cats);
+//    }
+
+    static public void fetchCard(JSONObject card) {
+        _mCard = new CardStruct(card, _mCats);
     }
 
     /* OLD */
@@ -141,7 +146,7 @@ public class OrderFragment extends Fragment {
             for (String idCat: item.get_mIdsCat()) {
                 for (CategoryStruct cat: _mCats) {
                     if (cat.get_mId().equals(idCat)) {
-                        cat.get_mIdsDish().add(item.get_mId());
+                        cat.get_mIds().add(item.get_mId());
                     }
                 }
             }
@@ -159,7 +164,7 @@ public class OrderFragment extends Fragment {
 
         //Create all the menu
         try {
-            arr = menus.getJSONArray("menus");
+            arr = menus.getJSONArray("elements");
             for (int i = 0; i < arr.length(); ++i) {
                 _mMenus.add(new MenuStruct(arr.getJSONObject(i)));
             }

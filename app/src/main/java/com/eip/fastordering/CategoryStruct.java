@@ -20,7 +20,6 @@ public class CategoryStruct {
     private String _mCategoryName;
     private String _mId;
     private ArrayList<String> _mIds = new ArrayList<String>();
-    private ArrayList<String> _mIdsDish = new ArrayList<String>();
 
     /***
      * Methods
@@ -59,10 +58,6 @@ public class CategoryStruct {
 
     public ArrayList<String> get_mIds() {
         return _mIds;
-    }
-
-    public ArrayList<String> get_mIdsDish() {
-        return _mIdsDish;
     }
 
     public String get_mId() {
