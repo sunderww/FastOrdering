@@ -69,11 +69,10 @@ module.exports = {
   	Booking.find(function foundBooking(err, bookings) {
   		if (err) return next(err);
 
-      //bookings.forEach(function(entry) {
-       // console.log(entry.date);
-        //entry.date = String(entry.date).substr(4)
-        //entry.date = String((sails.moment(entry.date, "MM DD YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
-      //});
+      bookings.forEach(function(entry) {
+        entry.date = String(entry.date).substr(4, 20);
+        entry.date = String((sails.moment(entry.date, "MMM DD YYYY HH:mm:ss").format(sails.moment.ISO_8601())));
+      });
 
   		res.view({
   			bookings: bookings

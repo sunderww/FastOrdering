@@ -103,7 +103,7 @@
             <script type="text/javascript" src="../assets/js/demo.js"></script>
 
             <!-- Full calendear -->
-            <link rel='stylesheet' href='/fullcalendar/fullcalendar.min.css' />
+            <link rel='stylesheet' href='/fullcalendar/fullcalendar.css' />
             <script type="text/javascript" src='/fullcalendar/lib/moment.min.js'></script>
             <script type="text/javascript" src='/fullcalendar/fullcalendar.min.js'></script>
             <script type="text/javascript">
@@ -115,21 +115,9 @@
                         header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'month,basicWeek,basicDay'
+                        right: 'month,agendaWeek,agendaDay'
                         },
-                        select: function(start, end) {
-                            var title = prompt('Event Title:');
-                            var eventData;
-                            if (title) {
-                                eventData = {
-                                    title: title,
-                                    start: start,
-                                    end: end
-                                    };
-                                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-                            }
-                        $('#calendar').fullCalendar('unselect');
-                        },
+                        selectable: true,
                         editable: false,
                         eventLimit: true,
                         events: [
@@ -141,6 +129,10 @@
                         },
                         <% }) %>
                         ],
+                        dayClick: function(date) {
+                            $('#calendar').fullCalendar('gotoDate', date);
+                            $('#calendar').fullCalendar('changeView', 'agendaDay');
+                        },
                         eventClick: function(calEvent) {
                             window.location="/booking/edit/" + calEvent.id;
                         }
