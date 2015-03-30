@@ -36,7 +36,7 @@ public class LoginActivity extends Activity {
 
     public static SocketIO _mSocket = null;
     private Context _mContext = null;
-    private final String _mIpServer = "http://alexis-semren.com:1337";
+    private final String _mIpServer = "http://163.5.84.184:4242";
     private ProgressDialog _mProgressDialog;
 
     static JSONObject _mMenus;
