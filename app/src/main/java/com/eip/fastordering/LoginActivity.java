@@ -247,7 +247,7 @@ public class LoginActivity extends Activity {
     }
 
     private void fetchCats() {
-        JSONObject obj = createObjectURL("/cats");
+        JSONObject obj = createObjectURL("/dishcategory/read");
 
         LoginActivity._mSocket.emit("get", new IOAcknowledge() {
             @Override
