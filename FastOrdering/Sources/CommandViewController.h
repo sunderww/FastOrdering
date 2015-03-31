@@ -10,8 +10,9 @@
 #import "OrderMenuModel.h"
 #import "OrderALaCarteModel.h"
 #import "SLExpandableTableView.h"
+#import "CommandMenuViewController.h"
 
-@interface CommandViewController : UIViewController <OrderALaCarteDelegate, OrderMenuDelegate> {
+@interface CommandViewController : UIViewController <OrderALaCarteDelegate, OrderMenuDelegate, CommandMenuDelegate> {
   IBOutlet UIButton *     menuButton;
   IBOutlet UIButton *     alacarteButton;
   IBOutlet UIButton *     reviewButton;

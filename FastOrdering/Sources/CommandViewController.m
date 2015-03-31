@@ -45,6 +45,7 @@
   CommandMenuViewController * controller = [[CommandMenuViewController alloc] initWithNibName:@"CommandMenuView" bundle:nil];
 
   controller.composition = composition;
+  controller.delegate = self;
   presentController = controller;
 
   CGRect frame = presentController.view.frame;
@@ -61,6 +62,19 @@
 
 - (void)dishClicked:(Dish *)dish {
   
+}
+
+#pragma mark - CommandMenuView delegate methods
+
+- (void)popCommandMenuView {
+  [UIView animateWithDuration:0.5 animations:^{
+    CGRect frame = presentController.view.frame;
+    frame.origin.x += frame.size.width;
+    presentController.view.frame = frame;
+  } completion:^(BOOL finished) {
+    [presentController.view removeFromSuperview];
+    presentController = nil;
+  }];
 }
 
 #pragma mark - IBAction methods

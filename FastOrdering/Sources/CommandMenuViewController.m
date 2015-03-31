@@ -25,6 +25,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  [orderButton setTitle:NSLocalizedString(@"order", @"").uppercaseString forState:UIControlStateNormal];
+
   NSMutableArray * mutableDishes = [NSMutableArray new];
   categories = self.composition.categories.allObjects;
   
@@ -37,6 +39,19 @@
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Helper methods
+
+- (void)order {
+  
+}
+
+#pragma mark - Actions
+
+- (IBAction)orderTaken {
+  [self order];
+  [self.delegate popCommandMenuView];
 }
 
 #pragma mark - SLExpandableTableView delegate and datasource methods
@@ -66,6 +81,16 @@
   [tableView expandSection:section animated:YES];
 }
 
+#pragma mark - UIScrollView delegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  [responder resignFirstResponder];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+  [responder resignFirstResponder];
+}
+
 #pragma mark - UITableView delegate and datasource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -92,7 +117,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UITextField delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+  responder = textField;
 }
 
 

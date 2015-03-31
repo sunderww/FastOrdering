@@ -20,6 +20,11 @@
     // Configure the view for the selected state
 }
 
+- (void)setDelegate:(id<UITextFieldDelegate>)delegate {
+  _delegate = delegate;
+  textField.delegate = delegate;
+}
+
 - (void)setDish:(Dish *)dish andTag:(NSUInteger)tag {
   mainLabel.text = dish.name;
   textField.text = @"0";

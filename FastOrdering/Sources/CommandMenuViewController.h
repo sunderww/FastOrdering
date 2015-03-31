@@ -10,13 +10,23 @@
 #import "SLExpandableTableView.h"
 #import "MenuComposition.h"
 
-@interface CommandMenuViewController : UIViewController <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate> {
+@protocol CommandMenuDelegate <NSObject>
+
+- (void)popCommandMenuView;
+
+@end
+
+@interface CommandMenuViewController : UIViewController <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate> {
+
   IBOutlet SLExpandableTableView *  expandableTableView;
+  IBOutlet UIButton * orderButton;
   
+  UITextField * responder;
   NSArray * categories;
   NSArray * dishes;
 }
 
-@property (nonatomic, retain) MenuComposition * composition;
+@property (nonatomic, retain) MenuComposition *       composition;
+@property (nonatomic, retain) id<CommandMenuDelegate> delegate;
 
 @end
