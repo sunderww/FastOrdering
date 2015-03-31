@@ -24,6 +24,11 @@ module.exports = {
       type: 'string',
       required: true
     },
+      
+    nb_persons: {
+        type: 'integer',
+        required: true
+    },
 
   	restaurant_id: {
   		type: 'string',

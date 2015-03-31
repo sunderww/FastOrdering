@@ -60,6 +60,9 @@
                             </table>
                         </div>
                     </div> -->
+                    <div>
+                        <a href="/booking/new" class="btn btn-sm btn-success">New reservation</a>
+                    </div>
                 </section>
             </section>
 
@@ -124,7 +127,7 @@
                         <% _.each(bookings, function(booking) { %>
                         {
                             id: '<%= booking.id %>',
-                            title: '<%= booking.name %>',
+                            title: '<%= booking.name %> : <%= booking.nb_persons %>',
                             start: '<%= booking.date %>'
                         },
                         <% }) %>
