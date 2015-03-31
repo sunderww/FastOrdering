@@ -26,7 +26,7 @@ module.exports = {
   create: function(req, res, next){
 
     var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
-    var params = { date:datetime, name:req.param('name'), restaurant_id:req.param('restaurant_id') };
+    var params = { date:datetime, name:req.param('name'), nb_persons:req.param('nb_persons'), restaurant_id:req.param('restaurant_id') };
 
   	Booking.create(params, function bookingCreated(err, booking) {
   		if (err) {
@@ -56,7 +56,12 @@ module.exports = {
   },
 
   update: function(req, res, next){
-  	Booking.update(req.param('id'), req.params.all(), function userUpdated(err) {
+    
+    var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
+    var params = { date:datetime, name:req.param('name'), nb_persons:req.param('nb_persons'), restaurant_id:req.param('restaurant_id') };
+
+      
+  	Booking.update(req.param('id'), params, function userUpdated(err) {
   		if (err) {
   			return res.redirect('/booking/edit/' + req.param('id'));
   		}

@@ -53,18 +53,20 @@
                         <div class="col-lg-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Create a new reservation :</h3>
+                                    <h3 class="panel-title">Créer une nouvelle réservation :</h3>
                                 </div>
 
                                 <div class="panel-body">
                                     <form action="/booking/create" method="POST" class="form-signin">
                                         <div class="form-group">
-                                            <label>Name:</label>
-                                            <input class="form-control" placeholder="Name" name="name">
+                                            <label>Nom :</label>
+                                            <input class="form-control" placeholder="Nom" name="name">
+                                            <label>Nombre de personnes:</label>
+                                            <input class="form-control" placeholder="Nombre de personnes" name="nb_persons">
                                             <label>Date :</label>
-                                            <input type="date" class="form-control" placeholder="Enter text" name="date">
-                                            <label>Time :</label>
-                                            <input type="time" class="form-control" placeholder="Enter text" name="time"> 
+                                            <input type="date" class="form-control" placeholder="Date" name="date">
+                                            <label>Heure :</label>
+                                            <input type="time" class="form-control" placeholder="Heure" name="time"> 
                                             <input type="hidden" name="restaurant_id" value="1">
                                         </div>
                                         <input type="submit" class="btn btn-default" value="Submit"</input>
