@@ -54,7 +54,13 @@ function canvasApp() {
 	
 	init();
 	
-	var step;
+	var currentShape;
+
+	var stepX;
+	var stepY;
+
+	var createdShape;
+
 	var numShapes;
 	var shapes;
 	var dragIndex;
@@ -72,8 +78,10 @@ function canvasApp() {
 	function init() {
 		numShapes = 5;
 		easeAmount = 0.7;
-		step = 12;
-		
+		stepX = 12;
+		stepY = 12;
+		createdShapes = numShapes;
+
 		shapes = [];
 		
 		makeShapes();
@@ -91,8 +99,8 @@ function canvasApp() {
 		var tempColor;
 		for (i=0; i < numShapes; i++) {
 
-			tempX = theCanvas.width / step;
-			tempY = theCanvas.height / step;
+			tempX = theCanvas.width / stepX;
+			tempY = theCanvas.height / stepY;
 			
 			tempA = 0.3 + 0.5*Math.random();
 
@@ -100,11 +108,13 @@ function canvasApp() {
 			tempShape = new SimpleSquareParticle(tempX, tempY, i);
 			
 			tempShape.color = "rgba(" + 0 + "," + 0+ "," + 0 + "," + 0.7+ ")";
-			tempShape.radius = (theCanvas.height / step) / 2;
+			tempShape.radiusX = (theCanvas.width / stepX) / 2;
+			tempShape.radiusY = (theCanvas.height / stepY) / 2;
 			shapes.push(tempShape);
 		}
 	}
 	
+
 	function mouseDownListener(evt) {
 		var i;
 		
@@ -197,7 +207,13 @@ function canvasApp() {
 	}
 
 	function make_info(table) {
-		alert(table.number);
+		currentShape = table;
+		document.getElementById('myModalLabel').innerHTML = "Table n°" + currentShape.number;
+		document.getElementById('myModalTNumber').innerHTML = "Modifier numéro de table";
+		document.getElementsByName('queryN')[0].placeholder = currentShape.number;
+		document.getElementById('myModalTServer').innerHTML = "Modifier serveur affécté à la table";
+		document.getElementsByName('queryS')[0].placeholder = currentShape.server;
+		$('#myModal').modal('show');
 	}
 
 
@@ -211,19 +227,20 @@ function canvasApp() {
 			console.log(targetY);
 						console.log("------------------");
 
-			targetX = closest(targetX - (theCanvas.width / step / 2), theCanvas.width, step) + (theCanvas.width / step / 2);
-			targetY = closest(targetY - (theCanvas.height / step / 2), theCanvas.height, step) + (theCanvas.width / step / 2);
+			targetX = closest(targetX - (theCanvas.width / stepX / 2), theCanvas.width, stepX) + (theCanvas.width / stepX / 2);
+			targetY = closest(targetY - (theCanvas.height / stepY / 2), theCanvas.height, stepY) + (theCanvas.width / stepX / 2);
 		}
 	}
 
 	function mouseMoveListener(evt) {
 		var posX;
 		var posY;
-		var shapeRad = shapes[numShapes-1].radius;
-		var minX = shapeRad;
-		var maxX = theCanvas.width - shapeRad;
-		var minY = shapeRad;
-		var maxY = theCanvas.height - shapeRad;
+		var shapeRadX = shapes[numShapes-1].radiusX;
+		var shapeRadY = shapes[numShapes-1].radiusY;
+		var minX = shapeRadX;
+		var maxX = theCanvas.width - shapeRadX;
+		var minY = shapeRadY;
+		var maxY = theCanvas.height - shapeRadY;
 		
 		var bRect = theCanvas.getBoundingClientRect();
 		mouseX = (evt.clientX - bRect.left)*(theCanvas.width/bRect.width);
@@ -243,19 +260,23 @@ function canvasApp() {
 			shapes[i].drawToContext(context);
 		}
 	}
+
+	//Button Bindings
 	
 	function add_table() {
-			tempX = theCanvas.width / step;
-			tempY = theCanvas.height / step;
+			tempX = theCanvas.width / stepX;
+			tempY = theCanvas.height / stepY;
 			console.log(shapes);
 			tempA = 0.7;
 
-			tempShape = new SimpleSquareParticle(tempX, tempY, 1);
+			tempShape = new SimpleSquareParticle(tempX, tempY, createdShapes);
 			
 			tempShape.color = "rgba(" + 0 + "," + 0+ "," + 0 + "," + tempA + ")";
-			tempShape.radius = (theCanvas.height / step) / 2;
+			tempShape.radiusX = (theCanvas.width / stepX) / 2;
+			tempShape.radiusY = (theCanvas.height / stepY) / 2;
 			shapes.push(tempShape);
 			numShapes++;
+			createdShapes++;
 			tempShape.drawToContext(context);
 	}
 
@@ -263,16 +284,87 @@ function canvasApp() {
     	add_table();
 	}
 
+	function add_rowx() {
+
+		var tmpx = theCanvas.width / stepX;
+		theCanvas.width += tmpx;
+		stepX++;
+
+		drawScreen();
+	}
+
+	document.getElementById('add_rowx').onclick = function() {
+    	add_rowx();
+	}
+
+	function add_rowy() {
+
+		var tmpy = theCanvas.height / stepY;
+		theCanvas.height += tmpy;
+		stepY++;
+
+		drawScreen();
+	}
+
+	document.getElementById('add_rowy').onclick = function() {
+    	add_rowy();
+	}
+
+	function erase_table() {
+		console.log("toto");
+		var index = shapes.indexOf(currentShape);
+		shapes[index].color = "rgba(255, 255, 255, 1)";
+		shapes[index].drawToContext(context);
+		shapes.splice(index, 1);
+		numShapes--;
+	}
+
+	document.getElementById('erase_table').onclick = function() {
+    	erase_table();
+	}
+
+	function submitTNumForm() {
+		currentShape.number = document.getElementsByName('queryN')[0].value;
+		document.getElementsByName('queryN')[0].value = "";
+		$('#myModal').modal('toggle');
+		make_info(currentShape);
+	}
+
+	document.getElementById('sub_num').onclick = function() {
+    	submitTNumForm();
+	}
+
+	function submitServForm() {
+		console.log(document.getElementsByName('queryS')[0].value);
+		currentShape.server = document.getElementsByName('queryS')[0].value;
+		document.getElementsByName('queryS')[0].value = "";
+		$('#myModal').modal('toggle');
+		make_info(currentShape);
+	}
+
+	document.getElementById('sub_serv').onclick = function() {
+    	submitServForm();
+	}
+
+	function erase_table() {
+		var index = shapes.indexOf(currentShape);
+		shapes[index].color = "rgba(255, 255, 255, 1)";
+		shapes[index].drawToContext(context);
+		shapes.splice(index, 1);
+		numShapes--;
+	}
+
+	//Draw
 
 	function drawScreen() {
 		//bg
 		context.fillStyle = "#ffffff";
 		context.fillRect(0,0,theCanvas.width,theCanvas.height);
 
-		var x = theCanvas.width / step;
-		var y = theCanvas.height / step;
-		for (i = 0;i < step; i++) {
-			for (j = 0;j < step; j++) {
+		var x = theCanvas.width / stepX;
+		var y = theCanvas.height / stepY;
+		for (i = 0;i < stepX; i++) {
+			for (j = 0;j < stepY; j++) {
 				context.strokeRect(i * x,j * y,i*x + x,j *y + y);
 			}
 		}
@@ -281,7 +373,13 @@ function canvasApp() {
 		drawShapes();		
 	}
 
-	
+	$("#myformNum").submit(function(e) {
+    e.preventDefault();
+	});
+
+	$("#myformServ").submit(function(e) {
+    e.preventDefault();
+	});
 }
 
 </script>
@@ -295,8 +393,10 @@ function canvasApp() {
 		</canvas>
 			<div>
 			<button id="add_table" onclick="add_table()">Add Table</button>
-			<!-- <button id="add_rowy" onclick="add_clmn()">Add Column</button>
-			<button id="add_rowx" onclick="add_row()">Add Row</button> -->
+			<button id="add_rowy" onclick="add_clmn()">Add Column</button>
+			<button id="add_rowx" onclick="add_row()">Add Row</button>
+			<button id="rm_rowy" onclick="rm_clmn()">Remove Column</button>
+			<button id="rm_rowX" onclick="rm_row()">Remove Row</button>
 		</div>
 		</div>
 
@@ -306,9 +406,9 @@ function canvasApp() {
 
 <!-- Table Information Feature -->
 
-<!-- 		<button id="modal_activator" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;">
+<!-- 		<button id="modal_activator" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display:none">
 		  Launch demo modal
-		</button>
+		</button> -->
 
 
 			<div id="modal_placeholder">
@@ -317,18 +417,30 @@ function canvasApp() {
 				    <div class="modal-content">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button>
-				        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				        <h4 class="modal-title" id="myModalLabel">Caractéristiques de Table</h4>
 				      </div>
-				      <div class="modal-body">
-				        ...
+				      <div class="modal-body" id="mod-body">
+				        <p id="myModalTNumber"></p>
+				        <form id="myformNum">
+							<input type='text' name='queryN' placeholder="">
+							<button type="button" id="sub_num" onclick="submitTNumForm()">Submit</button>
+							<!-- <a href="javascript: submitTNumForm()">Submit</a> -->
+						</form></br>
+				        <p id="myModalTServer"></p>
+				        <form id="myformServ">
+							<input type='text' name='queryS' placeholder="">
+							<button type="button" id="sub_serv" onclick="submitServForm()">Submit</button>
+							<!-- <a href="javascript: submitServForm()">Submit</a> -->
+						</form></br>
+				        </br>
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Save changes</button>
+				        <button type="button" class="btn btn-primary" id="erase_table" data-dismiss="modal" onclick="erase_table()">Erase Table</button>
 				      </div>
 				    </div>
 				  </div>
 				</div>
-			</div> -->
+			</div>
 	</body>
 </html>
