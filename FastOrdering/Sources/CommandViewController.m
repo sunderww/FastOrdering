@@ -8,6 +8,8 @@
 
 #import "CommandViewController.h"
 #import "CommandMenuViewController.h"
+#import "Order+Custom.h"
+#import "NSManagedObject+create.h"
 
 @interface CommandViewController ()
 
@@ -18,6 +20,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  order = [Order create];
   menuModel = [OrderMenuModel new];
   carteModel = [OrderALaCarteModel new];
   menuModel.delegate = self;
@@ -65,6 +68,11 @@
 }
 
 #pragma mark - CommandMenuView delegate methods
+
+- (void)didCreateOrderContent:(OrderContent *)content {
+  [order addOrderContentsObject:content];
+  DPPLog(@"ORDER IN JSON : %@", order.toJSON);
+}
 
 - (void)popCommandMenuView {
   [UIView animateWithDuration:0.5 animations:^{

@@ -2,7 +2,7 @@
 //  MenuComposition.m
 //  FastOrdering
 //
-//  Created by Sunder on 18/03/2015.
+//  Created by Sunder on 06/04/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -14,11 +14,12 @@
 @implementation MenuComposition
 
 @dynamic createdAt;
-@dynamic updatedAt;
-@dynamic serverId;
-@dynamic price;
 @dynamic name;
+@dynamic price;
+@dynamic serverId;
+@dynamic updatedAt;
 @dynamic categories;
 @dynamic menu;
+@dynamic ordered;
 
 @end

@@ -2,13 +2,14 @@
 //  DishCategory.m
 //  FastOrdering
 //
-//  Created by Sunder on 18/03/2015.
+//  Created by Sunder on 06/04/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
 #import "DishCategory.h"
 #import "Dish.h"
 #import "DishCategory.h"
+#import "MenuComposition.h"
 
 
 @implementation DishCategory
@@ -19,9 +20,9 @@
 @dynamic price;
 @dynamic serverId;
 @dynamic updatedAt;
+@dynamic compositions;
 @dynamic dishes;
 @dynamic parent;
 @dynamic subcategories;
-@dynamic compositions;
 
 @end

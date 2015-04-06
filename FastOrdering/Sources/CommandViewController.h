@@ -27,6 +27,7 @@
   IBOutletCollection(UIView) NSArray * contentViews;
   
   UIViewController *      presentController;
+  Order * order;
 }
 
 - (IBAction)buttonClicked:(UIButton *)sender;

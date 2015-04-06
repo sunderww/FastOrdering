@@ -2,7 +2,7 @@
 //  MenuComposition.h
 //  FastOrdering
 //
-//  Created by Sunder on 18/03/2015.
+//  Created by Sunder on 06/04/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -14,12 +14,13 @@
 @interface MenuComposition : NSManagedObject
 
 @property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSString * serverId;
-@property (nonatomic, retain) NSNumber * price;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * price;
+@property (nonatomic, retain) NSString * serverId;
+@property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSSet *categories;
 @property (nonatomic, retain) Menu *menu;
+@property (nonatomic, retain) NSManagedObject *ordered;
 @end
 
 @interface MenuComposition (CoreDataGeneratedAccessors)

@@ -86,6 +86,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   MenuComposition * composition = compositions[indexPath.section][indexPath.row - 1];
   [self.delegate menuCompositionClicked:composition];
+  [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 

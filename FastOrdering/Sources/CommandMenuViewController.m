@@ -11,6 +11,7 @@
 #import "Dish.h"
 #import "DishCell.h"
 #import "NSManagedObject+create.h"
+#import "OrderedDish.h"
 
 #define kDishCellTag(section, row)  ((((section) + 1) * 100) + (row) + 1)
 #define kDishCellSectionForTag(tag) (((tag) / 100) - 1)
@@ -28,10 +29,16 @@
   [orderButton setTitle:NSLocalizedString(@"order", @"").uppercaseString forState:UIControlStateNormal];
 
   NSMutableArray * mutableDishes = [NSMutableArray new];
+  counts = [NSMutableArray new];
   categories = self.composition.categories.allObjects;
   
+  NSUInteger i = 0;
   for (DishCategory * category in categories) {
+    [counts addObject:[NSMutableArray new]];
+    for (NSUInteger j = 0 ; j < category.dishes.count ; ++j)
+      [counts[i] addObject:@0];
     [mutableDishes addObject:category.dishes.allObjects];
+    ++i;
   }
   dishes = mutableDishes;
 }
@@ -44,7 +51,25 @@
 #pragma mark - Helper methods
 
 - (void)order {
+  OrderContent * content = [OrderContent create];
   
+  content.menuComposition = self.composition;
+  for (NSUInteger i = 0 ; i < dishes.count ; ++i) {
+    for (NSUInteger j = 0 ; j < ((NSArray *)dishes[i]).count ; ++j) {
+      NSNumber * quantity = counts[i][j];
+      
+      if (quantity.unsignedIntegerValue > 0) {
+        OrderedDish * dish = [OrderedDish create];
+        
+        dish.dish = dishes[i][j];
+        dish.quantity = quantity;
+        dish.comment = @"";
+        [content addDishesObject:dish];
+      }
+    }
+  }
+  
+  [self.delegate didCreateOrderContent:content];
 }
 
 #pragma mark - Actions
@@ -112,18 +137,30 @@
     cell.delegate = self;
   }
 
-  [cell setDish:dish andTag:kDishCellTag(indexPath.section, indexPath.row)];
+  [cell setDish:dish andTag:kDishCellTag(indexPath.section, indexPath.row - 1)];
   return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  DishCell * cell = (DishCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+  [cell.textField becomeFirstResponder];
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - UITextField delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+  textField.text = @"";
   responder = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+  if (!textField.text.length)
+    textField.text = @"0";
+
+  NSUInteger row = kDishCellRowForTag(textField.tag);
+  NSUInteger section = kDishCellSectionForTag(textField.tag);
+  counts[section][row] = @(textField.text.integerValue);
 }
 
 

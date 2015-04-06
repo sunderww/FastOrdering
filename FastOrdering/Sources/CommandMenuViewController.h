@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "SLExpandableTableView.h"
 #import "MenuComposition.h"
+#import "OrderContent.h"
 
 @protocol CommandMenuDelegate <NSObject>
 
+- (void)didCreateOrderContent:(OrderContent *)content;
 - (void)popCommandMenuView;
 
 @end
@@ -22,6 +24,7 @@
   IBOutlet UIButton * orderButton;
   
   UITextField * responder;
+  NSMutableArray * counts;
   NSArray * categories;
   NSArray * dishes;
 }

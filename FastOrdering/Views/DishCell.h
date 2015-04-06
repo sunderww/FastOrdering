@@ -11,11 +11,11 @@
 
 @interface DishCell : UITableViewCell {
   IBOutlet UILabel *      mainLabel;
-  IBOutlet UITextField *  textField;
 }
 
 - (void)setDish:(Dish *)dish andTag:(NSUInteger)tag;
 
+@property (nonatomic, strong) UITextField *           textField;
 @property (nonatomic, retain) id<UITextFieldDelegate> delegate;
 
 @end

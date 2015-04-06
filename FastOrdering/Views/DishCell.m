@@ -11,24 +11,27 @@
 @implementation DishCell
 
 - (void)awakeFromNib {
-    // Initialization code
+  // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+  [super setSelected:selected animated:animated];
+  
+  if (selected) {
+    self.textField.text = @"";
+    [self.textField becomeFirstResponder];
+  }
 }
 
 - (void)setDelegate:(id<UITextFieldDelegate>)delegate {
   _delegate = delegate;
-  textField.delegate = delegate;
+  self.textField.delegate = delegate;
 }
 
 - (void)setDish:(Dish *)dish andTag:(NSUInteger)tag {
   mainLabel.text = dish.name;
-  textField.text = @"0";
-  textField.tag = tag;
+  self.textField.text = @"0";
+  self.textField.tag = tag;
 }
 
 @end
