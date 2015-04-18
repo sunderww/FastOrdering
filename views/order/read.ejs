@@ -1,0 +1,200 @@
+<body class="dashboard-page sb-l-o sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main">
+
+        <% include ../header.ejs %>
+        <% include ../sidebar.ejs %>
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+            <!-- Start: Topbar -->
+            <header id="topbar">
+                <div class="topbar-left">
+                    <ol class="breadcrumb">
+                        <li class="crumb-active">
+                            <a href="dashboard">Cuisine</a>
+                        </li>
+                        <li class="crumb-icon">
+                            <a href="dashboard">
+                                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+                        </li>
+                        <li class="crumb-link">
+                            <a href="dashboard">Accueil</a>
+                        </li>
+                        <li class="crumb-trail">Cuisine</li>
+                    </ol>
+                </div>
+              
+            </header>
+            <!-- End: Topbar -->
+            <!-- Begin: Content -->
+            <section id="content" class="animated fadeIn">
+                <!-- Dashboard Tiles -->
+                <div id="order" class="row" style="max-width: 1250px; margin: 0 auto;">
+
+<% _.each(orders, function(order) { %>
+<% color = "primary" %>
+                     <div class="col-sm-6 col-md-4">
+                      <div class="panel panel-tile text-center" idCommand="<%= order.id %>">
+                            <div class="panel-heading hidden">
+                                <span class="panel-title"><i class="fa fa-pencil"></i></span>
+                            </div>
+                            <div class="panel-body bg-<%= color %> light">
+                                <h3 class="text-white">Nombre de personnes :<%= order.dinerNumber %></h3>
+                                <h3 class="text-white">Numero de table :<%= order.table_id %></h3>
+                                <h3 class="text-white">Date : <%= order.time %></h3>
+                            </div>
+                            <div class="panel-footer bg-<%= color %> br-n p12">
+                                <span class="fs11"><i class="fa fa-arrow-up pr5"></i><b></b>
+                                </span>
+                            </div>
+                        </div>
+                    </div>                 
+<% }) %>
+                </div>
+                                  <section id="content" class="animated fadeIn">
+
+                        <div class="row table-layout" id="modal-content">
+
+                <div id="modal-panel" class="popup-basic bg-none mfp-with-anim mfp-hide">
+
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-icon"></i>
+                            </span>
+                            <span class="panel-title">Contenu de la Commande</span>
+                        </div>
+                     <div class="panel-body">
+                            <h3 class="mt5">Description des plats</h3>
+                            <hr class="short alt">
+			    <div class="dish-zoom"></div>
+                    </div>
+                       <!--  <div class="panel-footer text-right">
+                            <button class="btn btn-primary" type="button">Fermer</button>
+                        </div> -->
+                    </div>
+                </div>
+                </div>
+
+
+        </section>
+        </section>
+        <!-- End: Content Wrapper -->
+
+
+    </div>
+    <!-- End: Main -->
+
+    <!-- BEGIN: PAGE SCRIPTS -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Theme Javascript -->
+    <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+    <script type="text/javascript" src="../assets/js/main.js"></script>
+    <script type="text/javascript" src="../assets/js/demo.js"></script>
+
+
+        <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
+    <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
+    <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
+    <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
+    <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
+
+    <!-- Theme Javascript -->
+    <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+    <script type="text/javascript" src="../assets/js/main.js"></script>
+    <script type="text/javascript" src="../assets/js/demo.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+            "use strict";
+
+            // Init Theme Core     
+            // Core.init();
+
+            // Init Demo JS     
+            // Demo.init();
+            function getMenu (id) {
+
+                // io.socket.get('/menu/read?id=' + id, function (body, response) {
+                    // console.log(response.body.elements.name);
+                    // return response.body.elements.name;
+                // });
+            }
+
+            // Form Skin Switcher
+            $('.panel-footer').not(".dont").on('click', function() {
+                $(".dish-zoom").html("");
+                var e;
+            var idCommand = $(this).parent().attr("idCommand");
+            io.socket.get('/ordereddish/read?id=' + idCommand, function (body, response) {
+                e = 0;
+                for (var i = 0; body[i]; i++) {
+                    io.socket.get('/dish/read?id=' + body[0].dish_id, function (body2, response2) {
+                        io.socket.get('/menu/read?id=' + body[0].menu_id, function (body3, response3) {
+                        var number = Math.floor((Math.random() * 100) + 1);
+                        var ready = (body[e].ready == true) ? "ready btn btn-success" : "ready btn btn-danger";
+
+                        var	res = '<div class="admin-form"><h3>Menu - ' + body3.elements.name  + '</h3>        <div><span style="width:100px; float:left !important;">' + body2[0].name + '</span style="float:right !important;"><span>comment</span></div><div></br><span id="' + body[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div><hr class="short alt">';
+                            $(".dish-zoom").append(res);
+                        e++;
+                        });
+                    });
+                };
+            });
+	        // Inline Admin-Form example 
+                $.magnificPopup.open({
+                    removalDelay: 500, //delay removal by X to allow out-animation,
+                    items: {
+                        src: "#modal-panel"
+                    },
+                    // overflowY: 'hidden', // 
+                    callbacks: {
+                        beforeOpen: function(e) {
+                            var Animation = "mfp-zoomOut"
+                            this.st.mainClass = Animation;
+                        }
+                    },
+                    midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+                });
+            });
+
+            $("html").on('click', ".ready" ,function(){
+                var id = $(this).parent().attr("id");
+                var me = $(this);
+                io.socket.get('/order/ready?id=' + id, function (body, response) {
+                    me.css("background-color", response.body.status == "toDeliver" ? "green" : "red");
+                    me.css("border-color", response.body.status == "toDeliver" ? "green" : "red");
+                });
+
+            });
+            
+            $("html").on('click', ".question" ,function(){
+                var id = $(this).parent().attr("id");
+                console.log(id);
+                io.socket.get('/order/question?id=' + id, function (body, response) {
+                    console.log(response);                    
+                });
+            });
+        });
+    </script>

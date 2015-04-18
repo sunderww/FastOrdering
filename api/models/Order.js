@@ -1,35 +1,59 @@
 /**
- * Order
- *
- * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
- * @docs		:: http://sailsjs.org/#!documentation/models
- */
+* Model definissant l'objet Commande.
+*
+* @class Order
+* @constructor
+*/
+
+var moment = require('moment');
 
 module.exports = {
 
   attributes: {
+    /**
+    * Jour de la commande
+    * 
+    * @property date
+    * @type {String}
+    * @default Date.now("m/d/YYYY")
+    */  	
+    date: {
+      type: 'string',
+      defaultsTo: function() {return moment().format("m/d/YYYY"); }
+    },
+
+    /**
+    * Heure de la commande
+    * 
+    * @property time
+    * @type {String}
+    * @default Date.now("h:mm")
+    */    
+      time: {
+          type: 'string',
+          defaultsTo: function() {return moment().format("h:mm");}
+      },
+    	table_id: {
+    		type: 'string',
+        required: true
+      },
+
+      dinerNumber :{
+        type: 'integer',
+        required: true
+      },
   	
-  	// restaurant_id: {
-  	// 	type: 'string',
-  	// 	required: true
-  	// },
+      waiter_id: {
+        type: 'string'//, // the waiter is a user object
+  //		required: true
+      },
+      ready: {type:'boolean', defaultsTo: false}, 
+      
+      comments: {type:"string"},
 
-  	table_id: {
-  		type: 'string',
-  		required: true
-  	},
-
-  	waiter_id: {
-  		type: 'string', // the waiter is a user object
-  		required: true
-  	}, 
-
-  	price: {
-  		type: 'float',
-  		required: true
-  	}
-    
+      // orderContent_id: {
+      //   type: 'string'//,
+      //   // required: true
+      // }
   }
-
 };
