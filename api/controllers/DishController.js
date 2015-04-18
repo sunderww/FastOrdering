@@ -1,69 +1,86 @@
 /**
- * DishController
+ * Controller permettant de gérer tout ce qui se rapporte au Plat
  *
- * @description :: Server-side logic for managing Dishes
- * @help        :: See http://links.sailsjs.org/docs/controllers
+ * @class DishController
+ * @constructor
  */
-
 module.exports = {
-	
+    /**
+     * Permet d'ajouter un plat
+     *
+     * @method create
+     * @param {String} name Nom du plat
+     * @param {String} price Prix du plat
+     * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
+     */
+    create: function (req, res) {
+		if (req.method=="POST") {
+			Dish.findOrCreate({
+				id: req.param("id"),
+				name:req.param("name"),
+				price:req.param("price"),
+				categories_ids: req.param("categories_ids")
+			    }).exec(function(err,model) {
+				    if (err) {
+					return res.json({
+						message: err.ValidationError
+					    });
+				    }else
+			res.redirect(307, '/dish/create');
 
+		});
+	}
 
-  /**
-   * `DishController.create()`
-   */
-  create: function (req, res) {
-   	Dish.create({
-   		name:req.param("name"),
-   		price:req.param("price"),
-   	}).exec(function(err,model){
-   		if (err) {
-   			return res.json({
-   				message: err.ValidationError
-   			});
-   		}
-   		else {
-   			return res.json({
-   				message: req.param('name') + " has been created"
-   			});  			
-   		}
-
-   	});
-  },
-
-
-  /**
-   * `DishController.destroy()`
-   */
-  destroy: function (req, res) {
-    return res.json({
-      todo: 'destroy() is not implemented yet!'
-    });
-  },
-
-
-  /**
-   * `DishController.update()`
-   */
-  update: function (req, res) {
-      return res.send("HELLLLLO");
-  },
-
-
-  /**
-   * `Dish.read()`
-   */
-   read: function (req, res) {
-   	if (req.param("id")) {
-   	    Dish.find({id: req.param("id")} ,function(err, doc) {
-   			return res.send(doc);
+		Dish.find( function(err, doc) {
+			return res.view({dishs:doc});
    		});
-   	} else {
-   	    Dish.find( function(err, doc) {
-		    
-   		    return res.json({elements: doc});
-   		});
-   	}
-   }  
+    },
+    /**
+     * Permet de recupérer tous les plats ou un plat spécifique si un id est présent
+     *
+     * @method read
+     * @param {String} id id du plat(optionnel)
+     * @return {JSON} Retourne les résultat présents en base de données (0 ou 1 ou plusieurs plats)
+     */
+    read: function (req, res) {
+		if (req.param("id")) {
+		    Dish.find({id: req.param("id")} ,function(err, doc) {
+			    return res.send(doc);
+			});
+		} else {
+		    Dish.find( function(err, doc) {
+			    return res.json({elements: doc});
+			});
+		}
+    },
+    delete: function (req, res) {
+		    Dish.destroy({id:req.param("id")}).exec(function(err, doc) {
+			     res.json({elements: doc});
+			});
+			res.redirect(307, '/dish/create');
+	},
+    update: function (req, res) {
+		var CATEGORIES;
+		DishCategory.find(function(err, doc) {
+			CATEGORIES = doc;
+		});
+
+		if (req.method=="POST") {
+			Dish.update({id:req.param("id")},{
+				name:req.param("name"),
+				price:req.param("price"),
+				categories_ids: req.param("categories_ids")
+			    }).exec(function(err,model) {
+				    if (err) {
+					return res.json({
+						message: err.ValidationError
+					    });
+				    }
+			});
+			res.redirect(307, '/dish/create');
+		}
+		    Dish.findOne({id: req.param("id")} ,function(err, doc) {
+			    return res.view({dish:doc, categories: CATEGORIES});
+			});		   
+	}
 };
-

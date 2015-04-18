@@ -1,41 +1,56 @@
 /**
- * Dish
- *
- * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
- * @docs		:: http://sailsjs.org/#!documentation/models
- */
+* Model definissant l'objet Plat.
+*
+* @class Dish
+* @constructor
+*/
+
 
 module.exports = {
 
   attributes: {
-  	
-  	// restaurant_id: {
-  	// 	type: 'string',
-  	// 	required: true
-  	// },
-
-	// categories / menus in which it is contained
-//  	category_id: { 
-  //		type: 'string',
-  //		defaultsTo: [],
-//      required: true
-  //	},
-
+   
+    /**
+    * Nom du plat
+    * 
+    * @property name
+    * @type {String}
+    */
   	name: {
   		type: 'string',
   		required: true
   	},
 
-  	price: {
+    /**
+    * Prix du plat
+    * 
+    * @property price
+    * @type {Float}
+    * @default 0
+    */
+    price: {
   		type: 'float',
 	    defaultsTo: 0
   	},
 
+    /**
+    * Disponibilité du plat
+    * 
+    * @property available
+    * @type {Boolean}
+    * @default true
+    */
   	available: {
   		type: 'boolean',
   		defaultsTo: true
-  	}
-      
+  	},
+
+    dish_id: {
+	     model: "Category"
+    },      
+    categories_ids: {
+      type: "array",
+      defaultsTo: []
+    }
   }
 };
