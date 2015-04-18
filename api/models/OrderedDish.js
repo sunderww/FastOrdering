@@ -6,28 +6,68 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
-// enum DishStatus { canceled, ordered, cooking, toDeliver, delivered }
-var DishStatus = require('../services/enums.js').DishStatus;
-
 module.exports = {
 
   attributes: {
-  	
+    
+    /**
+    * Id de la commande
+    * 
+    * @property order_id
+    * @type {String}
+    * @require true
+    */   	
   	order_id: {
   		type: 'string',
   		required: true
   	},
 
+    /**
+    * Id du plat
+    * 
+    * @property dish_id
+    * @type {String}
+    * @require true
+    */ 
   	dish_id: {
   		type: 'string',
   		required: true
   	},
+    
+    /**
+    * Nombre de plats commandés
+    * 
+    * @property quantity
+    * @type {Integer}
+    * @require true
+    */
+    quantity: {
+	    type: "integer",
+	    required: true
+    },
+    
+    status: {
+      type: 'string',
+      enum: ["canceled", "ordered", "cooking", "toDeliver", "delivered"],
+      defaultsTo: "ordered"
+    }, 
 
+    /**
+    * Id du menu
+    * 
+    * @property menu_id
+    * @type {Integer}
+    * @require true
+    */       
+    menu_id: {type: "integer", required: true},
+
+    /**
+    * Commentaire
+    * 
+    * @property comment
+    * @type {String}
+    */ 
   	comment: 'string',
-  	status: {
-  		type: 'int',
-    	defaultsTo: DishStatus.ordered
-    }
   }
 
 };

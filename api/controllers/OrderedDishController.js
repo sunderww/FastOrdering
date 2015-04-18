@@ -1,22 +1,32 @@
 /**
- * OrderedDishController
- *
- * @description :: Server-side logic for managing Ordereddishes
- * @help        :: See http://links.sailsjs.org/docs/controllers
- */
+* Controller permettant de gérer tout ce qui se rapporte au contenu de la commande (plats)
+*
+* @class OrderedController
+* @constructor
+*/
 
 module.exports = {
-	
-
 
   /**
-   * `OrderedDishController.create()`
-   */
+  * Permet d'ajouter une commande
+  *
+  * @method create
+  * @param {String} order_id Id de la commande
+  * @param {String} dish Id du plat
+  * @param {String} qty Nombre de plats
+  * @param {String} comment Commentaire
+  * @param {String} menuId Id du menu
+  * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
+  */
   create: function (req, res) {
+	console.log(req.param("order_id"));
     OrderedDish.create({
-      order_id:req.param("order"),
-      dish_id:req.param("dish")
-      // :0
+
+        order_id:req.param("order_id"),
+	dish_id:req.param("dish"),
+	quantity:req.param("qty"),
+	comment:req.param("comment"),
+	menu_id:req.param("menuId")
     }).exec(function(err,model){
       if (err) {
         return res.json({
@@ -31,31 +41,14 @@ module.exports = {
     });
   },
 
-
   /**
-   * `OrderedDishController.destroy()`
-   */
-  destroy: function (req, res) {
-    return res.json({
-      todo: 'destroy() is not implemented yet!'
-    });
-  },
-
-
-  /**
-   * `OrderedDishController.update()`
-   */
-  update: function (req, res) {
-    return res.json({
-      todo: 'update() is not implemented yet!'
-    });
-  },
-
-  /**
-   * `OrderedDishController.changeStatus()`
-   */
+  * Permet de changer le status d'une commande
+  *
+  * @method changeStatus
+  * @param {String} order_id Id de la commande
+  * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
+  */
   changeStatus: function (req, res) {
-    console.log("gg");
     OrderedDish.find({id: req.param("id")}, function(err, order) {
       if (err) {
         res.send("error");
@@ -68,11 +61,15 @@ module.exports = {
   },
 
   /**
-   * `OrderedDishController.read()`
-   */
+  * Permet de recupérer tous les plats ou un plat spécifique si un id est présent
+  *
+  * @method read
+  * @param {String} id id du plat(optionnel)
+  * @return {JSON} Retourne les résultat présents en base de données (0 ou 1 ou plusieurs plats)
+  */
   read: function (req, res) {
     if (req.param("id")) {
-      OrderedDish.find({id: req.param("id")}, function(err, doc) {
+      OrderedDish.find({order_id: req.param("id")}, function(err, doc) {
         return res.send(doc);
       });
     } else {
@@ -82,4 +79,3 @@ module.exports = {
     } 
   }
 };
-
