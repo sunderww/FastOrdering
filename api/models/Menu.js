@@ -6,12 +6,10 @@
 */
 
 module.exports = {
-
   attributes: {
-      name: "String",
-      composition: {
-	  collection : 'MenuComposition'
+      name: {
+      	type: "String",
+      	required: true
       }
   }
 };
-

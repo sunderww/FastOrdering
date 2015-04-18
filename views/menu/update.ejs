@@ -1,0 +1,206 @@
+<body class="dashboard-page sb-l-o sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main">
+
+        <% include ../header.ejs %>
+        <% include ../sidebar.ejs %>
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+
+            <div class="hidden-compo-form" style="display:none;">
+             <div class="form-group">
+                <label for="name" class="col-lg-3 control-label">Nom</label>
+                <div class="col-lg-8">
+                    <input type="text" name="name" class="form-control composition-name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price" class="col-lg-3 control-label">Prix</label>
+                <div class="col-lg-8">
+                    <input type="text" name="price" class="form-control  composition-price">
+                </div>
+            </div> 
+            <div class="form-group">
+                <label for="categories_ids" class="col-lg-3 control-label">Categories</label>
+                <div class="col-lg-8">
+                    <select style="width:100%" class="composition-categories" name="categories_ids" multiple="multiple">
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Start: Topbar -->
+        <header id="topbar">
+            <div class="topbar-left">
+                <ol class="breadcrumb">
+                    <li class="crumb-active">
+                        <a href="dashboard">Cuisine</a>
+                    </li>
+                    <li class="crumb-icon">
+                        <a href="dashboard">
+                            <span class="glyphicon glyphicon-home"></span>
+                        </a>
+                    </li>
+                    <li class="crumb-link">
+                        <a href="dashboard">Accueil</a>
+                    </li>
+                    <li class="crumb-trail">Cuisine</li>
+                </ol>
+            </div>
+
+        </header>
+        <!-- End: Topbar -->
+        <!-- Begin: Content -->
+        <section id="content" class="animated fadeIn">
+            <!-- Dashboard Tiles -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-title">Ajouter un menu</span>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form" action="/menu/update" method="POST">
+                                <div class="form-group">
+                                    <label for="inputStandard" class="col-lg-3 control-label">Nom du menu</label>
+                                    <div class="col-lg-8">
+                                        <input value="<%= menu.name %>" type="text" name="menu_name" value="" class="form-control">
+                                    </div>
+                                </div>                            
+                                <div class="form-group">
+                                    <label for="inputStandard" class="col-lg-3 control-label">Menu composition</label>
+                                    <div id="composition-menu" style="width:200px" class="col-lg-8">
+                                        <% _.each(selected_compositions, function(selected_composition) { %>
+                                        <div><%= selected_composition.name %><span class="delete-composition" id-composition="<%= selected_composition.id %>" style="float:right !important">Supprimer</span></div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                                <div class="add-one"></div>
+                                <div class="form-group">
+                                    <label for="inputStandard" class="col-lg-3 control-label"></label>
+                                    <div class="col-lg-8">
+                                        <button type="submit" class="form-control button btn-info" id="add-one">Ajouter une composition</button>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="<%= menu.id %>" name="id">
+                                <div class="form-group">
+                                    <label for="inputStandard" class="col-lg-3 control-label"></label>
+                                    <div class="col-lg-8">
+                                        <input type="submit" value="Mettre a jour" class="form-control button btn-primary">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Theme Javascript -->
+    <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
+    <script type="text/javascript" src="/assets/js/main.js"></script>
+    <script type="text/javascript" src="/assets/js/demo.js"></script>
+
+
+    <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="/vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+    <!-- Admin Forms Javascript -->
+    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
+    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
+    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
+    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
+    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
+
+    <!-- Theme Javascript -->
+    <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
+    <script type="text/javascript" src="/assets/js/main.js"></script>
+    <script type="text/javascript" src="/assets/js/demo.js"></script>
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+
+        "use strict";
+
+            // Init Theme Core     
+            Core.init();
+
+            // Init Demo JS
+
+            Demo.init();
+
+            $(".delete-composition").click(function(e){
+                console.log($(this).attr("id-composition"));
+                io.socket.post('/menucomposition/delete', {id:$(this).attr("id-composition")});
+                $(this).parent().remove();            
+            });
+
+            $("#add-one").click(function(e){
+                e.preventDefault();
+                console.log($(this).hasClass("a-valider"));
+                if ($(this).hasClass("a-valider")) {
+                    var name = $(".add-one .composition-name").val();
+                    var price = $(".add-one .composition-price").val();
+                    var categories_ids = $(".add-one .composition-categories").val();
+                    var res =  io.socket.post('/menucomposition/create', 
+                        {menu_id:"<%= menu.id %>",
+                        name:name,
+                        price:price, 
+                        categories_ids:categories_ids});   
+
+                    io.socket.get('/menucomposition/read?id=<%= menu.id %>', function (body, response) {
+
+                        body = body.elements;$("#composition-menu").empty();
+
+                        for (var i = 0; i < body.length; i++) {
+                            $("#composition-menu").append('<div>' + body[i].name + '<span class="delete-composition" id-composition="' + body[i].id  +'" style="float:right !important">Supprimer</span></div>');
+                        };
+
+                    });
+
+                    $(this).text("Ajouter une composition");
+                    $(":input [name=name]").val("");
+                    $(":input [name=price]").val("");
+                    $("option:selected").removeAttr("selected");    
+                    $(this).removeClass("a-valider");
+                    $(this).removeClass("btn-success");
+                    $(this).addClass("btn-info");
+                    $(".add-one").hide();
+                    return ;
+                }
+                else {
+                    $(this).text("Valider la composition");
+                    $(this).addClass("a-valider");
+                    $(this).removeClass("btn-info");
+                    $(this).addClass("btn-success");
+                    $(".add-one").show();
+                }
+                $(".add-one").html($(".hidden-compo-form").html());
+            });
+
+io.socket.get('/dishcategory/read', function (body, response) {
+    var res = "";
+    body = body.elements;
+    for (var i = body.length - 1; i >= 0; i--) {
+        res += '<option value="' + body[i].id +'">' + body[i].name +'</option>';
+    };
+    $(".composition-categories").html(res);
+});
+});
+</script>
