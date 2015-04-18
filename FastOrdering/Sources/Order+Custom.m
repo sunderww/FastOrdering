@@ -20,7 +20,7 @@ NSObject *  dictSafeValue(NSObject *obj) {
   return obj ? obj : @"";
 }
 
-- (NSString *)toJSON {
+- (NSDictionary *)toJSON {
   NSMutableDictionary * dict = [NSMutableDictionary new];
   
   dict[@"numTable"] = dictSafeValue(self.table.name);
@@ -56,7 +56,15 @@ NSObject *  dictSafeValue(NSObject *obj) {
     [dict[@"order"] addObject:dishDict];
   }
 
-  NSData * data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:NULL];
+  return dict;
+}
+
+- (NSData *)toJSONData {
+  return [NSJSONSerialization dataWithJSONObject:self.toJSON options:0 error:NULL];
+}
+
+- (NSString *)toJSONString {
+  NSData * data = self.toJSONData;
   return data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
 }
 

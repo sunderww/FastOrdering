@@ -10,6 +10,7 @@
 #import "CommandMenuViewController.h"
 #import "Order+Custom.h"
 #import "NSManagedObject+create.h"
+#import "SocketHelper.h"
 
 @interface CommandViewController ()
 
@@ -23,12 +24,18 @@
   order = [Order create];
   menuModel = [OrderMenuModel new];
   carteModel = [OrderALaCarteModel new];
+  reviewModel = [OrderReviewModel new];
   menuModel.delegate = self;
   carteModel.delegate = self;
+//  reviewModel.delegate = self;
+  reviewModel.order = order;
+  reviewModel.tableView = reviewTableView;
   menuTableView.dataSource = menuModel;
   menuTableView.delegate = menuModel;
   carteTableView.dataSource = carteModel;
   carteTableView.delegate = carteModel;
+  reviewTableView.delegate = reviewModel;
+  reviewTableView.dataSource = reviewModel;
   
   [menuButton setTitle:NSLocalizedString(@"Menus", @"").uppercaseString forState:UIControlStateNormal];
   [alacarteButton setTitle:NSLocalizedString(@"A la carte", @"").uppercaseString forState:UIControlStateNormal];
@@ -71,7 +78,6 @@
 
 - (void)didCreateOrderContent:(OrderContent *)content {
   [order addOrderContentsObject:content];
-  DPPLog(@"ORDER IN JSON : %@", order.toJSON);
 }
 
 - (void)popCommandMenuView {
@@ -85,6 +91,11 @@
   }];
 }
 
+- (void)orderFailed {
+  loaderView.hidden = YES;
+  [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_ErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+}
+
 #pragma mark - IBAction methods
 
 - (IBAction)buttonClicked:(UIButton *)sender {
@@ -92,6 +103,41 @@
     v.hidden = v.tag != sender.tag;
   for (UIView * v in contentViews)
     v.hidden = v.tag != sender.tag;
+  [reviewModel reloadData];
+}
+
+- (IBAction)order {
+  SocketHelper * helper = [SocketHelper sharedHelper];
+
+  if (!helper.socket.isConnected) return [self orderFailed];
+
+  loaderView.hidden = NO;
+  [helper pushDelegate:self];
+  [helper.socket sendEvent:@"send_order" withData:order.toJSON];
+  timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(orderFailed) userInfo:nil repeats:NO];
+}
+
+#pragma mark - SocketIO delegate methods
+
+- (void)socketIO:(SocketIO *)socket didReceiveMessage:(SocketIOPacket *)packet {
+  PPLog(@"MESSAGE %@", packet);
+}
+
+- (void)socketIO:(SocketIO *)socket didReceiveJSON:(SocketIOPacket *)packet {
+  PPLog(@"JSON %@", packet);
+}
+
+- (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
+  PPLog(@"EVENT %@", packet);
+}
+
+- (void)socketIO:(SocketIO *)socket didSendMessage:(SocketIOPacket *)packet {
+  PPLog(@"SENT %@", packet);
+}
+
+- (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
+  [timer invalidate];
+  [self orderFailed];
 }
 
 /*

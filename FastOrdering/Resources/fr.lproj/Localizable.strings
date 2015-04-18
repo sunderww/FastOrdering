@@ -18,10 +18,12 @@
 "A la carte"                    =   "A la carte";
 "Order"                         =   "Commande";
 
-/* */
+/* Misc */
 "Erase all"                     =   "Tout effacer";
+"Order_ErrorMessage"            =   "Impossible d'envoyer la commande sur le serveur. Veuillez vérifier votre connexion internet.";
 
 /* Vocabulary */
+"error"                         =   "erreur";
 "order"                         =   "commander";
 "menu"                          =   "acceuil";
 "notification"                  =   "notification";
@@ -30,3 +32,4 @@
 "about"                         =   "à propos";
 "LogOut"                        =   "Déconnexion";
 "LogIn"                         =   "Se connecter";
+"Loading"                       =   "Chargement";

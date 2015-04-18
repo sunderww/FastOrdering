@@ -46,7 +46,6 @@
   MenuExpandableCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   
   if (!cell) {
-    //        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
     cell = [[MenuExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
   }
   

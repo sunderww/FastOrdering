@@ -9,25 +9,33 @@
 #import <UIKit/UIKit.h>
 #import "OrderMenuModel.h"
 #import "OrderALaCarteModel.h"
+#import "OrderReviewModel.h"
 #import "SLExpandableTableView.h"
 #import "CommandMenuViewController.h"
+#import "LoaderView.h"
+#import "SocketHelper.h"
 
-@interface CommandViewController : UIViewController <OrderALaCarteDelegate, OrderMenuDelegate, CommandMenuDelegate> {
+@interface CommandViewController : UIViewController <OrderALaCarteDelegate, OrderMenuDelegate, CommandMenuDelegate, SocketIODelegate> {
   IBOutlet UIButton *     menuButton;
   IBOutlet UIButton *     alacarteButton;
   IBOutlet UIButton *     reviewButton;
+  IBOutlet UIButton *     orderButton;
+  IBOutlet LoaderView *   loaderView;
   
   OrderMenuModel *        menuModel;
   OrderALaCarteModel *    carteModel;
+  OrderReviewModel *      reviewModel;
   
   IBOutlet SLExpandableTableView *  menuTableView;
   IBOutlet SLExpandableTableView *  carteTableView;
+  IBOutlet SLExpandableTableView *  reviewTableView;
   
   IBOutletCollection(UIView) NSArray * clickedViews;
   IBOutletCollection(UIView) NSArray * contentViews;
   
   UIViewController *      presentController;
-  Order * order;
+  Order *                 order;
+  NSTimer *               timer;
 }
 
 - (IBAction)buttonClicked:(UIButton *)sender;

@@ -12,6 +12,7 @@
 #import "DishCell.h"
 #import "NSManagedObject+create.h"
 #import "OrderedDish.h"
+#import "DishCategory+Custom.h"
 
 #define kDishCellTag(section, row)  ((((section) + 1) * 100) + (row) + 1)
 #define kDishCellSectionForTag(tag) (((tag) / 100) - 1)
@@ -37,7 +38,7 @@
     [counts addObject:[NSMutableArray new]];
     for (NSUInteger j = 0 ; j < category.dishes.count ; ++j)
       [counts[i] addObject:@0];
-    [mutableDishes addObject:category.dishes.allObjects];
+    [mutableDishes addObject:category.availableDishes];
     ++i;
   }
   dishes = mutableDishes;
@@ -161,6 +162,17 @@
   NSUInteger row = kDishCellRowForTag(textField.tag);
   NSUInteger section = kDishCellSectionForTag(textField.tag);
   counts[section][row] = @(textField.text.integerValue);
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSString * text = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  if (!text.length)
+    text = @"0";
+
+  NSUInteger row = kDishCellRowForTag(textField.tag);
+  NSUInteger section = kDishCellSectionForTag(textField.tag);
+  counts[section][row] = @(textField.text.integerValue);
+  return YES;
 }
 
 

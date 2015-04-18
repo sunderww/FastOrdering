@@ -10,6 +10,8 @@
 
 @interface Order (Custom)
 
-- (NSString *)toJSON;
+- (NSDictionary *)toJSON;
+- (NSData *)toJSONData;
+- (NSString *)toJSONString;
 
 @end

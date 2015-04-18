@@ -8,9 +8,13 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommandViewController">
             <connections>
                 <outlet property="alacarteButton" destination="Vbd-Xo-Ofh" id="47I-fN-Fha"/>
+                <outlet property="carteTableView" destination="BVT-9S-e0W" id="eSn-TK-6mo"/>
+                <outlet property="loaderView" destination="gYV-kQ-lF6" id="2yA-hf-1J9"/>
                 <outlet property="menuButton" destination="Jbc-DD-YwI" id="5oa-rd-7Nx"/>
                 <outlet property="menuTableView" destination="4ML-Os-6Hu" id="PSO-ve-faa"/>
+                <outlet property="orderButton" destination="30V-mg-X8e" id="z4g-kg-Ght"/>
                 <outlet property="reviewButton" destination="C1B-Vt-dVU" id="B2U-fe-YvT"/>
+                <outlet property="reviewTableView" destination="26h-pI-e4E" id="2oi-jj-Cvg"/>
                 <outlet property="view" destination="iN0-l3-epB" id="ln4-jj-Vga"/>
                 <outletCollection property="clickedViews" destination="IAX-P5-7hU" id="uaU-0R-cl0"/>
                 <outletCollection property="clickedViews" destination="Rnj-8B-iFc" id="j7y-Uf-P8s"/>
@@ -90,16 +94,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.75151117700000003" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view hidden="YES" tag="101" contentMode="scaleToFill" id="TpI-yF-fk2" userLabel="View 2">
-                    <rect key="frame" x="20" y="70" width="280" height="468"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" red="0.064182253650000007" green="0.70201300180000004" blue="0.20452212589999999" alpha="1" colorSpace="calibratedRGB"/>
-                </view>
-                <view hidden="YES" tag="102" contentMode="scaleToFill" id="l3u-CW-uLQ" userLabel="View 3">
-                    <rect key="frame" x="20" y="70" width="280" height="468"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" red="0.5889883668" green="0.30100935220000002" blue="0.84394958939999998" alpha="1" colorSpace="calibratedRGB"/>
-                </view>
                 <view tag="100" contentMode="scaleToFill" id="TNq-os-906" userLabel="View 1">
                     <rect key="frame" x="20" y="70" width="280" height="468"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -112,12 +106,57 @@
                     </subviews>
                     <color key="backgroundColor" red="0.20734489049999999" green="0.82866674269999996" blue="0.89213617700000003" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <view hidden="YES" tag="101" contentMode="scaleToFill" id="TpI-yF-fk2" userLabel="View 2">
+                    <rect key="frame" x="20" y="70" width="280" height="468"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="BVT-9S-e0W" customClass="SLExpandableTableView">
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="468"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.064182253650000007" green="0.70201300180000004" blue="0.20452212589999999" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view hidden="YES" tag="102" contentMode="scaleToFill" id="l3u-CW-uLQ" userLabel="View 3">
+                    <rect key="frame" x="20" y="70" width="280" height="468"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="26h-pI-e4E" customClass="SLExpandableTableView">
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="416"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="30V-mg-X8e">
+                            <rect key="frame" x="0.0" y="430" width="280" height="40"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <state key="normal" title="ORDER" backgroundImage="green_button_default">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="green_button_pressed"/>
+                            <connections>
+                                <action selector="order" destination="-1" eventType="touchUpInside" id="ANU-W1-RTv"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" id="gYV-kQ-lF6" customClass="LoaderView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <point key="canvasLocation" x="139" y="154"/>
         </view>
     </objects>
+    <resources>
+        <image name="green_button_default" width="13" height="13"/>
+        <image name="green_button_pressed" width="13" height="13"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -1,0 +1,98 @@
+//
+//  OrderReviewModel.m
+//  FastOrdering
+//
+//  Created by Sunder on 08/04/2015.
+//  Copyright (c) 2015 lucas.bergognon. All rights reserved.
+//
+
+#import "OrderReviewModel.h"
+#import "ReviewExpandableCell.h"
+#import "OrderContent.h"
+#import "MenuComposition.h"
+#import "Menu.h"
+#import "OrderedDish.h"
+#import "Dish.h"
+
+@implementation OrderReviewModel
+
+- (void)setOrder:(Order *)order {
+  _order = order;
+  [self reloadData];
+}
+
+- (void)reloadData {
+  NSMutableArray * titles = [NSMutableArray new];
+  NSMutableArray * contents = [NSMutableArray new];
+
+  for (OrderContent * content in self.order.orderContents) {
+    [titles addObject:[NSString stringWithFormat:@"%@ - %@", content.menuComposition.menu.name, content.menuComposition.name]];
+    [contents addObject:content.dishes.allObjects];
+  }
+  if (self.order.dishes.count) {
+    [titles addObject:@"A la carte"];
+    [contents addObject:self.order.dishes.allObjects];
+  }
+
+  sections = titles;
+  dishes = contents;
+  [self.tableView reloadData];
+}
+
+#pragma mark - SLExpandableTableView delegate and datasource methods
+
+- (BOOL)tableView:(SLExpandableTableView *)tableView canExpandSection:(NSInteger)section {
+  return YES;
+}
+
+- (BOOL)tableView:(SLExpandableTableView *)tableView needsToDownloadDataForExpandableSection:(NSInteger)section {
+  return NO;
+}
+
+- (UITableViewCell<UIExpandingTableViewCell> *)tableView:(SLExpandableTableView *)tableView expandingCellForSection:(NSInteger)section {
+  static NSString * CellIdentifier = @"ReviewTitleCell";
+  
+  ReviewExpandableCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  
+  if (!cell) {
+    //        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
+    cell = [[ReviewExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+  }
+  
+  cell.text = sections[section];
+  return cell;
+}
+
+- (void)tableView:(SLExpandableTableView *)tableView downloadDataForExpandableSection:(NSInteger)section {
+  [tableView expandSection:section animated:YES];
+}
+
+#pragma mark - UITableView delegate and datasource methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  return sections.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return ((NSArray *)dishes[section]).count + 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  static NSString * CellIdentifier = @"ReviewCell";
+  OrderedDish * dish = dishes[indexPath.section][indexPath.row - 1];
+  
+  UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+  
+  if (!cell) {
+    //        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+  }
+  
+  cell.textLabel.text = dish.dish.name;
+  return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+}
+
+@end

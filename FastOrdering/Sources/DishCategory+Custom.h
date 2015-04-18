@@ -13,4 +13,6 @@
 + (NSArray *)categoriesWithParentId:(NSString *)parentId;
 + (NSArray *)categoriesWithParent:(DishCategory *)parent;
 
+- (NSArray *)availableDishes;
+
 @end

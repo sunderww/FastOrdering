@@ -77,6 +77,11 @@
 		84D4B7FE1AD2361000AF57F2 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7FD1AD2361000AF57F2 /* Plan.m */; };
 		84D4B8011AD2361000AF57F2 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B8001AD2361000AF57F2 /* Table.m */; };
 		84D4B8041AD2361100AF57F2 /* DishCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B8031AD2361100AF57F2 /* DishCategory.m */; };
+		84D4B8071AD4D75100AF57F2 /* OrderReviewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B8061AD4D75100AF57F2 /* OrderReviewModel.m */; };
+		84D4B80A1AD4D84100AF57F2 /* ReviewExpandableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B8091AD4D84100AF57F2 /* ReviewExpandableCell.m */; };
+		84E274541AE09BED00E5A32A /* OrderContent+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E274531AE09BED00E5A32A /* OrderContent+Custom.m */; };
+		84E274591AE09E3200E5A32A /* LoaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E274571AE09E3200E5A32A /* LoaderView.m */; };
+		84E2745A1AE09E3200E5A32A /* LoaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E274581AE09E3200E5A32A /* LoaderView.xib */; };
 		84EF67231AA4001400702897 /* SyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF67221AA4001400702897 /* SyncTests.m */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +216,15 @@
 		84D4B8001AD2361000AF57F2 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
 		84D4B8021AD2361100AF57F2 /* DishCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishCategory.h; sourceTree = "<group>"; };
 		84D4B8031AD2361100AF57F2 /* DishCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishCategory.m; sourceTree = "<group>"; };
+		84D4B8051AD4D75100AF57F2 /* OrderReviewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderReviewModel.h; sourceTree = "<group>"; };
+		84D4B8061AD4D75100AF57F2 /* OrderReviewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderReviewModel.m; sourceTree = "<group>"; };
+		84D4B8081AD4D84100AF57F2 /* ReviewExpandableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewExpandableCell.h; sourceTree = "<group>"; };
+		84D4B8091AD4D84100AF57F2 /* ReviewExpandableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewExpandableCell.m; sourceTree = "<group>"; };
+		84E274521AE09BED00E5A32A /* OrderContent+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OrderContent+Custom.h"; sourceTree = "<group>"; };
+		84E274531AE09BED00E5A32A /* OrderContent+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OrderContent+Custom.m"; sourceTree = "<group>"; };
+		84E274561AE09E3200E5A32A /* LoaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoaderView.h; sourceTree = "<group>"; };
+		84E274571AE09E3200E5A32A /* LoaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoaderView.m; sourceTree = "<group>"; };
+		84E274581AE09E3200E5A32A /* LoaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoaderView.xib; sourceTree = "<group>"; };
 		84EF67221AA4001400702897 /* SyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -345,6 +359,8 @@
 				844B06B71ABD4CF600DCFBB3 /* MenuExpandableCell.m */,
 				844B06BE1ABF81FA00DCFBB3 /* CategoryExpandableCell.h */,
 				844B06BF1ABF81FA00DCFBB3 /* CategoryExpandableCell.m */,
+				84D4B8081AD4D84100AF57F2 /* ReviewExpandableCell.h */,
+				84D4B8091AD4D84100AF57F2 /* ReviewExpandableCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -453,6 +469,7 @@
 		84C1A1B219EDEE4500E64B40 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				84E274551AE09E2200E5A32A /* Loader */,
 				84BF7D961A8F49EC00EC912B /* Cells */,
 				84C1A1C219EDF39600E64B40 /* LoginView.xib */,
 				84C1A1BD19EDF2E900E64B40 /* MainView.xib */,
@@ -501,10 +518,14 @@
 				844B06AB1ABBB58C00DCFBB3 /* Menu+Custom.m */,
 				84D4B7AE1AD22FBC00AF57F2 /* Order+Custom.h */,
 				84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */,
+				84E274521AE09BED00E5A32A /* OrderContent+Custom.h */,
+				84E274531AE09BED00E5A32A /* OrderContent+Custom.m */,
 				844B06A41ABBB29A00DCFBB3 /* OrderMenuModel.h */,
 				844B06A51ABBB29A00DCFBB3 /* OrderMenuModel.m */,
 				844B06A71ABBB2B000DCFBB3 /* OrderALaCarteModel.h */,
 				844B06A81ABBB2B000DCFBB3 /* OrderALaCarteModel.m */,
+				84D4B8051AD4D75100AF57F2 /* OrderReviewModel.h */,
+				84D4B8061AD4D75100AF57F2 /* OrderReviewModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -518,6 +539,16 @@
 				84008C6C1A75FAB40012F873 /* SocketHelper.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		84E274551AE09E2200E5A32A /* Loader */ = {
+			isa = PBXGroup;
+			children = (
+				84E274561AE09E3200E5A32A /* LoaderView.h */,
+				84E274571AE09E3200E5A32A /* LoaderView.m */,
+				84E274581AE09E3200E5A32A /* LoaderView.xib */,
+			);
+			name = Loader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -607,6 +638,7 @@
 				84B1EA551A5A058700985E57 /* AboutView.xib in Resources */,
 				84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */,
 				844B06C51ABF88D800DCFBB3 /* DishCell.xib in Resources */,
+				84E2745A1AE09E3200E5A32A /* LoaderView.xib in Resources */,
 				84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */,
 				84C1A18819EDE8D100E64B40 /* Images.xcassets in Resources */,
 				844B06BD1ABF804800DCFBB3 /* CommandMenuView.xib in Resources */,
@@ -664,13 +696,16 @@
 				84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */,
 				84D4B7F81AD2361000AF57F2 /* Dish.m in Sources */,
 				84C1A18219EDE8D100E64B40 /* main.m in Sources */,
+				84D4B80A1AD4D84100AF57F2 /* ReviewExpandableCell.m in Sources */,
 				84B1EA501A5A033F00985E57 /* Dish+Custom.m in Sources */,
 				84D4B7F51AD2361000AF57F2 /* OrderContent.m in Sources */,
 				84D4B7FB1AD2361000AF57F2 /* Order.m in Sources */,
+				84E274591AE09E3200E5A32A /* LoaderView.m in Sources */,
 				844B06B31ABBB76400DCFBB3 /* SLExpandableTableView.m in Sources */,
 				84B1EA4D1A5A014400985E57 /* DishCategory+Custom.m in Sources */,
 				84C1A1B819EDEE8400E64B40 /* LoginViewController.m in Sources */,
 				844B06A91ABBB2B000DCFBB3 /* OrderALaCarteModel.m in Sources */,
+				84D4B8071AD4D75100AF57F2 /* OrderReviewModel.m in Sources */,
 				844B06A61ABBB29A00DCFBB3 /* OrderMenuModel.m in Sources */,
 				8403EDC41A51036E001421D3 /* UIColor+String.m in Sources */,
 				844B06BC1ABF804800DCFBB3 /* CommandMenuViewController.m in Sources */,
@@ -688,6 +723,7 @@
 				844B06AC1ABBB58C00DCFBB3 /* Menu+Custom.m in Sources */,
 				84008C7C1A7607640012F873 /* SocketIOTransportWebsocket.m in Sources */,
 				84C1A1C119EDF35C00E64B40 /* MainViewController.m in Sources */,
+				84E274541AE09BED00E5A32A /* OrderContent+Custom.m in Sources */,
 				84008C7D1A7607640012F873 /* SocketIOTransportXHR.m in Sources */,
 				844B06C01ABF81FA00DCFBB3 /* CategoryExpandableCell.m in Sources */,
 			);

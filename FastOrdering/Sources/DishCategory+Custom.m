@@ -8,6 +8,7 @@
 
 #import "DishCategory+Custom.h"
 #import "AppDelegate.h"
+#import "Dish+Custom.h"
 
 @implementation DishCategory (Custom)
 
@@ -33,6 +34,15 @@
 
 + (NSArray *)categoriesWithParent:(DishCategory *)parent {
     return [self categoriesWithParentId:parent.serverId];
+}
+
+- (NSArray *)availableDishes {
+  NSMutableArray * dishes = [NSMutableArray new];
+  for (Dish * dish in self.dishes) {
+    if (dish.available.boolValue)
+      [dishes addObject:dish];
+  }
+  return dishes;
 }
 
 @end

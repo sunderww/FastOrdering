@@ -17,7 +17,8 @@
 @end
 
 @interface OrderALaCarteModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate> {
-
+  NSArray * categories;
+  NSArray * dishes;
 }
 
 @property (nonatomic, retain) id<OrderALaCarteDelegate> delegate;

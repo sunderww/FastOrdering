@@ -5,3 +5,5 @@
   Created by Sunder on 15/02/2015.
   Copyright (c) 2015 lucas.bergognon. All rights reserved.
 */
+
+"Order_ErrorMessage" = "The app hasn't been able to send the order. This may be due to network connectivity problems, or an error on the server.";

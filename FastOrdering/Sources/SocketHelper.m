@@ -32,34 +32,67 @@ static SocketHelper *   _sharedHelper = nil;
     [helper.socket connectToHost:kSocketIOHost onPort:kSocketIOPort withParams:@{}];
 }
 
+- (void)pushDelegate:(id<SocketIODelegate>)delegate {
+  [delegates addObject:delegate];
+}
+
+- (void)popDelegate:(id<SocketIODelegate>)delegate {
+  [delegates removeObject:delegate];
+}
+
 #pragma mark - SocketIO delegate methods
 
 - (void)socketIO:(SocketIO *)socket didReceiveMessage:(SocketIOPacket *)packet {
-    PPLog(@"MESSAGE %@", packet);
+  for (id<SocketIODelegate> delegate in delegates) {
+    if ([delegate respondsToSelector:@selector(socketIO:didReceiveMessage:)]) {
+      [delegate socketIO:socket didReceiveMessage:packet];
+    }
+  }
+  PPLog(@"MESSAGE %@", packet);
 }
 
 - (void)socketIO:(SocketIO *)socket didReceiveJSON:(SocketIOPacket *)packet {
-    PPLog(@"JSON %@", packet);
+  for (id<SocketIODelegate> delegate in delegates) {
+    if ([delegate respondsToSelector:@selector(socketIO:didReceiveJSON:)]) {
+      [delegate socketIO:socket didReceiveJSON:packet];
+    }
+  }
+  PPLog(@"JSON %@", packet);
 }
 
 - (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
-    PPLog(@"EVENT %@", packet);
+  for (id<SocketIODelegate> delegate in delegates) {
+    if ([delegate respondsToSelector:@selector(socketIO:didReceiveEvent:)]) {
+      [delegate socketIO:socket didReceiveEvent:packet];
+    }
+  }
+  PPLog(@"EVENT %@", packet);
 }
 
 - (void)socketIO:(SocketIO *)socket didSendMessage:(SocketIOPacket *)packet {
-    PPLog(@"SENT %@", packet);
+  for (id<SocketIODelegate> delegate in delegates) {
+    if ([delegate respondsToSelector:@selector(socketIO:didSendMessage:)]) {
+      [delegate socketIO:socket didSendMessage:packet];
+    }
+  }
+  PPLog(@"SENT %@", packet);
 }
 
 - (void)socketIODidConnect:(SocketIO *)socket {
-    PPLog(@"CONNECT");
+  PPLog(@"CONNECT");
 }
 
 - (void)socketIODidDisconnect:(SocketIO *)socket disconnectedWithError:(NSError *)error {
-    PPLog(@"DECO %@", error);
+  PPLog(@"DECO %@", error);
 }
 
 - (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
-    PPLog(@"%@", error);
+  for (id<SocketIODelegate> delegate in delegates) {
+    if ([delegate respondsToSelector:@selector(socketIO:onError:)]) {
+      [delegate socketIO:socket onError:error];
+    }
+  }
+  PPLog(@"%@", error);
 }
 
 @end

@@ -9,12 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "SocketIO+SailsIO.h"
 
-@interface SocketHelper : NSObject <SocketIODelegate>
+@interface SocketHelper : NSObject <SocketIODelegate> {
+  NSMutableArray *  delegates;
+}
 
 + (instancetype)sharedHelper;
 + (SocketIO *)sharedSocket;
 + (void)connectSocket;
 
 @property (nonatomic, retain) SocketIO *    socket;
+
+- (void)pushDelegate:(id<SocketIODelegate>)delegate;
+- (void)popDelegate:(id<SocketIODelegate>)delegate;
 
 @end
