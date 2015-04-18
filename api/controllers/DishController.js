@@ -5,6 +5,7 @@
  * @constructor
  */
 module.exports = {
+
     /**
      * Permet d'ajouter un plat
      *
@@ -25,8 +26,9 @@ module.exports = {
 					return res.json({
 						message: err.ValidationError
 					    });
-				    }else
-			res.redirect(307, '/dish/create');
+				    }
+				    // else
+			// res.redirect(307, '/dish/create');
 
 		});
 	}

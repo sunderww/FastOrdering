@@ -45,9 +45,9 @@ module.exports = {
   		defaultsTo: true
   	},
 
-    dish_id: {
-	     model: "Category"
-    },      
+    // dish_id: {
+	   //   model: "Category"
+    // },      
     categories_ids: {
       type: "array",
       defaultsTo: []
