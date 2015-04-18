@@ -7,28 +7,27 @@
 
 module.exports = {
 	
-
-
   /**
    * `MenuCompositionController.create()`
    */
   create: function (req, res) {
-      MenuComposition.create({
-          name:req.param("name"),
-	  price:req.param("price")
-      }).exec(function(err,model){
-          if (err) {
-              return res.json({
-                  message: err.ValidationError
-              });
-          }
-          else {
-              return res.json({
-                  message: req.param('name') + " has been created"
-	      });
-	  }
-
-      });
+    MenuComposition.create({
+      name:req.param("name"),
+      price:req.param("price"),
+      menu_id:req.param("menu_id"),
+      categories_ids: req.param("categories_ids")
+    }).exec(function(err, model){
+      if (err) {
+        return res.json({
+          message: err.ValidationError
+        });
+      }
+      else {
+        return res.json({
+          message: model.id
+        });
+      }
+    });
   },
 
 
@@ -57,7 +56,7 @@ module.exports = {
    */
   read: function (req, res) {
 	  MenuComposition.find( function(err, doc) {
-	      return res.json({elements: doc});
+	      return res.json(doc);
 	  });
   }
 };

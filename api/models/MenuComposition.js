@@ -6,13 +6,11 @@
 */
 
 module.exports = {
-
   attributes: {
       price: "integer",
+      name: "string",
       cat: {
-	  collection : 'Category',
-	  via: 'id_cat'
+	  type : 'array'
       }
-  }
+    }
 };
-
