@@ -19,6 +19,7 @@
 #import "OrderCell.h"
 #import "NotificationCell.h"
 #import "CommandViewController.h"
+#import "HistoryViewController.h"
 
 #define kTableViewCellHeight    55
 
@@ -143,7 +144,7 @@
         controller = [[CommandViewController alloc] initWithNibName:@"CommandView" bundle:nil];
         titleLabel.text = NSLocalizedString(@"order", @"").capitalizedString;
     } else if (sender == historyButton) {
-        controller = nil;
+        controller = [[HistoryViewController alloc] initWithNibName:@"HistoryView" bundle:nil];
         titleLabel.text = NSLocalizedString(@"history", @"").capitalizedString;
     } else if (sender == notificationsButton) {
         controller = [[NotificationViewController alloc] initWithNibName:@"NotificationView" bundle:nil];
@@ -195,7 +196,6 @@
     
     if (!cell) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"OrderCell" owner:self options:nil][0];
-        cell = [[OrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     [cell setOrder:lastOrders[indexPath.row]];
@@ -209,7 +209,6 @@
     
     if (!cell) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
-        cell = [[NotificationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     [cell setNotification:lastNotifications[indexPath.row]];

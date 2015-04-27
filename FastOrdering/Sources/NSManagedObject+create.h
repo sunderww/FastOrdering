@@ -14,6 +14,7 @@
 + (id)createWithClass:(NSString *)className;
 
 + (NSArray *)last:(NSUInteger)n withDescriptors:(NSArray *)descriptors;
++ (NSArray *)last:(NSUInteger)n skip:(NSUInteger)skip withDescriptors:(NSArray *)descriptors;
 
 + (NSArray *)allObjects;
 + (NSArray *)allObjectsByPriority;

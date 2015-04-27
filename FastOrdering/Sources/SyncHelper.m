@@ -154,6 +154,11 @@
     object = [NSEntityDescription insertNewObjectForEntityForName:name inManagedObjectContext:context];
     
     id serverId = [obj valueForKey:kParsingIdKey];
+    if ([serverId isEqual:[NSNull null]]) {
+      [context deleteObject:object];
+      return NULL;
+    }
+
     if (![serverId isKindOfClass:[NSString class]])
       serverId = [serverId stringValue];
     [object setValue:serverId forKey:@"serverId"];

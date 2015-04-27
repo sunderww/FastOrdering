@@ -24,18 +24,23 @@
     return results;
 }
 
-+ (NSArray *)last:(NSUInteger)n withDescriptors:(NSArray *)descriptors {
-    NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
-    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([self class])];
-    NSArray * results;
-    NSError * error;
++ (NSArray *)last:(NSUInteger)n skip:(NSUInteger)skip withDescriptors:(NSArray *)descriptors {
+  NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+  NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([self class])];
+  NSArray * results;
+  NSError * error;
+  
+  request.sortDescriptors = descriptors;
+  request.fetchLimit = n;
+  request.fetchOffset = skip;
+  results = [context executeFetchRequest:request error:&error];
+  if (error)
+    PPLog(@"%@", error);
+  return results;
+}
 
-    request.sortDescriptors = descriptors;
-    request.fetchLimit = n;
-    results = [context executeFetchRequest:request error:&error];
-    if (error)
-        PPLog(@"%@", error);
-    return results;
++ (NSArray *)last:(NSUInteger)n withDescriptors:(NSArray *)descriptors {
+  return [self last:n skip:0 withDescriptors:descriptors];
 }
 
 + (NSArray *)allObjects {

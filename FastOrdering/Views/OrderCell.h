@@ -10,8 +10,9 @@
 #import "Order.h"
 
 @interface OrderCell : UITableViewCell {
-    IBOutlet UILabel *  mainLabel;
-    IBOutlet UILabel *  descLabel;
+  IBOutlet UILabel *      mainLabel;
+  IBOutlet UILabel *      descLabel;
+  IBOutlet UIImageView *  imageView;
 }
 
 - (void)setOrder:(Order *)order;

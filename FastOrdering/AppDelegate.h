@@ -13,11 +13,11 @@
 #pragma mark - Server defines
 
 // uncomment this line to use alexis' server
-//#define USE_ALEXIS_SERVER
+#define USE_ALEXIS_SERVER
 
 #ifdef USE_ALEXIS_SERVER
-    #define kSocketIOHost       @"alexis-semren.com"
-    #define kSocketIOPort       1337
+    #define kSocketIOHost       @"163.5.84.184"
+    #define kSocketIOPort       4242
     #undef USE_ALEXIS_SERVER
 #else
     #define kSocketIOHost       @"127.0.0.1"
