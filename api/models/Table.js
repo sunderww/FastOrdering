@@ -19,18 +19,21 @@ module.exports = {
   		type: 'array', // an array of ids
   		defaultsTo: []
   	},
+      findByName: function(name) {
+      }
+    // ,
 
-  	plan_id: {
-  		type: 'string',
-  		required: true
-  	},
+  	// plan_id: {
+  	// 	type: 'string',
+  	// 	required: true
+  	// },
 
-  	pos: {
-  		// type should be pos
-  		// use pos.x and pos.y
-  		type: 'json',
-  		required: true
-  	}
+  	// pos: {
+  	// 	// type should be pos
+  	// 	// use pos.x and pos.y
+  	// 	type: 'json',
+  	// 	required: true
+  	// }
 
   }
 

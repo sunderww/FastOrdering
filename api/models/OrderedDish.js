@@ -7,7 +7,6 @@
  */
 
 // enum DishStatus { canceled, ordered, cooking, toDeliver, delivered }
-var DishStatus = require('../services/enums.js').DishStatus;
 
 module.exports = {
 
@@ -22,12 +21,13 @@ module.exports = {
   		type: 'string',
   		required: true
   	},
+      quantity: {
+	  type: "integer",
+	  required: true
+      },
+      menu_id: {type: "integer", required: true},
 
   	comment: 'string',
-  	status: {
-  		type: 'int',
-    	defaultsTo: DishStatus.ordered
-    }
   }
 
 };

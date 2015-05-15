@@ -33,12 +33,13 @@ module.exports = {
   		type: 'string',
   		unique: true,
   		required: true
-  	},
-
-  	subscribtionTimeLeft: {
-  		type: 'time',
-  		defaultsTo: 0
   	}
+   //  ,
+
+  	// subscribtionTimeLeft: {
+  	// 	type: 'time',
+  	// 	defaultsTo: 0
+  	// }
     
   },
 

@@ -1,30 +1,85 @@
 /**
  * OrderController
  *
- * @module      :: Controller
- * @description	:: A set of functions called `actions`.
- *
- *                 Actions contain code telling Sails how to respond to a certain type of request.
- *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
- *
- *                 You can configure the blueprint URLs which trigger these actions (`config/controllers.js`)
- *                 and/or override them with custom routes (`config/routes.js`)
- *
- *                 NOTE: The code you write here supports both HTTP and Socket.io automatically.
- *
- * @docs        :: http://sailsjs.org/#!documentation/controllers
+ * @description :: Server-side logic for managing Orders
+ * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
 module.exports = {
-    
-  
+	
+
+  /**
+   * `OrderController.create()`
+   */
+  create: function (req, res) {
+
+      console.log(req.param("order"));
+   	Order.create({
+	    table_id:req.param("numTable"),
+	    diner_number:req.param("numPA"),
+	    comment: req.param("globalComment")
+   	}).exec(function(err,model){
+   //   		if (err) {
+   // 			return res.json({
+   //				message: err.ValidationError
+   //			});
+   //		}
+   //		else {
+		    console.log(model.id);
+   		    return model;
+   //		}
+   	});
+      console.log("tt");
+  },
 
 
   /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to OrderController)
+   * `OrderController.destroy()`
    */
-  _config: {}
+  destroy: function (req, res) {
+    return res.json({
+      todo: 'destroy() is not implemented yet!'
+    });
+  },
 
-  
+
+  /**
+   * `OrderController.update()`
+   */
+  update: function (req, res) {
+    return res.json({
+      todo: 'update() is not implemented yet!'
+    });
+  },
+
+  json: function (req, res) {
+    if (req.param("id")) {
+      Order.find({id: req.param("id")}, function(err, doc) {
+        return res.send(doc);
+      });
+    }
+    },
+
+
+  /**
+   * `OrderController.read()`
+   */
+  read: function (req, res) {
+    if (req.param("id")) {
+      Order.find({id: req.param("id")}, function(err, doc) {
+        return res.send(doc);
+      });
+    } else {
+      OrderedDish.find( function(err, doc) {
+	  var re;
+	  for (var i = 0; doc[i];i++) {
+	      Order.find({id :doc[i].order_id }, function(er, doo){
+//		  doc[i].order = doo;
+	      });
+	  }
+	  return res.json({ data: doc });
+      });
+    } 
+  }
 };
+

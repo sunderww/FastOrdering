@@ -1,30 +1,69 @@
 /**
  * RestaurantController
  *
- * @module      :: Controller
- * @description	:: A set of functions called `actions`.
- *
- *                 Actions contain code telling Sails how to respond to a certain type of request.
- *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
- *
- *                 You can configure the blueprint URLs which trigger these actions (`config/controllers.js`)
- *                 and/or override them with custom routes (`config/routes.js`)
- *
- *                 NOTE: The code you write here supports both HTTP and Socket.io automatically.
- *
- * @docs        :: http://sailsjs.org/#!documentation/controllers
+ * @description :: Server-side logic for managing Restaurants
+ * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-module.exports = {
-    
-  
+ module.exports = {
+
 
 
   /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to RestaurantController)
+   * `RestaurantController.create()`
    */
-  _config: {}
+   create: function (req, res) {
+   	Restaurant.create({
+   		name:req.param("name")
+   	}).exec(function(err,model){
+   		if (err) {
+   			return res.json({
+   				message: err.ValidationError
+   			});
+   		}
+   		else {
+   			return res.json({
+   				message: req.param('name') + " has been created"
+   			});  			
+   		}
 
-  
+   	});
+   },
+
+
+  /**
+   * `RestaurantController.destroy()`
+   */
+   destroy: function (req, res) {
+   	return res.json({
+   		todo: 'destroy() is not implemented yet!'
+   	});
+   },
+
+
+  /**
+   * `RestaurantController.update()`
+   */
+   update: function (req, res) {
+   	return res.json({
+   		todo: 'update() is not implemented yet!'
+   	});
+   },
+
+
+  /**
+   * `RestaurantController.read()`
+   */
+   read: function (req, res) {
+   	if (req.param("id")) {
+   		Restaurant.find({id: req.param("id")}, function(err, doc) {
+   			return res.send(doc);
+   		});
+   	} else {
+   		Restaurant.find( function(err, doc) {
+   			return res.send(doc);
+   		});
+   	}
+   }
 };
+

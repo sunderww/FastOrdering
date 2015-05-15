@@ -12,22 +12,22 @@ module.exports = {
 
   	name: { 
   		type: 'string',
-  		required: true
-  	},
-
-  	plan_id: 'string',
-
-  	user_id: {
-  		type: 'string',
-  		required: true
+  		required: true,
   	}
+
+  	// plan_id: 'string',
+
+  	// user_id: {
+  	// 	type: 'string',
+  	// 	required: true
+  	// }
 
   },
 
-  beforeCreate: function(values, next) {
-  	Plan.create({}).done(function(err, plan) {
-  		values.plan_id = plan.id;
-  	});
-  }
+  // beforeCreate: function(values, next) {
+  // 	Plan.create({}).done(function(err, plan) {
+  // 		values.plan_id = plan.id;
+  // 	});
+  // }
 
 };
