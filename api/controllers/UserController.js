@@ -8,56 +8,61 @@
 module.exports = {
 	
 
+  'register': function (req, res) {
+    res.locals.flash = _.clone(req.session.flash);
+    res.view();
+    req.session.flash = {};
+  },
 
   /**
    * `UserController.create()`
    */
   create: function (req, res) {
-   	User.create({
-   		role:req.param("role"),
-   		email:req.param("email"),
-   		password:req.param("password"),
-   		username:req.param("username")
-   	}).exec(function(err,model){
-   		if (err) {
-   			return res.json({
-   				message: err.ValidationError
-   			});
-   		}
-   		else {
-   			return res.json({
-   				message: req.param('username') + " has been created"
-   			});  			
-   		}
 
+      User.create(req.params.all(), function userCreated(err, user) {
+      if (err) {
+        console.log(err);
+        req.session.flash = {
+          err: err
+        }
+
+        return res.redirect('/user/register');
+      }
+
+      res.json(user);
+      req.session.flash = {};
    	});
+  },
+
+  login: function (req, res) {
+    res.view();
   },
 
 
   /**
    * `UserController.destroy()`
    */
-  destroy: function (req, res) {
+  /*destroy: function (req, res) {
     return res.json({
       todo: 'destroy() is not implemented yet!'
     });
-  },
+  },*/
 
 
   /**
    * `UserController.update()`
    */
-  update: function (req, res) {
+  /*update: function (req, res) {
     return res.json({
-      todo: 'update() is not implemented yet!'
+      
     });
-  },
+  },*/
 
 
   /**
    * `UserController.read()`
    */
-  read: function (req, res) {
+  /*read: function (req, res) {
    	if (req.param("id")) {
    		User.find({id: req.param("id")}, function(err, doc) {
    			return res.send(doc);
@@ -67,6 +72,6 @@ module.exports = {
    			return res.send(doc);
    		});
    	}
-  }
+  }*/
 };
 

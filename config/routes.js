@@ -36,7 +36,8 @@ module.exports.routes = {
     view: 'homepage'
     //view: 'static/index'
   },
-    '/login': {view: 'login'},
+    '/user/login': 'UserController.login',
+    '/user/register': 'UserController.register',
     '/dashboard': {view: 'dashboard'},
 
     '/booking' : 'BookingController.index',

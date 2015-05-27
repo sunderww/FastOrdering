@@ -61,7 +61,7 @@
                             <div class="login-links">
                                 <a href="#" class="active" title="Sign In">Se Connecter</a>
                                 <span class="text-white"> | </span>
-                                <a href="#" class="" title="Register">S'enregistrer</a>
+                                <a href="/register" class="" title="Register">S'enregistrer</a>
                             </div>
 
                         </div>
@@ -77,9 +77,9 @@
                                     </div>
                                     <div class="col-sm-5 pr30">
                                         <div class="section">
-                                            <label for="username" class="field-label text-muted fs18 mb10">Login</label>
+                                            <label for="username" class="field-label text-muted fs18 mb10">Email</label>
                                             <label for="username" class="field prepend-icon">
-                                                <input type="text" name="username" id="username" class="gui-input" placeholder="Login">
+                                                <input type="text" name="email" id="email" class="gui-input" placeholder="Login">
                                                 <label for="username" class="field-icon"><i class="fa fa-user"></i>
                                                 </label>
                                             </label>
@@ -100,8 +100,8 @@
                             </div>
                             <!-- end .form-body section -->
                             <div class="panel-footer clearfix p10 ph15">
-                                <a href="/dashboard" class="button btn-primary mr10 pull-right">Connexion</a>
-
+                                <button type="submit" id="loginButton" class="button btn-primary mr10 pull-right">Connexion</button>
+                                <input type="hidden" name="_csrf" value="<%=_csrf %>" />
                                 <label class="switch block switch-primary pull-left input-align mt10">
                                     <input type="checkbox" name="remember" id="remember" checked>
                                     <label for="remember" data-on="OUI" data-off="NON"></label>
