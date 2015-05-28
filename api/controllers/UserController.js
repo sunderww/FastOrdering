@@ -40,9 +40,19 @@ module.exports = {
    * `UserController.destroy()`
    */
   destroy: function (req, res) {
-    return res.json({
-      todo: 'destroy() is not implemented yet!'
-    });
+      User.findOne({id: req.param('id')}).exec(function(err, user) {
+          if (err)
+              return res.serveError(err);
+          if (!user)
+              return res.notFound();
+      });
+      
+      User.destroy(req.param('id')).exec(function Destroyed(err) {
+        if (err)
+            return res.serveError(err);
+      });
+      
+      return res.redirect('/user');
   },
 
 

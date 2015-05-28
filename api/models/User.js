@@ -33,15 +33,27 @@ module.exports = {
     key: {
       type: 'string',
       required: true
-    }
-   //  ,
-
-  	// subscribtionTimeLeft: {
-  	// 	type: 'time',
-  	// 	defaultsTo: 0
-  	// }
+    },
     
+    isWaiter: function() {
+        return ((this.role & UserRole.waiter) || (this.role &       UserRole.manager));
   },
+
+    isManager: function() {
+        return (this.role & UserRole.manager);
+  },
+
+    isAdmin: function() {
+        return (this.role & UserRole.admin);
+    }
+  },
+
+  /*toJSON: function() {
+    var obj = this.toObject();
+    delete obj.password;
+    delete obj._csrf;
+    return obj;
+  },*/
 
     checkPassword: function(values) {
         var errors = [];
@@ -81,7 +93,7 @@ module.exports = {
             }
             if (err)
                 console.log(err);
-        })
+        });
         
         console.log(errors);
         if (errors.length > 0)
@@ -92,25 +104,6 @@ module.exports = {
             values.password = hash;
             cb();
         });
-  },
-    
-  isWaiter: function() {
-  	return ((this.role & UserRole.waiter) || (this.role & UserRole.manager));
-  },
-
-  isManager: function() {
-  	return (this.role & UserRole.manager);
-  },
-
-  isAdmin: function() {
-  	return (this.role & UserRole.admin)
-  },
-
-  toJSON: function() {
-    var obj = this.toObject();
-    delete obj.password;
-    delete obj._csrf;
-    return obj;
   }
 
 };
