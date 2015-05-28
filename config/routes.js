@@ -36,16 +36,23 @@ module.exports.routes = {
     view: 'homepage'
     //view: 'static/index'
   },
-    '/user/login': 'UserController.login',
-    '/user/register': 'UserController.register',
+    // Session
+    'get /login': 'SessionController.login',
+    'post /login': 'SessionController.trylogin',
+    
+    // User
+    'get /register': 'UserController.register',
+    'post /register': 'UserController.create',
+    '/user': 'UserController.index',
+    '/user/edit': 'UserController.edit',
+    // '/user/': 'UserController.show', TODO
+    
     '/dashboard': {view: 'dashboard'},
 
+    // Booking
     '/booking' : 'BookingController.index',
     '/booking/new' : 'BookingController.new',
     '/booking/edit' : 'BookingController.edit',
-   // '/reservation': {
-    //  controller: 'BookingController',
-     // view: 'reservation/reservation'},
 
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',

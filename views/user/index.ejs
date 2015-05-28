@@ -1,0 +1,106 @@
+<body class="dashboard-page sb-l-o sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main">
+
+        <% include ../header.ejs %>
+        <% include ../sidebar.ejs %>
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+
+
+
+            <!-- Start: Topbar -->
+            <header id="topbar">
+                <div class="topbar-left">
+                    <ol class="breadcrumb">
+                        <li class="crumb-active">
+                            <a href="dashboard">Utilisateurs</a>
+                        </li>
+                        <li class="crumb-icon">
+                            <a href="dashboard">
+                                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+                        </li>
+                        <li class="crumb-link">
+                            <a href="dashboard">Accueil</a>
+                        </li>
+                        <li class="crumb-trail">Utilisateurs</li>
+                    </ol>
+                </div>
+
+            </header>
+            <!-- End: Topbar -->
+
+
+
+            <!-- Begin: Content -->
+            <section id="content" class="animated fadeIn">
+                <!-- Dashboard Tiles -->
+
+                <section id="content" class="animated fadeIn">
+                    <div class="row table-layout" id="modal-content">
+                        <div class="container">
+                            <h3>User</h3>
+                            <table class="table">
+                                <tr>
+                                    <td>Email</td>
+                                    <td>Key</td>
+                                    <td>Role</td>
+                                    <td>Date created</td>
+                                </tr>
+                                <% _.each(users, function(user) { %>
+                                <tr data-id="<%= user.id %>" data-model="user">
+                                    <td><%= user.email %></td>
+                                    <td><%= user.key %></td>
+                                    <td><%= user.role %></td>
+                                    <td><%= user.createdAt %></td>
+                                    <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+                                    <td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Delete</a></td> 
+                                </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- End: Main -->
+
+            <!-- BEGIN: PAGE SCRIPTS -->
+
+            <!-- jQuery -->
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>
+
+
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Page Plugins -->
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Admin Forms Javascript -->
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>

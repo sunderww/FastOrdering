@@ -23,7 +23,7 @@ module.exports = {
   	req.session.flash = {};
   },
 
-  create: function(req, res, next){
+  create: function(req, res){
 
     var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
     var params = { date:datetime, name:req.param('name'), nb_persons:req.param('nb_persons'), restaurant_id:req.param('restaurant_id') };
@@ -44,10 +44,12 @@ module.exports = {
   	});	
   },
 
-  edit: function(req, res, next){
+  edit: function(req, res){
   	Booking.findOne(req.param('id'), function foundBooking(err, booking) {
-  		if (err) return next(err);
-  		if (!booking) return next();
+  		if (err) 
+            return res.serveError(err);
+  		if (!booking) 
+            return res.notFound();
 
   		res.view({
   			booking: booking
@@ -55,7 +57,7 @@ module.exports = {
   	});
   },
 
-  update: function(req, res, next){
+  update: function(req, res){
     
     var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
     var params = { date:datetime, name:req.param('name'), nb_persons:req.param('nb_persons'), restaurant_id:req.param('restaurant_id') };
@@ -70,9 +72,10 @@ module.exports = {
   	});
   },
 
-  index: function(req, res, next){
+  index: function(req, res){
   	Booking.find(function foundBooking(err, bookings) {
-  		if (err) return next(err);
+  		if (err) 
+            return res.serveError(err);
 
       bookings.forEach(function(entry) {
         entry.date = String(entry.date).substr(4, 20);

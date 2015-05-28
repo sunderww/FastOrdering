@@ -5,12 +5,13 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+
 module.exports = {
 	
 
   'register': function (req, res) {
-    res.locals.flash = _.clone(req.session.flash);
-    res.view();
+    var errflash = _.clone(req.session.flash);
+    res.view('user/register', {flash : errflash});
     req.session.flash = {};
   },
 
@@ -19,14 +20,14 @@ module.exports = {
    */
   create: function (req, res) {
 
-      User.create(req.params.all(), function userCreated(err, user) {
+      User.create(req.params.all()).exec(function userCreated(err, user) {
       if (err) {
         console.log(err);
         req.session.flash = {
           err: err
         }
-
-        return res.redirect('/user/register');
+        
+        return res.redirect('/register');
       }
 
       res.json(user);
@@ -34,44 +35,58 @@ module.exports = {
    	});
   },
 
-  login: function (req, res) {
-    res.view();
-  },
-
 
   /**
    * `UserController.destroy()`
    */
-  /*destroy: function (req, res) {
+  destroy: function (req, res) {
     return res.json({
       todo: 'destroy() is not implemented yet!'
     });
-  },*/
+  },
 
 
   /**
    * `UserController.update()`
    */
-  /*update: function (req, res) {
-    return res.json({
-      
+  update: function (req, res) {
+      User.update(req.param('id'), req.params.all()).exec(function Updated(err, updated){
+          if (err)
+              res.redirect('/user/edit/' + req.param('id')); // TODO ERROR GESTION (flash err)
+          
+          res.redirect('/user');
+      });
+  },
+
+  edit: function(req, res) {
+     User.findOne({id: req.param('id')}).exec(function(err, user) {
+        if (err)
+            return res.serveError(err);
+        if (!user)
+            return res.notFound();
+         
+        res.view('user/edit', {user: user});
     });
-  },*/
-
-
-  /**
-   * `UserController.read()`
-   */
-  /*read: function (req, res) {
-   	if (req.param("id")) {
-   		User.find({id: req.param("id")}, function(err, doc) {
-   			return res.send(doc);
-   		});
-   	} else {
-   		User.find( function(err, doc) {
-   			return res.send(doc);
-   		});
-   	}
-  }*/
+  },
+    
+  show: function(req, res) {
+    User.findOne({id: req.param('id')}).exec(function(err, user) {
+        if (err)
+            return res.serveError(err);
+        if (!user)
+            return res.notFound();
+        
+        res.view('user/show', {user: user});
+    });
+  },
+    
+  index: function(req, res) {
+    User.find({}).exec(function foundUsers(err, users) {
+        if (err)
+            return res.serveError(err);
+        
+        res.view('user/index', {users: users});
+    });
+  }
 };
 
