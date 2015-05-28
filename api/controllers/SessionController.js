@@ -55,8 +55,7 @@ module.exports = {
                 }
                 
                 // Everything is OK begin Authentification
-                req.session.authenticated = true;
-                req.session.User = user;
+                req.session.user = user;
                 
                 res.redirect('/dashboard');
             });
