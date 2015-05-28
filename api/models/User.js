@@ -8,7 +8,6 @@
 
 // enum UserRole { waiter, cooker, manager, admin }
 var UserRole = require('../services/enums.js').UserRole;
-var bcrypt = require('bcrypt');
 
 module.exports = {
 
@@ -44,28 +43,38 @@ module.exports = {
     
   },
 
-    beforeCreate: function(values, cb) {
-
+    checkPassword: function(values) {
         var errors = [];
-        
-        /*if (!values.password || values.password != values.confirm_password)
-            return cb({err: ["Password doesn't match."]});
-
-        if (!values.password || values.password.length < 6)
-            return cb({err: ["Password size need to be superior to 6 characters."]});
-        
-        User.findOne({email:values.email}).exec(function findEmail(err, found) {
-            if (found)
-                return cb({err: ["Email already use"]});
-        }) */
         
         if (!values.password || values.password != values.confirm_password)
             errors.push("Password doesn't match.");
-
+        
         if (!values.password || values.password.length < 6)
             errors.push("Password size need to be superior to 6 characters.");
         
-        User.find({email:values.email}).exec(function findEmail(err, found) {
+        return errors;
+    },
+    
+    beforeUpdate: function(values, cb) {
+        var errors = this.checkPassword(values);
+        
+        console.log(errors);
+        if (errors.length > 0)
+            return cb({err : errors});
+        
+        sails.bcrypt.hash(values.password, 10, function(err, hash) {
+            if (err) return cb(err);
+            values.password = hash;
+            cb();
+        });
+    },
+    
+    beforeCreate: function(values, cb) {
+
+        var errors = this.checkPassword(values);
+        
+        // TODO FIX THIS
+        User.find({email: values.email}).exec(function findEmail(err, found) {
             if (found.length > 0) {  
                 console.log("WTF ???");
                 errors.push("Email already use");
@@ -75,10 +84,10 @@ module.exports = {
         })
         
         console.log(errors);
-        if (errors)
-            return cb({err : errors})
+        if (errors.length > 0)
+            return cb({err : errors});
         
-        bcrypt.hash(values.password, 10, function(err, hash) {
+        sails.bcrypt.hash(values.password, 10, function(err, hash) {
             if (err) return cb(err);
             values.password = hash;
             cb();

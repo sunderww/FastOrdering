@@ -36,8 +36,17 @@
                     </div>
 
                     <div class="panel panel-info mt10 br-n panel-heading heading-border">
+                        
+                        <!-- Error -->
+                        <% if (flash && flash.err) { %>
+                        <ul class="alert alert-danger">
+                            <% Object.keys(flash.err).forEach(function(error) { %>
+                            <li><%- JSON.stringify(flash.err[error]) %> </li>
+                            <% }) %>
+                        </ul>
+                        <% } %>
 
-                        <form method="post" action="/" id="contact">
+                        <form method="post" action="/login" id="contact">
                             <div class="panel-body bg-light p30">
                                 <div class="row">
                                     <div class="col-sm-4 pr30">
