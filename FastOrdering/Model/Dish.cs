@@ -8,7 +8,7 @@ namespace FastOrdering.Model
 {
 	public class Dish
 	{
-		public Dish(int id, int price, string name, string category)
+		public Dish(int id, double price, string name, string category)
 		{
 			this.id = id;
 			this.price = price;
@@ -22,7 +22,7 @@ namespace FastOrdering.Model
 			get { return id; }
 		}
 
-		private int price;
+		private double price;
 		private string name;
 		public string Name
 		{

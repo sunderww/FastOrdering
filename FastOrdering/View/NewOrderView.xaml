@@ -17,17 +17,17 @@
         </Grid.RowDefinitions>
         <!-- Title Bar -->
         <Grid x:Name="TitleBar" Background="#00ADEF" Grid.Row ="0" Height="50">
-            <Grid.ColumnDefinitions>
+            <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>-->
 
-            <Image x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left" Tapped="DrawerIcon_Tapped"/>
-            <TextBlock Grid.Column="1" Text="Commander" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
+            <!--<Image x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left" Tapped="DrawerIcon_Tapped"/>-->
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Commander" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
         </Grid>
         <!-- Drawer Layout -->
-        <drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
-            <Grid>
+        <!--<drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">-->
+            <Grid Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
                 <Hub x:Name="OrderHub" Foreground="Black" Margin="0, 40, 0, 0" SectionsInViewChanged="Hub_SectionsInViewChanged">
                     <HubSection x:Name="SendOrderHubSection">
                         <HubSection.Header>
@@ -464,17 +464,25 @@
                 </Hub>
             </Grid>
 
-            <Grid>
-                <!--<misc:MyMenu />-->
+            <!--<Grid>
+                <misc:MyMenu />
             </Grid>
-        </drawerLayout:DrawerLayout>
+        </drawerLayout:DrawerLayout>-->
     </Grid>
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="SendOrderButton" Icon="Send" Label="Envoyer" Click="SendOrder" />
-            <AppBarButton x:Name="BackToOrderButton" Icon="Back" Label="Ajouter" Click="BackToOrder" />
-            <!--<AppBarButton x:Name="AddElementsButton" Icon="Add" Label="Ajouter" Click="AddElements" />-->
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Home" Label="Reception" Click="Home_Click" />
+                <AppBarButton x:Name="SendOrderButton" Icon="Send" Label="Envoyer" Click="SendOrder" />
+                <AppBarButton x:Name="BackToOrderButton" Icon="Back" Label="Ajouter" Click="BackToOrder" />
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Notification" Click="Notification_Click" />
+                <AppBarButton Label="Historique" Click="History_Click" />
+                <AppBarButton Label="A propos" Click="About_Click" />
+                <AppBarButton Label="Déconnexion" Click="LogOut_Click" />
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

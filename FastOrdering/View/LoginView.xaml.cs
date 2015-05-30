@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.Networking.Sockets;
 using FastOrdering.Misc;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -24,6 +23,8 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class LoginView : Page
 	{
+		public Socket sock;
+
 		public LoginView()
 		{
 			this.InitializeComponent();
@@ -40,7 +41,8 @@ namespace FastOrdering.View
 
 		private void AppBarButton_Click(object sender, RoutedEventArgs e)
 		{
-			Socket sock = new Socket();
+			sock = new Socket();
+			//sock.Connect();
 			//System.Diagnostics.Debug.WriteLine("emit");
 			//System.Diagnostics.Debug.WriteLine(sock.Emit("/elements"));
 			//sock.Disconnect();

@@ -17,17 +17,17 @@
         </Grid.RowDefinitions>
         <!-- Title Bar -->
         <Grid x:Name="TitleBar" Background="#00ADEF" Grid.Row ="0" Height="50">
-            <Grid.ColumnDefinitions>
+            <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>-->
 
-            <Image x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left" Tapped="DrawerIcon_Tapped"/>
-            <TextBlock Grid.Column="1" Text="A propos de Fast Ordering" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
+            <!--<Image x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left" Tapped="DrawerIcon_Tapped"/>-->
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="A propos de Fast Ordering" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
         </Grid>
         <!-- Drawer Layout -->
-        <drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
-            <Grid>
+        <!--<drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">-->
+            <Grid Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
                 <Border Padding="20" Background="White" Opacity="0.9" CornerRadius="5" Margin="50">
                     <Grid x:Name="ContentPanel">
                         <Grid.RowDefinitions>
@@ -45,9 +45,24 @@
                 </Border>
             </Grid>
 
-            <Grid>
+            <!--<Grid>
                 <misc:MyMenu />
             </Grid>
-        </drawerLayout:DrawerLayout>
+        </drawerLayout:DrawerLayout>-->
     </Grid>
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Home" Label="Reception" Click="Home_Click" />
+                <AppBarButton Icon="Add" Label="Commander" Click="NewCommand_Click" />
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Notification" Click="Notification_Click" />
+                <AppBarButton Label="Historique" Click="History_Click" />
+                <AppBarButton Label="A propos" Click="About_Click" />
+                <AppBarButton Label="Déconnexion" Click="LogOut_Click" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

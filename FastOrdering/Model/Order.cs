@@ -10,24 +10,35 @@ namespace FastOrdering.Model
 {
 	public class Order : INotifyPropertyChanged
 	{
-		public Order(int table, int pa, DateTime time, int id)
+		public static ObservableCollection<Order> orders = new ObservableCollection<Order>();
+
+		public Order(int numTable, int numPA, DateTime hour, DateTime date, int numOrder)
 		{
-			this.table = table;
-			this.pa = pa;
-			this.time = time;
-			this.id = id;
+			this.numTable = numTable;
+			this.pa = numPA;
+			this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
+			this.id = numOrder;
+		}
+
+		public Order(int numTable, int numPA, DateTime hour, DateTime date, int numOrder, string globalComment)
+		{
+			this.numTable = numTable;
+			this.pa = numPA;
+			this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
+			this.id = numOrder;
+			this.globalComment = globalComment;
 		}
 
 		public int numOrder { get { return this.id; } }
-		public int numTable
+		public int Table
 		{
-			get { return this.table; }
+			get { return this.numTable; }
 			set
 			{
-				if (this.table != value)
+				if (this.numTable != value)
 				{
-					this.table = value;
-					this.NotifyPropertyChanged("numTable");
+					this.numTable = value;
+					this.NotifyPropertyChanged("Table");
 				}
 			}
 		}
@@ -43,17 +54,18 @@ namespace FastOrdering.Model
 				}
 			}
 		}
-		public DateTime Time { get { return this.time; } }
-		public string Message { get { return "Commande #" + this.id + ", Table #" + this.table + ", PA : " + this.pa; } }
+		public DateTime Time { get { return this.date; } }
+		public string Message { get { return "Commande #" + this.id + ", Table #" + this.numTable + ", PA : " + this.pa; } }
 
 		private int id;
 		public int ID
 		{
 			get { return id; }
 		}
-		private int table;
+		private int numTable;
 		private int pa;
-		private DateTime time;
+		private DateTime date;
+		private string globalComment;
 		private ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
 		public ObservableCollection<Menu> Menus
 		{

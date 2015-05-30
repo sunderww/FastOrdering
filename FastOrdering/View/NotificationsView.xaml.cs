@@ -26,23 +26,13 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class NotificationsView : Page
 	{
-		public ObservableCollection<Notification> notifications;
-
 		public NotificationsView()
 		{
 			this.InitializeComponent();
-			DrawerLayout.InitializeDrawerLayout();
-			Socket sock = new Socket();
-			Notification notif = JsonConvert.DeserializeObject<Notification>(sock.Emit("/notification"));
-			sock.Disconnect();
+			//DrawerLayout.InitializeDrawerLayout();
+			NotificationsListbox.ItemsSource = Notification.notifications;
 
-			notifications = new ObservableCollection<Notification>();
-			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now, notifications.Count));
-			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today, notifications.Count));
-			notifications.Add(new Notification(3, "Desserts prêts", DateTime.Today, notifications.Count));
-			NotificationsListbox.ItemsSource = notifications;
-
-			if (notifications.Count == 0)
+			if (Notification.notifications.Count == 0)
 			{
 				BorderNotif.Visibility = Visibility.Collapsed;
 				NoNotif.Visibility = Visibility.Visible;
@@ -63,24 +53,13 @@ namespace FastOrdering.View
 		{
 		}
 
-		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			if (DrawerLayout.IsDrawerOpen)
-				DrawerLayout.CloseDrawer();
-			else
-				DrawerLayout.OpenDrawer();
-		}
-
-		private void AppBarButton_Click(object sender, RoutedEventArgs e)
-		{
-			notifications.Clear();
-
-			if (notifications.Count == 0)
-			{
-				BorderNotif.Visibility = Visibility.Collapsed;
-				NoNotif.Visibility = Visibility.Visible;
-			}
-		}
+		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		//{
+		//	if (DrawerLayout.IsDrawerOpen)
+		//		DrawerLayout.CloseDrawer();
+		//	else
+		//		DrawerLayout.OpenDrawer();
+		//}
 
 		private void Grid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
@@ -94,21 +73,62 @@ namespace FastOrdering.View
 			var pos = 0;
 			if (velocities.Linear.X > 0.5)
 			{
-				foreach (Notification n in notifications)
+				foreach (Notification n in Notification.notifications)
 				{
 					if (n.ID == (int)(sender as Grid).Tag)
 						break;
 					++pos;
 				}
-				if (pos < notifications.Count)
-					notifications.RemoveAt(pos);
+				if (pos < Notification.notifications.Count)
+					Notification.notifications.RemoveAt(pos);
 			}
 
-			if (notifications.Count == 0)
+			if (Notification.notifications.Count == 0)
 			{
 				BorderNotif.Visibility = Visibility.Collapsed;
 				NoNotif.Visibility = Visibility.Visible;
 			}
 		}
+
+		private void DeleteAll_Click(object sender, RoutedEventArgs e)
+		{
+			Notification.notifications.Clear();
+
+			if (Notification.notifications.Count == 0)
+			{
+				BorderNotif.Visibility = Visibility.Collapsed;
+				NoNotif.Visibility = Visibility.Visible;
+			}
+		}
+
+		private void NewCommand_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NewOrderView));
+		}
+
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(ReceptionView));
+		}
+
+		private void Notification_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NotificationsView));
+		}
+
+		private void History_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(OrdersView));
+		}
+
+		private void About_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(AboutView));
+		}
+
+		private void LogOut_Click(object sender, RoutedEventArgs e)
+		{
+		}
+
 	}
 }

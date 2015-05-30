@@ -46,7 +46,7 @@ namespace FastOrdering.View
 			get { return menus; }
 		}
 
-		private Order ord = new Order(0, 0, DateTime.Now, 1);
+		private Order ord = new Order(0, 0, DateTime.Now, DateTime.Now, 1);
 		public Order Ord
 		{
 			get { return ord; }
@@ -62,11 +62,14 @@ namespace FastOrdering.View
 			get { return selectedMenu; }
 		}
 
+		private int modifOrderID = 0;
+		//public ObservableCollection<Order> orders;
+
 		public NewOrderView()
 		{
 			this.InitializeComponent();
 			this.DataContext = this;
-			DrawerLayout.InitializeDrawerLayout();
+			//DrawerLayout.InitializeDrawerLayout();
 
 			entries.Add(new Dish(0, 5, "Salade", "entry"));
 			entries.Add(new Dish(1, 15, "Foie gras", "entry"));
@@ -86,18 +89,33 @@ namespace FastOrdering.View
 			menus.Add(new Menu(1, "Pirate", "Collapsed", "Collapsed"));
 		}
 
-		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			if (DrawerLayout.IsDrawerOpen)
-				DrawerLayout.CloseDrawer();
-			else
-				DrawerLayout.OpenDrawer();
+			//orders = new ObservableCollection<Order>();
+			//orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
+			//orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
+			if (e.Parameter == null)
+				return;
+			modifOrderID = int.Parse(e.Parameter.ToString());
+			foreach (Order o in Order.orders)
+			{
+				if (o.ID == modifOrderID)
+					ord = o;
+			}
 		}
+
+		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		//{
+		//	if (DrawerLayout.IsDrawerOpen)
+		//		DrawerLayout.CloseDrawer();
+		//	else
+		//		DrawerLayout.OpenDrawer();
+		//}
 
 		private void SendOrder(object sender, RoutedEventArgs e)
 		{
-			var or = new Order(1, 2, DateTime.Now, 1);
-			string json = JsonConvert.SerializeObject(or);
+			//var or = new Order(1, 2, DateTime.Now, 1);
+			string json = JsonConvert.SerializeObject(Ord);
 			System.Diagnostics.Debug.WriteLine(json);
 		}
 
@@ -339,6 +357,30 @@ namespace FastOrdering.View
 						menuCollection.Add(newDish);
 					break;
 				}
+		}
+
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(ReceptionView));
+		}
+
+		private void Notification_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NotificationsView));
+		}
+
+		private void History_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(OrdersView));
+		}
+
+		private void About_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(AboutView));
+		}
+
+		private void LogOut_Click(object sender, RoutedEventArgs e)
+		{
 		}
 
 	}

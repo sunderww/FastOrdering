@@ -24,8 +24,6 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class ReceptionView : Page
 	{
-		public ObservableCollection<Notification> notifications;
-		public ObservableCollection<Order> orders;
 		public string firstNotifMsg;
 		public string FirstNotifMsg
 		{
@@ -70,25 +68,33 @@ namespace FastOrdering.View
 		public ReceptionView()
 		{
 			this.InitializeComponent();
-			DrawerLayout.InitializeDrawerLayout();
-			notifications = new ObservableCollection<Notification>();
-			notifications.Add(new Notification(1, "Entrées prêtes", DateTime.Now, notifications.Count));
-			notifications.Add(new Notification(2, "Plats prêts", DateTime.Today, notifications.Count));
+			//DrawerLayout.InitializeDrawerLayout();
 
-			int idx = notifications.IndexOf(notifications.Last());
-			firstNotifMsg = notifications.Last().Message;
-			firstNotifTime = notifications.Last().Time;
-			secondNotifMsg = notifications.ElementAt(idx - 1).Message;
-			secondNotifTime = notifications.ElementAt(idx - 1).Time;
+			int count = Notification.notifications.Count;
+			if (count > 0)
+			{
+				int idx = Notification.notifications.IndexOf(Notification.notifications.Last());
+				firstNotifMsg = Notification.notifications.Last().Message;
+				firstNotifTime = Notification.notifications.Last().Time;
+				if (count > 1)
+				{
+					secondNotifMsg = Notification.notifications.ElementAt(idx - 1).Message;
+					secondNotifTime = Notification.notifications.ElementAt(idx - 1).Time;
+				}
+			}
 
-			orders = new ObservableCollection<Order>();
-			orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
-			orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
-			idx = orders.IndexOf(orders.Last());
-			firstOrderMsg = orders.Last().Message;
-			firstOrderTime = orders.Last().Time;
-			secondOrderMsg = orders.ElementAt(idx - 1).Message;
-			secondOrderTime = orders.ElementAt(idx - 1).Time;
+			count = Order.orders.Count;
+			if (count > 0)
+			{
+				int idx = Order.orders.IndexOf(Order.orders.Last());
+				firstOrderMsg = Order.orders.Last().Message;
+				firstOrderTime = Order.orders.Last().Time;
+				if (count > 1)
+				{
+					secondOrderMsg = Order.orders.ElementAt(idx - 1).Message;
+					secondOrderTime = Order.orders.ElementAt(idx - 1).Time;
+				}
+			}
 
 			this.DataContext = this;
 		}
@@ -102,17 +108,42 @@ namespace FastOrdering.View
 		{
 		}
 
-		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			if (DrawerLayout.IsDrawerOpen)
-				DrawerLayout.CloseDrawer();
-			else
-				DrawerLayout.OpenDrawer();
-		}
+		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		//{
+		//	if (DrawerLayout.IsDrawerOpen)
+		//		DrawerLayout.CloseDrawer();
+		//	else
+		//		DrawerLayout.OpenDrawer();
+		//}
 
-		private void AppBarButton_Click(object sender, RoutedEventArgs e)
+		private void NewCommand_Click(object sender, RoutedEventArgs e)
 		{
 			Frame.Navigate(typeof(NewOrderView));
 		}
+
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(ReceptionView));
+		}
+
+		private void Notification_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NotificationsView));
+		}
+
+		private void History_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(OrdersView));
+		}
+
+		private void About_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(AboutView));
+		}
+
+		private void LogOut_Click(object sender, RoutedEventArgs e)
+		{
+		}
+
 	}
 }

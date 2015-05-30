@@ -25,7 +25,7 @@ namespace FastOrdering.View
 		public AboutView()
 		{
 			this.InitializeComponent();
-			DrawerLayout.InitializeDrawerLayout();
+			//DrawerLayout.InitializeDrawerLayout();
 		}
 
 		/// <summary>
@@ -37,12 +37,41 @@ namespace FastOrdering.View
 		{
 		}
 
-		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		//{
+		//	if (DrawerLayout.IsDrawerOpen)
+		//		DrawerLayout.CloseDrawer();
+		//	else
+		//		DrawerLayout.OpenDrawer();
+		//}
+
+		private void NewCommand_Click(object sender, RoutedEventArgs e)
 		{
-			if (DrawerLayout.IsDrawerOpen)
-				DrawerLayout.CloseDrawer();
-			else
-				DrawerLayout.OpenDrawer();
+			Frame.Navigate(typeof(NewOrderView));
+		}
+
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(ReceptionView));
+		}
+
+		private void Notification_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NotificationsView));
+		}
+
+		private void History_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(OrdersView));
+		}
+
+		private void About_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(AboutView));
+		}
+
+		private void LogOut_Click(object sender, RoutedEventArgs e)
+		{
 		}
 	}
 }

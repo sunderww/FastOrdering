@@ -26,16 +26,16 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class OrdersView : Page
 	{
-		public ObservableCollection<Order> orders;
+		//public ObservableCollection<Order> orders = new ObservableCollection<Order>();
 
 		public OrdersView()
 		{
 			this.InitializeComponent();
-			DrawerLayout.InitializeDrawerLayout();
-			orders = new ObservableCollection<Order>();
-			orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
-			orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
-			OrdersListbox.ItemsSource = orders;
+			//DrawerLayout.InitializeDrawerLayout();
+			//orders = new ObservableCollection<Order>();
+			//orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
+			//orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
+			OrdersListbox.ItemsSource = Order.orders;
 		}
 
 		/// <summary>
@@ -47,37 +47,63 @@ namespace FastOrdering.View
 		{
 		}
 
-		private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			if (DrawerLayout.IsDrawerOpen)
-				DrawerLayout.CloseDrawer();
-			else
-				DrawerLayout.OpenDrawer();
-		}
-
-		private void AppBarButton_Click(object sender, RoutedEventArgs e)
-		{
-			Frame.Navigate(typeof(NewOrderView));
-		}
+		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		//{
+		//	if (DrawerLayout.IsDrawerOpen)
+		//		DrawerLayout.CloseDrawer();
+		//	else
+		//		DrawerLayout.OpenDrawer();
+		//}
 
 		private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			int id = (int)(sender as Grid).Tag;
-			Order ord = orders.ElementAt(id - 1);
+			Order ord = Order.orders.ElementAt(id - 1);
 
-			//Socket sock = new Socket("/get_order");
-			//Socket sock = new Socket();
-			//Notification notif = JsonConvert.DeserializeObject<Notification>(sock.Emit("/receive_order"));
-			//sock.Disconnect();
+			string emit = "{\"order\": \"" + id + "\"}";
+			// send this str on socket
 
 			ordNum.Text = "Commande #" + ord.numOrder;
-			tablePA.Text = "Table #" + ord.numTable + ", PA :" + ord.numPA;
+			tablePA.Text = "Table #" + ord.Table + ", PA :" + ord.numPA;
 			time.Text = "Le " + ord.Time.Day + "/" + ord.Time.Month + "/" + ord.Time.Year + " à " + ord.Time.Hour + ":" + ord.Time.Minute;
 			content.Text = "Contenu :";
 			menuId.Text = "Menu id : 1212";
-			//popupOrder.IsOpen = true;
+			modifyButton.Tag = ord.ID;
 			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+		}
 
+		private void ModifyButton_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NewOrderView), modifyButton.Tag);
+		}
+
+		private void NewOrder_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NewOrderView));
+		}
+
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(ReceptionView));
+		}
+
+		private void Notification_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NotificationsView));
+		}
+
+		private void History_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(OrdersView));
+		}
+
+		private void About_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(AboutView));
+		}
+
+		private void LogOut_Click(object sender, RoutedEventArgs e)
+		{
 		}
 	}
 }
