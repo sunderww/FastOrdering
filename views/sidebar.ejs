@@ -14,7 +14,7 @@
                 <li class="sidebar-label pt15">Booking</li>
                 <li>
                         <li>
-                            <a href="#">
+                            <a href="/booking">
                                 <span class="glyphicons glyphicons-show_big_thumbnails"></span> 
                                 <span class="sidebar-title">Gérer les réservations </span></a>
                         </li>
@@ -38,6 +38,13 @@
                             <a href="#">
                                 <span class="glyphicons glyphicons-hdd"></span> <span class="sidebar-title">Gérer le plan de table</span></a>
                         </li>
+                <% if (session.user && (session.user.role == 4 || session.user.role == 8)) { %>
+                <li class="sidebar-label pt20">Options</li>
+                        <li>
+                            <a href="/user">
+                                <span class="glyphicons glyphicons-hdd"></span> <span class="sidebar-title">Gérer les utilisateurs</span></a>
+                        </li>
+                <% } %>
 
                 <!-- sidebar progress bars -->
                 <li class="sidebar-label pt25 pb10">Statistiques</li>
@@ -67,7 +74,7 @@
                 </li>
             </ul>
             <div class="sidebar-toggle-mini">
-                <a href="#">
+                <a href="/logout">
                     <span class="fa fa-sign-out"></span>
                 </a>
             </div>
