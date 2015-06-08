@@ -30,6 +30,7 @@
 		844B06C01ABF81FA00DCFBB3 /* CategoryExpandableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06BF1ABF81FA00DCFBB3 /* CategoryExpandableCell.m */; };
 		844B06C41ABF88D800DCFBB3 /* DishCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06C21ABF88D800DCFBB3 /* DishCell.m */; };
 		844B06C51ABF88D800DCFBB3 /* DishCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844B06C31ABF88D800DCFBB3 /* DishCell.xib */; };
+		845701281B1C0FB400532ED5 /* OrderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 845701271B1C0FB400532ED5 /* OrderTests.m */; };
 		84B1E9F71A569CC900985E57 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B1E9F61A569CC900985E57 /* CoreData.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */; };
 		84B1EA431A57681100985E57 /* SocketIO+SailsIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA411A57681100985E57 /* SocketIO+SailsIO.m */; };
@@ -139,6 +140,7 @@
 		844B06C11ABF88D800DCFBB3 /* DishCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishCell.h; sourceTree = "<group>"; };
 		844B06C21ABF88D800DCFBB3 /* DishCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishCell.m; sourceTree = "<group>"; };
 		844B06C31ABF88D800DCFBB3 /* DishCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DishCell.xib; sourceTree = "<group>"; };
+		845701271B1C0FB400532ED5 /* OrderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTests.m; sourceTree = "<group>"; };
 		84B1E9F61A569CC900985E57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		84B1EA3E1A57681100985E57 /* NSString+TrimmingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TrimmingAdditions.h"; sourceTree = "<group>"; };
 		84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TrimmingAdditions.m"; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 			children = (
 				84EF67221AA4001400702897 /* SyncTests.m */,
 				84C1A19519EDE8D100E64B40 /* Supporting Files */,
+				845701271B1C0FB400532ED5 /* OrderTests.m */,
 			);
 			path = FastOrderingTests;
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845701281B1C0FB400532ED5 /* OrderTests.m in Sources */,
 				84EF67231AA4001400702897 /* SyncTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

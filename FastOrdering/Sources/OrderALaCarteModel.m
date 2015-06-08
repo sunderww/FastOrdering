@@ -18,10 +18,6 @@
 
 @implementation OrderALaCarteModel
 
-#warning THINGS TO DO
-// TODO:
-// add dishes without categories at the end
-
 - (instancetype)init
 {
   self = [super init];

@@ -11,17 +11,21 @@
 
 @implementation NSManagedObject (create)
 
-+ (NSArray *)allObjectsSortedWithDescriptors:(NSArray *)descriptors {
-    NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
-    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([self class])];
-    NSArray * results;
-    NSError * error;
++ (NSArray *)allObjectsSortedWithDescriptors:(NSArray *)descriptors inContext:(NSManagedObjectContext *)context {
+  NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([self class])];
+  NSArray * results;
+  NSError * error;
+  
+  [request setSortDescriptors:descriptors];
+  results = [context executeFetchRequest:request error:&error];
+  if (error)
+    PPLog(@"%@", error);
+  return results;
+}
 
-    [request setSortDescriptors:descriptors];
-    results = [context executeFetchRequest:request error:&error];
-    if (error)
-        PPLog(@"%@", error);
-    return results;
++ (NSArray *)allObjectsSortedWithDescriptors:(NSArray *)descriptors {
+  NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+  return [self allObjectsSortedWithDescriptors:descriptors inContext:context];
 }
 
 + (NSArray *)last:(NSUInteger)n skip:(NSUInteger)skip withDescriptors:(NSArray *)descriptors {
@@ -44,37 +48,65 @@
 }
 
 + (NSArray *)allObjects {
-    return [self allObjectsSortedWithDescriptors:@[]];
+  return [self allObjectsSortedWithDescriptors:@[]];
+}
+
++ (NSArray *)allObjectsInContext:(NSManagedObjectContext *)context {
+  return [self allObjectsSortedWithDescriptors:@[] inContext:context];
 }
 
 + (NSArray *)allObjectsByPriority {
-    return [self allObjectsSortedWithDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:YES]]];
+  return [self allObjectsSortedWithDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:YES]]];
+}
+
++ (id)createWithClass:(NSString *)className inContext:(NSManagedObjectContext *)context {
+  return [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:context];
 }
 
 + (id)createWithClass:(NSString *)className {
-    NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
-    
-    return [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:context];
+  NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+  
+  return [self createWithClass:className inContext:context];
+}
+
++ (id)createInContext:(NSManagedObjectContext *)context {
+  return [self createWithClass:NSStringFromClass([self class]) inContext:context];
 }
 
 + (id)create {
-    return [self createWithClass:NSStringFromClass([self class])];
+  return [self createWithClass:NSStringFromClass([self class])];
 }
 
 - (void)setPriorityForClass:(NSString *)className {
-    NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
-    NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:className];
-    NSArray * results;
-    NSError * error;
-    
-    [request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:NO]]];
-    request.fetchLimit = 1;
-    results = [context executeFetchRequest:request error:&error];
-    if (error)
-        PPLog(@"%@", error);
+  NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+  NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:className];
+  NSArray * results;
+  NSError * error;
+  
+  [request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"priority" ascending:NO]]];
+  request.fetchLimit = 1;
+  results = [context executeFetchRequest:request error:&error];
+  if (error)
+    PPLog(@"%@", error);
+  
+  NSNumber * priority = [results.firstObject valueForKey:@"priority"];
+  [self setValue:@(priority.integerValue + 1) forKey:@"priority"];
+}
 
-    NSNumber * priority = [results.firstObject valueForKey:@"priority"];
-    [self setValue:@(priority.integerValue + 1) forKey:@"priority"];
++ (id)retrieveWithServerId:(NSString *)serverId inContext:(NSManagedObjectContext *)context {
+  NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([self class])];
+  NSArray * results;
+  NSError * error;
+  
+  request.fetchLimit = 1;
+  request.predicate = [NSPredicate predicateWithFormat:@"serverId = %@", serverId];
+  results = [context executeFetchRequest:request error:&error];
+  
+  if (error)
+    PPLog(@"%@", error);
+  if (results.count > 0)
+    return results.firstObject;
+  return nil;
 }
 
 @end

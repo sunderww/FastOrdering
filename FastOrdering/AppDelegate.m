@@ -24,9 +24,10 @@
 #if DEBUG
   [self printDB];
 #ifdef kShouldDropDB
-    [self dropDB];
+  [self dropDB];
 #endif
 #endif
+
     NSError * error;
     NSLog(@"%@", [NSString stringWithContentsOfURL:[NSURL URLWithString:@"www.google.com"] encoding:NSUTF8StringEncoding error:&error]);
     NSLog(@"%@", error);
