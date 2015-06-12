@@ -139,7 +139,7 @@
                                                 </ListView.ItemTemplate>
                                             </ListView>
 
-                                            <ListView x:Name="EntryList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
+                                            <ListView x:Name="DishOrdList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -147,7 +147,7 @@
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
+                                                    <StackPanel Orientation="Horizontal">
                                                             <TextBlock Text="{Binding Value}" FontSize="20" />
                                                             <TextBlock Text="x" FontSize="20" />
                                                             <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"

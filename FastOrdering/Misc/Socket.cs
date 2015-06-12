@@ -19,6 +19,12 @@ namespace FastOrdering.Misc
 	public class Socket
 	{
 
+		private void SendOrder()
+		{
+			Order.orders.Last().PrepareOrder();
+			string str = JsonConvert.SerializeObject(Order.orders.Last());
+		}
+
 		private void GetNotification()
 		{
 			string str = "{\"numTable\": \"1\", \"msg\": \"egre erger fwef ewf\", \"date\": \"12/12/12\", \"hour\": \"12:12\"}";
@@ -33,13 +39,70 @@ namespace FastOrdering.Misc
 			Order.orders.Add(JsonConvert.DeserializeObject<Order>(str));
 		}
 
+		private void GetLastOrders()
+		{
+			string str = "{\"orders\": [{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"2\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}]}";
+
+			dynamic output = JsonConvert.DeserializeObject(str);
+			foreach (Object order in output["orders"])
+			{
+				string orderStr = order.ToString();
+				Order.orders.Add(JsonConvert.DeserializeObject<Order>(orderStr));
+			}
+		}
+
 		private void GetOrder()
 		{
-			// pas terminé
-			string str = "{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"2\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\""+
-				"\"order\": [{\"menuId\": \"2\", \"content\": [{\"id\": \"id_dish\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", \"options\": \"\"}],}]}";
+			Menu.menus.Add(new Menu(0, "Mousaillon", "Visible", "Visible"));
+			Menu.menus.Add(new Menu(2, "Pirate", "Collapsed", "Collapsed"));
 
-			Order.orders.Add(JsonConvert.DeserializeObject<Order>(str));
+			// terminé je pense
+			string str = "{\"numOrder\": \"1\", \"numTable\": \"2\", \"numPA\": \"2\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
+				"\"order\": [{\"menuId\": \"2\", \"content\": [{\"id\": \"1\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", \"options\": \"\"}],}]}";
+
+			dynamic output = JsonConvert.DeserializeObject(str);
+			int numOrder = (int)output["numOrder"];
+			int numTable = (int)output["numOrder"];
+			int numPA = (int)output["numPA"];
+			DateTime date = (DateTime)output["date"];
+			DateTime hour = (DateTime)output["hour"];
+			string globalComment = (string)output["globalComment"];
+			Order ord = new Order(numOrder, numTable, numPA, date, hour);
+			ord.GlobalComment = globalComment;
+			foreach (Object order in output["order"])
+			{
+				string orderStr = order.ToString();
+				dynamic orderOut = JsonConvert.DeserializeObject(orderStr);
+				int menuId = (int)orderOut["menuId"];
+				Menu menu = null;
+				foreach (Menu m in Menu.menus)
+				{
+					if (m.IDMenu == menuId)
+					{
+						ord.Menus.Add(m);
+						menu = ord.Menus.Last();
+						break;
+					}
+				}
+				foreach (Object content in orderOut["content"])
+				{
+					string contentStr = content.ToString();
+					dynamic contentOut = JsonConvert.DeserializeObject(contentStr);
+					int id = (int)contentOut["id"];
+					foreach (MyDictionary<Dish> dishes in menu.Dishes)
+					{
+						if (id == dishes.Key.ID)
+						{
+							dishes.Value = (int)contentOut["qty"];
+							dishes.Key.comment = (string)contentOut["comment"];
+							dishes.Key.options = (string)contentOut["options"];
+							dishes.Key.status = (int)contentOut["status"];
+							break;
+						}
+					}
+				}
+			}
+			Order.orders.Add(ord);
 		}
 
 		private SocketIO socket;
@@ -62,7 +125,8 @@ namespace FastOrdering.Misc
 
 		private async void Connect_Click()
 		{
-			GetNotification();
+			GetOrder();
+			SendOrder();
 			return;
 
 			if (connected)

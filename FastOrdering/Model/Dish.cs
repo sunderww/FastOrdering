@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,14 @@ namespace FastOrdering.Model
 			this.price = price;
 			this.name = name;
 			this.category = category;
+			this.comment = "";
+			this.options = "";
+			this.status = 0;
+			this.qty = 0;
 		}
 
-		private int id;
+		public int id;
+		[JsonIgnore]
 		public int ID
 		{
 			get { return id; }
@@ -24,10 +30,16 @@ namespace FastOrdering.Model
 
 		private double price;
 		private string name;
+		[JsonIgnore]
 		public string Name
 		{
 			get { return name; }
 		}
 		private string category;
+		public int qty;
+		public string comment;
+		public string options;
+		[JsonIgnore]
+		public int status;
 	}
 }

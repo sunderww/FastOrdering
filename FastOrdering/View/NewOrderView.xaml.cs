@@ -43,10 +43,10 @@ namespace FastOrdering.View
 		private ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
 		public ObservableCollection<Menu> Menus
 		{
-			get { return menus; }
+			get { return Menu.menus; }
 		}
 
-		private Order ord = new Order(0, 0, DateTime.Now, DateTime.Now, 1);
+		private Order ord = new Order(1, 0, 0, DateTime.Now, DateTime.Now);
 		public Order Ord
 		{
 			get { return ord; }
@@ -84,9 +84,6 @@ namespace FastOrdering.View
 			desserts.Add(new Dish(8, 4, "Glace", "dessert"));
 			desserts.Add(new Dish(9, 5, "Gâteau", "dessert"));
 			desserts.Add(new Dish(10, 3, "Salade de fruits", "dessert"));
-
-			menus.Add(new Menu(0, "Mousaillon", "Visible", "Visible"));
-			menus.Add(new Menu(1, "Pirate", "Collapsed", "Collapsed"));
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -237,7 +234,7 @@ namespace FastOrdering.View
 		private void Menu_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			TextBlock tb = sender as TextBlock;
-			foreach (var menu in Menus)
+			foreach (var menu in Menu.menus)
 			{
 				if (menu.IDMenu == int.Parse(tb.Tag.ToString()))
 				{

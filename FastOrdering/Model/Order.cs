@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ namespace FastOrdering.Model
 	{
 		public static ObservableCollection<Order> orders = new ObservableCollection<Order>();
 
-		public Order(int numTable, int numPA, DateTime hour, DateTime date, int numOrder)
+		public Order(int numOrder, int numTable, int numPA, DateTime date, DateTime hour)
 		{
 			this.numTable = numTable;
 			this.pa = numPA;
@@ -20,16 +21,27 @@ namespace FastOrdering.Model
 			this.id = numOrder;
 		}
 
-		public Order(int numTable, int numPA, DateTime hour, DateTime date, int numOrder, string globalComment)
+		public void PrepareOrder()
 		{
-			this.numTable = numTable;
-			this.pa = numPA;
-			this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
-			this.id = numOrder;
-			this.globalComment = globalComment;
+			foreach (Menu menu in menus)
+			{
+				menu.FillContent();
+			}
 		}
 
+		//[JsonConstructor]
+		//public Order(int numOrder, int numTable, int numPA, DateTime date, DateTime hour, string globalComment)
+		//{
+		//	this.numTable = numTable;
+		//	this.pa = numPA;
+		//	this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
+		//	this.id = numOrder;
+		//	this.globalComment = globalComment;
+		//}
+
+		[JsonIgnore]
 		public int numOrder { get { return this.id; } }
+		[JsonIgnore]
 		public int Table
 		{
 			get { return this.numTable; }
@@ -54,24 +66,38 @@ namespace FastOrdering.Model
 				}
 			}
 		}
+		[JsonIgnore]
 		public DateTime Time { get { return this.date; } }
+		[JsonIgnore]
 		public string Message { get { return "Commande #" + this.id + ", Table #" + this.numTable + ", PA : " + this.pa; } }
 
 		private int id;
+		[JsonIgnore]
 		public int ID
 		{
 			get { return id; }
 		}
-		private int numTable;
+		public int numTable;
 		private int pa;
 		private DateTime date;
 		private string globalComment;
+		public string GlobalComment
+		{
+			get { return globalComment; }
+			set { globalComment = value; }
+		}
 		private ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
+		[JsonIgnore]
 		public ObservableCollection<Menu> Menus
 		{
 			get { return menus; }
 		}
+		public ObservableCollection<Menu> order
+		{
+			get { return menus; }
+		}
 		private ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
+		[JsonIgnore]
 		public ObservableCollection<MyDictionary<Dish>> Dishes
 		{
 			get { return dishes; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace FastOrdering.Model
 {
 	public class Menu
 	{
+		public static ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
+
 		public Menu(int id, string name, string entryDish, string dishDessert)
 		{
 			this.idMenu = id;
@@ -29,7 +32,7 @@ namespace FastOrdering.Model
 			entries.Add(d2);
 
 			MyDictionary<Dish> d3 = new MyDictionary<Dish>();
-			d3.Key = new Dish(3, 9, "Bavette", "dish");
+			d3.Key = new Dish(1, 9, "Bavette", "dish");
 			dishes.Add(d3);
 			MyDictionary<Dish> d1 = new MyDictionary<Dish>();
 			d1.Key = new Dish(4, 8, "Moules frites", "dish");
@@ -46,52 +49,78 @@ namespace FastOrdering.Model
 			desserts.Add(d6);
 		}
 
+		public void FillContent()
+		{
+			foreach (MyDictionary<Dish> dish in dishes)
+			{
+				dish.Key.qty = dish.Value;
+				if (dish.Value > 0)
+					content.Add(dish.Key);
+			}
+		}
+
+		public ObservableCollection<Dish> content = new ObservableCollection<Dish>();
 		private ObservableCollection<MyDictionary<Dish>> entries = new ObservableCollection<MyDictionary<Dish>>();
+		[JsonIgnore]
 		public ObservableCollection<MyDictionary<Dish>> Entries
 		{
 			get { return entries; }
 		}
 		private ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
+		[JsonIgnore]
 		public ObservableCollection<MyDictionary<Dish>> Dishes
 		{
 			get { return dishes; }
 		}
 		private ObservableCollection<MyDictionary<Dish>> desserts = new ObservableCollection<MyDictionary<Dish>>();
+		[JsonIgnore]
 		public ObservableCollection<MyDictionary<Dish>> Desserts
 		{
 			get { return desserts; }
 		}
 		private string name;
+		[JsonIgnore]
 		public string Name
 		{
 			get { return name; }
 		}
 		private int idMenu;
+		[JsonIgnore]
 		public int IDMenu
 		{
 			get { return idMenu; }
 		}
+		public int menuId
+		{
+			get { return idMenu; }
+		}
 		private string hasCompo;
+		[JsonIgnore]
 		public string HasCompo
 		{
 			get { return hasCompo; }
 		}
 		private string hasNoCompo;
+		[JsonIgnore]
 		public string HasNoCompo
 		{
 			get { return hasNoCompo; }
 		}
 		private string entryDish;
+		[JsonIgnore]
 		public string EntryDish
 		{
 			get { return entryDish; }
 		}
 		private string dishDessert;
+		[JsonIgnore]
 		public string DishDessert
 		{
 			get { return dishDessert; }
 		}
+		[JsonIgnore]
 		public string Entry { get; set; }
+		[JsonIgnore]
 		public string Dessert { get; set; }
 	}
 }
