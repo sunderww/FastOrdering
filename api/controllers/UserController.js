@@ -154,10 +154,20 @@ module.exports = {
         }
         if (req.session.user.role == UserRole.manager) {
             User.find({restaurant: req.session.user.restaurant}).exec(function foundUsers(err, users) {
-                if (err)
+                if (err) {
+                    console.error(err);
                     return res.serverError(err);
-        
-                res.view('user/index', {users: users});
+                }
+                
+                // Key availables
+                Key.find({restaurant: req.session.user.restaurant, active: false}).exec(function foundKeys (err, keys) {
+                    if (err) {
+                        console.error(err);
+                        return res.serverError(err);
+                    }
+                    
+                    res.view('user/index', {users: users, keys:keys});
+                });
             });
         }
     }
