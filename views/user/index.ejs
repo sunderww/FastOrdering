@@ -42,13 +42,13 @@
                 <section id="content" class="animated fadeIn">
                     <div class="row table-layout" id="modal-content">
                         <div class="container">
-                            <h3>User</h3>
+                            <h3>Utilisateur</h3>
                             <table class="table">
                                 <tr>
                                     <td>Email</td>
-                                    <td>Key</td>
+                                    <td>Clé</td>
                                     <td>Role</td>
-                                    <td>Date created</td>
+                                    <td>Date de création</td>
                                 </tr>
                                 <% _.each(users, function(user) { %>
                                 <tr data-id="<%= user.id %>" data-model="user">
@@ -56,8 +56,25 @@
                                     <td><%= user.key %></td>
                                     <td><%= user.role %></td>
                                     <td><%= user.createdAt %></td>
-                                    <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a></td>
-                                    <td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Delete</a></td> 
+                                    <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Editer</a></td>
+                                    <td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Supprimer</a></td> 
+                                </tr>
+                                <% }) %>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="row table-layout" id="modal-content">
+                        <div class="container">
+                            <h3>Clés</h3>
+                            <table class="table">
+                                <tr>
+                                    <td>Code</td>
+                                </tr>
+                                <% _.each(keys, function(key) { %>
+                                <tr data-id="<%= key.id %>" data-model="key">
+                                    <td><%= key.code %></td>
+                                    <td><a href="/key/activate/<%= key.id %>" class="btn btn-sm btn-success">Activer</a></td>
                                 </tr>
                                 <% }) %>
                             </table>

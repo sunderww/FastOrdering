@@ -7,15 +7,32 @@
 
 module.exports = {
     
+    
     // ADD ERROR FLASH AND OK
     create: function(req, res) {
+        if (req.session.user) {
+            KeyServices.generateCode(function codeGenerated(err, code){
+                console.log("??" + err + code);
+                if (err)
+                    return res.serverError(err);
+                if (code) {
+                    Key.create({code: code, restaurant: req.session.user.restaurant}).exec(function keyCreated(err, key) {
+                        if (err)
+                            return res.serverError(err)
+                        res.redirect('/user');
+                    });
+                }
+            });
+        }
+    },
+    /*create: function(req, res) {
         
         if (req.session.user) {
             var code = 0;
             var ok = true;
             var generateAgain = false;
             
-            Key.generateKey(function (err, newcode){
+            KeyController.generateKey(function (err, newcode){
                 if (err)
                     return res.serverError(err);
                 code = newcode;
@@ -26,7 +43,7 @@ module.exports = {
             Key.find({}).exec(function (err, keys) {
                 while (ok) {
                     for (key in keys) {
-                        if (Key.compareKey(code, key, function (err, result){
+                        if (KeyController.compareKey(code, key, function (err, result){
                             if (err)
                                 return res.serverError(err);
                             return result;
@@ -34,7 +51,7 @@ module.exports = {
                             generateAgain = true;
                         }
                     if (generateAgain)
-                        Key.generateKey(function (err, newcode){
+                        KeyController.generateKey(function (err, newcode){
                         if (err)
                             return res.serverError(err);
                         code = newcode;
@@ -52,7 +69,7 @@ module.exports = {
                 });
             });
         }
-    },
+    },*/
     
     destroy: function (req, res) {
       Key.findOne({id: req.param('id')}).exec(function(err, user) {

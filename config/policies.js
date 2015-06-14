@@ -65,5 +65,10 @@ module.exports.policies = {
         login: true,
         trylogin: true,
         logout: 'isAuthenticated'
+    },
+    
+    KeyController: {
+        create: 'isManager',
+        activate: 'isManager',
     }
 };

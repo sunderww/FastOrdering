@@ -49,7 +49,9 @@ module.exports.routes = {
     // '/user/': 'UserController.show', TODO
     
     // Key
+    // If want restful modify address by /key/:id/action
     '/user/create_key': 'KeyController.create',
+    '/key/:id/activate:' 'KeyController.activate',
     
     '/dashboard': {view: 'dashboard'},
 
