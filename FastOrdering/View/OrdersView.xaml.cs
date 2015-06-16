@@ -58,16 +58,23 @@ namespace FastOrdering.View
 		private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			int id = (int)(sender as Grid).Tag;
-			Order ord = Order.orders.ElementAt(id - 1);
+			Order ord = null;
+			foreach (Order o in Order.orders)
+			{
+				if (id == o.ID)
+					ord = o;
+			}
 
-			string emit = "{\"order\": \"" + id + "\"}";
-			// send this str on socket
+			//string emit = "{\"order\": \"" + id + "\"}";
+			//ord = Socket.GetOrder();
+			if (ord == null)
+				return;
 
 			ordNum.Text = "Commande #" + ord.numOrder;
 			tablePA.Text = "Table #" + ord.Table + ", PA :" + ord.numPA;
 			time.Text = "Le " + ord.Time.Day + "/" + ord.Time.Month + "/" + ord.Time.Year + " à " + ord.Time.Hour + ":" + ord.Time.Minute;
 			content.Text = "Contenu :";
-			menuId.Text = "Menu id : 1212";
+			menuId.Text = "Menu id : " + ord.ID;
 			modifyButton.Tag = ord.ID;
 			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
 		}

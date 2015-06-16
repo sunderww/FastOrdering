@@ -29,7 +29,6 @@ namespace FastOrdering.View
 		public NotificationsView()
 		{
 			this.InitializeComponent();
-			//DrawerLayout.InitializeDrawerLayout();
 			NotificationsListbox.ItemsSource = Notification.notifications;
 
 			if (Notification.notifications.Count == 0)
@@ -63,13 +62,11 @@ namespace FastOrdering.View
 
 		private void Grid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine("toto");
 		}
 
 		private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			var velocities = e.Velocities;
-			System.Diagnostics.Debug.WriteLine(velocities.Linear.X);
 			var pos = 0;
 			if (velocities.Linear.X > 0.5)
 			{

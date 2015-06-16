@@ -61,7 +61,7 @@
 
                                             <TextBlock Grid.Column="0" Text="Table #" Foreground="Black" FontSize="20" VerticalAlignment="Center" />
                                             <TextBox Grid.Column="1" FontSize="20" BorderBrush="Black" InputScope="Number"
-                                                 BorderThickness="1" Text="{Binding numTable, Mode=TwoWay}" />
+                                                 BorderThickness="1" Text="{Binding Table, Mode=TwoWay}" />
                                             <TextBlock Grid.Column="2" Text="Pax" Foreground="Black" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                             <TextBox Grid.Column="3" FontSize="20" BorderBrush="Black" InputScope="Number"
                                                  BorderThickness="1" Text="{Binding numPA, Mode=TwoWay}" />

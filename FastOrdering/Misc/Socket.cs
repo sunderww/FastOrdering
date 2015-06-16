@@ -19,10 +19,11 @@ namespace FastOrdering.Misc
 	public class Socket
 	{
 
-		private void SendOrder()
+		static public void SendOrder(Order order)
 		{
-			Order.orders.Last().PrepareOrder();
-			string str = JsonConvert.SerializeObject(Order.orders.Last());
+			order.PrepareOrder();
+			string str = JsonConvert.SerializeObject(order);
+			System.Diagnostics.Debug.WriteLine(str);
 		}
 
 		private void GetNotification()
@@ -34,14 +35,14 @@ namespace FastOrdering.Misc
 
 		private void ReceiveOrder()
 		{
-			string str = "{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"2\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}";
+			string str = "{\"numOrder\": \"2\", \"numTable\": \"5\", \"numPA\": \"1\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}";
 
 			Order.orders.Add(JsonConvert.DeserializeObject<Order>(str));
 		}
 
 		private void GetLastOrders()
 		{
-			string str = "{\"orders\": [{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"2\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}]}";
+			string str = "{\"orders\": [{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"3\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			foreach (Object order in output["orders"])
@@ -51,13 +52,12 @@ namespace FastOrdering.Misc
 			}
 		}
 
-		private void GetOrder()
+		static public Order GetOrder()
 		{
 			Menu.menus.Add(new Menu(0, "Mousaillon", "Visible", "Visible"));
 			Menu.menus.Add(new Menu(2, "Pirate", "Collapsed", "Collapsed"));
 
-			// terminé je pense
-			string str = "{\"numOrder\": \"1\", \"numTable\": \"2\", \"numPA\": \"2\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
+			string str = "{\"numOrder\": \"3\", \"numTable\": \"2\", \"numPA\": \"5\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
 				"\"order\": [{\"menuId\": \"2\", \"content\": [{\"id\": \"1\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", \"options\": \"\"}],}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
@@ -103,18 +103,19 @@ namespace FastOrdering.Misc
 				}
 			}
 			Order.orders.Add(ord);
+			return ord;
 		}
 
 		private SocketIO socket;
 
-		private StreamSocket clientSocket;
-		private HostName serverHost;
-		private string serverHostnameString = "163.5.84.184";
-		//private string serverHostnameString = "127.0.0.1";
-		private string serverPort = "4242";
-		//private string serverPort = "27017";
-		private bool connected = false;
-		private bool closing = false;
+		//private StreamSocket clientSocket;
+		//private HostName serverHost;
+		//private string serverHostnameString = "163.5.84.184";
+		////private string serverHostnameString = "127.0.0.1";
+		//private string serverPort = "4242";
+		////private string serverPort = "27017";
+		//private bool connected = false;
+		//private bool closing = false;
 
 		//public Socket()
 		//{
@@ -126,131 +127,134 @@ namespace FastOrdering.Misc
 		private async void Connect_Click()
 		{
 			GetOrder();
-			SendOrder();
+			//SendOrder();
+			GetLastOrders();
+			ReceiveOrder();
+			GetNotification();
 			return;
 
-			if (connected)
-			{
-				return;
-			}
+		//	if (connected)
+		//	{
+		//		return;
+		//	}
 
-			try
-			{
-				serverHost = new HostName(serverHostnameString);
-				// Try to connect to the 
-				await clientSocket.ConnectAsync(serverHost, serverPort).AsTask();
-				//		await _clientSocket.ConnectAsync(remoteHost, "27017").AsTask(cancellationToken.Token);
-				connected = true;
-			}
-			catch (Exception exception)
-			{
-				// If this is an unknown status, 
-				// it means that the error is fatal and retry will likely fail.
-				if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-				{
-					throw;
-				}
+		//	try
+		//	{
+		//		serverHost = new HostName(serverHostnameString);
+		//		// Try to connect to the 
+		//		await clientSocket.ConnectAsync(serverHost, serverPort).AsTask();
+		//		//		await _clientSocket.ConnectAsync(remoteHost, "27017").AsTask(cancellationToken.Token);
+		//		connected = true;
+		//	}
+		//	catch (Exception exception)
+		//	{
+		//		// If this is an unknown status, 
+		//		// it means that the error is fatal and retry will likely fail.
+		//		if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
+		//		{
+		//			throw;
+		//		}
 
-				// Could retry the connection, but for this simple example
-				// just close the socket.
+		//		// Could retry the connection, but for this simple example
+		//		// just close the socket.
 
-				closing = true;
-				// the Close method is mapped to the C# Dispose
-				clientSocket.Dispose();
-				clientSocket = null;
+		//		closing = true;
+		//		// the Close method is mapped to the C# Dispose
+		//		clientSocket.Dispose();
+		//		clientSocket = null;
 
-			}
-			Send_Click();
+		//	}
+		//	Send_Click();
 		}
 
-		private async void Send_Click()
-		{
-			if (!connected)
-			{
-				return;
-			}
+		//private async void Send_Click()
+		//{
+		//	if (!connected)
+		//	{
+		//		return;
+		//	}
 
-			uint len = 0; // Gets the UTF-8 string length.
+		//	uint len = 0; // Gets the UTF-8 string length.
 
-			System.Diagnostics.Debug.WriteLine("begin write");
+		//	System.Diagnostics.Debug.WriteLine("begin write");
 
-			try
-			{
-				// add a newline to the text to send
-				string sendData = "/dish/read" + Environment.NewLine;
-				DataWriter writer = new DataWriter(clientSocket.OutputStream);
-				len = writer.MeasureString(sendData); // Gets the UTF-8 string length.
-				writer.WriteString(sendData);
+		//	try
+		//	{
+		//		// add a newline to the text to send
+		//		string sendData = "/dish/read" + Environment.NewLine;
+		//		DataWriter writer = new DataWriter(clientSocket.OutputStream);
+		//		len = writer.MeasureString(sendData); // Gets the UTF-8 string length.
+		//		writer.WriteString(sendData);
 
-				// Call StoreAsync method to store the data to a backing stream
-				await writer.StoreAsync();
-				await writer.FlushAsync();
+		//		// Call StoreAsync method to store the data to a backing stream
+		//		await writer.StoreAsync();
+		//		await writer.FlushAsync();
 
-				// detach the stream and close it
-				writer.DetachStream();
-				writer.Dispose();
+		//		// detach the stream and close it
+		//		writer.DetachStream();
+		//		writer.Dispose();
 
-			}
-			catch (Exception exception)
-			{
-				// If this is an unknown status, 
-				// it means that the error is fatal and retry will likely fail.
-				if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-				{
-					throw;
-				}
+		//	}
+		//	catch (Exception exception)
+		//	{
+		//		// If this is an unknown status, 
+		//		// it means that the error is fatal and retry will likely fail.
+		//		if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
+		//		{
+		//			throw;
+		//		}
 
-				// Could retry the connection, but for this simple example
-				// just close the socket.
+		//		// Could retry the connection, but for this simple example
+		//		// just close the socket.
 
-				closing = true;
-				clientSocket.Dispose();
-				clientSocket = null;
-				connected = false;
+		//		closing = true;
+		//		clientSocket.Dispose();
+		//		clientSocket = null;
+		//		connected = false;
 
-			}
+		//	}
 
-			// Now try to receive data from server
+		//	// Now try to receive data from server
 
-			System.Diagnostics.Debug.WriteLine("begin read");
+		//	System.Diagnostics.Debug.WriteLine("begin read");
 
-			try
-			{
+		//	try
+		//	{
 
-				DataReader reader = new DataReader(clientSocket.InputStream);
-				// Set inputstream options so that we don't have to know the data size
-				reader.InputStreamOptions = InputStreamOptions.Partial;
-				System.Diagnostics.Debug.WriteLine("loadasync1");
-				await reader.LoadAsync(2048);
-				System.Diagnostics.Debug.WriteLine("loadasync2");
-				string data = "";
-				while (reader.UnconsumedBufferLength > 0)
-				{
-					uint toread = reader.ReadUInt32();
-					data = reader.ReadString(toread);
-				}
-				System.Diagnostics.Debug.WriteLine(data);
-			}
-			catch (Exception exception)
-			{
-				// If this is an unknown status, 
-				// it means that the error is fatal and retry will likely fail.
-				if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-				{
-					throw;
-				}
+		//		DataReader reader = new DataReader(clientSocket.InputStream);
+		//		// Set inputstream options so that we don't have to know the data size
+		//		reader.InputStreamOptions = InputStreamOptions.Partial;
+		//		System.Diagnostics.Debug.WriteLine("loadasync1");
+		//		await reader.LoadAsync(2048);
+		//		System.Diagnostics.Debug.WriteLine("loadasync2");
+		//		string data = "";
+		//		while (reader.UnconsumedBufferLength > 0)
+		//		{
+		//			uint toread = reader.ReadUInt32();
+		//			data = reader.ReadString(toread);
+		//		}
+		//		System.Diagnostics.Debug.WriteLine(data);
+		//	}
+		//	catch (Exception exception)
+		//	{
+		//		// If this is an unknown status, 
+		//		// it means that the error is fatal and retry will likely fail.
+		//		if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
+		//		{
+		//			throw;
+		//		}
 
-				// Could retry, but for this simple example
-				// just close the socket.
+		//		// Could retry, but for this simple example
+		//		// just close the socket.
 
-				closing = true;
-				clientSocket.Dispose();
-				clientSocket = null;
-				connected = false;
+		//		closing = true;
+		//		clientSocket.Dispose();
+		//		clientSocket = null;
+		//		connected = false;
 
-			}
-			System.Diagnostics.Debug.WriteLine("end");
-		}
+		//	}
+		//	System.Diagnostics.Debug.WriteLine("end");
+		//}
 
 		private StreamSocket sock = new StreamSocket();
 		//private SocketIO socket;

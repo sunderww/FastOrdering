@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using FastOrdering.Misc;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -111,9 +112,10 @@ namespace FastOrdering.View
 
 		private void SendOrder(object sender, RoutedEventArgs e)
 		{
+			Socket.SendOrder(ord);
 			//var or = new Order(1, 2, DateTime.Now, 1);
-			string json = JsonConvert.SerializeObject(Ord);
-			System.Diagnostics.Debug.WriteLine(json);
+			//string json = JsonConvert.SerializeObject(Ord);
+			//System.Diagnostics.Debug.WriteLine(json);
 		}
 
 		private void ToggleSwitch_Entry(object sender, RoutedEventArgs e)
