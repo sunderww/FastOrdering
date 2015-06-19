@@ -25,9 +25,9 @@ public class CardStruct {
     CardStruct(JSONObject card,  ArrayList<CategoryStruct> cats) {
         JSONObject alacarte;
         try {
-            alacarte = card.getJSONObject("alacarte");
+            alacarte = card.getJSONObject("elements");
             _mId = alacarte.getString("id");
-            JSONArray arrCats = alacarte.getJSONArray("categories_ids");
+            JSONArray arrCats = alacarte.getJSONArray("compo");
             for (int i = 0; i < arrCats.length(); ++i) {
                 String idCat = arrCats.getString(i);
                 for (CategoryStruct curCat : cats) {
@@ -44,7 +44,7 @@ public class CardStruct {
     CardStruct(JSONObject card, JSONObject cats) {
         JSONObject alacarte;
         try {
-            alacarte = card.getJSONObject("alacarte");
+            alacarte = card.getJSONObject("elements");
             _mId = alacarte.getString("id");
             JSONArray arrCats = alacarte.getJSONArray("cats");
             for (int i = 0; i < arrCats.length(); ++i) {
