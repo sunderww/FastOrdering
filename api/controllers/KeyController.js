@@ -25,6 +25,10 @@ module.exports = {
             });
         }
     },
+    
+    activate: function(req, res) {
+        res.serverError();
+    },
     /*create: function(req, res) {
         
         if (req.session.user) {
