@@ -52,6 +52,8 @@
   
   for (NSString * key in elem) {
     id value = elem[key];
+    if (value == [NSNull null]) continue ;
+    
     if ([key hasSuffix:kParsingRelationToOneSuffix]) {
       NSString * name = [key stringByReplacingOccurrencesOfString:@"_id" withString:@""];
       NSRelationshipDescription * rel = relationships[name];

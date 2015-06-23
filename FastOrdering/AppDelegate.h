@@ -24,7 +24,7 @@
     #define kSocketIOPort       1337
 #endif
 #define kSocketIOURL        [NSString stringWithFormat:@"%@:%d", kSocketIOHost, kSocketIOPort]
-#define kAboutLink          @"http://eip.epitech.eu/2016/fastordering"
+#define kAboutLink          @"http://fastordering.fr"
 
 #pragma mark - Other defines
 #define kClassNamesToSync   @[@"Plan", @"Table", @"Category", @"Dish"]

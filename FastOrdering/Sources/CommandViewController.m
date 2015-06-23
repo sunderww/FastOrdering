@@ -11,6 +11,7 @@
 #import "Order+Custom.h"
 #import "NSManagedObject+create.h"
 #import "SocketHelper.h"
+#import "AppDelegate.h"
 
 @interface CommandViewController ()
 
@@ -77,7 +78,9 @@
 #pragma mark - CommandMenuView delegate methods
 
 - (void)didCreateOrderContent:(OrderContent *)content {
-  [order addOrderContentsObject:content];
+  if (content.dishes.count > 0)
+    [order addOrderContentsObject:content];
+  ((AppDelegate *)UIApplication.sharedApplication.delegate).saveContext;
 }
 
 - (void)popCommandMenuView {

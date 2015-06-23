@@ -63,6 +63,7 @@
 #pragma mark - UITableView delegate and datasource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  return 0;
   return categories.count;
 }
 
