@@ -42,6 +42,7 @@
 {
     [super viewDidLoad];
 
+    [self loadDatabase];
     [self syncDatabase];
     panelShown = NO;
     panelView.hidden = NO;
@@ -110,7 +111,7 @@
     if (![context save:&error])
         PPLog(@"%@", error);
     DLog(@"END SYNC");
-    // should hide a loader
+    loaderView.hidden = YES;
 }
 
 - (void)loadDatabase {

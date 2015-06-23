@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SyncHelper.h"
+#import "LoaderView.h"
 
 @interface MainViewController : UIViewController <SyncerDelegate, UITableViewDataSource, UITableViewDelegate> {
     IBOutletCollection(UIButton) NSArray *  panelButtons;
@@ -32,6 +33,7 @@
     IBOutlet UITableView *  lastOrdersTableView;
     IBOutlet UITableView *  lastNotificationsTableView;
     IBOutlet UIButton *     orderButton;
+    IBOutlet LoaderView *   loaderView;
 
     BOOL                    panelShown;
     NSUInteger              classesToSync;
