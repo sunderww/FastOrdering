@@ -21,6 +21,7 @@
 /* Misc */
 "Erase all"                     =   "Tout effacer";
 "Order_ErrorMessage"            =   "Impossible d'envoyer la commande sur le serveur. Veuillez vérifier votre connexion internet.";
+"Sync_ErrorMessage"				=	"Impossible de synchroniser l'application au serveur. Veuillez vérifier votre connexion internet.";
 
 /* Vocabulary */
 "error"                         =   "erreur";

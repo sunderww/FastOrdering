@@ -7,3 +7,4 @@
 */
 
 "Order_ErrorMessage" = "The app hasn't been able to send the order. This may be due to network connectivity problems, or an error on the server.";
+"Sync_ErrorMessage" = "The app hasn't been able to synchronise. This may be due to network connectivity problems, or an error on the server.";

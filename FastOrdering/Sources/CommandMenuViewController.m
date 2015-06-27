@@ -171,7 +171,7 @@
 
   NSUInteger row = kDishCellRowForTag(textField.tag);
   NSUInteger section = kDishCellSectionForTag(textField.tag);
-  counts[section][row] = @(textField.text.integerValue);
+  counts[section][row] = @(text.integerValue);
   return YES;
 }
 

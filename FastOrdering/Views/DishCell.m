@@ -34,4 +34,8 @@
   self.textField.tag = tag;
 }
 
+- (void)setQuantity:(NSInteger)quantity {
+	self.textField.text = [NSString stringWithFormat:@"%ld", (long)quantity];
+}
+
 @end

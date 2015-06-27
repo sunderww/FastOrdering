@@ -40,6 +40,8 @@
     UIViewController *      controller;
     NSArray *               lastOrders;
     NSArray *               lastNotifications;
+    NSTimer *               timer;
+	BOOL					hasLoaded;
 }
 
 - (IBAction)buttonClicked:(id)sender;

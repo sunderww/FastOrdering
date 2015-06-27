@@ -18,7 +18,6 @@
 #ifdef USE_ALEXIS_SERVER
     #define kSocketIOHost       @"163.5.84.184"
     #define kSocketIOPort       4242
-    #undef USE_ALEXIS_SERVER
 #else
     #define kSocketIOHost       @"127.0.0.1"
     #define kSocketIOPort       1337

@@ -47,6 +47,8 @@
     panelShown = NO;
     panelView.hidden = NO;
     overlay.alpha = 0;
+	hasLoaded = NO;
+	timer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
 
     titleLabel.text = NSLocalizedString(@"Main Page", @"");
     lastNotificationsLabel.text = NSLocalizedString(@"Last Notifications", @"");
@@ -84,6 +86,20 @@
 
 #pragma mark - Helper methods
 
+/*
+ * This function should be called with a timer every X seconds.
+ * It checks that the sync did work
+ */
+- (void)checkLoadStatus {
+	if (!hasLoaded) {
+		loaderView.hidden = YES;
+		[timer invalidate];
+		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"").capitalizedString message:NSLocalizedString(@"Sync_ErrorMessage", @"") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+	}
+	
+	hasLoaded = NO;
+}
+
 - (void)syncDatabase {
     SyncHelper * syncer = [SyncHelper new];
     
@@ -112,6 +128,7 @@
         PPLog(@"%@", error);
     DLog(@"END SYNC");
     loaderView.hidden = YES;
+	[timer invalidate];
 }
 
 - (void)loadDatabase {

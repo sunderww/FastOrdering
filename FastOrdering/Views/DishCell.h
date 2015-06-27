@@ -14,6 +14,7 @@
 }
 
 - (void)setDish:(Dish *)dish andTag:(NSUInteger)tag;
+- (void)setQuantity:(NSInteger)quantity;
 
 @property (nonatomic, strong) UITextField *           textField;
 @property (nonatomic, retain) id<UITextFieldDelegate> delegate;
