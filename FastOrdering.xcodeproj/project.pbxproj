@@ -20,6 +20,10 @@
 		8408226F19F49940009BE528 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408226E19F49940009BE528 /* libicucore.dylib */; };
 		8408227119F49949009BE528 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408227019F49949009BE528 /* CFNetwork.framework */; };
 		8408227319F4994D009BE528 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8408227219F4994D009BE528 /* Security.framework */; };
+		843C356B1B3FBBC7005D9959 /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 843C356A1B3FBBC7005D9959 /* MenuModel.m */; };
+		843C35731B3FC20B005D9959 /* MenuModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 843C35721B3FC20B005D9959 /* MenuModelTest.m */; };
+		843C35751B3FCC3C005D9959 /* DishCategoryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 843C35741B3FCC3C005D9959 /* DishCategoryTest.m */; };
+		843C357A1B40C546005D9959 /* OrderContentTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 843C35791B40C546005D9959 /* OrderContentTest.m */; };
 		844B06A61ABBB29A00DCFBB3 /* OrderMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06A51ABBB29A00DCFBB3 /* OrderMenuModel.m */; };
 		844B06A91ABBB2B000DCFBB3 /* OrderALaCarteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06A81ABBB2B000DCFBB3 /* OrderALaCarteModel.m */; };
 		844B06AC1ABBB58C00DCFBB3 /* Menu+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B06AB1ABBB58C00DCFBB3 /* Menu+Custom.m */; };
@@ -122,6 +126,11 @@
 		8408226E19F49940009BE528 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		8408227019F49949009BE528 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8408227219F4994D009BE528 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		843C35691B3FBBC7005D9959 /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
+		843C356A1B3FBBC7005D9959 /* MenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuModel.m; sourceTree = "<group>"; };
+		843C35721B3FC20B005D9959 /* MenuModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuModelTest.m; sourceTree = "<group>"; };
+		843C35741B3FCC3C005D9959 /* DishCategoryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DishCategoryTest.m; sourceTree = "<group>"; };
+		843C35791B40C546005D9959 /* OrderContentTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderContentTest.m; sourceTree = "<group>"; };
 		844B06A41ABBB29A00DCFBB3 /* OrderMenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderMenuModel.h; sourceTree = "<group>"; };
 		844B06A51ABBB29A00DCFBB3 /* OrderMenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderMenuModel.m; sourceTree = "<group>"; };
 		844B06A71ABBB2B000DCFBB3 /* OrderALaCarteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderALaCarteModel.h; sourceTree = "<group>"; };
@@ -266,6 +275,7 @@
 		8403EDD41A568CC6001421D3 /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
+				843C35681B3FBA48005D9959 /* Customs */,
 				84D4B8021AD2361100AF57F2 /* DishCategory.h */,
 				84D4B8031AD2361100AF57F2 /* DishCategory.m */,
 				84D4B7FF1AD2361000AF57F2 /* Table.h */,
@@ -317,6 +327,79 @@
 			);
 			name = SocketIO;
 			path = FastOrdering;
+			sourceTree = "<group>";
+		};
+		843C35681B3FBA48005D9959 /* Customs */ = {
+			isa = PBXGroup;
+			children = (
+				84B1EA4B1A5A014400985E57 /* DishCategory+Custom.h */,
+				84B1EA4C1A5A014400985E57 /* DishCategory+Custom.m */,
+				84B1EA4E1A5A033F00985E57 /* Dish+Custom.h */,
+				84B1EA4F1A5A033F00985E57 /* Dish+Custom.m */,
+				844B06AA1ABBB58C00DCFBB3 /* Menu+Custom.h */,
+				844B06AB1ABBB58C00DCFBB3 /* Menu+Custom.m */,
+				84D4B7AE1AD22FBC00AF57F2 /* Order+Custom.h */,
+				84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */,
+				84E274521AE09BED00E5A32A /* OrderContent+Custom.h */,
+				84E274531AE09BED00E5A32A /* OrderContent+Custom.m */,
+			);
+			name = Customs;
+			sourceTree = "<group>";
+		};
+		843C356C1B3FBC92005D9959 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				84C1A1B619EDEE8400E64B40 /* LoginViewController.h */,
+				84C1A1B719EDEE8400E64B40 /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		843C356D1B3FBC96005D9959 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				84C1A1BF19EDF35C00E64B40 /* MainViewController.h */,
+				84C1A1C019EDF35C00E64B40 /* MainViewController.m */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		843C356E1B3FBC9E005D9959 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */,
+				84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */,
+				844B06B91ABF804800DCFBB3 /* CommandMenuViewController.h */,
+				844B06BA1ABF804800DCFBB3 /* CommandMenuViewController.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		843C356F1B3FBCA6005D9959 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				84B1EA511A5A057800985E57 /* AboutViewController.h */,
+				84B1EA521A5A057800985E57 /* AboutViewController.m */,
+			);
+			name = About;
+			sourceTree = "<group>";
+		};
+		843C35701B3FBCB3005D9959 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				84C291001AEDE12900B8193C /* HistoryViewController.h */,
+				84C291011AEDE12900B8193C /* HistoryViewController.m */,
+			);
+			name = History;
+			sourceTree = "<group>";
+		};
+		843C35711B3FBCBE005D9959 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				84C1A1C419EE02CC00E64B40 /* NotificationViewController.h */,
+				84C1A1C519EE02CC00E64B40 /* NotificationViewController.m */,
+			);
+			name = Notification;
 			sourceTree = "<group>";
 		};
 		844B06B01ABBB76400DCFBB3 /* SLExpandableTableView */ = {
@@ -442,6 +525,9 @@
 				84EF67221AA4001400702897 /* SyncTests.m */,
 				84C1A19519EDE8D100E64B40 /* Supporting Files */,
 				845701271B1C0FB400532ED5 /* OrderTests.m */,
+				843C35721B3FC20B005D9959 /* MenuModelTest.m */,
+				843C35741B3FCC3C005D9959 /* DishCategoryTest.m */,
+				843C35791B40C546005D9959 /* OrderContentTest.m */,
 			);
 			path = FastOrderingTests;
 			sourceTree = "<group>";
@@ -467,7 +553,6 @@
 			isa = PBXGroup;
 			children = (
 				84B1EA471A59FEBD00985E57 /* Categories */,
-				84C1A1B519EDEE5600E64B40 /* Helpers */,
 				84C1A1B419EDEE5200E64B40 /* Models */,
 				84C1A1B319EDEE4900E64B40 /* Controllers */,
 			);
@@ -495,24 +580,16 @@
 		84C1A1B319EDEE4900E64B40 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				84C1A1B619EDEE8400E64B40 /* LoginViewController.h */,
-				84C1A1B719EDEE8400E64B40 /* LoginViewController.m */,
-				84C1A1BF19EDF35C00E64B40 /* MainViewController.h */,
-				84C1A1C019EDF35C00E64B40 /* MainViewController.m */,
-				84C1A1C419EE02CC00E64B40 /* NotificationViewController.h */,
-				84C1A1C519EE02CC00E64B40 /* NotificationViewController.m */,
+				843C356C1B3FBC92005D9959 /* Login */,
+				843C356D1B3FBC96005D9959 /* Main */,
+				843C35711B3FBCBE005D9959 /* Notification */,
+				843C35701B3FBCB3005D9959 /* History */,
+				843C356F1B3FBCA6005D9959 /* About */,
+				843C356E1B3FBC9E005D9959 /* Menu */,
 				84C1A1CB19EE08B600E64B40 /* TablePlanViewController.h */,
 				84C1A1CC19EE08B600E64B40 /* TablePlanViewController.m */,
 				84C1A1CE19EE178400E64B40 /* MenuViewController.h */,
 				84C1A1CF19EE178400E64B40 /* MenuViewController.m */,
-				84B1EA511A5A057800985E57 /* AboutViewController.h */,
-				84B1EA521A5A057800985E57 /* AboutViewController.m */,
-				84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */,
-				84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */,
-				844B06B91ABF804800DCFBB3 /* CommandMenuViewController.h */,
-				844B06BA1ABF804800DCFBB3 /* CommandMenuViewController.m */,
-				84C291001AEDE12900B8193C /* HistoryViewController.h */,
-				84C291011AEDE12900B8193C /* HistoryViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -520,36 +597,21 @@
 		84C1A1B419EDEE5200E64B40 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8403EDD41A568CC6001421D3 /* Managed Objects */,
-				84B1EA4B1A5A014400985E57 /* DishCategory+Custom.h */,
-				84B1EA4C1A5A014400985E57 /* DishCategory+Custom.m */,
-				84B1EA4E1A5A033F00985E57 /* Dish+Custom.h */,
-				84B1EA4F1A5A033F00985E57 /* Dish+Custom.m */,
-				844B06AA1ABBB58C00DCFBB3 /* Menu+Custom.h */,
-				844B06AB1ABBB58C00DCFBB3 /* Menu+Custom.m */,
-				84D4B7AE1AD22FBC00AF57F2 /* Order+Custom.h */,
-				84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */,
-				84E274521AE09BED00E5A32A /* OrderContent+Custom.h */,
-				84E274531AE09BED00E5A32A /* OrderContent+Custom.m */,
+				8403EDCE1A5681F7001421D3 /* SyncHelper.h */,
+				8403EDCF1A5681F7001421D3 /* SyncHelper.m */,
+				84008C6B1A75FAB40012F873 /* SocketHelper.h */,
+				84008C6C1A75FAB40012F873 /* SocketHelper.m */,
 				844B06A41ABBB29A00DCFBB3 /* OrderMenuModel.h */,
 				844B06A51ABBB29A00DCFBB3 /* OrderMenuModel.m */,
 				844B06A71ABBB2B000DCFBB3 /* OrderALaCarteModel.h */,
 				844B06A81ABBB2B000DCFBB3 /* OrderALaCarteModel.m */,
 				84D4B8051AD4D75100AF57F2 /* OrderReviewModel.h */,
 				84D4B8061AD4D75100AF57F2 /* OrderReviewModel.m */,
+				8403EDD41A568CC6001421D3 /* Managed Objects */,
+				843C35691B3FBBC7005D9959 /* MenuModel.h */,
+				843C356A1B3FBBC7005D9959 /* MenuModel.m */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		84C1A1B519EDEE5600E64B40 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				8403EDCE1A5681F7001421D3 /* SyncHelper.h */,
-				8403EDCF1A5681F7001421D3 /* SyncHelper.m */,
-				84008C6B1A75FAB40012F873 /* SocketHelper.h */,
-				84008C6C1A75FAB40012F873 /* SocketHelper.m */,
-			);
-			name = Helpers;
 			sourceTree = "<group>";
 		};
 		84E274551AE09E2200E5A32A /* Loader */ = {
@@ -690,6 +752,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84B1EA4A1A59FF1300985E57 /* NSManagedObject+create.m in Sources */,
+				843C356B1B3FBBC7005D9959 /* MenuModel.m in Sources */,
 				84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */,
 				84D4B8011AD2361000AF57F2 /* Table.m in Sources */,
 				84BF7DA21A8F4A4000EC912B /* OrderCell.m in Sources */,
@@ -748,6 +811,9 @@
 			files = (
 				845701281B1C0FB400532ED5 /* OrderTests.m in Sources */,
 				84EF67231AA4001400702897 /* SyncTests.m in Sources */,
+				843C35731B3FC20B005D9959 /* MenuModelTest.m in Sources */,
+				843C35751B3FCC3C005D9959 /* DishCategoryTest.m in Sources */,
+				843C357A1B40C546005D9959 /* OrderContentTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "SLExpandableTableView.h"
 #import "DishCategory.h"
+#import "MenuComposition.h"
 
 @interface CategoryExpandableCell : UITableViewCell <UIExpandingTableViewCell>
 
 @property (nonatomic, retain) DishCategory * category;
+@property (nonatomic, retain) MenuComposition * composition;
 @property (nonatomic, assign, getter = isLoading) BOOL loading;
 @property (nonatomic, readonly) UIExpansionStyle expansionStyle;
 

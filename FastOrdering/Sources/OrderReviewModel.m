@@ -100,6 +100,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	DishCell * cell = (DishCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+	[cell.textField becomeFirstResponder];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

@@ -11,8 +11,10 @@
 #import "MenuComposition.h"
 #import "Dish.h"
 #import "Menu.h"
-#import "OrderContent.h"
+#import "OrderContent+Custom.h"
 #import "OrderedDish.h"
+#import "MenuModel.h"
+#import "AppDelegate.h"
 
 @implementation Order (Custom)
 
@@ -66,6 +68,51 @@ NSObject *  dictSafeValue(NSObject *obj) {
 - (NSString *)toJSONString {
   NSData * data = self.toJSONData;
   return data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
+}
+
+- (void)sanitizeInContext:(NSManagedObjectContext *)context {
+	for (OrderContent * content in self.orderContents) {
+		if (!content.isEmpty) {
+			[content sanitizeInContext:context];
+		} else {
+			content.order = nil;
+			[context deleteObject:content];
+		}
+	}
+}
+
+- (void)sanitize {
+	return [self sanitizeInContext:((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext];
+}
+
+- (NSArray *)alacarteContents {
+	NSMutableArray * contents = [NSMutableArray new];
+
+	for (OrderContent * content in self.orderContents) {
+		if ([content.menuComposition.menu.name isEqualToString:kMenuALaCarteName]) {
+			[contents addObject:content];
+		}
+	}
+	
+	return contents;
+}
+
+- (NSArray *)createALaCarteContents {
+// Has to use existing orderContents first than create it if it doesn't exist
+	return nil;
+}
+
+- (OrderedDish *)orderedDishWithDish:(Dish *)dish andComposition:(MenuComposition *)composition {
+	for (OrderContent * content in self.orderContents) {
+		if ([content.menuComposition.serverId isEqualToString:composition.serverId]) {
+			for (OrderedDish * ordered in content.dishes) {
+				if ([ordered.dish.serverId isEqualToString:dish.serverId])
+					return ordered;
+			}
+		}
+	}
+	
+	return nil;
 }
 
 @end

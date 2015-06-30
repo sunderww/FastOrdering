@@ -11,29 +11,37 @@
 @implementation CategoryExpandableCell
 
 - (void)awakeFromNib {
-    // Initialization code
+	// Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+	[super setSelected:selected animated:animated];
+	
+	// Configure the view for the selected state
 }
 
 - (void)setExpansionStyle:(UIExpansionStyle)expansionStyle animated:(BOOL)animated {
-  if (expansionStyle != _expansionStyle) {
-    _expansionStyle = expansionStyle;
-    [self updateData];
-  }
+	if (expansionStyle != _expansionStyle) {
+		_expansionStyle = expansionStyle;
+		[self updateData];
+	}
 }
 
 - (void)setCategory:(DishCategory *)category {
-  _category = category;
-  [self updateData];
+	_category = category;
+	[self updateData];
+}
+
+- (void)setComposition:(MenuComposition *)composition {
+	_composition = composition;
+	[self updateData];
 }
 
 - (void)updateData {
-  self.textLabel.text = self.category.name;
+	if (self.category)
+		self.textLabel.text = self.category.name;
+	else
+		self.textLabel.text = self.composition.name;
 }
 
 @end

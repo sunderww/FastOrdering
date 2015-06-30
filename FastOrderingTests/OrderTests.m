@@ -286,4 +286,20 @@
 //  XCTAssert([json isEqualToDictionary:dict], @"Complete order JSON is not right : `%@` != `%@`", json, dict);
 //}
 
+- (void)testSanitize {
+	XCTAssert(YES, @"Pass");
+}
+
+- (void)testAlacarteContents {
+	XCTAssert(YES, @"Pass");
+}
+
+- (void)testCreateAlacarteContents {
+	XCTAssert(YES, @"Pass");
+}
+
+- (void)testorderedDishWithDishAndComposition {
+	XCTAssert(YES, @"Pass");
+}
+
 @end

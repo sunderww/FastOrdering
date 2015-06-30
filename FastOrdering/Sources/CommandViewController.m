@@ -27,8 +27,8 @@
 	carteModel = [OrderALaCarteModel new];
 	reviewModel = [OrderReviewModel new];
 	menuModel.delegate = self;
-	carteModel.delegate = self;
-	//  reviewModel.delegate = self;
+	carteModel.order = order;
+//  reviewModel.delegate = self;
 	reviewModel.order = order;
 	reviewModel.tableView = reviewTableView;
 	menuTableView.dataSource = menuModel;
@@ -117,13 +117,16 @@
 
 - (IBAction)order {
 	SocketHelper * helper = [SocketHelper sharedHelper];
+	[order sanitize];
+	PPLog(@"JSON :\n\n%@\n\n", order.toJSONString);
+	return [self orderFailed];
 	
 	if (!helper.socket.isConnected) return [self orderFailed];
 	
 	loaderView.hidden = NO;
 	[helper pushDelegate:self];
 	[helper.socket sendEvent:@"send_order" withData:order.toJSON];
-	timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(orderFailed) userInfo:nil repeats:NO];
+	timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(orderFailed) userInfo:nil repeats:NO];
 }
 
 #pragma mark - SocketIO delegate methods

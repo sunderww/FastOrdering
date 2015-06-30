@@ -15,7 +15,7 @@
 #import "LoaderView.h"
 #import "SocketHelper.h"
 
-@interface CommandViewController : UIViewController <OrderALaCarteDelegate, OrderMenuDelegate, CommandMenuDelegate, SocketIODelegate> {
+@interface CommandViewController : UIViewController <OrderMenuDelegate, CommandMenuDelegate, SocketIODelegate> {
   IBOutlet UIButton *     menuButton;
   IBOutlet UIButton *     alacarteButton;
   IBOutlet UIButton *     reviewButton;

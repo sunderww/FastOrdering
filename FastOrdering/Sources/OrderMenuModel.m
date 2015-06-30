@@ -7,11 +7,11 @@
 //
 
 #import "OrderMenuModel.h"
-#import "NSManagedObject+create.h"
 #import "Menu.h"
 #import "MenuComposition.h"
 #import "MenuExpandableCell.h"
 #import "CommandMenuViewController.h"
+#import "MenuModel.h"
 
 @implementation OrderMenuModel
 
@@ -20,7 +20,7 @@
   self = [super init];
   if (self) {
     NSMutableArray * compos = [NSMutableArray new];
-    menus = [Menu allObjects];
+    menus = [MenuModel new].menus;
 
     for (Menu * menu in menus) {
       [compos addObject:menu.compositions.allObjects];

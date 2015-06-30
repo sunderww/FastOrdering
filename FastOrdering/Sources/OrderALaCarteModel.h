@@ -9,18 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "SLExpandableTableView.h"
 #import "Dish.h"
+#import "Order.h"
 
-@protocol OrderALaCarteDelegate <NSObject>
+@interface OrderALaCarteModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate> {
+	NSArray * compositions;
+	NSArray * dishes;
+	NSArray * orderContents;
 
-- (void)dishClicked:(Dish *)dish;
-
-@end
-
-@interface OrderALaCarteModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate> {
-  NSArray * categories;
-  NSArray * dishes;
+	UITextField * responder;
+	NSMutableArray * counts;
 }
 
-@property (nonatomic, retain) id<OrderALaCarteDelegate> delegate;
+@property (nonatomic, assign) Order *					order;
 
 @end

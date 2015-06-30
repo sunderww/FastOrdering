@@ -7,11 +7,21 @@
 //
 
 #import "Order.h"
+#import "Dish.h"
+#import "MenuComposition.h"
 
 @interface Order (Custom)
 
 - (NSDictionary *)toJSON;
 - (NSData *)toJSONData;
 - (NSString *)toJSONString;
+
+- (void)sanitizeInContext:(NSManagedObjectContext *)context;
+- (void)sanitize;
+- (NSArray *)alacarteContents;
+
+// this method use existing alacarte orderContents first and create them if they don't exist
+- (NSArray *)createALaCarteContents;
+- (OrderedDish *)orderedDishWithDish:(Dish *)dish andComposition:(MenuComposition *)composition;
 
 @end

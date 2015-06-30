@@ -10,4 +10,9 @@
 
 @interface OrderContent (Custom)
 
+- (BOOL)isEmpty;
+
+- (void)sanitizeInContext:(NSManagedObjectContext *)context;
+- (void)sanitize;
+
 @end
