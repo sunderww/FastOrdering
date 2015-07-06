@@ -87,6 +87,8 @@
     </Compile>
     <Compile Include="Misc\Misc.cs" />
     <Compile Include="Misc\Socket.cs" />
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Composition.cs" />
     <Compile Include="Model\Dish.cs" />
     <Compile Include="Model\Menu.cs" />
     <Compile Include="Model\Notification.cs" />

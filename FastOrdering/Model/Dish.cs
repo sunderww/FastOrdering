@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,21 +10,32 @@ namespace FastOrdering.Model
 {
 	public class Dish
 	{
-		public Dish(int id, double price, string name, string category)
+		public static ObservableCollection<Dish> dishes = new ObservableCollection<Dish>();
+
+		[JsonConstructor]
+		public Dish(string id, string name, int price, string[] categories_ids, bool available, DateTime createdAt, DateTime updatedAt)
+		{
+			this.id = id;
+			this.name = name;
+			this.price = price;
+			this.available = available;
+			this.categories = categories_ids;
+		}
+
+		public Dish(string id, double price, string name)
 		{
 			this.id = id;
 			this.price = price;
 			this.name = name;
-			this.category = category;
 			this.comment = "";
 			this.options = "";
 			this.status = 0;
 			this.qty = 0;
 		}
 
-		public int id;
+		public string id;
 		[JsonIgnore]
-		public int ID
+		public string ID
 		{
 			get { return id; }
 		}
@@ -35,11 +47,12 @@ namespace FastOrdering.Model
 		{
 			get { return name; }
 		}
-		private string category;
+		private string[] categories;
 		public int qty;
 		public string comment;
 		public string options;
 		[JsonIgnore]
 		public int status;
+		private bool available;
 	}
 }

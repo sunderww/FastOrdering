@@ -12,7 +12,16 @@ namespace FastOrdering.Model
 	{
 		public static ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
 
-		public Menu(int id, string name, string entryDish, string dishDessert)
+		[JsonConstructor]
+		public Menu(string name, DateTime createdAt, DateTime updatedAt, string id)
+		{
+			this.name = name;
+			this.idMenu = id;
+			this.hasCompo = "Collapsed";
+			this.hasNoCompo = "Collapsed";
+		}
+
+		public Menu(string id, string name, string entryDish, string dishDessert)
 		{
 			this.idMenu = id;
 			this.name = name;
@@ -24,28 +33,28 @@ namespace FastOrdering.Model
 			this.Dessert = "Collapsed";
 
 			MyDictionary<Dish> d = new MyDictionary<Dish>();
-			d.Key = new Dish(0, 5, "Salade", "entry");
+			d.Key = new Dish("0", 5, "Salade");
 			d.Value = 0;
 			entries.Add(d);
 			MyDictionary<Dish> d2 = new MyDictionary<Dish>();
-			d2.Key = new Dish(2, 3, "Radis", "entry");
+			d2.Key = new Dish("2", 3, "Radis");
 			entries.Add(d2);
 
 			MyDictionary<Dish> d3 = new MyDictionary<Dish>();
-			d3.Key = new Dish(1, 9, "Bavette", "dish");
+			d3.Key = new Dish("1", 9, "Bavette");
 			dishes.Add(d3);
 			MyDictionary<Dish> d1 = new MyDictionary<Dish>();
-			d1.Key = new Dish(4, 8, "Moules frites", "dish");
+			d1.Key = new Dish("4", 8, "Moules frites");
 			dishes.Add(d1);
 			MyDictionary<Dish> d4 = new MyDictionary<Dish>();
-			d4.Key = new Dish(7, 10, "Boeuf bourguignon", "dish");
+			d4.Key = new Dish("7", 10, "Boeuf bourguignon");
 			dishes.Add(d4);
 
 			MyDictionary<Dish> d5 = new MyDictionary<Dish>();
-			d5.Key = new Dish(8, 4, "Glace", "dessert");
+			d5.Key = new Dish("8", 4, "Glace");
 			desserts.Add(d5);
 			MyDictionary<Dish> d6 = new MyDictionary<Dish>();
-			d6.Key = new Dish(9, 5, "Gâteau", "dessert");
+			d6.Key = new Dish("9", 5, "Gâteau");
 			desserts.Add(d6);
 		}
 
@@ -84,13 +93,13 @@ namespace FastOrdering.Model
 		{
 			get { return name; }
 		}
-		private int idMenu;
+		private string idMenu;
 		[JsonIgnore]
-		public int IDMenu
+		public string IDMenu
 		{
 			get { return idMenu; }
 		}
-		public int menuId
+		public string menuId
 		{
 			get { return idMenu; }
 		}
@@ -98,6 +107,7 @@ namespace FastOrdering.Model
 		[JsonIgnore]
 		public string HasCompo
 		{
+			set { hasCompo = value; }
 			get { return hasCompo; }
 		}
 		private string hasNoCompo;
@@ -122,5 +132,13 @@ namespace FastOrdering.Model
 		public string Entry { get; set; }
 		[JsonIgnore]
 		public string Dessert { get; set; }
+
+		[JsonIgnore]
+		private ObservableCollection<Composition> compositions = new ObservableCollection<Composition>();
+		[JsonIgnore]
+		public ObservableCollection<Composition> Compositions
+		{
+			get { return compositions; }
+		}
 	}
 }

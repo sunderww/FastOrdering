@@ -72,19 +72,19 @@ namespace FastOrdering.View
 			this.DataContext = this;
 			//DrawerLayout.InitializeDrawerLayout();
 
-			entries.Add(new Dish(0, 5, "Salade", "entry"));
-			entries.Add(new Dish(1, 15, "Foie gras", "entry"));
-			entries.Add(new Dish(2, 3, "Radis", "entry"));
+			entries.Add(new Dish("0", 5, "Salade"));
+			entries.Add(new Dish("1", 15, "Foie gras"));
+			entries.Add(new Dish("2", 3, "Radis"));
 
-			dishes.Add(new Dish(3, 9, "Bavette", "dish"));
-			dishes.Add(new Dish(4, 8, "Moules frites", "dish"));
-			dishes.Add(new Dish(5, 13, "Magret de canard", "dish"));
-			dishes.Add(new Dish(6, 12, "Couscous", "dish"));
-			dishes.Add(new Dish(7, 10, "Boeuf bourguignon", "dish"));
+			dishes.Add(new Dish("3", 9, "Bavette"));
+			dishes.Add(new Dish("4", 8, "Moules frites"));
+			dishes.Add(new Dish("5", 13, "Magret de canard"));
+			dishes.Add(new Dish("6", 12, "Couscous"));
+			dishes.Add(new Dish("7", 10, "Boeuf bourguignon"));
 
-			desserts.Add(new Dish(8, 4, "Glace", "dessert"));
-			desserts.Add(new Dish(9, 5, "Gâteau", "dessert"));
-			desserts.Add(new Dish(10, 3, "Salade de fruits", "dessert"));
+			desserts.Add(new Dish("8", 4, "Glace"));
+			desserts.Add(new Dish("9", 5, "Gâteau"));
+			desserts.Add(new Dish("10", 3, "Salade de fruits"));
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -238,7 +238,7 @@ namespace FastOrdering.View
 			TextBlock tb = sender as TextBlock;
 			foreach (var menu in Menu.menus)
 			{
-				if (menu.IDMenu == int.Parse(tb.Tag.ToString()))
+				if (menu.IDMenu == tb.Tag.ToString())
 				{
 					selectedMenu = menu;
 					break;
@@ -276,7 +276,7 @@ namespace FastOrdering.View
 				return;
 
 			foreach (var dish in collection)
-				if (dish.ID == int.Parse(tb.Tag.ToString()))
+				if (dish.ID == tb.Tag.ToString())
 				{
 					foreach (var d in ord.Dishes)
 					{
@@ -341,7 +341,7 @@ namespace FastOrdering.View
 			}
 
 			foreach (var dish in collection)
-				if (dish.ID == int.Parse(tb.Tag.ToString()))
+				if (dish.ID == tb.Tag.ToString())
 				{
 					foreach (var d in menuCollection)
 					{

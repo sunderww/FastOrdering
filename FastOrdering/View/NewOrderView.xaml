@@ -326,14 +326,23 @@
                                                                     <RowDefinition Height="Auto" />
                                                                     <RowDefinition Height="Auto" />
                                                                 </Grid.RowDefinitions>
-                                                                <TextBlock Grid.Row="0" Text="Entrées + Plats" FontSize="18"
+                                                            <ListView ItemsSource="{Binding Compositions}">
+                                                                <ListView.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="18"
+                                                                           VerticalAlignment="Center" Margin="20, 10, 0, 0"
+                                                                           Tapped="Menu_Tapped" Tag="{Binding MenuID}"/>
+                                                                    </DataTemplate>
+                                                                </ListView.ItemTemplate>
+                                                            </ListView>
+                                                                <!--<TextBlock Grid.Row="0" Text="Entrées + Plats" FontSize="18"
                                                                        VerticalAlignment="Center" Margin="20, 10, 0, 0"
                                                                        Visibility="{Binding EntryDish}" Tapped="Menu_Tapped"
                                                                        Tag="{Binding IDMenu}"/>
                                                                 <TextBlock Grid.Row="1" Text="Plats + Desserts" FontSize="18"
                                                                        VerticalAlignment="Center" Margin="20, 20, 0, 20"
                                                                        Visibility="{Binding DishDessert}" Tapped="Menu_Tapped"
-                                                                       Tag="{Binding IDMenu}"/>
+                                                                       Tag="{Binding IDMenu}"/>-->
                                                             </Grid>
                                                             <TextBlock Grid.Row="2" Text="{Binding Name}" FontSize="25"
                                                                Tag="{Binding IDMenu}" x:Name="SingleMenu"
