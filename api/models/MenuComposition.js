@@ -9,8 +9,7 @@ module.exports = {
   attributes: {
       price: "integer",
       name: "string",
-      cat: {
-	  type : 'array'
-      }
+      menu_id: "string",
+      categories_ids: "array"
     }
 };
