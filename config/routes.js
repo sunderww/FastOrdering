@@ -39,13 +39,17 @@ module.exports.routes = {
     // Session
     'get /login': 'SessionController.login',
     'post /login': 'SessionController.trylogin',
+    '/logout': 'SessionController.logout',
     
     // User
     'get /register': 'UserController.register',
-    'post /register': 'UserController.create',
+    'post /register': 'UserController.createRestaurant', // Create an Admin User with restaurant
     '/user': 'UserController.index',
     '/user/edit': 'UserController.edit',
     // '/user/': 'UserController.show', TODO
+    
+    // Key
+    '/user/create_key': 'KeyController.create',
     
     '/dashboard': {view: 'dashboard'},
 

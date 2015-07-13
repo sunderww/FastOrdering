@@ -16,7 +16,7 @@
                 <div class="topbar-left">
                     <ol class="breadcrumb">
                         <li class="crumb-active">
-                            <a href="dashboard">Utilisateurs</a>
+                            <a href="dashboard">Options</a>
                         </li>
                         <li class="crumb-icon">
                             <a href="dashboard">
@@ -26,7 +26,7 @@
                         <li class="crumb-link">
                             <a href="dashboard">Accueil</a>
                         </li>
-                        <li class="crumb-trail">Utilisateurs</li>
+                        <li class="crumb-trail">Gérer les utilisateurs</li>
                     </ol>
                 </div>
 
@@ -63,6 +63,11 @@
                             </table>
                         </div>
                     </div>
+                    <% if (session.user && session.user.role == 4) { %>
+                    <div>
+                        <a href="/user/create_key" class="btn btn-sm btn-success">Ajouter une clé</a>
+                    </div>
+                    <% } %>
                 </section>
             </section>
 

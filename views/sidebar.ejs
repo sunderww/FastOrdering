@@ -12,10 +12,10 @@
                 </li>
                 <li class="sidebar-label pt15">Booking</li>
                 <li>
-                    <li>
-                        <a href="#">
-                            <span class="glyphicons glyphicons-show_big_thumbnails"></span> 
-                            <span class="sidebar-title">Gérer les réservations </span></a>
+                        <li>
+                            <a href="/booking">
+                                <span class="glyphicons glyphicons-show_big_thumbnails"></span> 
+                                <span class="sidebar-title">Gérer les réservations </span></a>
                         </li>
                         <li>
                             <a href="#">
@@ -30,13 +30,19 @@
                                     <span class="glyphicons glyphicons-coins"></span> <span class="sidebar-title">Commandes en cours </span></a>
                                 </li>
                             </li>
-
-                            <!-- sidebar resources -->
-                            <li class="sidebar-label pt20">Plan de table</li>
-                            <li>
-                                <a href="#">
-                                    <span class="glyphicons glyphicons-hdd"></span> <span class="sidebar-title">Gérer le plan de table</span></a>
-                                </li>
+                <!-- sidebar resources -->
+                <li class="sidebar-label pt20">Plan de table</li>
+                        <li>
+                            <a href="#">
+                                <span class="glyphicons glyphicons-hdd"></span> <span class="sidebar-title">Gérer le plan de table</span></a>
+                        </li>
+                <% if (session.user && (session.user.role == 4 || session.user.role == 8)) { %>
+                <li class="sidebar-label pt20">Options</li>
+                        <li>
+                            <a href="/user">
+                                <span class="glyphicons glyphicons-hdd"></span> <span class="sidebar-title">Gérer les utilisateurs</span></a>
+                        </li>
+                <% } %>
 
                                 <!-- sidebar progress bars -->
                                 <li class="sidebar-label pt25 pb10">Statistiques</li>

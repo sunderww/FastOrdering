@@ -12,8 +12,18 @@ module.exports = {
 
   	name: { 
   		type: 'string',
-  		required: true,
-  	}
+  		required: true
+  	},
+      
+    users: {
+        collection: 'user',
+        via: 'restaurant'
+    },
+      
+    keys: {
+        collection: 'key',
+        via: 'restaurant'
+    }
 
   	// plan_id: 'string',
 

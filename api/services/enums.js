@@ -16,10 +16,10 @@ module.exports = {
 	},
 
 	UserRole: {
-	  waiter: 1 << 0,		// can manage dishes, orders and bookings
-	  manager: 1 << 1,		// can edit restaurant settings and has waiter and cookers rights
-
-	  admin: 1 << 2			// admin role is not for customers but only for internal administration
+        waiter: 1 << 0,		// can manage dishes, orders and bookings
+        cook: 1 << 1,
+        manager: 1 << 2,		// can edit restaurant settings and has waiter and cookers rights
+        admin: 1 << 3			// admin role is not for customers but only for internal administration
 	}
 
 };

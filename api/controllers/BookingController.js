@@ -75,7 +75,7 @@ module.exports = {
   index: function(req, res){
   	Booking.find(function foundBooking(err, bookings) {
   		if (err) 
-            return res.serveError(err);
+            return res.serverError(err);
 
       bookings.forEach(function(entry) {
         entry.date = String(entry.date).substr(4, 20);

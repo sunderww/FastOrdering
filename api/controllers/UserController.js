@@ -5,9 +5,9 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+var UserRole = require('../services/enums.js').UserRole;
 
 module.exports = {
-	
 
   'register': function (req, res) {
     var errflash = _.clone(req.session.flash);
@@ -16,25 +16,65 @@ module.exports = {
   },
 
   /**
-   * `UserController.create()`
+   * `UserController.createRestaurant()`
    */
-  create: function (req, res) {
+  createRestaurant: function (req, res) {
 
+      var values = req.params.all();
+      
+      values.role = UserRole.manager; // Create an Manager
+      
       User.create(req.params.all()).exec(function userCreated(err, user) {
-      if (err) {
-        console.log(err);
-        req.session.flash = {
-          err: err
+        if (err) {
+            console.log(err);
+            req.session.flash = {
+                err: err
+            }
+            return res.redirect('/register');
         }
-        
-        return res.redirect('/register');
-      }
 
-      res.json(user);
-      req.session.flash = {};
+        // Should I do that in afterCreate ??           // Not sure if user should be add DOC UNCLEAR
+        Restaurant.create({name: req.param('restaurant'), users: user.id}).exec(function restaurantCreated(err, restaurant){
+            if (err) {
+                console.log(err);
+                return res.serverError(err);
+            }
+    
+            User.update({id: user.id}, {restaurant: restaurant.id}).exec(function userUpdated(err, user) {
+                if (err) {
+                    console.log(err);
+                    return res.serverError(err);
+                }
+            });
+            
+        });
+        // Redirect and Login
+        res.json(user); 
+        req.session.flash = {};
    	});
   },
 
+  /**
+   * `UserController.createWaiter()`
+   */
+  createWaiter: function(req, res) {
+      
+      var values = req.params.all();
+      
+      values.role = UserRole.waiter; // Create an Manager
+    
+      User.create(req.params.all()).exec(function userCreated(err, user) {
+        if (err) {
+            console.log(err);
+            req.session.flash = {
+                err: err
+            }
+            return res.redirect('/register');
+        }
+        res.json(user);
+        res.session.flash = {};  
+      });
+  },
 
   /**
    * `UserController.destroy()`
@@ -42,14 +82,14 @@ module.exports = {
   destroy: function (req, res) {
       User.findOne({id: req.param('id')}).exec(function(err, user) {
           if (err)
-              return res.serveError(err);
+              return res.serverError(err);
           if (!user)
               return res.notFound();
       });
       
       User.destroy(req.param('id')).exec(function Destroyed(err) {
         if (err)
-            return res.serveError(err);
+            return res.serverError(err);
       });
       
       return res.redirect('/user');
@@ -68,35 +108,61 @@ module.exports = {
       });
   },
 
+  /**
+   * `UserController.edit()`
+   */
   edit: function(req, res) {
      User.findOne({id: req.param('id')}).exec(function(err, user) {
         if (err)
-            return res.serveError(err);
+            return res.serverError(err);
         if (!user)
             return res.notFound();
          
         res.view('user/edit', {user: user});
     });
   },
-    
+
+  /**
+   * `UserController.show()`
+   */
   show: function(req, res) {
     User.findOne({id: req.param('id')}).exec(function(err, user) {
         if (err)
-            return res.serveError(err);
+            return res.serverError(err);
         if (!user)
             return res.notFound();
         
         res.view('user/show', {user: user});
     });
   },
-    
+ 
+  /**
+   * `UserController.index()`
+   */
   index: function(req, res) {
-    User.find({}).exec(function foundUsers(err, users) {
-        if (err)
-            return res.serveError(err);
+      
+    if (req.session.user)
+    {
         
-        res.view('user/index', {users: users});
-    });
+        if (req.session.user.role == UserRole.admin) {
+            User.find({}).exec(function foundUsers(err, users) {
+                if (err)
+                    return res.serverError(err);
+        
+                res.view('user/index', {users: users});
+            });
+        }
+        if (req.session.user.role == UserRole.manager) {
+            User.find({restaurant: req.session.user.restaurant}).exec(function foundUsers(err, users) {
+                if (err)
+                    return res.serverError(err);
+        
+                res.view('user/index', {users: users});
+            });
+        }
+    }
+    else
+        res.redirect('/login');
   }
 };
 

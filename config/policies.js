@@ -49,10 +49,21 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
     
+    '*': 'isAuthenticated',
+    
     UserController: {
-        destroy: 'isAdmin',
-        edit: 'isAdmin',
-        update: 'isAdmin',
-        index: 'isAdmin'
+        register: true,
+        createRestaurant: true,
+        createWaiter: 'isManager',
+        destroy: 'isAdminOrManager',
+        edit: 'isAdminOrManager',
+        update: 'isAdminOrManager',
+        index: 'isAdminOrManager'
+    },
+    
+    SessionController: {
+        login: true,
+        trylogin: true,
+        logout: 'isAuthenticated'
     }
 };
