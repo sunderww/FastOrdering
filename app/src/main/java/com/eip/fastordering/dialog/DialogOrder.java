@@ -1,9 +1,8 @@
-package com.eip.fastordering;
+package com.eip.fastordering.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -13,16 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.eip.fastordering.R;
+import com.eip.fastordering.fragment.OrderFragment;
+import com.eip.fastordering.struct.ContentOrderStruct;
+import com.eip.fastordering.struct.ItemStruct;
+import com.eip.fastordering.struct.OrderStruct;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 
 public class DialogOrder extends AlertDialog {
 
+    private static JSONObject _mOrderDetailed;
     /***
      * Attributes
      */
@@ -31,7 +36,6 @@ public class DialogOrder extends AlertDialog {
     private OrderStruct _mItem;
     private ArrayList<ContentOrderStruct> _mContent = new ArrayList<ContentOrderStruct>();
     private Fragment _mFrag;
-    private static JSONObject _mOrderDetailed;
 
     /***
      * Methods
@@ -51,7 +55,7 @@ public class DialogOrder extends AlertDialog {
     }
 
     //TODO Delete after demo
-    DialogOrder(Activity activity, OrderStruct item,Fragment frag) {
+    public DialogOrder(Activity activity, OrderStruct item,Fragment frag) {
         super(activity);
 
         _mActivity = (FragmentActivity) activity;

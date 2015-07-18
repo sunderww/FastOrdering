@@ -2,6 +2,8 @@ package com.eip.fastordering;
 
 import android.app.Activity;
 
+import com.eip.fastordering.activity.LoginActivity;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;

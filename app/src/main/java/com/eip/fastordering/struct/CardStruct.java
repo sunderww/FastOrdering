@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.struct;
 
 import android.util.Log;
 
@@ -22,7 +22,7 @@ public class CardStruct {
      * Methods
      */
 
-    CardStruct(JSONObject card,  ArrayList<CategoryStruct> cats) {
+    public CardStruct(JSONObject card,  ArrayList<CategoryStruct> cats) {
         JSONObject alacarte;
         try {
             alacarte = card.getJSONObject("elements");
@@ -41,7 +41,7 @@ public class CardStruct {
         }
     }
 
-    CardStruct(JSONObject card, JSONObject cats) {
+    public CardStruct(JSONObject card, JSONObject cats) {
         JSONObject alacarte;
         try {
             alacarte = card.getJSONObject("elements");

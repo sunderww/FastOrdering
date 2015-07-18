@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.struct;
 
 import android.util.Log;
 
@@ -25,7 +25,7 @@ public class CategoryStruct {
      * Methods
      */
 
-    CategoryStruct(JSONObject cat) {
+    public CategoryStruct(JSONObject cat) {
         try {
             _mCategoryName = cat.getString("name");
             _mId = cat.getString("id");
@@ -34,7 +34,7 @@ public class CategoryStruct {
         }
     }
 
-    CategoryStruct(String cat, JSONObject cats) {
+    public CategoryStruct(String cat, JSONObject cats) {
         JSONArray arr;
         try {
             JSONArray arrCats = cats.getJSONArray("elements");

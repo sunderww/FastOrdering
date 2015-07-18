@@ -2,38 +2,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.eip.fastordering.OptionsFragment">
+    tools:context="com.eip.fastordering.fragment.OptionsFragment">
 
     <ImageView
+        android:id="@+id/img_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/img_bg"
+        android:layout_centerVertical="true"
         android:contentDescription="@string/login_activity_bg"
-        android:src="@drawable/bg"
         android:cropToPadding="true"
         android:scaleType="centerCrop"
-        android:layout_centerVertical="true" />
+        android:src="@drawable/bg" />
 
     <ImageView
         android:id="@+id/white_rect"
-        android:layout_height="500dp"
         android:layout_width="300dp"
-        android:src="@drawable/rect"
-        android:contentDescription="@string/desc_white_rectangle"
+        android:layout_height="500dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="30dp">
+        android:layout_margin="30dp"
+        android:contentDescription="@string/desc_white_rectangle"
+        android:src="@drawable/rect">
     </ImageView>
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_alignTop="@+id/white_rect"
-        android:layout_alignLeft="@+id/white_rect"
-        android:layout_alignStart="@+id/white_rect"
-        android:layout_alignRight="@+id/white_rect"
+        android:layout_alignBottom="@+id/white_rect"
         android:layout_alignEnd="@+id/white_rect"
-        android:layout_alignBottom="@+id/white_rect" />
+        android:layout_alignLeft="@+id/white_rect"
+        android:layout_alignRight="@+id/white_rect"
+        android:layout_alignStart="@+id/white_rect"
+        android:layout_alignTop="@+id/white_rect" />
 
 </RelativeLayout>

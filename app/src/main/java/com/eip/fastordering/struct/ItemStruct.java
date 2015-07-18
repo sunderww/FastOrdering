@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.struct;
 
 import android.util.Log;
 
@@ -24,7 +24,7 @@ public class ItemStruct {
      * Methods
      */
 
-    ItemStruct(JSONObject item) {
+    public ItemStruct(JSONObject item) {
         try {
             _mId = item.getString("id");
             _mComment = item.getString("comment");

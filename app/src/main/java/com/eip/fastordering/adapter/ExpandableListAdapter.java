@@ -1,11 +1,10 @@
-package com.eip.fastordering;
+package com.eip.fastordering.adapter;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,15 +15,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eip.fastordering.R;
+import com.eip.fastordering.fragment.OrderCardFragment;
+import com.eip.fastordering.fragment.OrderFragment;
+import com.eip.fastordering.fragment.OrderMenuCompoFragment;
+import com.eip.fastordering.fragment.OrderOrderFragment;
+import com.eip.fastordering.struct.MenuStruct;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter implements View.OnTouchListener {
 
+    static int _childPosition;
+    static int _groupPosition;
+    TextWatcher _watcher;
+    FragmentActivity _mFACtivity;
     /***
      * Attributes
      */
@@ -33,10 +39,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     private List<String> _listDataHeader;
     private HashMap<String, List<String>> _listDataChild;
     private boolean _mElement;
-    static int _childPosition;
-    static int _groupPosition;
-    TextWatcher _watcher;
-    FragmentActivity _mFACtivity;
     private int _mType;
 
     /***
@@ -113,7 +115,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         if (!_mElement)
             childText = (String) getChild(groupPosition, childPosition);
         else
-            childText = OrderFragment.getNameElementById((String)getChild(groupPosition, childPosition));
+            childText = OrderFragment.getNameElementById((String) getChild(groupPosition, childPosition));
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -223,7 +225,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setText(headerTitle);
-        lblListHeader.setTag((String) getGroup(groupPosition));
+        lblListHeader.setTag(getGroup(groupPosition));
         return convertView;
     }
 

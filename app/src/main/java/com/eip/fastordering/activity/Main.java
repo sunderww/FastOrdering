@@ -1,49 +1,40 @@
-package com.eip.fastordering;
+package com.eip.fastordering.activity;
 
-import android.app.Activity;
+import android.app.ActionBar;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.socket.IOAcknowledge;
+import com.eip.fastordering.R;
+import com.eip.fastordering.fragment.AboutFragment;
+import com.eip.fastordering.fragment.HistoryFragment;
+import com.eip.fastordering.fragment.HomeFragment;
+import com.eip.fastordering.fragment.NavigationDrawerFragment;
+import com.eip.fastordering.fragment.NotificationsFragment;
+import com.eip.fastordering.fragment.OrderFragment;
 
 
 public class Main extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    static public Fragment[] _mTabFragments;
+    static public NotificationCompat.Builder _mBuilder;
+    static public NotificationManager _mNotifyMgr;
     /***
      * Attributes
      */
 
     private NavigationDrawerFragment _mNavigationDrawerFragment;
     private CharSequence _mTitle;
-    static public Fragment[] _mTabFragments;
-    static public NotificationCompat.Builder _mBuilder;
-    static public NotificationManager _mNotifyMgr;
 
     /***
      * Methods

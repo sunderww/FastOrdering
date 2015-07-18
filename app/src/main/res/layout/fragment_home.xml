@@ -2,142 +2,142 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.eip.fastordering.HomeFragment">
+    tools:context="com.eip.fastordering.fragment.HomeFragment">
 
     <ImageView
+        android:id="@+id/img_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/img_bg"
+        android:layout_centerVertical="true"
         android:contentDescription="@string/login_activity_bg"
-        android:src="@drawable/bg"
         android:cropToPadding="true"
         android:scaleType="centerCrop"
-        android:layout_centerVertical="true" />
+        android:src="@drawable/bg" />
 
     <View
+        android:id="@+id/home_separator_order"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_text"
         android:layout_alignBottom="@+id/home_history_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:id="@+id/home_separator_order" />
+        android:background="@color/color_text" />
 
     <View
+        android:id="@+id/home_separator_notif"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_text"
         android:layout_alignBottom="@+id/home_notif_text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:id="@+id/home_separator_notif" />
+        android:background="@color/color_text" />
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/home_list_order"
-        android:background="@color/color_bg"
-        android:layout_below="@+id/home_separator_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/home_separator_order"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:background="@color/color_bg" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/home_history_text"
         android:id="@+id/home_history_text"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/color_text"
-        android:singleLine="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/home_notif_text"
-        android:id="@+id/home_notif_text"
-        android:layout_below="@+id/home_separator_order"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:singleLine="true"
+        android:text="@string/home_history_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/color_text" />
+
+    <TextView
+        android:id="@+id/home_notif_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/home_separator_order"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="170dp"
-        android:textColor="@color/color_text"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:text="@string/home_notif_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/color_text" />
 
     <ListView
+        android:id="@+id/home_list_notif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/home_list_notif"
-        android:layout_below="@+id/home_separator_notif"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/color_bg"
+        android:layout_below="@+id/home_separator_notif"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:background="@color/color_bg" />
 
     <ImageButton
         android:id="@+id/home_rectangle_green"
         android:layout_width="match_parent"
-        android:clickable="true"
-        android:background="@drawable/green_button"
-        android:contentDescription="@string/notification_desc_button"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp">
+        android:background="@drawable/green_button"
+        android:clickable="true"
+        android:contentDescription="@string/notification_desc_button">
     </ImageButton>
 
     <TextView
+        android:id="@+id/home_button_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/home_commander_text"
-        android:id="@+id/home_button_text"
-        android:textSize="25sp"
-        android:textColor="#FFF"
-        android:singleLine="true"
         android:layout_alignTop="@+id/home_rectangle_green"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:text="@string/home_commander_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFF"
+        android:textSize="25sp" />
 
     <TextView
+        android:id="@+id/home_empty_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/home_empty_order"
         android:layout_below="@+id/home_separator_order"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:textColor="@color/color_text"
-        android:text="@string/history_list_empty_text" />
+        android:text="@string/history_list_empty_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/color_text" />
 
     <TextView
+        android:id="@+id/home_empty_notif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/notification_list_empty_text"
-        android:id="@+id/home_empty_notif"
         android:layout_below="@+id/home_separator_notif"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:text="@string/notification_list_empty_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/color_text" />
 
 </RelativeLayout>

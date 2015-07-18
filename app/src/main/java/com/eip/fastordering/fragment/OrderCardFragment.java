@@ -1,11 +1,8 @@
-package com.eip.fastordering;
+package com.eip.fastordering.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +10,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.eip.fastordering.R;
+import com.eip.fastordering.adapter.ExpandableListAdapter;
+import com.eip.fastordering.struct.CategoryStruct;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,16 +25,20 @@ import java.util.List;
  */
 public class OrderCardFragment extends Fragment {
 
+    static List<String> _mListDataHeader;
+    private static HashMap<String, List<String>> _mListDataNb;
     /***
      * Attributes
      */
 
     ExpandableListAdapter _mListAdapter;
     ExpandableListView _mExpListView;
-    static List<String> _mListDataHeader;
     HashMap<String, List<String>> _mListDataChild;
-    private static HashMap<String, List<String>> _mListDataNb;
     View _mRootView;
+
+    public OrderCardFragment() {
+
+    }
 
     /***
      * Methods
@@ -48,13 +51,17 @@ public class OrderCardFragment extends Fragment {
         return f;
     }
 
+    public static HashMap<String, List<String>> get_mListDataNb() {
+        return _mListDataNb;
+    }
+
+    public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
+        _mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    public OrderCardFragment() {
 
     }
 
@@ -92,7 +99,7 @@ public class OrderCardFragment extends Fragment {
         _mExpListView.setAdapter(_mListAdapter);
         _mExpListView.setGroupIndicator(null);
         _mExpListView.setEmptyView(_mRootView.findViewById(R.id.order_card_none));
-        ((RelativeLayout)_mRootView.findViewById(R.id.order_card_layout)).setOnClickListener(new View.OnClickListener() {
+        _mRootView.findViewById(R.id.order_card_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!(v instanceof EditText)) {
@@ -143,13 +150,5 @@ public class OrderCardFragment extends Fragment {
             _mListDataChild.put(_mListDataHeader.get(_mListDataHeader.size() - 1), ids);
             _mListDataNb.put(_mListDataHeader.get(_mListDataHeader.size() - 1), nb);
         }
-    }
-
-    public static HashMap<String, List<String>> get_mListDataNb() {
-        return _mListDataNb;
-    }
-
-    public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
-        _mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
     }
 }

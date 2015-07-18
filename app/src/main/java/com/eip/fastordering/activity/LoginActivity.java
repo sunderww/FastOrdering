@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -16,7 +16,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
+import com.eip.fastordering.R;
+import com.eip.fastordering.fragment.HistoryFragment;
+import com.eip.fastordering.fragment.NotificationsFragment;
+import com.eip.fastordering.fragment.OrderFragment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,15 +39,24 @@ public class LoginActivity extends Activity {
      */
 
     public static SocketIO _mSocket = null;
-    private Context _mContext = null;
-    private final String _mIpServer = "http://163.5.84.184:4242";
-    private ProgressDialog _mProgressDialog;
-
     static JSONObject _mMenus;
     static JSONObject _mCompos;
     static JSONObject _mCats;
     static JSONObject _mAlacarte;
     static JSONObject _mLastOrders;
+    private final String _mIpServer = "http://163.5.84.184:4242";
+    private Context _mContext = null;
+    private ProgressDialog _mProgressDialog;
+
+    static public JSONObject createObjectURL(String URL) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("url", URL);
+        } catch (JSONException e) {
+            Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+        }
+        return obj;
+    }
 
     /***
      * Methods
@@ -65,14 +78,10 @@ public class LoginActivity extends Activity {
 
         //Set key "enter" to validate to connect
         EditText addCourseText = (EditText) findViewById(R.id.field_pass);
-        addCourseText.setOnKeyListener(new View.OnKeyListener()
-        {
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    switch (keyCode)
-                    {
+        addCourseText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             connectToServ();
@@ -132,7 +141,8 @@ public class LoginActivity extends Activity {
             _mSocket = new SocketIO(_mIpServer);
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        }        //Connect and create the listeners for the socket
+        }
+        //Connect and create the listeners for the socket
         _mSocket.connect(new IOCallback() {
             @Override
             public void onMessage(JSONObject json, IOAcknowledge ack) {
@@ -171,8 +181,8 @@ public class LoginActivity extends Activity {
             public void onConnect() {
                 JSONObject msg = new JSONObject();
                 try {
-                    msg.put("name", ((EditText)findViewById(R.id.field_login)).getText().toString());
-                    msg.put("pass", ((EditText)findViewById(R.id.field_pass)).getText().toString());
+                    msg.put("name", ((EditText) findViewById(R.id.field_login)).getText().toString());
+                    msg.put("pass", ((EditText) findViewById(R.id.field_pass)).getText().toString());
                 } catch (JSONException e) {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }
@@ -300,16 +310,6 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
-    static public JSONObject createObjectURL(String URL) {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("url", URL);
-        } catch (JSONException e) {
-            Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-        }
-        return obj;
-    }
-
     private void eventsToListen(String event, Object... args) {
         switch (event) {
             case "receive_order":
@@ -317,7 +317,7 @@ public class LoginActivity extends Activity {
                 break;
 
             case "notifications":
-                NotificationsFragment.addNotificationToList((JSONObject)args[0]);
+                NotificationsFragment.addNotificationToList((JSONObject) args[0]);
                 break;
 
             case "update":

@@ -1,22 +1,25 @@
-package com.eip.fastordering;
+package com.eip.fastordering.fragment;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.eip.fastordering.R;
+import com.eip.fastordering.activity.Main;
+import com.eip.fastordering.adapter.AdapterHistory;
+import com.eip.fastordering.dialog.DialogOrder;
+import com.eip.fastordering.struct.OrderStruct;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import io.socket.IOAcknowledge;
 
 
 public class HistoryFragment extends Fragment {
@@ -26,11 +29,15 @@ public class HistoryFragment extends Fragment {
      */
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    static private Fragment _mFragment;
-    static public ArrayList<OrderStruct> _mItems = new ArrayList<OrderStruct>();
-    static private AdapterHistory _mAdapter;
     static private final int _mSizeList = 20;
+    static public ArrayList<OrderStruct> _mItems = new ArrayList<OrderStruct>();
+    static private Fragment _mFragment;
+    static private AdapterHistory _mAdapter;
     static private JSONObject _mFullOrder;
+
+    public HistoryFragment() {
+
+    }
 
     /***
      * Methods
@@ -71,8 +78,32 @@ public class HistoryFragment extends Fragment {
         return (HistoryFragment)_mFragment;
     }
 
-    public HistoryFragment() {
+    /***
+     * Add an item to the custom list view
+     * @param cmd, Command formatted in JSON
+     */
+    static public void addOrderToList(JSONObject cmd) {
+        if (_mItems.size() >= _mSizeList)
+            _mItems.remove(_mSizeList -1);
+        _mItems.add(0, new OrderStruct(cmd));
+        if (_mAdapter != null)
+            _mAdapter.notifyDataSetChanged();
+    }
 
+    static public void getLastOrders(JSONObject orders) {
+        JSONArray arrayOrders = null;
+        try {
+            arrayOrders = orders.getJSONArray("orders");
+        } catch (JSONException e) {
+
+        }
+        for (int i = 0; i < arrayOrders.length(); ++i) {
+            try {
+                addOrderToList(arrayOrders.getJSONObject(i));
+            } catch (JSONException e) {
+
+            }
+        }
     }
 
     @Override
@@ -130,34 +161,6 @@ public class HistoryFragment extends Fragment {
         super.onAttach(activity);
         ((Main) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
-    }
-
-    /***
-     * Add an item to the custom list view
-     * @param cmd, Command formatted in JSON
-     */
-    static public void addOrderToList(JSONObject cmd) {
-        if (_mItems.size() >= _mSizeList)
-            _mItems.remove(_mSizeList -1);
-        _mItems.add(0, new OrderStruct(cmd));
-        if (_mAdapter != null)
-            _mAdapter.notifyDataSetChanged();
-    }
-
-    static public void getLastOrders(JSONObject orders) {
-        JSONArray arrayOrders = null;
-        try {
-            arrayOrders = orders.getJSONArray("orders");
-        } catch (JSONException e) {
-
-        }
-        for (int i = 0; i < arrayOrders.length(); ++i) {
-            try {
-                addOrderToList(arrayOrders.getJSONObject(i));
-            } catch (JSONException e) {
-
-            }
-        }
     }
 
 }

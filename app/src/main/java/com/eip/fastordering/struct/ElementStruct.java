@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.struct;
 
 import android.util.Log;
 
@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 
 
@@ -25,7 +24,7 @@ public class ElementStruct {
      * Methods
      */
 
-    ElementStruct(JSONObject elem) {
+    public ElementStruct(JSONObject elem) {
         JSONArray jsonIdCat;
         try {
             _mId = elem.getString("id");
@@ -37,6 +36,7 @@ public class ElementStruct {
             }
         } catch (JSONException e) {
             Log.d("ELEMENTSTRUCT", "EXCEPTION JSON:" + e.toString());
+            Log.d("ELEMENTSTRUCT", "ERROR FROM:" + elem.toString());
         }
     }
 

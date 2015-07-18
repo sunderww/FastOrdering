@@ -2,15 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.eip.fastordering.OrderFragment">
+    tools:context="com.eip.fastordering.fragment.OrderFragment">
 
     <ImageView
         android:id="@+id/about_bg"
-        android:contentDescription="@string/login_activity_bg"
-        android:src="@drawable/bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"/>
+        android:contentDescription="@string/login_activity_bg"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg"/>
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"

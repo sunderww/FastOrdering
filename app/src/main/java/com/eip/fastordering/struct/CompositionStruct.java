@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.struct;
 
 import android.util.Log;
 
@@ -18,7 +18,6 @@ public class CompositionStruct {
      */
 
     private String _mNameCompo;
-    private double _mPrice;
     private String _mId;
     private String _mMenuId;
     private ArrayList<CategoryStruct> _mCat = new ArrayList<CategoryStruct>();
@@ -27,9 +26,8 @@ public class CompositionStruct {
      * Methods
      */
 
-    CompositionStruct(JSONObject compo, ArrayList<CategoryStruct> cats) {
+    public CompositionStruct(JSONObject compo, ArrayList<CategoryStruct> cats) {
         try {
-            _mPrice = compo.getDouble("price");
             _mNameCompo = compo.getString("name");
             _mId = compo.getString("id");
             _mMenuId = compo.getString("menu_id");
@@ -46,38 +44,14 @@ public class CompositionStruct {
                     }
                 }
                 Log.d("COMPOSITION", "" + _mNameCompo );
-                for (CategoryStruct item: _mCat) {
-                    //Log.d("COMPOS CATS", item);
-                }
             } catch (JSONException e) {
                 Log.d("COMPOSITION STRUCT", "EXCEPTION JSON:" + e.toString());
+                Log.d("COMPOSITION STRUCT", "ERROR FROM:" + compo.toString());
             }
 
         } catch (JSONException e) {
             Log.d("COMPOSITION STRUCT", "EXCEPTION JSON:" + e.toString());
         }
-    }
-
-    CompositionStruct(String cat, JSONArray compos, JSONObject cats) {
-        JSONArray arr;
-        try {
-            for (int i = 0; i < compos.length(); ++i) {
-                if (cat.equals(compos.getJSONObject(i).getString("id"))) {
-                    _mPrice = compos.getJSONObject(i).getInt("price");
-                    _mNameCompo = compos.getJSONObject(i).getString("name");
-                    arr = compos.getJSONObject(i).getJSONArray("cat");
-                    for (int j = 0; j < arr.length(); ++j) {
-                        _mCat.add(new CategoryStruct(arr.getString(j), cats));
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            Log.d("COMPOSITION STRUCT", "EXCEPTION JSON:" + e.toString());
-        }
-    }
-
-    public double get_mPrice() {
-        return _mPrice;
     }
 
     public ArrayList<CategoryStruct> get_mCat() {

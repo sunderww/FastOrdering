@@ -1,8 +1,7 @@
-package com.eip.fastordering;
+package com.eip.fastordering.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +14,17 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.eip.fastordering.R;
+import com.eip.fastordering.activity.LoginActivity;
+import com.eip.fastordering.adapter.ExpandableListAdapter;
+import com.eip.fastordering.struct.OrderStruct;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -37,12 +40,16 @@ public class OrderOrderFragment extends Fragment {
      */
 
     static ExpandableListAdapter _mListAdapter;
-    ExpandableListView _mExpListView;
     static List<String> _mListDataHeader;
     static HashMap<String, List<String>> _mListDataChild;
-    private static HashMap<String, List<String>> _mListDataNb;
     static View _mRootView;
+    private static HashMap<String, List<String>> _mListDataNb;
     static private OrderStruct _mDetails;
+    ExpandableListView _mExpListView;
+
+    public OrderOrderFragment() {
+
+    }
 
     /***
      * Methods
@@ -62,16 +69,6 @@ public class OrderOrderFragment extends Fragment {
         Bundle b = new Bundle();
         f.setArguments(b);
         return f;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    public OrderOrderFragment() {
-
     }
 
     public static void setExistingOrder(OrderStruct order) {
@@ -112,6 +109,94 @@ public class OrderOrderFragment extends Fragment {
                 }
             }
         }
+    }
+
+    static void addMenuToOrder(String menuId, HashMap<String, String> dishes) {
+        List<String> listHeaderAdapter = _mListAdapter.get_listDataHeader();
+
+        int i = 0;
+        for (String menu : listHeaderAdapter) {
+            if (menu.equals(menuId)) {
+                int j = 0;
+                for (Map.Entry<String, String> dish : dishes.entrySet()) {
+                    boolean found = false;
+                    for (String dishInOrder : _mListAdapter.get_listDataChild().get(menu)) {
+                        if (dishInOrder.equals(dish.getKey())) {
+                            int one = Integer.parseInt(_mListDataNb.get(menu).get(j));
+                            int two = Integer.parseInt(dish.getValue());
+                            _mListDataNb.get(menu).set(j, ((Integer)(one + two)).toString());
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        _mListAdapter.get_listDataChild().get(menu).add(dish.getKey());
+                        _mListDataNb.get(menu).add(dish.getValue());
+                    }
+                    ++j;
+                }
+                _mListAdapter.notifyDataSetChanged();
+                checkListEmpty();
+                return;
+            }
+            ++i;
+        }
+
+        listHeaderAdapter.add(menuId);
+        _mListAdapter.get_listDataChild().put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
+        _mListDataNb.put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
+        for (Map.Entry<String, String> dish : dishes.entrySet()) {
+            _mListAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getKey());
+            _mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getValue());
+        }
+        _mListAdapter.notifyDataSetChanged();
+        checkListEmpty();
+    }
+
+    static void addCardElementToOrder(String idCard, String idDish, String number) {
+        for (int i = 0; i < _mListAdapter.get_listDataHeader().size(); ++i) {
+            if (_mListAdapter.get_listDataHeader().get(i).equals(idCard)) {
+                //Verifie si plat deja present, si oui ajoute la qte
+                for (int j = 0; j < _mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(); ++j) {
+                    if (_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).get(j).equals(idDish)) {
+                        int one = Integer.parseInt(number);
+                        int two = Integer.parseInt(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).get(j));
+                        _mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).set(j, ((Integer)(one + two)).toString());
+                        _mListAdapter.notifyDataSetChanged();
+                        checkListEmpty();
+                        return;
+                    }
+                }
+
+                //Sinon ajoute dans les listes
+                _mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).add(_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(), idDish);
+                _mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).size(), number);
+                _mListAdapter.notifyDataSetChanged();
+                checkListEmpty();
+                return;
+            }
+        }
+        _mListAdapter.get_listDataHeader().add(OrderFragment.get_mCard().get_mId());
+        _mListAdapter.get_listDataChild().put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
+        _mListDataNb.put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
+        _mListAdapter.get_listDataChild().get(OrderFragment.get_mCard().get_mId()).add(0, idDish);
+        _mListDataNb.get(OrderFragment.get_mCard().get_mId()).add(0, number);
+        _mListAdapter.notifyDataSetChanged();
+        checkListEmpty();
+    }
+
+    public static HashMap<String, List<String>> get_mListDataNb() {
+        return _mListDataNb;
+    }
+
+    public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
+        _mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -205,89 +290,6 @@ public class OrderOrderFragment extends Fragment {
         });
 
         return _mRootView;
-    }
-
-
-    static void addMenuToOrder(String menuId, HashMap<String, String> dishes) {
-        List<String> listHeaderAdapter = _mListAdapter.get_listDataHeader();
-
-        int i = 0;
-        for (String menu : listHeaderAdapter) {
-            if (menu.equals(menuId)) {
-                int j = 0;
-                for (Map.Entry<String, String> dish : dishes.entrySet()) {
-                    boolean found = false;
-                    for (String dishInOrder : _mListAdapter.get_listDataChild().get(menu)) {
-                        if (dishInOrder.equals(dish.getKey())) {
-                            int one = Integer.parseInt(_mListDataNb.get(menu).get(j));
-                            int two = Integer.parseInt(dish.getValue());
-                            _mListDataNb.get(menu).set(j, ((Integer)(one + two)).toString());
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        _mListAdapter.get_listDataChild().get(menu).add(dish.getKey());
-                        _mListDataNb.get(menu).add(dish.getValue());
-                    }
-                    ++j;
-                }
-                _mListAdapter.notifyDataSetChanged();
-                checkListEmpty();
-                return;
-            }
-            ++i;
-        }
-
-        listHeaderAdapter.add(menuId);
-        _mListAdapter.get_listDataChild().put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
-        _mListDataNb.put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
-        for (Map.Entry<String, String> dish : dishes.entrySet()) {
-            _mListAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getKey());
-            _mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getValue());
-        }
-        _mListAdapter.notifyDataSetChanged();
-        checkListEmpty();
-    }
-
-    static void addCardElementToOrder(String idCard, String idDish, String number) {
-        for (int i = 0; i < _mListAdapter.get_listDataHeader().size(); ++i) {
-            if (_mListAdapter.get_listDataHeader().get(i).equals(idCard)) {
-                //Verifie si plat deja present, si oui ajoute la qte
-                for (int j = 0; j < _mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(); ++j) {
-                    if (_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).get(j).equals(idDish)) {
-                        int one = Integer.parseInt(number);
-                        int two = Integer.parseInt(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).get(j));
-                        _mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).set(j, ((Integer)(one + two)).toString());
-                        _mListAdapter.notifyDataSetChanged();
-                        checkListEmpty();
-                        return;
-                    }
-                }
-
-                //Sinon ajoute dans les listes
-                _mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).add(_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(), idDish);
-                _mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).size(), number);
-                _mListAdapter.notifyDataSetChanged();
-                checkListEmpty();
-                return;
-            }
-        }
-        _mListAdapter.get_listDataHeader().add(OrderFragment.get_mCard().get_mId());
-        _mListAdapter.get_listDataChild().put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
-        _mListDataNb.put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
-        _mListAdapter.get_listDataChild().get(OrderFragment.get_mCard().get_mId()).add(0, idDish);
-        _mListDataNb.get(OrderFragment.get_mCard().get_mId()).add(0, number);
-        _mListAdapter.notifyDataSetChanged();
-        checkListEmpty();
-    }
-
-    public static HashMap<String, List<String>> get_mListDataNb() {
-        return _mListDataNb;
-    }
-
-    public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
-        _mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
     }
 
     private class GroupTouchListener implements View.OnTouchListener {

@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.struct;
 
 import android.util.Log;
 
@@ -24,7 +24,7 @@ public class ContentOrderStruct {
      * Methods
      */
 
-    ContentOrderStruct(JSONObject menu) {
+    public ContentOrderStruct(JSONObject menu) {
         JSONArray arr;
         try {
             _mId = menu.getString("menuId");

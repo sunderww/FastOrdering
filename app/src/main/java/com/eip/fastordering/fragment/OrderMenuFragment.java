@@ -1,16 +1,20 @@
-package com.eip.fastordering;
+package com.eip.fastordering.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
+
+import com.eip.fastordering.R;
+import com.eip.fastordering.adapter.ExpandableListAdapter;
+import com.eip.fastordering.struct.CompositionStruct;
+import com.eip.fastordering.struct.MenuStruct;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +34,10 @@ public class OrderMenuFragment extends Fragment {
     List<String> _mListDataHeader;
     HashMap<String, List<String>> _mListDataChild;
 
+    public OrderMenuFragment() {
+
+    }
+
     /***
      * Methods
      */
@@ -44,10 +52,6 @@ public class OrderMenuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    public OrderMenuFragment() {
 
     }
 

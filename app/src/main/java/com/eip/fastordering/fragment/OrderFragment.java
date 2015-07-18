@@ -1,4 +1,4 @@
-package com.eip.fastordering;
+package com.eip.fastordering.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,13 +8,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.eip.fastordering.R;
+import com.eip.fastordering.activity.Main;
+import com.eip.fastordering.struct.CardStruct;
+import com.eip.fastordering.struct.CategoryStruct;
+import com.eip.fastordering.struct.CompositionStruct;
+import com.eip.fastordering.struct.ElementStruct;
+import com.eip.fastordering.struct.MenuStruct;
+import com.eip.fastordering.struct.OrderStruct;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,11 +41,14 @@ public class OrderFragment extends Fragment {
     private static ArrayList<MenuStruct> _mMenus = new ArrayList<MenuStruct>();
     private static ArrayList<CategoryStruct> _mCats = new ArrayList<CategoryStruct>();
     private static ArrayList<CompositionStruct> _mCompos = new ArrayList<CompositionStruct>();
-
-    private View _mRootView;
     private static FragmentActivity _mActivity;
     static private JSONObject _mOrder;
     static private OrderStruct _mDetails;
+    private View _mRootView;
+
+    public OrderFragment() {
+
+    }
 
     /**
      * Methods
@@ -56,40 +64,6 @@ public class OrderFragment extends Fragment {
         return fragment;
     }
 
-    public OrderFragment() {
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        _mRootView = inflater.inflate(R.layout.fragment_order, container, false);
-
-        // Initialize the ViewPager and set an adapter
-        ViewPager pager = (ViewPager) _mRootView.findViewById(R.id.pager);
-        pager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
-        pager.setOffscreenPageLimit(2);
-
-        // Bind the tabs to the ViewPager
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) _mRootView.findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
-
-        if (_mDetails != null) {
-            OrderOrderFragment.setExistingOrder(_mDetails);
-        }
-
-        return _mRootView;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        _mActivity = (FragmentActivity)activity;
-
-        ((Main) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
-    }
-
     static public void fetchElements(JSONObject elements) {
         JSONArray arr;
         _mElements.clear();
@@ -102,28 +76,9 @@ public class OrderFragment extends Fragment {
         }
     }
 
-    /* OLD */
-//    static public void fetchCard(JSONObject card, JSONObject cats) {
-//        _mCard = new CardStruct(card, cats);
-//    }
-
     static public void fetchCard(JSONObject card) {
         _mCard = new CardStruct(card, _mCats);
     }
-
-    /* OLD */
-//    static public void fetchMenus(JSONObject menus, JSONArray compos, JSONObject cats) {
-//        JSONArray arr;
-//        _mMenus.clear();
-//        try {
-//            arr = menus.getJSONArray("elements");
-//            for (int i = 0; i < arr.length(); ++i) {
-//                _mMenus.add(new MenuStruct(arr.getJSONObject(i), compos, cats));
-//            }
-//        } catch (JSONException e) {
-//            Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
-//        }
-//    }
 
     static public void fetchMenus(JSONObject menus, JSONObject compos, JSONObject cats) {
         JSONArray arr;
@@ -182,10 +137,28 @@ public class OrderFragment extends Fragment {
         }
     }
 
+    /* OLD */
+//    static public void fetchCard(JSONObject card, JSONObject cats) {
+//        _mCard = new CardStruct(card, cats);
+//    }
 
     public static CardStruct get_mCard() {
         return _mCard;
     }
+
+    /* OLD */
+//    static public void fetchMenus(JSONObject menus, JSONArray compos, JSONObject cats) {
+//        JSONArray arr;
+//        _mMenus.clear();
+//        try {
+//            arr = menus.getJSONArray("elements");
+//            for (int i = 0; i < arr.length(); ++i) {
+//                _mMenus.add(new MenuStruct(arr.getJSONObject(i), compos, cats));
+//            }
+//        } catch (JSONException e) {
+//            Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
+//        }
+//    }
 
     public static ArrayList<MenuStruct> get_mMenus() {
         return _mMenus;
@@ -201,7 +174,7 @@ public class OrderFragment extends Fragment {
                 return elem.get_mName();
         }
       return "";
-    };
+    }
 
     public static String getNameCatById(String id) {
         if (id.equals(_mCard.get_mId()))
@@ -211,6 +184,36 @@ public class OrderFragment extends Fragment {
                 return menu.get_mName();
         }
         return "";
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        _mRootView = inflater.inflate(R.layout.fragment_order, container, false);
+
+        // Initialize the ViewPager and set an adapter
+        ViewPager pager = (ViewPager) _mRootView.findViewById(R.id.pager);
+        pager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
+        pager.setOffscreenPageLimit(2);
+
+        // Bind the tabs to the ViewPager
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) _mRootView.findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
+
+        if (_mDetails != null) {
+            OrderOrderFragment.setExistingOrder(_mDetails);
+        }
+
+        return _mRootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        _mActivity = (FragmentActivity)activity;
+
+        ((Main) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     public class MyPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {

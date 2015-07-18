@@ -1,13 +1,8 @@
-package com.eip.fastordering;
+package com.eip.fastordering.fragment;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -20,6 +15,11 @@ import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.eip.fastordering.R;
+import com.eip.fastordering.activity.Main;
+import com.eip.fastordering.adapter.AdapterNotif;
+import com.eip.fastordering.struct.NotifStruct;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,11 +34,15 @@ public class NotificationsFragment extends Fragment {
      */
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    static private final int _mSizeList = 20;
     static public ArrayList<NotifStruct> _mItems = new ArrayList<NotifStruct>();
     static public AdapterNotif _mAdapter;
     static private View _mRootView = null;
-    static private final int _mSizeList = 20;
     private static  NotificationsFragment _mFragment;
+
+    public NotificationsFragment() {
+
+    }
 
     /***
      * Methods
@@ -53,23 +57,19 @@ public class NotificationsFragment extends Fragment {
         _mItems.clear();
 
         //TODO Delete after demo
-        JSONObject notif = new JSONObject();
-        try {
-            notif.put("numTable", "11");
-            notif.put("msg", "Entree pretes");
-            notif.put("date", "12/12/12");
-            notif.put("hour", "12:12");
-        } catch (JSONException e) {
-
-        }
-        addNotificationToList(notif);
+//        JSONObject notif = new JSONObject();
+//        try {
+//            notif.put("numTable", "11");
+//            notif.put("msg", "Entree pretes");
+//            notif.put("date", "12/12/12");
+//            notif.put("hour", "12:12");
+//        } catch (JSONException e) {
+//
+//        }
+//        addNotificationToList(notif);
         //TODO End delete
 
         return _mFragment;
-    }
-
-    public NotificationsFragment() {
-
     }
 
     static private void checkListEmpty() {
@@ -84,6 +84,26 @@ public class NotificationsFragment extends Fragment {
                 text.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    static public void addNotificationToList(JSONObject notif) {
+        if (_mItems.size() >= _mSizeList)
+            _mItems.remove(_mSizeList -1);
+        _mItems.add(0, new NotifStruct(notif));
+        if (_mAdapter != null)
+            _mAdapter.notifyDataSetChanged();
+        checkListEmpty();
+        try {
+            createNotificationLauncher("Nouvelle notification", notif.getString("msg"));
+        } catch (JSONException e) {
+            Log.d("NOTIFICATIONSFRAGMENT", "EXCEPTION JSON:" + e.toString());
+        }
+    }
+
+    static public void createNotificationLauncher(String title, String text) {
+        Main._mBuilder.setContentTitle(title).setContentText(text);
+        int mNotificationId = 001;
+        Main._mNotifyMgr.notify(mNotificationId, Main._mBuilder.build());
     }
 
     @Override
@@ -179,26 +199,6 @@ public class NotificationsFragment extends Fragment {
         super.onAttach(activity);
         ((Main) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
-    }
-
-    static public void addNotificationToList(JSONObject notif) {
-        if (_mItems.size() >= _mSizeList)
-            _mItems.remove(_mSizeList -1);
-        _mItems.add(0, new NotifStruct(notif));
-        if (_mAdapter != null)
-            _mAdapter.notifyDataSetChanged();
-        checkListEmpty();
-        try {
-            createNotificationLauncher("Nouvelle notification", notif.getString("msg"));
-        } catch (JSONException e) {
-            Log.d("NOTIFICATIONSFRAGMENT", "EXCEPTION JSON:" + e.toString());
-        }
-    }
-
-    static public void createNotificationLauncher(String title, String text) {
-        Main._mBuilder.setContentTitle(title).setContentText(text);
-        int mNotificationId = 001;
-        Main._mNotifyMgr.notify(mNotificationId, Main._mBuilder.build());
     }
 
 }

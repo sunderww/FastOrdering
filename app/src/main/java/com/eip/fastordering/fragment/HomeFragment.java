@@ -1,16 +1,21 @@
-package com.eip.fastordering;
+package com.eip.fastordering.fragment;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.eip.fastordering.R;
+import com.eip.fastordering.activity.Main;
+import com.eip.fastordering.adapter.AdapterHistory;
+import com.eip.fastordering.adapter.AdapterNotif;
+import com.eip.fastordering.dialog.DialogOrder;
+import com.eip.fastordering.struct.NotifStruct;
+import com.eip.fastordering.struct.OrderStruct;
 
 import java.util.ArrayList;
 
@@ -27,6 +32,9 @@ public class HomeFragment extends Fragment {
     private ArrayList<NotifStruct> _mItemsNotif = new ArrayList<NotifStruct>();
     private AdapterNotif _mAdapterNotif;
 
+    public HomeFragment() {
+    }
+
     /***
      * Methods
      */
@@ -39,16 +47,13 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
-    public HomeFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        ((ListView)rootView.findViewById(R.id.home_list_order)).setEmptyView(((TextView)rootView.findViewById(R.id.home_empty_order)));
-        ((ListView)rootView.findViewById(R.id.home_list_notif)).setEmptyView(((TextView)rootView.findViewById(R.id.home_empty_notif)));
+        ((ListView)rootView.findViewById(R.id.home_list_order)).setEmptyView(rootView.findViewById(R.id.home_empty_order));
+        ((ListView)rootView.findViewById(R.id.home_list_notif)).setEmptyView(rootView.findViewById(R.id.home_empty_notif));
 
         _mAdapterOrder = new AdapterHistory(container.getContext(), _mItemsOrder);
         ((ListView)rootView.findViewById(R.id.home_list_order)).setAdapter(_mAdapterOrder);
@@ -78,12 +83,12 @@ public class HomeFragment extends Fragment {
             _mItemsNotif.add(1, NotificationsFragment._mItems.get(1));
         _mAdapterNotif.notifyDataSetChanged();
 
-        ((ImageButton)rootView.findViewById(R.id.home_rectangle_green)).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.home_rectangle_green).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 NavigationDrawerFragment.mCurrentSelectedPosition = 1;
                 NavigationDrawerFragment.mDrawerListView.setItemChecked(1, true);
                 NavigationDrawerFragment.mCallbacks.onNavigationDrawerItemSelected(1);
-                ((Main)getActivity()).getActionBar().setTitle(getString(R.string.title_section2));
+                getActivity().getActionBar().setTitle(getString(R.string.title_section2));
             }
         });
 
