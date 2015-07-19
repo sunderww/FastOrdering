@@ -34,10 +34,6 @@ import io.socket.SocketIOException;
 
 public class LoginActivity extends Activity {
 
-    /***
-     * Attributes
-     */
-
     public static SocketIO _mSocket = null;
     static JSONObject _mMenus;
     static JSONObject _mCompos;
@@ -45,9 +41,13 @@ public class LoginActivity extends Activity {
     static JSONObject _mAlacarte;
     static JSONObject _mLastOrders;
     private final String _mIpServer = "http://163.5.84.184:4242";
-    private Context _mContext = null;
     private ProgressDialog _mProgressDialog;
 
+    /**
+     * Create JSONObject with /event to ask to the server
+     * @param URL
+     * @return
+     */
     static public JSONObject createObjectURL(String URL) {
         JSONObject obj = new JSONObject();
         try {
@@ -58,14 +58,13 @@ public class LoginActivity extends Activity {
         return obj;
     }
 
-    /***
-     * Methods
+    /**
+     * Create the content of the view
+     * @param savedInstanceState
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _mContext = this;
         setContentView(R.layout.activity_login);
 
         //Add event listener to connexion button
@@ -95,6 +94,11 @@ public class LoginActivity extends Activity {
         });
     }
 
+    /**
+     * Create the options menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -102,11 +106,15 @@ public class LoginActivity extends Activity {
         return true;
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -114,21 +122,27 @@ public class LoginActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handle different case with keyboard/focus
+     * @param event
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //Close keyboard if touch outside
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
         //Allow to loose focus of fields
-        EditText fieldLogin = (EditText) findViewById(R.id.field_login);
-        fieldLogin.clearFocus();
-
         EditText fieldPass = (EditText) findViewById(R.id.field_pass);
         fieldPass.clearFocus();
         return true;
     }
 
+    /**
+     * Send data to serv and fetch datas
+     * Setup sockets
+     */
     private void connectToServ() {
         _mProgressDialog = new ProgressDialog(this);
         _mProgressDialog.setTitle(getBaseContext().getString(R.string.spinner_title));
@@ -181,16 +195,28 @@ public class LoginActivity extends Activity {
             public void onConnect() {
                 JSONObject msg = new JSONObject();
                 try {
-                    msg.put("name", ((EditText) findViewById(R.id.field_login)).getText().toString());
-                    msg.put("pass", ((EditText) findViewById(R.id.field_pass)).getText().toString());
+                    msg.put("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
+
+                    LoginActivity._mSocket.emit("authentification", new IOAcknowledge() {
+                        @Override
+                        public void ack(Object... objects) {
+                            JSONObject rep = null;
+                            try {
+                                rep = new JSONObject(objects[0].toString());
+                            } catch (JSONException e) {
+                                Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                            }
+                            handleAuthentification(rep);
+                        }
+                    }, msg);
+
                 } catch (JSONException e) {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }
 
+                //TODO Delete once authentification okay
                 //Data to fetch from server
                 fetchAllMenu();
-                //TODO Uncomment once done
-                //fetchLastOrders();
             }
 
             @Override
@@ -201,6 +227,9 @@ public class LoginActivity extends Activity {
         });
     }
 
+    /**
+     * Fetch all components of the card of the restaurant
+     */
     private void fetchAllMenu() {
         fetchElements();
         fetchMenus();
@@ -209,6 +238,9 @@ public class LoginActivity extends Activity {
         fetchAlacarte();
     }
 
+    /**
+     * Fetch the /elements data
+     */
     private void fetchElements() {
         JSONObject obj = createObjectURL("/elements");
 
@@ -226,6 +258,9 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
+    /**
+     * Fetch the /menus data
+     */
     private void fetchMenus() {
         JSONObject obj = createObjectURL("/menus");
 
@@ -241,6 +276,9 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
+    /**
+     * Fetch the /compos data
+     */
     private void fetchCompos() {
         JSONObject obj = createObjectURL("/compos");
 
@@ -256,6 +294,9 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
+    /**
+     * Fetch the categories data
+     */
     private void fetchCats() {
         JSONObject obj = createObjectURL("/dishcategory/read");
 
@@ -272,6 +313,9 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
+    /**
+     * Fetch the /alacarte data
+     */
     private void fetchAlacarte() {
         JSONObject obj = createObjectURL("/alacarte");
 
@@ -284,7 +328,6 @@ public class LoginActivity extends Activity {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }
                 OrderFragment.fetchCard(_mAlacarte);
-//                OrderFragment.fetchCard(_mAlacarte, _mCats);
                 _mProgressDialog.dismiss();
 
                 Intent mainActivity = new Intent(LoginActivity.this, Main.class);
@@ -294,6 +337,9 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
+    /**
+     * Fetch the last orders
+     */
     private void fetchLastOrders() {
         JSONObject obj = createObjectURL("/get_last_orders");
 
@@ -310,22 +356,57 @@ public class LoginActivity extends Activity {
         }, obj);
     }
 
+    /**
+     * Handle all different events needed
+     * @param event
+     * @param args
+     */
     private void eventsToListen(String event, Object... args) {
         switch (event) {
             case "receive_order":
-                HistoryFragment.addOrderToList((JSONObject)args[0]);
+                HistoryFragment.addOrderToList((JSONObject) args[0]);
                 break;
-
             case "notifications":
                 NotificationsFragment.addNotificationToList((JSONObject) args[0]);
                 break;
-
             case "update":
                 fetchAllMenu();
                 break;
-
+            case "question":
+                //TODO
+                break;
+            case "order_ready":
+                //TODO
+                break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * Manage things to do if authentification succeeds or not
+     * @param answer
+     */
+    private void handleAuthentification(JSONObject answer) {
+        try {
+            if (answer == null || !answer.getBoolean("answer")) {
+                //On error authentification
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast msg = Toast.makeText(LoginActivity.this, R.string.login_auth_fail, Toast.LENGTH_LONG);
+                        msg.show();
+                    }
+                });
+            } else {
+                //Fetch all the data
+                fetchAllMenu();
+
+                //TODO Uncomment once done - Alexis
+                fetchLastOrders();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

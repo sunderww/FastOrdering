@@ -20,7 +20,7 @@
     <ImageView
         android:id="@+id/white_rect"
         android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
@@ -29,39 +29,13 @@
     </ImageView>
 
     <TextView
-        android:id="@+id/text_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/white_rect"
-        android:layout_alignStart="@+id/white_rect"
-        android:layout_alignTop="@+id/white_rect"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/login_identifiant"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/field_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/connexion_button"
-        android:layout_alignLeft="@+id/connexion_button"
-        android:layout_alignRight="@+id/connexion_button"
-        android:layout_alignStart="@+id/connexion_button"
-        android:layout_below="@+id/text_login"
-        android:layout_marginTop="0dp"
-        android:hint="@string/hint_login"
-        android:inputType="text"
-        android:singleLine="true" />
-
-    <TextView
         android:id="@+id/text_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/text_login"
-        android:layout_alignStart="@+id/text_login"
-        android:layout_below="@+id/field_login"
-        android:layout_marginTop="15dp"
+        android:layout_alignLeft="@+id/field_pass"
+        android:layout_alignStart="@+id/field_pass"
+        android:layout_alignTop="@+id/white_rect"
+        android:layout_marginTop="14dp"
         android:text="@string/login_pass"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -70,9 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/connexion_button"
-        android:layout_alignLeft="@+id/field_login"
+        android:layout_alignLeft="@+id/connexion_button"
         android:layout_alignRight="@+id/connexion_button"
-        android:layout_alignStart="@+id/field_login"
+        android:layout_alignStart="@+id/connexion_button"
         android:layout_below="@+id/text_pass"
         android:layout_marginTop="0dp"
         android:hint="@string/login_hint_pass"
@@ -104,7 +78,6 @@
         android:layout_alignStart="@+id/white_rect"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="40dp"
-        android:layout_toEndOf="@+id/text_login"
         android:contentDescription="@string/desc_view_logo"
         android:src="@drawable/logo" />
 

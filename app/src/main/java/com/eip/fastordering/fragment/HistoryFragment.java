@@ -3,6 +3,7 @@ package com.eip.fastordering.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.eip.fastordering.R;
+import com.eip.fastordering.activity.LoginActivity;
 import com.eip.fastordering.activity.Main;
 import com.eip.fastordering.adapter.AdapterHistory;
-import com.eip.fastordering.dialog.DialogOrder;
+import com.eip.fastordering.customs.IOAcknowledgeGetOrder;
 import com.eip.fastordering.struct.OrderStruct;
 
 import org.json.JSONArray;
@@ -130,30 +132,18 @@ public class HistoryFragment extends Fragment {
     }
 
     private void displayPopupOrder(OrderStruct item) {
-        //TODO Uncomment after demo
-//        JSONObject arg = new JSONObject();
-//        try {
-//            arg.put("orderId", item.get_mNumOrder());
-//        } catch (JSONException e) {
-//            Log.d("HISTORY FRAGMENT", "EXCEPTION JSON:" + e.toString());
-//        }
-//
-//        LoginActivity._mSocket.emit("get_order", new IOAcknowledge() {
-//            @Override
-//            public void ack(Object... objects) {
-//                try {
-//                    _mFullOrder = new JSONObject(objects[0].toString());
-//                    DialogOrder alertBuilder = new DialogOrder(getActivity(), _mFragment, _mFullOrder);
-//                    alertBuilder.customView().show();
-//                } catch (JSONException e) {
-//
-//                }
-//            }
-//        }, arg);
+        JSONObject msg = new JSONObject();
+        try {
+            msg.put("order", item.get_mNumOrder());
+            LoginActivity._mSocket.emit("get_order", new IOAcknowledgeGetOrder(this, getActivity()), msg);
+        } catch (JSONException e) {
+            Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+        }
+
 
 //        TODO For demo
-        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
-        alertBuilder.customView().show();
+//        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
+//        alertBuilder.customView().show();
     }
 
     @Override

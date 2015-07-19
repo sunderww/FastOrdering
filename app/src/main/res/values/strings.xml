@@ -26,8 +26,8 @@
     <string name="login_activity_bg">bg</string>
     <string name="login_button">CONNEXION</string>
     <string name="login_identifiant">IDENTIFIANT</string>
-    <string name="login_pass">MOT DE PASSE</string>
-    <string name="login_hint_pass">Mot de passe</string>
+    <string name="login_pass">CLE</string>
+    <string name="login_hint_pass">Clé</string>
     <string name="desc_white_rectangle">White transparent rectangle</string>
     <string name="hint_login">Identifiant</string>
     <string name="desc_view_logo">logo</string>
@@ -80,4 +80,5 @@
     <string name="dialog_box_option">, options :\u0020</string>
     <string name="dialog_box_comment">, commentaire :\u0020</string>
     <string name="comma">,\u0020</string>
+    <string name="login_auth_fail">Authentification échouée</string>
 </resources>

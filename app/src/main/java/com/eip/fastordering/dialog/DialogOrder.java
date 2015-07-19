@@ -41,7 +41,7 @@ public class DialogOrder extends AlertDialog {
      * Methods
      */
 
-    DialogOrder(Activity activity, Fragment frag, JSONObject fullOrder) {
+    public DialogOrder(Activity activity, Fragment frag, JSONObject fullOrder) {
         super(activity);
 
         _mOrderDetailed = fullOrder;
@@ -50,17 +50,17 @@ public class DialogOrder extends AlertDialog {
         _mItem = new OrderStruct(fullOrder);
 
         getDetailedOrder(fullOrder);
-
         //TODO Not forget global_comment
     }
 
     //TODO Delete after demo
-    public DialogOrder(Activity activity, OrderStruct item,Fragment frag) {
+    public DialogOrder(Activity activity, OrderStruct item, Fragment frag) {
         super(activity);
 
         _mActivity = (FragmentActivity) activity;
         _mFrag = frag;
         _mItem = item;
+
 
         JSONObject order = new JSONObject();
         JSONArray arr = new JSONArray();
@@ -131,10 +131,10 @@ public class DialogOrder extends AlertDialog {
             }
         });
 
-        ((TextView)view.findViewById(R.id.dialog_order_title)).setText(((TextView)view.findViewById(R.id.dialog_order_title)).getText() + _mItem.get_mNumOrder());
-        ((TextView)view.findViewById(R.id.dialog_order_table)).setText(((TextView)view.findViewById(R.id.dialog_order_table)).getText() + _mItem.get_mNumTable());
-        ((TextView)view.findViewById(R.id.dialog_order_pa)).setText(((TextView)view.findViewById(R.id.dialog_order_pa)).getText() + _mItem.get_mNumPA());
-        ((TextView)view.findViewById(R.id.dialog_order_hour)).setText(((TextView)view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + getContext().getString(R.string.at) + _mItem.get_mHour());
+        ((TextView) view.findViewById(R.id.dialog_order_title)).setText(((TextView) view.findViewById(R.id.dialog_order_title)).getText() + _mItem.get_mNumOrder());
+        ((TextView) view.findViewById(R.id.dialog_order_table)).setText(((TextView) view.findViewById(R.id.dialog_order_table)).getText() + _mItem.get_mNumTable());
+        ((TextView) view.findViewById(R.id.dialog_order_pa)).setText(((TextView) view.findViewById(R.id.dialog_order_pa)).getText() + _mItem.get_mNumPA());
+        ((TextView) view.findViewById(R.id.dialog_order_hour)).setText(((TextView) view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + getContext().getString(R.string.at) + _mItem.get_mHour());
 
         String lineSep = System.getProperty("line.separator");
 
@@ -153,7 +153,7 @@ public class DialogOrder extends AlertDialog {
             }
         }
 
-        ((TextView)view.findViewById(R.id.dialog_order_content)).setText(((TextView)view.findViewById(R.id.dialog_order_content)).getText() + " " + contenu);
+        ((TextView) view.findViewById(R.id.dialog_order_content)).setText(((TextView) view.findViewById(R.id.dialog_order_content)).getText() + " " + contenu);
 
         return builder.create();
     }

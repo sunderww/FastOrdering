@@ -180,13 +180,11 @@ public class NotificationsFragment extends Fragment {
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                // TODO Auto-generated method stub
                 _mAdapter.removeSelection();
             }
 
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                // TODO Auto-generated method stub
                 return false;
             }
         });

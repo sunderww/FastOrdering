@@ -23,8 +23,7 @@ import com.eip.fastordering.fragment.NotificationsFragment;
 import com.eip.fastordering.fragment.OrderFragment;
 
 
-public class Main extends FragmentActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Main extends FragmentActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     static public Fragment[] _mTabFragments;
     static public NotificationCompat.Builder _mBuilder;

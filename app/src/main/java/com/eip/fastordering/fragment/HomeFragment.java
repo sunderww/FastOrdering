@@ -3,6 +3,7 @@ package com.eip.fastordering.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.eip.fastordering.R;
+import com.eip.fastordering.activity.LoginActivity;
 import com.eip.fastordering.activity.Main;
 import com.eip.fastordering.adapter.AdapterHistory;
 import com.eip.fastordering.adapter.AdapterNotif;
-import com.eip.fastordering.dialog.DialogOrder;
+import com.eip.fastordering.customs.IOAcknowledgeGetOrder;
 import com.eip.fastordering.struct.NotifStruct;
 import com.eip.fastordering.struct.OrderStruct;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -96,8 +101,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void displayPopupOrder(OrderStruct item) {
-        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
-        alertBuilder.customView().show();
+        JSONObject msg = new JSONObject();
+        try {
+            msg.put("order", item.get_mNumOrder());
+            LoginActivity._mSocket.emit("get_order", new IOAcknowledgeGetOrder(this, getActivity()), msg);
+        } catch (JSONException e) {
+            Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+        }
+
+//        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
+//        alertBuilder.customView().show();
     }
 
     @Override
