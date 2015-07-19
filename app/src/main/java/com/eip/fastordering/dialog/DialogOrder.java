@@ -53,37 +53,37 @@ public class DialogOrder extends AlertDialog {
         //TODO Not forget global_comment
     }
 
-    //TODO Delete after demo
-    public DialogOrder(Activity activity, OrderStruct item, Fragment frag) {
-        super(activity);
-
-        _mActivity = (FragmentActivity) activity;
-        _mFrag = frag;
-        _mItem = item;
-
-
-        JSONObject order = new JSONObject();
-        JSONArray arr = new JSONArray();
-        JSONObject comm = new JSONObject();
-        JSONArray arrComm = new JSONArray();
-        JSONObject itemOrder = new JSONObject();
-
-        try {
-            itemOrder.put("id", "54d9779f62c30f693817538f");
-            itemOrder.put("comment", "bla bla bla");
-            itemOrder.put("options", "bleu");
-            itemOrder.put("status", "2");
-            itemOrder.put("qty", 2);
-            arrComm.put(itemOrder);
-            comm.put("content", arrComm);
-            comm.put("menuId", "54d978540bc970af38e34535");
-            arr.put(comm);
-            order.put("order", arr);
-        } catch (JSONException e) {
-
-        }
-        getDetailedOrder(order);
-    }
+//    TODO Delete after demo
+//    public DialogOrder(Activity activity, OrderStruct item, Fragment frag) {
+//        super(activity);
+//
+//        _mActivity = (FragmentActivity) activity;
+//        _mFrag = frag;
+//        _mItem = item;
+//
+//
+//        JSONObject order = new JSONObject();
+//        JSONArray arr = new JSONArray();
+//        JSONObject comm = new JSONObject();
+//        JSONArray arrComm = new JSONArray();
+//        JSONObject itemOrder = new JSONObject();
+//
+//        try {
+//            itemOrder.put("id", "54d9779f62c30f693817538f");
+//            itemOrder.put("comment", "bla bla bla");
+//            itemOrder.put("options", "bleu");
+//            itemOrder.put("status", "2");
+//            itemOrder.put("qty", 2);
+//            arrComm.put(itemOrder);
+//            comm.put("content", arrComm);
+//            comm.put("menuId", "54d978540bc970af38e34535");
+//            arr.put(comm);
+//            order.put("order", arr);
+//        } catch (JSONException e) {
+//
+//        }
+//        getDetailedOrder(order);
+//    }
 
     public AlertDialog customView() {
         AlertDialog.Builder builder = new AlertDialog.Builder(_mActivity);
@@ -96,30 +96,30 @@ public class DialogOrder extends AlertDialog {
             public void onClick(DialogInterface dialog, int which) {
 
                 //TODO Delete after demo
-                JSONObject content = new JSONObject();
-                JSONArray arrContent = new JSONArray();
-                JSONObject menu = new JSONObject();
-                JSONArray arrMenu = new JSONArray();
-                JSONObject order = new JSONObject();
-
-                try {
-                    content.put("id", "54d9779f62c30f693817538f");
-                    content.put("qty", "1");
-                    content.put("comment", "blabla");
-                    content.put("status", "0");
-                    content.put("options", "");
-                    arrContent.put(content);
-                    menu.put("content", arrContent);
-                    menu.put("menuId", "54d978540bc970af38e34535");
-                    menu.put("globalComment", "blablabla");
-                    arrMenu.put(menu);
-                    order.put("order", arrMenu);
-                } catch (JSONException e) {
-
-                }
+//                JSONObject content = new JSONObject();
+//                JSONArray arrContent = new JSONArray();
+//                JSONObject menu = new JSONObject();
+//                JSONArray arrMenu = new JSONArray();
+//                JSONObject order = new JSONObject();
+//
+//                try {
+//                    content.put("id", "54d9779f62c30f693817538f");
+//                    content.put("qty", "1");
+//                    content.put("comment", "blabla");
+//                    content.put("status", "0");
+//                    content.put("options", "");
+//                    arrContent.put(content);
+//                    menu.put("content", arrContent);
+//                    menu.put("menuId", "54d978540bc970af38e34535");
+//                    menu.put("globalComment", "blablabla");
+//                    arrMenu.put(menu);
+//                    order.put("order", arrMenu);
+//                } catch (JSONException e) {
+//
+//                }
                 //TODO End delete
 
-                Fragment frag = new OrderFragment().newInstance(1, order, _mItem);
+                Fragment frag = new OrderFragment().newInstance(1, _mOrderDetailed, _mItem);
                 FragmentManager fm = _mActivity.getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(_mFrag.getId(), frag).addToBackStack(null).commit();

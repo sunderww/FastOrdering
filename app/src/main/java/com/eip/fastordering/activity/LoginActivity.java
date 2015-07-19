@@ -214,7 +214,7 @@ public class LoginActivity extends Activity {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }
 
-                //TODO Delete once authentification okay
+                //TODO Delete once authentification okay - Alexis
                 //Data to fetch from server
                 fetchAllMenu();
             }
@@ -373,10 +373,10 @@ public class LoginActivity extends Activity {
                 fetchAllMenu();
                 break;
             case "question":
-                //TODO
+                //TODO - Alexis
                 break;
             case "order_ready":
-                //TODO
+                //TODO - Alexis
                 break;
             default:
                 break;
@@ -403,7 +403,7 @@ public class LoginActivity extends Activity {
                 fetchAllMenu();
 
                 //TODO Uncomment once done - Alexis
-                fetchLastOrders();
+//                fetchLastOrders();
             }
         } catch (JSONException e) {
             e.printStackTrace();
