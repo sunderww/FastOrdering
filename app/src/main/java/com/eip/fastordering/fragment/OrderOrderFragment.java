@@ -259,20 +259,25 @@ public class OrderOrderFragment extends Fragment {
                     }
                     //SET UP ORDER JSON
                     orderJSON.put("numTable", ((EditText) _mRootView.findViewById(R.id.order_order_table_edit)).getText().toString());
-                    orderJSON.put("numPA", ((EditText)_mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString());
+                    orderJSON.put("numPA", ((EditText) _mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString());
 
                     //TODO Add field
                     orderJSON.put("globalComment", "toto");
 
-                        orderJSON.put("order", arrMenus);
+                    orderJSON.put("order", arrMenus);
 
-                        Log.d("COMMANDE READY", orderJSON.toString());
-                        LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
-                            @Override
-                            public void ack(Object... objects) {
-                                Log.d("SENDORDERFRAG", "" + objects[0]);
-                            }
-                        }, orderJSON);
+                    //TODO Check once done - Alexis
+                    if (_mDetails != null) {
+                        orderJSON.put("numOrder", _mDetails.get_mNumOrder());
+                    }
+
+                    Log.d("COMMANDE READY", orderJSON.toString());
+                    LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
+                        @Override
+                        public void ack(Object... objects) {
+                            Log.d("SENDORDERFRAG", "" + objects[0]);
+                        }
+                    }, orderJSON);
                 }
                 catch (JSONException e) {
 

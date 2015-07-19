@@ -30,8 +30,9 @@ public class IOAcknowledgeGetOrder implements IOAcknowledge {
         JSONObject rep = null;
         try {
             rep = new JSONObject(objects[0].toString());
+            Log.d("IOACKNOWLEDFE", "FULL ORDER=" + rep.toString());
         } catch (JSONException e) {
-            Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+            Log.d("IOACKNOWLEDGE", "EXCEPTION JSON:" + e.toString());
         }
         new DialogOrder(_activity, _fragment, rep).customView().show();
     }

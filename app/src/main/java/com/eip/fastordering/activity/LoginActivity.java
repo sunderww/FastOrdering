@@ -160,11 +160,7 @@ public class LoginActivity extends Activity {
         _mSocket.connect(new IOCallback() {
             @Override
             public void onMessage(JSONObject json, IOAcknowledge ack) {
-                try {
-                    Log.d("SOCKET", "DATA JSON: " + json.toString(2));
-                } catch (JSONException e) {
-                    Log.d("SOCKET", "ERROR JSON");
-                }
+                Log.d("SOCKET", "DATA JSON: " + json.toString());
             }
 
             @Override
