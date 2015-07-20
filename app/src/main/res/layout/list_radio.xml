@@ -7,24 +7,26 @@
         android:id="@+id/lblListItemRadio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="25dp"
-        android:textSize="16sp"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/nbDish"
+        android:layout_toStartOf="@+id/nbDish"
+        android:paddingLeft="25dp"
+        android:textSize="16sp" />
 
     <EditText
+        android:id="@+id/nbDish"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/nbDish"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:inputType="number"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:editable="true"
-        android:selectAllOnFocus="true"
+        android:ems="10"
         android:imeOptions="actionDone"
-        android:numeric="integer" />
+        android:inputType="number"
+        android:numeric="integer"
+        android:selectAllOnFocus="true" />
 
 </RelativeLayout>

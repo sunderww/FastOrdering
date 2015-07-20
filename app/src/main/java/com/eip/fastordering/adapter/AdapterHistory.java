@@ -44,8 +44,7 @@ public class AdapterHistory extends ArrayAdapter<OrderStruct> {
 
         TextView labelView = (TextView) rowView.findViewById(R.id.history_label_one);
         TextView valueView = (TextView) rowView.findViewById(R.id.history_label_two);
-        labelView.setText(getContext().getString(R.string.dialog_order_title) + _mOrderStructsArrayList.get(position).get_mNumOrder() +
-            ", " + getContext().getString(R.string.dialog_order_table) + _mOrderStructsArrayList.get(position).get_mNumTable() +
+        labelView.setText(getContext().getString(R.string.dialog_order_table) + _mOrderStructsArrayList.get(position).get_mNumTable() +
             ", " + getContext().getString(R.string.dialog_order_pa) + _mOrderStructsArrayList.get(position).get_mNumPA());
 
         valueView.setText(getContext().getString(R.string.on_the) + _mOrderStructsArrayList.get(position).get_mDate() +

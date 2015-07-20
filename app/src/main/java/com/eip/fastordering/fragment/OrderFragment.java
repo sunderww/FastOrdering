@@ -65,14 +65,6 @@ public class OrderFragment extends Fragment {
     }
 
     static public void fetchElements() {
-        Log.d("ORDERFRAGMENT", "BEFORE");
-        try {
-            Log.d("ORDERFRAGMENT", "READ PREF=" + _mActivity.getSharedPreferences("DATACARD", 0).getString("/elements", "toto"));
-        } catch(Exception e) {
-            Log.d("ORDERFRAGMENT", "EXCEPTION=" + e.toString());
-        }
-        Log.d("ORDERFRAGMENT", "AFTER");
-
         JSONArray arr;
         _mElements.clear();
         try {
@@ -87,7 +79,6 @@ public class OrderFragment extends Fragment {
     static public void fetchCard() {
         fetchMenus();
         try {
-            Log.d("FETCH ELEMENTS", _mActivity.getSharedPreferences("DATACARD", 0).getString("/alacarte", "toto"));
             _mCard = new CardStruct(new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/alacarte", "toto")), _mCats);
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,8 +203,6 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         _mRootView = inflater.inflate(R.layout.fragment_order, container, false);
-
-        Log.d("ORDERFRAGMENT", "ONCREATEVIEW");
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) _mRootView.findViewById(R.id.pager);

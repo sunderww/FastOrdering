@@ -243,7 +243,6 @@ public class LoginActivity extends Activity {
             @Override
             public void ack(Object... objects) {
                 try {
-                    Log.d("LOGIN ELEMENTS", objects[0].toString());
                     getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -305,7 +304,6 @@ public class LoginActivity extends Activity {
         LoginActivity._mSocket.emit("get", new IOAcknowledge() {
             @Override
             public void ack(Object... objects) {
-                Log.d("LOGIN CARTE", objects[0].toString());
                 getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", objects[0].toString()).commit();
 //                OrderFragment.fetchCard(_mAlacarte);
                 _mProgressDialog.dismiss();
