@@ -18,6 +18,14 @@ namespace FastOrdering.Model
 		}
 
 		private string name;
+		public string Name
+		{
+			get { return name; }
+		}
 		private string id;
+		public string ID
+		{
+			get { return id; }
+		}
 	}
 }

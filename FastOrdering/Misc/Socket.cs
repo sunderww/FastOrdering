@@ -116,7 +116,9 @@ namespace FastOrdering.Misc
 			foreach (Object menu in ouput["elements"])
 			{
 				string menuStr = menu.ToString();
-				Menu.menus.Add(JsonConvert.DeserializeObject<Menu>(menuStr));
+				Menu m = JsonConvert.DeserializeObject<Menu>(menuStr);
+				if (m.Name != "alacarte")
+					Menu.menus.Add(m);
 			}
 		}
 
@@ -155,25 +157,29 @@ namespace FastOrdering.Misc
 
 		private void GetAlacarte()
 		{
-			string str = "{\"elements\": {\"id\": \"572f77e5e4e081cc7a7006d2\", \"name\": \"alacarte\", \"compo\": [\"5508ca132df2d3f63ec6b505\", \"5508ca132df2d3f63ec6b505\", \"5508ca2d2df2d3f63ec6b506\", \"5508ca132df2d3f63ec6b505\", \"5508ca132df2d3f63ec6b505\", \"5508ca2d2df2d3f63ec6b506\"]}}";
+			string str = "{\"elements\": {\"id\": \"572f77e5e4e081cc7a7006d2\", \"name\": \"alacarte\", \"compo\": [\"572f7929937726dc7ab8f8f6\", \"572f793f937726dc7ab8f8f7\", \"572f7a3f937726dc7ab8f904\", \"572f7d3fd3a349ab7b1d860e\", \"572f7d4bd3a349ab7b1d860f\", \"572f7d56d3a349ab7b1d8610\"]}}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			var tab = (output["elements"])["compo"];
-			foreach (Menu m in Menu.menus)
+			Menu.alacarte = new Menu((string)(output["elements"])["name"], DateTime.Now, DateTime.Now, (string)(output["elements"])["id"]);
+			//foreach (Menu m in Menu.menus)
+			//{
+			//	if (m.menuId == (string)((output["elements"])["id"]))
+			//	{
+			foreach (Composition compo in Composition.compositions)
 			{
-				if (m.menuId == (string)((output["elements"])["id"]))
+				foreach (string id in tab)
 				{
-					foreach (string id in tab)
+					if (id == compo.ID)
 					{
-						foreach (Dish dish in Dish.dishes)
-						{
-							if (dish.id == id)
-								m.content.Add(dish);
-						}
+						Menu.alacarte.Compositions.Add(compo);
+						break;
 					}
-					break;
 				}
 			}
+			//		break;
+			//	}
+			//}
 		}
 
 		private void GetCompos()
@@ -189,7 +195,7 @@ namespace FastOrdering.Misc
 			foreach (Object compo in output["elements"])
 			{
 				str = compo.ToString();
-				JsonConvert.DeserializeObject<Composition>(str);
+				Composition.compositions.Add(JsonConvert.DeserializeObject<Composition>(str));
 			}
 		}
 
@@ -242,8 +248,8 @@ namespace FastOrdering.Misc
 			GetMenus();
 			GetCategories();
 			GetDishes();
-			GetAlacarte();
 			GetCompos();
+			GetAlacarte();
 			//return;
 
 			if (connected)

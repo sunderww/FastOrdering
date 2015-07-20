@@ -11,6 +11,7 @@ namespace FastOrdering.Model
 	public class Menu
 	{
 		public static ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
+		public static Menu alacarte;
 
 		[JsonConstructor]
 		public Menu(string name, DateTime createdAt, DateTime updatedAt, string id)

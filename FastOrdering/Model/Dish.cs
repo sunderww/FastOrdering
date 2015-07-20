@@ -48,6 +48,10 @@ namespace FastOrdering.Model
 			get { return name; }
 		}
 		private string[] categories;
+		public string[] Categories
+		{
+			get { return categories; }
+		}
 		public int qty;
 		public string comment;
 		public string options;
