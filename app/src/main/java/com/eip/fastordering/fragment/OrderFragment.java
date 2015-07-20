@@ -64,11 +64,19 @@ public class OrderFragment extends Fragment {
         return fragment;
     }
 
-    static public void fetchElements(JSONObject elements) {
+    static public void fetchElements() {
+        Log.d("ORDERFRAGMENT", "BEFORE");
+        try {
+            Log.d("ORDERFRAGMENT", "READ PREF=" + _mActivity.getSharedPreferences("DATACARD", 0).getString("/elements", "toto"));
+        } catch(Exception e) {
+            Log.d("ORDERFRAGMENT", "EXCEPTION=" + e.toString());
+        }
+        Log.d("ORDERFRAGMENT", "AFTER");
+
         JSONArray arr;
         _mElements.clear();
         try {
-            arr = elements.getJSONArray("elements");
+            arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/elements", "toto")).getJSONArray("elements");
             for (int i = 0; i < arr.length(); ++i)
                 _mElements.add(new ElementStruct(arr.getJSONObject(i)));
         } catch (JSONException e) {
@@ -76,11 +84,19 @@ public class OrderFragment extends Fragment {
         }
     }
 
-    static public void fetchCard(JSONObject card) {
-        _mCard = new CardStruct(card, _mCats);
+    static public void fetchCard() {
+        fetchMenus();
+        try {
+            Log.d("FETCH ELEMENTS", _mActivity.getSharedPreferences("DATACARD", 0).getString("/alacarte", "toto"));
+            _mCard = new CardStruct(new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/alacarte", "toto")), _mCats);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    static public void fetchMenus(JSONObject menus, JSONObject compos, JSONObject cats) {
+    static public void fetchMenus() {
+        fetchElements();
+
         JSONArray arr;
         _mMenus.clear();
         _mCompos.clear();
@@ -88,7 +104,7 @@ public class OrderFragment extends Fragment {
 
         //Create all the cats
         try {
-            arr = cats.getJSONArray("elements");
+            arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/cats", "toto")).getJSONArray("elements");
             for (int i = 0; i < arr.length(); ++i) {
                 _mCats.add(new CategoryStruct(arr.getJSONObject(i)));
             }
@@ -109,7 +125,7 @@ public class OrderFragment extends Fragment {
 
         //Create all the compos and add the categories to them
         try {
-            arr = compos.getJSONArray("elements");
+            arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/compos", "toto")).getJSONArray("elements");
             for (int i = 0; i < arr.length(); ++i) {
                 _mCompos.add(new CompositionStruct(arr.getJSONObject(i), _mCats));
             }
@@ -119,7 +135,7 @@ public class OrderFragment extends Fragment {
 
         //Create all the menu
         try {
-            arr = menus.getJSONArray("elements");
+            arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/menus", "toto")).getJSONArray("elements");
             for (int i = 0; i < arr.length(); ++i) {
                 _mMenus.add(new MenuStruct(arr.getJSONObject(i)));
             }
@@ -143,6 +159,9 @@ public class OrderFragment extends Fragment {
 //    }
 
     public static CardStruct get_mCard() {
+        if (_mCard == null) {
+            fetchCard();
+        }
         return _mCard;
     }
 
@@ -161,6 +180,9 @@ public class OrderFragment extends Fragment {
 //    }
 
     public static ArrayList<MenuStruct> get_mMenus() {
+        if (_mMenus.size() == 0) {
+            fetchMenus();
+        }
         return _mMenus;
     }
 
@@ -190,6 +212,8 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         _mRootView = inflater.inflate(R.layout.fragment_order, container, false);
+
+        Log.d("ORDERFRAGMENT", "ONCREATEVIEW");
 
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) _mRootView.findViewById(R.id.pager);

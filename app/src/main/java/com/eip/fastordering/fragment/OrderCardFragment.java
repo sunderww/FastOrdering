@@ -3,6 +3,7 @@ package com.eip.fastordering.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,8 @@ public class OrderCardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("ORDERCARDFRAGMENT", "ONCREATEVIEW");
+
         _mRootView = inflater.inflate(R.layout.fragment_order_card, container, false);
         _mListDataHeader = new ArrayList<String>();
         _mListDataChild = new HashMap<String, List<String>>();
@@ -139,7 +142,13 @@ public class OrderCardFragment extends Fragment {
     }
 
     private void prepareListData() {
+        if (OrderFragment.get_mCard() == null) {
+            Log.d("prepare ELEMENTS", "toto");
+            return;
+        }
+        Log.d("prepare ELEMENTS", "toto2");
         for (CategoryStruct item : OrderFragment.get_mCard().get_mCategories()) {
+            Log.d("CAT CARD", "NAME IS=" + item.get_mCategoryName());
             _mListDataHeader.add(item.get_mCategoryName());
             List<String> ids = new ArrayList<String>();
             List<String> nb = new ArrayList<String>();

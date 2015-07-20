@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.eip.fastordering.R;
 import com.eip.fastordering.fragment.HistoryFragment;
 import com.eip.fastordering.fragment.NotificationsFragment;
-import com.eip.fastordering.fragment.OrderFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,11 +34,11 @@ import io.socket.SocketIOException;
 public class LoginActivity extends Activity {
 
     public static SocketIO _mSocket = null;
-    static JSONObject _mMenus;
-    static JSONObject _mCompos;
-    static JSONObject _mCats;
-    static JSONObject _mAlacarte;
-    static JSONObject _mLastOrders;
+//    static JSONObject _mMenus;
+//    static JSONObject _mCompos;
+//    static JSONObject _mCats;
+//    static JSONObject _mAlacarte;
+//    static JSONObject _mLastOrders;
     private final String _mIpServer = "http://163.5.84.184:4242";
     private ProgressDialog _mProgressDialog;
 
@@ -243,13 +242,13 @@ public class LoginActivity extends Activity {
         LoginActivity._mSocket.emit("get", new IOAcknowledge() {
             @Override
             public void ack(Object... objects) {
-                JSONObject rep = null;
                 try {
-                    rep = new JSONObject(objects[0].toString());
+                    Log.d("LOGIN ELEMENTS", objects[0].toString());
+                    getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).toString()).commit();
                 } catch (JSONException e) {
-                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+                    e.printStackTrace();
                 }
-                OrderFragment.fetchElements(rep);
+//                OrderFragment.fetchElements(rep);
             }
         }, obj);
     }
@@ -263,11 +262,7 @@ public class LoginActivity extends Activity {
         LoginActivity._mSocket.emit("get", new IOAcknowledge() {
             @Override
             public void ack(Object... objects) {
-                try {
-                    _mMenus = new JSONObject(objects[0].toString());
-                } catch (JSONException e) {
-                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-                }
+                getSharedPreferences("DATACARD", 0).edit().putString("/menus", objects[0].toString()).commit();
             }
         }, obj);
     }
@@ -281,11 +276,7 @@ public class LoginActivity extends Activity {
         LoginActivity._mSocket.emit("get", new IOAcknowledge() {
             @Override
             public void ack(Object... objects) {
-                try {
-                    _mCompos = new JSONObject(objects[0].toString());
-                } catch (JSONException e) {
-                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-                }
+                getSharedPreferences("DATACARD", 0).edit().putString("/compos", objects[0].toString()).commit();
             }
         }, obj);
     }
@@ -299,12 +290,8 @@ public class LoginActivity extends Activity {
         LoginActivity._mSocket.emit("get", new IOAcknowledge() {
             @Override
             public void ack(Object... objects) {
-                try {
-                    _mCats = new JSONObject(objects[0].toString());
-                } catch (JSONException e) {
-                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-                }
-                OrderFragment.fetchMenus(_mMenus, _mCompos, _mCats);
+                getSharedPreferences("DATACARD", 0).edit().putString("/cats", objects[0].toString()).commit();
+//                OrderFragment.fetchMenus(_mMenus, _mCompos, _mCats);
             }
         }, obj);
     }
@@ -318,12 +305,9 @@ public class LoginActivity extends Activity {
         LoginActivity._mSocket.emit("get", new IOAcknowledge() {
             @Override
             public void ack(Object... objects) {
-                try {
-                    _mAlacarte = new JSONObject(objects[0].toString());
-                } catch (JSONException e) {
-                    Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-                }
-                OrderFragment.fetchCard(_mAlacarte);
+                Log.d("LOGIN CARTE", objects[0].toString());
+                getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", objects[0].toString()).commit();
+//                OrderFragment.fetchCard(_mAlacarte);
                 _mProgressDialog.dismiss();
 
                 Intent mainActivity = new Intent(LoginActivity.this, Main.class);
@@ -343,11 +327,10 @@ public class LoginActivity extends Activity {
             @Override
             public void ack(Object... objects) {
                 try {
-                    _mLastOrders = new JSONObject(objects[0].toString());
+                    HistoryFragment.getLastOrders(new JSONObject(objects[0].toString()));
                 } catch (JSONException e) {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
                 }
-                HistoryFragment.getLastOrders(_mLastOrders);
             }
         }, obj);
     }
