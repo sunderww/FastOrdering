@@ -13,35 +13,31 @@ import java.util.ArrayList;
  */
 public class ContentOrderStruct {
 
-    /***
-     * Attributes
-     */
+	private String _mId;
+	private ArrayList<ItemStruct> _mItems = new ArrayList<ItemStruct>();
 
-    private String _mId;
-    private ArrayList<ItemStruct> _mItems = new ArrayList<ItemStruct>();
+	/**
+	 * Constructor
+	 * @param menu
+	 */
+	public ContentOrderStruct(JSONObject menu) {
+		JSONArray arr;
+		try {
+			_mId = menu.getString("menuId");
+			arr = menu.getJSONArray("content");
+			for (int i = 0; i < arr.length(); ++i) {
+				_mItems.add(new ItemStruct(arr.getJSONObject(i)));
+			}
+		} catch (JSONException e) {
+			Log.d("CONTENTORDERSTRUCT", "EXCEPTION JSON");
+		}
+	}
 
-    /***
-     * Methods
-     */
+	public String get_mId() {
+		return _mId;
+	}
 
-    public ContentOrderStruct(JSONObject menu) {
-        JSONArray arr;
-        try {
-            _mId = menu.getString("menuId");
-            arr = menu.getJSONArray("content");
-            for (int i = 0; i < arr.length(); ++i) {
-                _mItems.add(new ItemStruct(arr.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            Log.d("CONTENTORDERSTRUCT", "EXCEPTION JSON");
-        }
-    }
-
-    public String get_mId() {
-        return _mId;
-    }
-
-    public ArrayList<ItemStruct> get_mItems() {
-        return _mItems;
-    }
+	public ArrayList<ItemStruct> get_mItems() {
+		return _mItems;
+	}
 }

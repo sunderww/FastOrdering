@@ -81,4 +81,7 @@
     <string name="dialog_box_comment">, commentaire :\u0020</string>
     <string name="comma">,\u0020</string>
     <string name="login_auth_fail">Authentification échouée</string>
+    <string name="order_order_pa_missing">Veuillez remplir le champ PA</string>
+    <string name="order_order_table_missing">Veuillez remplir le champ Table #</string>
+    <string name="order_order_order_missing">Veuillez ajouter au moins un plat</string>
 </resources>

@@ -11,75 +11,72 @@ import android.widget.TextView;
 import com.eip.fastordering.R;
 import com.eip.fastordering.struct.NotifStruct;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class AdapterNotif extends ArrayAdapter<NotifStruct> {
 
-    /***
-     * Attributes
-     */
+	private final Context            _mContext;
+	private final List<NotifStruct>  _mNotifStructsArrayList;
+	private       SparseBooleanArray _mSelectedNotifStructsIds;
 
-    private final Context _mContext;
-    private final ArrayList<NotifStruct> _mNotifStructsArrayList;
-    private SparseBooleanArray _mSelectedNotifStructsIds;
+	/**
+	 * Constructor
+	 * @param context
+	 * @param NotifStructsArrayList
+	 */
+	public AdapterNotif(Context context, List<NotifStruct> NotifStructsArrayList) {
 
-    /***
-     * Methods
-     */
+		super(context, R.layout.row_notifications, NotifStructsArrayList);
 
-    public AdapterNotif(Context context, ArrayList<NotifStruct> NotifStructsArrayList) {
+		this._mContext = context;
+		this._mNotifStructsArrayList = NotifStructsArrayList;
+		this._mSelectedNotifStructsIds = new SparseBooleanArray();
 
-        super(context, R.layout.row_notifications, NotifStructsArrayList);
+	}
 
-        this._mContext = context;
-        this._mNotifStructsArrayList = NotifStructsArrayList;
-        this._mSelectedNotifStructsIds = new SparseBooleanArray();
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
 
-    }
+		LayoutInflater inflater = (LayoutInflater) _mContext
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+		View rowView = inflater.inflate(R.layout.row_notifications, parent, false);
 
-        LayoutInflater inflater = (LayoutInflater) _mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		TextView labelView = (TextView) rowView.findViewById(R.id.notif_label_one);
+		TextView valueView = (TextView) rowView.findViewById(R.id.notif_label_two);
 
-        View rowView = inflater.inflate(R.layout.row_notifications, parent, false);
+		labelView.setText(getContext().getString(R.string.notif_text_table) + _mNotifStructsArrayList.get(position).get_mNumTable() +
+				getContext().getString(R.string.notif_text_point) + _mNotifStructsArrayList.get(position).get_mMsg());
+		valueView.setText(getContext().getString(R.string.on_the) + _mNotifStructsArrayList.get(position).get_mDate() +
+				getContext().getString(R.string.at) + _mNotifStructsArrayList.get(position).get_mHour());
 
-        TextView labelView = (TextView) rowView.findViewById(R.id.notif_label_one);
-        TextView valueView = (TextView) rowView.findViewById(R.id.notif_label_two);
+		return rowView;
+	}
 
-        labelView.setText(getContext().getString(R.string.notif_text_table) + _mNotifStructsArrayList.get(position).get_mNumTable() +
-                getContext().getString(R.string.notif_text_point) + _mNotifStructsArrayList.get(position).get_mMsg());
-        valueView.setText(getContext().getString(R.string.on_the) + _mNotifStructsArrayList.get(position).get_mDate() +
-                getContext().getString(R.string.at) + _mNotifStructsArrayList.get(position).get_mHour());
+	/***
+	 * Method to add a single item to a list for multiple selection
+	 * @param position
+	 * @param value
+	 */
+	public void selectView(int position, boolean value) {
+		if (value)
+			_mSelectedNotifStructsIds.put(position, value);
+		else
+			_mSelectedNotifStructsIds.delete(position);
+		notifyDataSetChanged();
+	}
 
-        return rowView;
-    }
+	public void toggleSelection(int position) {
+		selectView(position, !_mSelectedNotifStructsIds.get(position));
+	}
 
-    /***
-     * Method to add a single item to a list for multiple selection
-     * @param position
-     * @param value
-     */
-    public void selectView(int position, boolean value) {
-        if (value)
-            _mSelectedNotifStructsIds.put(position, value);
-        else
-            _mSelectedNotifStructsIds.delete(position);
-        notifyDataSetChanged();
-    }
+	public SparseBooleanArray getSelectedIds() {
+		return _mSelectedNotifStructsIds;
+	}
 
-    public void toggleSelection(int position) {
-        selectView(position, !_mSelectedNotifStructsIds.get(position));
-    }
-
-    public SparseBooleanArray getSelectedIds() {
-        return _mSelectedNotifStructsIds;
-    }
-
-    public void removeSelection() {
-        _mSelectedNotifStructsIds = new SparseBooleanArray();
-        notifyDataSetChanged();
-    }
+	public void removeSelection() {
+		_mSelectedNotifStructsIds = new SparseBooleanArray();
+		notifyDataSetChanged();
+	}
 }
