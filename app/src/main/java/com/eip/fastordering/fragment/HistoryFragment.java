@@ -50,6 +50,32 @@ public class HistoryFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         _mFragment.setArguments(args);
+
+
+        //TODO Delete after demo
+//        JSONObject orders = new JSONObject();
+//        JSONArray arr = new JSONArray();
+//        _mItems.clear();
+//        JSONObject cmd = new JSONObject();
+//        try {
+//            cmd.put("numOrder", "12");
+//            cmd.put("numTable", "2");
+//            cmd.put("numPA", "4");
+//            cmd.put("hour", "12:24");
+//            cmd.put("date", "01/01/15");
+//            arr.put(cmd);
+//        } catch (JSONException e) {
+//        }
+//        try {
+//            cmd.put("hour", "12:25");
+//            arr.put(cmd);
+//            orders.put("orders", arr);
+//        } catch (JSONException e) {
+//        }
+//        getLastOrders(orders);
+        //TODO End delete
+
+
         return (HistoryFragment)_mFragment;
     }
 
@@ -112,11 +138,6 @@ public class HistoryFragment extends Fragment {
         } catch (JSONException e) {
             Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
         }
-
-
-//        TODO For demo
-//        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
-//        alertBuilder.customView().show();
     }
 
     @Override

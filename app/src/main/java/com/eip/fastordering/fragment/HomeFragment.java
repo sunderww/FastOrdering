@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment {
             Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
         }
 
+//        TODO DELETE
 //        DialogOrder alertBuilder = new DialogOrder(getActivity(), item, this);
 //        alertBuilder.customView().show();
     }

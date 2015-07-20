@@ -61,23 +61,37 @@ public class DialogOrder extends AlertDialog {
 //        _mFrag = frag;
 //        _mItem = item;
 //
-//
 //        JSONObject order = new JSONObject();
 //        JSONArray arr = new JSONArray();
 //        JSONObject comm = new JSONObject();
 //        JSONArray arrComm = new JSONArray();
 //        JSONObject itemOrder = new JSONObject();
 //
+//        JSONObject comm2 = new JSONObject();
+//        JSONArray arrComm2 = new JSONArray();
+//        JSONObject itemOrder2 = new JSONObject();
+//
 //        try {
-//            itemOrder.put("id", "54d9779f62c30f693817538f");
+//            itemOrder.put("id", "572f7a56937726dc7ab8f905");
 //            itemOrder.put("comment", "bla bla bla");
 //            itemOrder.put("options", "bleu");
 //            itemOrder.put("status", "2");
-//            itemOrder.put("qty", 2);
+//            itemOrder.put("qty", 5);
 //            arrComm.put(itemOrder);
 //            comm.put("content", arrComm);
-//            comm.put("menuId", "54d978540bc970af38e34535");
+//            comm.put("menuId", "572f77e5e4e081cc7a7006d2");
 //            arr.put(comm);
+//
+//            itemOrder2.put("id", "572f79b0937726dc7ab8f8fe");
+//            itemOrder2.put("comment", "bla bla bla");
+//            itemOrder2.put("options", "bleu");
+//            itemOrder2.put("status", "2");
+//            itemOrder2.put("qty", 5);
+//            arrComm2.put(itemOrder2);
+//            comm2.put("content", arrComm2);
+//            comm2.put("menuId", "572f7a20937726dc7ab8f903");
+//            arr.put(comm2);
+//
 //            order.put("order", arr);
 //        } catch (JSONException e) {
 //
@@ -96,24 +110,38 @@ public class DialogOrder extends AlertDialog {
             public void onClick(DialogInterface dialog, int which) {
 
                 //TODO Delete after demo
-//                JSONObject content = new JSONObject();
-//                JSONArray arrContent = new JSONArray();
-//                JSONObject menu = new JSONObject();
-//                JSONArray arrMenu = new JSONArray();
 //                JSONObject order = new JSONObject();
+//                JSONArray arr = new JSONArray();
+//                JSONObject comm = new JSONObject();
+//                JSONArray arrComm = new JSONArray();
+//                JSONObject itemOrder = new JSONObject();
+//
+//                JSONObject comm2 = new JSONObject();
+//                JSONArray arrComm2 = new JSONArray();
+//                JSONObject itemOrder2 = new JSONObject();
 //
 //                try {
-//                    content.put("id", "54d9779f62c30f693817538f");
-//                    content.put("qty", "1");
-//                    content.put("comment", "blabla");
-//                    content.put("status", "0");
-//                    content.put("options", "");
-//                    arrContent.put(content);
-//                    menu.put("content", arrContent);
-//                    menu.put("menuId", "54d978540bc970af38e34535");
-//                    menu.put("globalComment", "blablabla");
-//                    arrMenu.put(menu);
-//                    order.put("order", arrMenu);
+//                    itemOrder.put("id", "572f7a56937726dc7ab8f905");
+//                    itemOrder.put("comment", "bla bla bla");
+//                    itemOrder.put("options", "bleu");
+//                    itemOrder.put("status", "2");
+//                    itemOrder.put("qty", 5);
+//                    arrComm.put(itemOrder);
+//                    comm.put("content", arrComm);
+//                    comm.put("menuId", "572f77e5e4e081cc7a7006d2");
+//                    arr.put(comm);
+//
+//                    itemOrder2.put("id", "572f79b0937726dc7ab8f8fe");
+//                    itemOrder2.put("comment", "bla bla bla");
+//                    itemOrder2.put("options", "bleu");
+//                    itemOrder2.put("status", "2");
+//                    itemOrder2.put("qty", 5);
+//                    arrComm2.put(itemOrder2);
+//                    comm2.put("content", arrComm2);
+//                    comm2.put("menuId", "572f7a20937726dc7ab8f903");
+//                    arr.put(comm2);
+//
+//                    order.put("order", arr);
 //                } catch (JSONException e) {
 //
 //                }
@@ -131,25 +159,19 @@ public class DialogOrder extends AlertDialog {
             }
         });
 
-        ((TextView) view.findViewById(R.id.dialog_order_title)).setText(((TextView) view.findViewById(R.id.dialog_order_title)).getText() + _mItem.get_mNumOrder());
         ((TextView) view.findViewById(R.id.dialog_order_table)).setText(((TextView) view.findViewById(R.id.dialog_order_table)).getText() + _mItem.get_mNumTable());
         ((TextView) view.findViewById(R.id.dialog_order_pa)).setText(((TextView) view.findViewById(R.id.dialog_order_pa)).getText() + _mItem.get_mNumPA());
         ((TextView) view.findViewById(R.id.dialog_order_hour)).setText(((TextView) view.findViewById(R.id.dialog_order_hour)).getText() + _mItem.get_mDate() + getContext().getString(R.string.at) + _mItem.get_mHour());
 
         String lineSep = System.getProperty("line.separator");
 
-        //TODO Modify to better
         String contenu = "";
         for (int i = 0; i < _mContent.size(); ++i) {
             ContentOrderStruct content = _mContent.get(i);
             contenu += lineSep + lineSep + getContext().getString(R.string.dialog_box_menu) + OrderFragment.getNameCatById(content.get_mId());
             for (int j = 0; j < content.get_mItems().size(); ++j) {
                 ItemStruct item = content.get_mItems().get(j);
-                contenu += lineSep + getContext().getString(R.string.dialog_box_dish) + OrderFragment.getNameElementById(item.get_mId());
-                if (item.get_mOptions().length() > 0)
-                    contenu += getContext().getString(R.string.dialog_box_option) + item.get_mOptions();
-                if (item.get_mComment().length() > 0)
-                    contenu += getContext().getString(R.string.dialog_box_comment) + item.get_mComment();
+                contenu += lineSep + '\t' + '\t' + getContext().getString(R.string.dialog_box_dish) + OrderFragment.getNameElementById(item.get_mId()) + " x" + item.get_mQty();
             }
         }
 

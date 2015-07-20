@@ -47,12 +47,12 @@
     <string name="notification_list_empty_text">Aucune notification</string>
     <string name="history_list_empty_text">Aucun historique</string>
     <string name="dialog_order_close">Fermer</string>
-    <string name="dialog_order_title">Commande #</string>
+    <string name="dialog_order_title">Détail de commande</string>
     <string name="login_toast_error">Problème de connexion au serveur</string>
     <string name="dialog_order_table">Table #</string>
     <string name="dialog_order_hour">Heure :\u0020</string>
     <string name="dialog_order_pa">PA :\u0020</string>
-    <string name="dialog_order_content">Contenu :\u0020</string>
+    <string name="dialog_order_content"></string>
     <string name="on_the">Le\u0020</string>
     <string name="at">\u0020à\u0020</string>
     <string name="home_history_text">Dernières commandes</string>

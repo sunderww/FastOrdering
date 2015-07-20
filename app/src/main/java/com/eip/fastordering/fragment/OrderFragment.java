@@ -30,12 +30,7 @@ import java.util.ArrayList;
 
 public class OrderFragment extends Fragment {
 
-    /***
-     * Attributes
-     */
-
     private static final String ARG_SECTION_NUMBER = "section_number";
-
     private static ArrayList<ElementStruct> _mElements = new ArrayList<ElementStruct>();
     private static CardStruct _mCard;
     private static ArrayList<MenuStruct> _mMenus = new ArrayList<MenuStruct>();
@@ -46,13 +41,12 @@ public class OrderFragment extends Fragment {
     static private OrderStruct _mDetails;
     private View _mRootView;
 
+    /**
+     * Constructor
+     */
     public OrderFragment() {
 
     }
-
-    /**
-     * Methods
-     */
 
     public static OrderFragment newInstance(int sectionNumber, JSONObject order, OrderStruct details) {
         OrderFragment fragment = new OrderFragment();
@@ -144,31 +138,12 @@ public class OrderFragment extends Fragment {
         }
     }
 
-    /* OLD */
-//    static public void fetchCard(JSONObject card, JSONObject cats) {
-//        _mCard = new CardStruct(card, cats);
-//    }
-
     public static CardStruct get_mCard() {
         if (_mCard == null) {
             fetchCard();
         }
         return _mCard;
     }
-
-    /* OLD */
-//    static public void fetchMenus(JSONObject menus, JSONArray compos, JSONObject cats) {
-//        JSONArray arr;
-//        _mMenus.clear();
-//        try {
-//            arr = menus.getJSONArray("elements");
-//            for (int i = 0; i < arr.length(); ++i) {
-//                _mMenus.add(new MenuStruct(arr.getJSONObject(i), compos, cats));
-//            }
-//        } catch (JSONException e) {
-//            Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
-//        }
-//    }
 
     public static ArrayList<MenuStruct> get_mMenus() {
         if (_mMenus.size() == 0) {
@@ -190,7 +165,7 @@ public class OrderFragment extends Fragment {
     }
 
     public static String getNameCatById(String id) {
-        if (id.equals(_mCard.get_mId()))
+        if (id.equals(get_mCard().get_mId()))
             return _mActivity.getString(R.string.card);
         for (MenuStruct menu : _mMenus) {
             if (menu.get_mId().equals(id))
