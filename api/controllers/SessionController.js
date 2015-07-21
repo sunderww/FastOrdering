@@ -62,6 +62,19 @@ module.exports = {
         });
     },
     
+    'loginFromPhone' : function(req, res) {
+       // console.log(req);
+       // console.log(res);
+
+        User.findOne({key: req.headers.user_key}).exec(function findOneEmail(err, user) {
+            if (!user) {
+                return false;
+            }
+            // req.session.user = user;
+            return true;
+        });
+    },
+
     'logout': function(req, res) {
         
         req.session.destroy();
