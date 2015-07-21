@@ -24,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
@@ -42,10 +44,15 @@ public class LoginActivity extends Activity {
 	 * @param URL
 	 * @return
 	 */
-	static public JSONObject createObjectURL(String URL) {
+	static public JSONObject createObjectURL(String URL, Map<String, String> args) {
 		JSONObject obj = new JSONObject();
 		try {
 			obj.put("url", URL);
+			if (args != null) {
+				for (Map.Entry<String, String> entry : args.entrySet()) {
+					obj.put(entry.getKey(), entry.getValue());
+				}
+			}
 		} catch (JSONException e) {
 			Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
 		}
@@ -165,6 +172,7 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onError(SocketIOException socketIOException) {
 				Log.d("SOCKET", "ERROR=" + socketIOException.toString());
+				socketIOException.printStackTrace();
 
 				LoginActivity.this.runOnUiThread(new Runnable() {
 					@Override
@@ -183,26 +191,23 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onConnect() {
-				JSONObject msg = new JSONObject();
-				try {
-					msg.put("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
+				Map<String, String> args = new HashMap<String, String>();
+				args.put("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
 
-					LoginActivity._mSocket.emit("authentification", new IOAcknowledge() {
-						@Override
-						public void ack(Object... objects) {
-							JSONObject rep = null;
-							try {
-								rep = new JSONObject(objects[0].toString());
-							} catch (JSONException e) {
-								Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-							}
-							handleAuthentification(rep);
+				JSONObject obj = createObjectURL("/options", args);
+
+				LoginActivity._mSocket.emit("post", new IOAcknowledge() {
+					@Override
+					public void ack(Object... objects) {
+						JSONObject rep = null;
+						try {
+							rep = new JSONObject(objects[0].toString());
+						} catch (JSONException e) {
+							Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
 						}
-					}, msg);
-
-				} catch (JSONException e) {
-					Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-				}
+						handleAuthentification(rep);
+					}
+				}, obj);
 
 				//TODO Delete once authentification okay - Alexis
 				//Data to fetch from server
@@ -233,7 +238,7 @@ public class LoginActivity extends Activity {
 	 * Fetch the /options data
 	 */
 	private void fetchOptions() {
-		JSONObject obj = createObjectURL("/options");
+		JSONObject obj = createObjectURL("/options", null);
 
 		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
 			@Override
@@ -253,7 +258,7 @@ public class LoginActivity extends Activity {
 	 * Fetch the /elements data
 	 */
 	private void fetchElements() {
-		JSONObject obj = createObjectURL("/elements");
+		JSONObject obj = createObjectURL("/elements", null);
 
 		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
 			@Override
@@ -272,7 +277,7 @@ public class LoginActivity extends Activity {
 	 * Fetch the /menus data
 	 */
 	private void fetchMenus() {
-		JSONObject obj = createObjectURL("/menus");
+		JSONObject obj = createObjectURL("/menus", null);
 
 		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
 			@Override
@@ -286,7 +291,7 @@ public class LoginActivity extends Activity {
 	 * Fetch the /compos data
 	 */
 	private void fetchCompos() {
-		JSONObject obj = createObjectURL("/compos");
+		JSONObject obj = createObjectURL("/compos", null);
 
 		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
 			@Override
@@ -300,7 +305,7 @@ public class LoginActivity extends Activity {
 	 * Fetch the categories data
 	 */
 	private void fetchCats() {
-		JSONObject obj = createObjectURL("/dishcategory/read");
+		JSONObject obj = createObjectURL("/dishcategory/read", null);
 
 		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
 			@Override
@@ -315,7 +320,7 @@ public class LoginActivity extends Activity {
 	 * Fetch the /alacarte data
 	 */
 	private void fetchAlacarte() {
-		JSONObject obj = createObjectURL("/alacarte");
+		JSONObject obj = createObjectURL("/alacarte", null);
 
 		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
 			@Override
@@ -335,7 +340,7 @@ public class LoginActivity extends Activity {
 	 * Fetch the last orders
 	 */
 	private void fetchLastOrders() {
-		JSONObject obj = createObjectURL("/get_last_orders");
+		JSONObject obj = createObjectURL("/get_last_orders", null);
 
 		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
 			@Override
