@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
@@ -153,7 +154,9 @@ public class LoginActivity extends Activity {
 
 		//Init the socket
 		try {
-			_mSocket = new SocketIO(_mIpServer);
+			Properties prop = new Properties();
+			prop.setProperty("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
+			_mSocket = new SocketIO(_mIpServer, prop);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -194,7 +197,7 @@ public class LoginActivity extends Activity {
 				Map<String, String> args = new HashMap<String, String>();
 				args.put("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
 
-				JSONObject obj = createObjectURL("/options", args);
+				JSONObject obj = createObjectURL("/authentification", args);
 
 				LoginActivity._mSocket.emit("post", new IOAcknowledge() {
 					@Override
