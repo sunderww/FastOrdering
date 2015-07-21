@@ -52,9 +52,10 @@ namespace FastOrdering.View
 			get { return Menu.menus; }
 		}
 
-		public ObservableCollection<Composition> ALaCarte
+		public ObservableCollection<Dish> ALaCarte
 		{
-			get { return Menu.alacarte.Compositions; }
+			get { return Menu.ALaCarte; }
+			//get { return Menu.alacarte.Compositions; }
 		}
 
 		private Collection<KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>> categoriesDishes = new Collection<KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>>();
@@ -252,6 +253,7 @@ namespace FastOrdering.View
 			}
 		}
 
+		private static string MenuIDSelected;
 		private void Menu_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			TextBlock tb = sender as TextBlock;
@@ -261,6 +263,7 @@ namespace FastOrdering.View
 				if (composition.ID == tb.Tag.ToString())
 				{
 					selectedCompo = composition;
+					MenuIDSelected = composition.MenuID;
 					break;
 				}
 			}
@@ -292,6 +295,46 @@ namespace FastOrdering.View
 		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
+			Menu menu = Menu.alacarte;
+			bool isAlreadyIn = false;
+
+			foreach (Menu m in ord.Menus)
+			{
+				if (m.IDMenu == menu.IDMenu)
+				{
+					menu = m;
+					isAlreadyIn = true;
+					break;
+				}
+			}
+
+			foreach (Dish dish in Dish.dishes)
+			{
+				if (tb.Tag.ToString() == dish.ID)
+				{
+					foreach (var d in menu.Dishes)
+					{
+						if (d.Key.ID == tb.Tag.ToString())
+						{
+							menu.Dishes.Remove(d);
+							break;
+						}
+					}
+					if (tb.Text.Replace(".", "") == "")
+						tb.Text = "0";
+					MyDictionary<Dish> newDish = new MyDictionary<Dish>();
+					newDish.Key = new Dish(dish.ID, 0, dish.Name);
+					newDish.Value = int.Parse(tb.Text);
+					if (newDish.Value > 0)
+						menu.Dishes.Add(newDish);
+					if (menu.Dishes.Count == 0)
+						ord.Menus.Remove(menu);
+					else if (!isAlreadyIn)
+						ord.Menus.Add(menu);
+					//ord.Dishes.Add(newDish);
+					break;
+				}
+			}
 			//ObservableCollection<Dish> collection = null;
 
 			//if (tb.Name == "Entries")
@@ -325,8 +368,31 @@ namespace FastOrdering.View
 		private void TextBoxMenu_LostFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
+			Menu menu = null;
+			bool isAlreadyIn = false;
 			//ObservableCollection<Dish> collection = null;
 			//ObservableCollection<MyDictionary<Dish>> menuCollection = null;
+
+			foreach (Menu m in ord.Menus)
+			{
+				if (m.IDMenu == MenuIDSelected)
+				{
+					menu = m;
+					isAlreadyIn = true;
+					break;
+				}
+			}
+			if (!isAlreadyIn)
+				foreach (Menu m in Menu.menus)
+				{
+					if (m.IDMenu == MenuIDSelected)
+					{
+						menu = m;
+						break;
+					}
+				}
+			if (menu == null)
+				return;
 
 			foreach (KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string> col in categoriesDishes)
 			{
@@ -334,19 +400,25 @@ namespace FastOrdering.View
 				{
 					if (dish.Key.ID == tb.Tag.ToString())
 					{
-						foreach (var d in ord.Dishes)
+						//foreach (var d in ord.Dishes)
+						foreach (var d in menu.Dishes)
 						{
 							if (d.Key.ID == dish.Key.ID)
 							{
-								ord.Dishes.Remove(d);
+								menu.Dishes.Remove(d);
 								break;
 							}
 						}
-						MyDictionary<Dish> newDish = new MyDictionary<Dish>();
-						newDish.Key = new Dish(dish.Key.ID, 0, dish.Key.Name);
-						newDish.Value = int.Parse(tb.Text);
-						if (newDish.Value > 0)
-							ord.Dishes.Add(newDish);
+						if (tb.Text.Replace(".", "") == "")
+							tb.Text = "0";
+						dish.Value = int.Parse(tb.Text);
+						if (dish.Value > 0)
+							menu.Dishes.Add(dish);
+						//ord.Dishes.Add(newDish);
+						if (menu.Dishes.Count == 0)
+							ord.Menus.Remove(menu);
+						if (!isAlreadyIn && menu.Dishes.Count > 0)
+							ord.Menus.Add(menu);
 						break;
 					}
 				}

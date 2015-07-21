@@ -2,7 +2,7 @@
   <ReferenceAssemblyList>
     <ReferenceAssembly PathName="c:\users\xavier\source\repos\fastordering\packages\drawerlayout.1.0.2\lib\drawerlayout.dll" HashGuid="68fad97d-de87-1355-6adc-662b7a900400" />
     <ReferenceAssembly PathName="c:\users\xavier\source\repos\fastordering\packages\engineioclientdotnet.0.9.13\lib\portable-win81+wpa81\engineioclientdotnet.dll" HashGuid="212874c0-898b-49ba-6f1a-33afcd70a631" />
-    <ReferenceAssembly PathName="c:\users\xavier\source\repos\fastordering\packages\newtonsoft.json.6.0.6\lib\portable-net40+sl5+wp80+win8+wpa81\newtonsoft.json.dll" HashGuid="9e796421-3b84-3ec5-6e39-cb6d41d020b7" />
+    <ReferenceAssembly PathName="c:\users\xavier\source\repos\fastordering\packages\newtonsoft.json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\newtonsoft.json.dll" HashGuid="225745d8-3693-ad6f-ebd5-8845d81f8e0f" />
     <ReferenceAssembly PathName="c:\users\xavier\source\repos\fastordering\packages\socketioclientdotnet.0.9.7\lib\portable-win81+wpa81\socketioclientdotnet.dll" HashGuid="7e16919b-b193-3e7c-493c-d1d2ea2f8887" />
   </ReferenceAssemblyList>
 </XamlCompilerSaveState>

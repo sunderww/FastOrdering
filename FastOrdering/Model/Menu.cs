@@ -11,6 +11,7 @@ namespace FastOrdering.Model
 	public class Menu
 	{
 		public static ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
+		public static ObservableCollection<Dish> ALaCarte = new ObservableCollection<Dish>();
 		public static Menu alacarte;
 
 		[JsonConstructor]
@@ -33,30 +34,30 @@ namespace FastOrdering.Model
 			this.Entry = "Collapsed";
 			this.Dessert = "Collapsed";
 
-			MyDictionary<Dish> d = new MyDictionary<Dish>();
-			d.Key = new Dish("0", 5, "Salade");
-			d.Value = 0;
-			entries.Add(d);
-			MyDictionary<Dish> d2 = new MyDictionary<Dish>();
-			d2.Key = new Dish("2", 3, "Radis");
-			entries.Add(d2);
+			//MyDictionary<Dish> d = new MyDictionary<Dish>();
+			//d.Key = new Dish("0", 5, "Salade");
+			//d.Value = 0;
+			//entries.Add(d);
+			//MyDictionary<Dish> d2 = new MyDictionary<Dish>();
+			//d2.Key = new Dish("2", 3, "Radis");
+			//entries.Add(d2);
 
-			MyDictionary<Dish> d3 = new MyDictionary<Dish>();
-			d3.Key = new Dish("1", 9, "Bavette");
-			dishes.Add(d3);
-			MyDictionary<Dish> d1 = new MyDictionary<Dish>();
-			d1.Key = new Dish("4", 8, "Moules frites");
-			dishes.Add(d1);
-			MyDictionary<Dish> d4 = new MyDictionary<Dish>();
-			d4.Key = new Dish("7", 10, "Boeuf bourguignon");
-			dishes.Add(d4);
+			//MyDictionary<Dish> d3 = new MyDictionary<Dish>();
+			//d3.Key = new Dish("1", 9, "Bavette");
+			//dishes.Add(d3);
+			//MyDictionary<Dish> d1 = new MyDictionary<Dish>();
+			//d1.Key = new Dish("4", 8, "Moules frites");
+			//dishes.Add(d1);
+			//MyDictionary<Dish> d4 = new MyDictionary<Dish>();
+			//d4.Key = new Dish("7", 10, "Boeuf bourguignon");
+			//dishes.Add(d4);
 
-			MyDictionary<Dish> d5 = new MyDictionary<Dish>();
-			d5.Key = new Dish("8", 4, "Glace");
-			desserts.Add(d5);
-			MyDictionary<Dish> d6 = new MyDictionary<Dish>();
-			d6.Key = new Dish("9", 5, "Gâteau");
-			desserts.Add(d6);
+			//MyDictionary<Dish> d5 = new MyDictionary<Dish>();
+			//d5.Key = new Dish("8", 4, "Glace");
+			//desserts.Add(d5);
+			//MyDictionary<Dish> d6 = new MyDictionary<Dish>();
+			//d6.Key = new Dish("9", 5, "Gâteau");
+			//desserts.Add(d6);
 		}
 
 		public void FillContent()
@@ -69,25 +70,40 @@ namespace FastOrdering.Model
 			}
 		}
 
-		public ObservableCollection<Dish> content = new ObservableCollection<Dish>();
-		private ObservableCollection<MyDictionary<Dish>> entries = new ObservableCollection<MyDictionary<Dish>>();
-		[JsonIgnore]
-		public ObservableCollection<MyDictionary<Dish>> Entries
+		static public void OrderALaCarte()
 		{
-			get { return entries; }
+			foreach (Dish dish in Dish.dishes)
+			{
+				foreach (Composition compo in alacarte.Compositions)
+				{
+					foreach (Category cat in compo.Categories)
+					{
+						if (dish.Categories.Contains(cat.ID) && ALaCarte.Contains(dish) == false)
+							ALaCarte.Add(dish);
+					}
+				}
+			}
 		}
+
+		public ObservableCollection<Dish> content = new ObservableCollection<Dish>();
+		//private ObservableCollection<MyDictionary<Dish>> entries = new ObservableCollection<MyDictionary<Dish>>();
+		//[JsonIgnore]
+		//public ObservableCollection<MyDictionary<Dish>> Entries
+		//{
+		//	get { return entries; }
+		//}
 		private ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
 		[JsonIgnore]
 		public ObservableCollection<MyDictionary<Dish>> Dishes
 		{
 			get { return dishes; }
 		}
-		private ObservableCollection<MyDictionary<Dish>> desserts = new ObservableCollection<MyDictionary<Dish>>();
-		[JsonIgnore]
-		public ObservableCollection<MyDictionary<Dish>> Desserts
-		{
-			get { return desserts; }
-		}
+		//private ObservableCollection<MyDictionary<Dish>> desserts = new ObservableCollection<MyDictionary<Dish>>();
+		//[JsonIgnore]
+		//public ObservableCollection<MyDictionary<Dish>> Desserts
+		//{
+		//	get { return desserts; }
+		//}
 		private string name;
 		[JsonIgnore]
 		public string Name

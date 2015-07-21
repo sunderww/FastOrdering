@@ -72,7 +72,7 @@
                             <Border Grid.Row="1" Padding="20" Background="White" Opacity="0.9" CornerRadius="5"
                                     Margin="30, 0, 30, 30">
                                 <ScrollViewer>
-                                    <StackPanel x:Name="MenusList" DataContext="{Binding Ord}">
+                                    <!--<StackPanel x:Name="MenusList" DataContext="{Binding Ord}">
                                         <ListView x:Name="DishList" ItemsSource="{Binding Dishes}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
@@ -89,8 +89,8 @@
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
-                                        </ListView>
-                                        <!--<ListView x:Name="MenusList" DataContext="{Binding Ord}" ItemsSource="{Binding Menus}">
+                                        </ListView>-->
+                                        <ListView x:Name="MenusList" DataContext="{Binding Ord}" ItemsSource="{Binding Menus}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -98,9 +98,9 @@
                                             </ListView.ItemContainerStyle>
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
-                                                    <StackPanel>-->
-                                                        <!--<TextBlock Text="{Binding Name}" FontSize="20" />-->
-                                                        <!--<ListView x:Name="EntryList" ItemsSource="{Binding Entries}" Margin="20, 0, 0, 0">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}" FontSize="20" />
+                                                        <ListView x:Name="EntryList" ItemsSource="{Binding Dishes}" Margin="20, 0, 0, 0">
                                                             <ListView.ItemContainerStyle>
                                                                 <Style TargetType="ListViewItem">
                                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -116,8 +116,8 @@
                                                                     </StackPanel>
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
-                                                        </ListView>-->
-                                                        <!--<ListView x:Name="DessertList" ItemsSource="{Binding Desserts}" Margin="20, 0, 0, 0">
+                                                        </ListView>
+                                                        <ListView x:Name="DessertList" ItemsSource="{Binding Desserts}" Margin="20, 0, 0, 0">
                                                             <ListView.ItemContainerStyle>
                                                                 <Style TargetType="ListViewItem">
                                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -133,13 +133,13 @@
                                                                     </StackPanel>
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
-                                                        </ListView>-->
-                                                    <!--</StackPanel>
+                                                        </ListView>
+                                                    </StackPanel>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
 
-                                        <ListView x:Name="DishOrdList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
+                                        <!--<ListView x:Name="DishOrdList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -156,7 +156,7 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>-->
-                                    </StackPanel>
+                                    <!--</StackPanel>-->
                                 </ScrollViewer>
                             </Border>
                         </Grid>
@@ -191,7 +191,7 @@
                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                 </Style>
                                             </ListView.ItemContainerStyle>
-                                            <ListView.ItemTemplate>
+                                            <!--<ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel>
                                                         <ToggleSwitch OnContent="{Binding Name}" OffContent="{Binding Name}"
@@ -202,7 +202,7 @@
                                                                 <Style TargetType="ListViewItem">
                                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                                 </Style>
-                                                            </ListView.ItemContainerStyle>
+                                                            </ListView.ItemContainerStyle>-->
                                                             <ListView.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <Grid>
@@ -222,10 +222,10 @@
                                                                 </DataTemplate>
                                                             </ListView.ItemTemplate>
                                                         </ListView>
-                                                    </StackPanel>
+                                                    <!--</StackPanel>
                                                 </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
+                                            </ListView.ItemTemplate>-->
+                                        <!--</ListView>-->
 
                                         <!--<StackPanel Grid.Row="0">
                                             <ToggleSwitch OnContent="Entrées" OffContent="Entrées" Foreground="Black"

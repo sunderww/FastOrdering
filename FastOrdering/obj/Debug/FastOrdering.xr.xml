@@ -1,7 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Roots >
+  <Roots.Interfaces>
+    <RootInterface FullName="Windows.UI.Xaml.Data.IValueConverter" />
+  </Roots.Interfaces>
   <Roots.PropertyPathNames>
-    <RootPropertyPathName Name="Connect" />
+    <RootPropertyPathName Name="ID" />
+    <RootPropertyPathName Name="Key" />
+    <RootPropertyPathName Name="Name" />
+    <RootPropertyPathName Name="Menus" />
+    <RootPropertyPathName Name="IDMenu" />
+    <RootPropertyPathName Name="HasNoCompo" />
+    <RootPropertyPathName Name="Compositions" />
+    <RootPropertyPathName Name="HasCompo" />
+    <RootPropertyPathName Name="ALaCarte" />
+    <RootPropertyPathName Name="Ord" />
+    <RootPropertyPathName Name="Desserts" />
+    <RootPropertyPathName Name="Value" />
+    <RootPropertyPathName Name="Dishes" />
+    <RootPropertyPathName Name="numPA" />
+    <RootPropertyPathName Name="Table" />
+    <RootPropertyPathName Name="Time" />
+    <RootPropertyPathName Name="Message" />
+    <RootPropertyPathName Name="numOrder" />
+    <RootPropertyPathName Name="SecondNotifTime" />
+    <RootPropertyPathName Name="SecondNotifMsg" />
+    <RootPropertyPathName Name="FirstNotifTime" />
+    <RootPropertyPathName Name="FirstNotifMsg" />
+    <RootPropertyPathName Name="SecondOrderTime" />
+    <RootPropertyPathName Name="SecondOrderMsg" />
+    <RootPropertyPathName Name="FirstOrderTime" />
+    <RootPropertyPathName Name="FirstOrderMsg" />
   </Roots.PropertyPathNames>
   <Roots.RootTypes>
     <RootType FullName="Windows.UI.Xaml.Application">
@@ -12,15 +40,24 @@
       <RootProperty Name="RowDefinitions" />
       <RootProperty Name="Children" />
       <RootProperty Name="Height" />
-      <RootProperty Name="ColumnDefinitions" />
       <RootProperty Name="Style" />
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="ColumnDefinitions" />
       <RootProperty Name="Margin" />
+      <RootProperty Name="DataContext" />
+      <RootProperty Name="Tag" />
+      <RootProperty Name="ManipulationMode" />
+      <RootProperty Name="Width" />
+      <RootEvent Name="Loaded" />
+      <RootEvent Name="ManipulationStarted" />
+      <RootEvent Name="ManipulationCompleted" />
+      <RootEvent Name="Tapped" />
       <RootMethod Name="GetRow" />
       <RootMethod Name="SetRow" />
       <RootMethod Name="GetColumn" />
       <RootMethod Name="SetColumn" />
-      <RootMethod Name="GetRowSpan" />
-      <RootMethod Name="SetRowSpan" />
+      <RootMethod Name="GetColumnSpan" />
+      <RootMethod Name="SetColumnSpan" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Panel">
       <RootProperty Name="Background" />
@@ -41,8 +78,9 @@
     <RootType FullName="Windows.UI.Xaml.Controls.StackPanel">
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="Children" />
+      <RootProperty Name="Tag" />
       <RootProperty Name="Orientation" />
-      <RootProperty Name="Width" />
+      <RootProperty Name="DataContext" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.HyperlinkButton">
       <RootProperty Name="Name" />
@@ -54,15 +92,10 @@
     <RootType FullName="Windows.UI.Xaml.Controls.Page">
       <RootProperty Name="Background" />
       <RootProperty Name="Content" />
-      <RootProperty Name="Resources" />
-      <RootProperty Name="DataContext" />
       <RootProperty Name="BottomAppBar" />
+      <RootProperty Name="Resources" />
     </RootType>
     <RootType FullName="Microsoft.Xaml.Tools.DirectUI.ProxyTypes.ThemeResourceExtension" />
-    <RootType FullName="DrawerLayout.DrawerLayout">
-      <RootProperty Name="Style" />
-      <RootProperty Name="Children" />
-    </RootType>
     <RootType FullName="Microsoft.Xaml.Tools.DirectUI.ProxyTypes.StaticResourceExtension" />
     <RootType FullName="Windows.UI.Xaml.Controls.Border">
       <RootProperty Name="Padding" />
@@ -75,15 +108,15 @@
       <RootProperty Name="BorderThickness" />
       <RootProperty Name="Height" />
       <RootProperty Name="Width" />
+      <RootProperty Name="Name" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.Image">
       <RootProperty Name="Source" />
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="Height" />
-      <RootProperty Name="HorizontalAlignment" />
       <RootProperty Name="Width" />
+      <RootProperty Name="HorizontalAlignment" />
       <RootProperty Name="Margin" />
-      <RootEvent Name="Tapped" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.TextBlock">
       <RootProperty Name="Text" />
@@ -92,10 +125,20 @@
       <RootProperty Name="Margin" />
       <RootProperty Name="VerticalAlignment" />
       <RootProperty Name="FontSize" />
-      <RootProperty Name="Inlines" />
+      <RootProperty Name="DataContext" />
+      <RootProperty Name="Tag" />
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="Name" />
+      <RootEvent Name="Tapped" />
     </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.ColumnDefinition">
-      <RootProperty Name="Width" />
+    <RootType FullName="Windows.UI.Xaml.Controls.CommandBar">
+      <RootProperty Name="PrimaryCommands" />
+      <RootProperty Name="SecondaryCommands" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.AppBarButton">
+      <RootProperty Name="Icon" />
+      <RootProperty Name="Label" />
+      <RootEvent Name="Click" />
     </RootType>
     <RootType FullName="FastOrdering.View.AboutView" />
     <RootType FullName="System.Double" />
@@ -110,8 +153,14 @@
       <RootProperty Name="Header" />
       <RootProperty Name="PlaceholderText" />
       <RootProperty Name="Style" />
+      <RootProperty Name="InputScope" />
+      <RootProperty Name="Text" />
+      <RootProperty Name="DataContext" />
+      <RootProperty Name="Tag" />
       <RootProperty Name="FontSize" />
       <RootProperty Name="BorderBrush" />
+      <RootProperty Name="BorderThickness" />
+      <RootEvent Name="LostFocus" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.FrameworkElement">
       <RootProperty Name="MinWidth" />
@@ -128,6 +177,7 @@
       <RootProperty Name="FontSize" />
       <RootProperty Name="Padding" />
       <RootProperty Name="Template" />
+      <RootProperty Name="HorizontalContentAlignment" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Controls.ScrollViewer">
       <RootProperty Name="HorizontalScrollMode" />
@@ -142,6 +192,7 @@
       <RootProperty Name="VerticalScrollMode" />
       <RootProperty Name="ZoomMode" />
       <RootProperty Name="IsDeferredScrollingEnabled" />
+      <RootProperty Name="Content" />
       <RootMethod Name="GetHorizontalScrollMode" />
       <RootMethod Name="SetHorizontalScrollMode" />
       <RootMethod Name="GetVerticalScrollMode" />
@@ -216,33 +267,69 @@
       <RootProperty Name="Margin" />
       <RootProperty Name="Visibility" />
       <RootProperty Name="VerticalAlignment" />
-      <RootProperty Name="BorderBrush" />
     </RootType>
     <RootType FullName="Microsoft.Xaml.Tools.DirectUI.ProxyTypes.TemplateBindingExtension" />
-    <RootType FullName="FastOrdering.ViewModel.LoginViewModel" />
-    <RootType FullName="Windows.UI.Xaml.Controls.CommandBar">
-      <RootProperty Name="PrimaryCommands" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.AppBarButton">
-      <RootProperty Name="Icon" />
-      <RootProperty Name="Label" />
-      <RootProperty Name="Command" />
-      <RootEvent Name="Click" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Data.Binding" />
     <RootType FullName="FastOrdering.View.LoginView" />
-    <RootType FullName="FastOrdering.ViewModel.NewOrderViewModel" />
+    <RootType FullName="Windows.UI.Xaml.Controls.Hub">
+      <RootProperty Name="Foreground" />
+      <RootProperty Name="Margin" />
+      <RootProperty Name="Sections" />
+      <RootEvent Name="SectionsInViewChanged" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.HubSection">
+      <RootProperty Name="Header" />
+      <RootProperty Name="ContentTemplate" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.DataTemplate">
+      <RootProperty Name="Template" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ListView">
+      <RootProperty Name="ItemsSource" />
+      <RootProperty Name="ItemContainerStyle" />
+      <RootProperty Name="ItemTemplate" />
+      <RootProperty Name="Visibility" />
+      <RootProperty Name="DataContext" />
+      <RootProperty Name="Margin" />
+      <RootEvent Name="Loaded" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ListViewItem" />
+    <RootType FullName="Windows.UI.Xaml.Data.Binding">
+      <RootProperty Name="Mode" />
+      <RootProperty Name="Converter" />
+      <RootProperty Name="ConverterParameter" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ToggleSwitch">
+      <RootProperty Name="OnContent" />
+      <RootProperty Name="OffContent" />
+      <RootProperty Name="Foreground" />
+      <RootProperty Name="Header" />
+      <RootProperty Name="Visibility" />
+      <RootEvent Name="Toggled" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.ColumnDefinition">
+      <RootProperty Name="Width" />
+    </RootType>
     <RootType FullName="FastOrdering.View.NewOrderView" />
-    <RootType FullName="FastOrdering.ViewModel.NotificationsViewModel" />
+    <RootType FullName="FastOrdering.Misc.StringFormatConverter" />
     <RootType FullName="Windows.UI.Xaml.Controls.ListBox">
-      <RootProperty Name="Items" />
+      <RootProperty Name="Name" />
+      <RootProperty Name="ItemTemplate" />
     </RootType>
     <RootType FullName="FastOrdering.View.NotificationsView" />
-    <RootType FullName="FastOrdering.ViewModel.OptionsViewModel" />
-    <RootType FullName="FastOrdering.View.OptionsView" />
-    <RootType FullName="FastOrdering.ViewModel.OrdersViewModel" />
+    <RootType FullName="Windows.UI.Xaml.Controls.Flyout">
+      <RootProperty Name="Content" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Button">
+      <RootProperty Name="Name" />
+      <RootProperty Name="HorizontalAlignment" />
+      <RootProperty Name="Content" />
+      <RootEvent Name="Tapped" />
+    </RootType>
+    <RootType FullName="Windows.UI.Xaml.Controls.Primitives.FlyoutBase">
+      <RootMethod Name="GetAttachedFlyout" />
+      <RootMethod Name="SetAttachedFlyout" />
+    </RootType>
     <RootType FullName="FastOrdering.View.OrdersView" />
-    <RootType FullName="FastOrdering.ViewModel.ReceptionViewModel" />
     <RootType FullName="FastOrdering.View.ReceptionView" />
   </Roots.RootTypes>
 </Roots>

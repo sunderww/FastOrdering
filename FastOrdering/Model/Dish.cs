@@ -13,13 +13,18 @@ namespace FastOrdering.Model
 		public static ObservableCollection<Dish> dishes = new ObservableCollection<Dish>();
 
 		[JsonConstructor]
-		public Dish(string id, string name, int price, string[] categories_ids, bool available, DateTime createdAt, DateTime updatedAt)
+		public Dish(string id, string name, int price, string[] options, string[] categories_ids, bool available, DateTime createdAt, DateTime updatedAt)
 		{
 			this.id = id;
 			this.name = name;
 			this.price = price;
 			this.available = available;
 			this.categories = categories_ids;
+			foreach (Option op in Option.options)
+			{
+				if (options.Contains(op.ID))
+					this.options.Add(op.ID, 0);
+			}
 		}
 
 		public Dish(string id, double price, string name)
@@ -28,7 +33,6 @@ namespace FastOrdering.Model
 			this.price = price;
 			this.name = name;
 			this.comment = "";
-			this.options = "";
 			this.status = 0;
 			this.qty = 0;
 		}
@@ -48,13 +52,14 @@ namespace FastOrdering.Model
 			get { return name; }
 		}
 		private string[] categories;
+		[JsonIgnore]
 		public string[] Categories
 		{
 			get { return categories; }
 		}
 		public int qty;
 		public string comment;
-		public string options;
+		public Dictionary<string, int> options = new Dictionary<string,int>();
 		[JsonIgnore]
 		public int status;
 		private bool available;

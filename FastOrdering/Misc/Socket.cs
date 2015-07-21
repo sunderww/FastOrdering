@@ -26,6 +26,12 @@ namespace FastOrdering.Misc
 			System.Diagnostics.Debug.WriteLine(str);
 		}
 
+		static public void Authentification(string key)
+		{
+			string str = "{\"user_key\": \"" + key + "\"}";
+			System.Diagnostics.Debug.WriteLine(str);
+		}
+
 		private void GetNotification()
 		{
 			string str = "{\"numTable\": \"1\", \"msg\": \"egre erger fwef ewf\", \"date\": \"12/12/12\", \"hour\": \"12:12\"}";
@@ -54,11 +60,9 @@ namespace FastOrdering.Misc
 
 		static public Order GetOrder()
 		{
-			Menu.menus.Add(new Menu("0", "Mousaillon", "Visible", "Visible"));
-			Menu.menus.Add(new Menu("2", "Pirate", "Collapsed", "Collapsed"));
-
-			string str = "{\"numOrder\": \"3\", \"numTable\": \"2\", \"numPA\": \"5\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
-				"\"order\": [{\"menuId\": \"2\", \"content\": [{\"id\": \"1\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", \"options\": \"\"}],}]}";
+			string str = "{\"numOrder\": \"35\", \"numTable\": \"2\", \"numPA\": \"5\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
+				"\"order\": [{\"menuId\": \"572abe8049bb4c97702057db\", \"content\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", ";
+			str += "\"options\": [{\"id\": \"324r434\", \"qty\": \"2\"},{\"id\": \"id33cl\",\"qty\": \"2\"}]}],}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			int numOrder = (int)output["numOrder"];
@@ -89,17 +93,52 @@ namespace FastOrdering.Misc
 					string contentStr = content.ToString();
 					dynamic contentOut = JsonConvert.DeserializeObject(contentStr);
 					string id = (string)contentOut["id"];
-					foreach (MyDictionary<Dish> dishes in menu.Dishes)
+					foreach (Dish dish in Dish.dishes)
 					{
-						if (id == dishes.Key.ID)
+						if (id == dish.ID)
 						{
-							dishes.Value = (int)contentOut["qty"];
-							dishes.Key.comment = (string)contentOut["comment"];
-							dishes.Key.options = (string)contentOut["options"];
-							dishes.Key.status = (int)contentOut["status"];
+							MyDictionary<Dish> dict = new MyDictionary<Dish>();
+							dict.Value = (int)contentOut["qty"];
+							dict.Key = dish;
+							dict.Key.comment = (string)contentOut["comment"];
+							foreach (Object option in contentOut["options"])
+							{
+								str = option.ToString();
+								dynamic optionOut = JsonConvert.DeserializeObject(str);
+								foreach (KeyValuePair<string, int> op in dict.Key.options)
+								{
+									if (op.Key == (string)optionOut["id"])
+									{
+										int nb = dict.Value + (int)optionOut["qty"];
+										dict.Key.options.Remove(op.Key);
+										dict.Key.options.Add(op.Key, nb);
+										break;
+									}
+								}
+								//dict.Key.options. Add((string)optionOut["id"], (int)optionOut["qty"]);
+							}
+							dict.Key.status = (int)contentOut["status"];
+							menu.Dishes.Add(dict);
 							break;
 						}
 					}
+					//foreach (MyDictionary<Dish> dishes in menu.Dishes)
+					//{
+					//	if (id == dishes.Key.ID)
+					//	{
+					//		dishes.Value = (int)contentOut["qty"];
+					//		dishes.Key.comment = (string)contentOut["comment"];
+					//		foreach (Object option in contentOut["options"])
+					//		{
+					//			str = option.ToString();
+					//			dynamic optionOut = JsonConvert.DeserializeObject(str);
+					//			dishes.Key.options.Add((string)optionOut["id"], (int)optionOut["qty"]);
+					//		}
+					//		//dishes.Key.options = (string)contentOut["options"];
+					//		dishes.Key.status = (int)contentOut["status"];
+					//		break;
+					//	}
+					//}
 				}
 			}
 			Order.orders.Add(ord);
@@ -144,8 +183,8 @@ namespace FastOrdering.Misc
 
 		private void GetDishes()
 		{
-			string str = "{\"elements\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"name\": \"Crottin de chèvre frais sur pomme\", \"price\": 0, \"categories_ids\": [\"572f7883937726dc7ab8f8ef\"], \"available\": true, \"createdAt\": \"2016-05-08T17:35:21.100Z\", \"updatedAt\": \"2016-05-08T17:35:21.100Z\"}, ";
-			str += "{\"available\": true, \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f797b937726dc7ab8f8f9\"], \"createdAt\": \"2016-05-08T17:35:47.075Z\", \"id\": \"572f78f3937726dc7ab8f8f4\", \"name\": \"Plat végétarien \", \"price\": 10, \"updatedAt\": \"2016-05-08T17:51:12.064Z\"}]}";
+			string str = "{\"elements\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"name\": \"Crottin de chèvre frais sur pomme\", \"price\": 0, \"categories_ids\": [\"572f7883937726dc7ab8f8ef\"], \"available\": true, \"options\" : [\"234335t43\"], \"createdAt\": \"2016-05-08T17:35:21.100Z\", \"updatedAt\": \"2016-05-08T17:35:21.100Z\"}, ";
+			str += "{\"available\": true, \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f797b937726dc7ab8f8f9\"], \"createdAt\": \"2016-05-08T17:35:47.075Z\", \"id\": \"572f78f3937726dc7ab8f8f4\", \"name\": \"Plat végétarien \", \"price\": 10, \"options\" : [\"234335t43\"], \"updatedAt\": \"2016-05-08T17:51:12.064Z\"}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			foreach (Object dish in output["elements"])
@@ -176,6 +215,7 @@ namespace FastOrdering.Misc
 						break;
 					}
 				}
+				Menu.OrderALaCarte();
 			}
 			//		break;
 			//	}
@@ -196,6 +236,27 @@ namespace FastOrdering.Misc
 			{
 				str = compo.ToString();
 				Composition.compositions.Add(JsonConvert.DeserializeObject<Composition>(str));
+			}
+		}
+
+		private void GetOptions()
+		{
+			string str = "{\"elements\": [{\"id\": \"234335t43\", \"values\": [{\"name\": \"bleue\", \"id\": \"324r434\"}]}]}";
+
+			dynamic output = JsonConvert.DeserializeObject(str);
+			foreach (Object option in output["elements"])
+			{
+				str = option.ToString();
+				dynamic optionOut = JsonConvert.DeserializeObject(str);
+				string id = (string)optionOut["id"];
+				Dictionary<string, string> values = new Dictionary<string, string>();
+				foreach (Object value in optionOut["values"])
+				{
+					str = value.ToString();
+					dynamic valueOut = JsonConvert.DeserializeObject(str);
+					values.Add((string)valueOut["name"], (string)valueOut["id"]);
+				}
+				Option.options.Add(new Option(id, values));
 			}
 		}
 
@@ -240,15 +301,16 @@ namespace FastOrdering.Misc
 
 		private async void Connect_Click()
 		{
+			GetMenus();
+			GetCategories();
+			GetOptions();
+			GetDishes();
+			GetCompos();
 			GetOrder();
 			//SendOrder();
 			GetLastOrders();
 			ReceiveOrder();
 			GetNotification();
-			GetMenus();
-			GetCategories();
-			GetDishes();
-			GetCompos();
 			GetAlacarte();
 			//return;
 
