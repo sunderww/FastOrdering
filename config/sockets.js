@@ -23,7 +23,18 @@
   ***************************************************************************/
   onConnect: function(session, socket) {
     console.log("Connect");
- 
+
+    socket.on('authentication', function (reqObj, cb) {     
+      console.log("comming");
+      // console.log(reqObj);
+      // console.log(cb);
+
+                         
+  });
+
+
+
+    socket.emit(socket.id,'connexion', {response:"gg" });
 
     socket.on('send_order', function(json) {
      console.log("send_order");
@@ -46,7 +57,8 @@
       };
 
 
-    socket.emit(socket.id,'receiver_order', {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, time:model.time});
+    socket.emit(socket.id,'receive_order', {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, time:model.time});
+
   });
   });
 
@@ -58,10 +70,6 @@
         });
       });
     });
-
-
-
-
   },
 
 
@@ -183,7 +191,17 @@
   *                                                                          *
   ***************************************************************************/
 
-  authorization: false,
+  // authorization: true,
+  authorization: function authSocketConnectionAttempt(reqObj, cb) {     
+    var res = sails.controllers.session.loginFromPhone(reqObj, cb);
+    cb("bad", res);
+          // Any data saved in `handshake` is available in subsequent       
+          //requests from this as `req.socket.handshake.*`                    
+                                                                            
+          // to allow the connection, call `cb(null, true)`                 
+          // to prevent the connection, call `cb(null, false)`              
+          // to report an error, call `cb(err)`                             
+  },
 
   /***************************************************************************
   *                                                                          *
