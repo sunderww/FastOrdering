@@ -1,0 +1,207 @@
+
+<script>
+	window.addEventListener("load", windowLoadHandler, false);
+
+    function windowLoadHandler() {
+        licenceApp();
+    }
+
+    primelistlen=5;
+	primelist=[2,3,5,7,11];
+	
+	lastprime=11;
+	bp=2199023255579;
+	randomlist=[];
+	for(a=0;a<32;a++) randomlist[a]=123456789;;
+	randompoint=0;
+	seedcount=0;
+
+    function licenceApp() {
+
+
+
+
+	document.getElementById("generatebutton").disabled=true;
+
+		//debug
+		lasttime=0;
+		diffs=[];
+    }
+
+	function rnd(limit,seed){
+		if(!seed) seed=(new Date()).getTime();
+		for(var a=0;a<5;a++){
+			randompoint++;
+			randomlist[randompoint%32]=(randomlist[randompoint%32]+(randomlist[(1+randompoint)%32]+1)*(seed%prime(47+(randompoint%89))))%bp;
+		}
+		if(limit){
+			if(((bp%limit)>randomlist[randompoint%32]) && (bp>limit)){
+				return rnd(limit);
+			}
+			else{
+				return randomlist[randompoint%32]%limit;
+			}
+		}
+
+	}
+
+	function prime(index){
+			while(primelistlen<=index){
+				lastprime+=2;
+				var sqrtlastprime=Math.sqrt(lastprime);
+				for(var a=1;true;a++){
+					if(!(lastprime%primelist[a]))break;
+					if(primelist[a]>sqrtlastprime){
+						primelist[primelistlen]=lastprime;
+						primelistlen++;
+						break;
+					}
+				}
+			}
+			return primelist[index];
+	}
+
+	function rndseed(e){
+		rnd(false,(new Date()).getTime()+prime(46)*(e.clientX||e.screenX||e.pageX||1)+prime(45)*(e.clientY||e.screenY||e.pageY||1));
+		seedcount++;
+		if(seedcount>199){
+			document.getElementById("generatebutton").disabled=false;
+			document.getElementById("generatebutton").value="Generate";
+		}
+	}
+	function rndseedt(e){
+		var numtouch;
+		var touch;
+		if(seedcount<200){
+			e.preventDefault();
+		}
+		for(numtouch=0;numtouch<e.touches.length;numtouch++){
+			touch=e.touches[numtouch];
+			rnd(false,(new Date()).getTime()+prime(46)*(touch.clientX||touch.screenX||touch.pageX||1)+prime(45)*(touch.clientY||touch.screenY||touch.pageY||1)+prime(44)*Math.floor((touch.force||0)*1234));
+		}
+		seedcount++;
+		if(seedcount>199){
+			document.getElementById("generatebutton").disabled=false;
+			document.getElementById("generatebutton").value="Generate";
+		}
+	}
+
+	passwords=[];
+
+	function generate(do_it){
+		if(seedcount<100) return;
+
+		var numinp=6;
+		var numberofcodes=1;
+		var arr = [];
+		var library = "";
+		var libstren=1;
+		var liblen=library.length;
+
+		mustuse = [];
+		library +="abcdefghijklmnopqrstuvwxyz";
+		library += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		library += "0123456789";
+		mustuse[mustuse.length] = library;
+		library=library.split("");
+		library.sort();
+
+		for(a=0;a<liblen-1;a++){
+			libstren+=(library[a]!=library[a+1]);
+		}
+		var strength=Math.floor(250*Math.log(libstren)*Math.LOG10E)/10;
+
+		var mustlen=mustuse.length;
+		var htmlstructure="";
+		console.log(arr);
+		console.log(do_it);
+		liblen=library.length;
+		if(do_it){
+			passwords=[];
+			for(var b=0;b<25;b++){
+				arr[b]=library[rnd(liblen)];
+			}
+			for(var c=0;c<mustlen;c++){
+				var included=false;
+				for(var b=0;b<25;b++){
+					if(mustuse[c].indexOf(arr[b])>=0) included=true;
+				}
+			}
+
+		console.log(arr);
+		passwords[passwords.length]=arr.join("");
+		htmlstructure+="<span class='password' style='size:20;''>"+arr.join("").replace(/\x26/g,"&amp;").replace(/\x3c/g,"&lt;").replace(/\x3e/g,"&gt;").replace(/\x20/g,"&nbsp;")+"<\/span>";
+		console.log(htmlstructure);
+		document.getElementById("result").innerHTML=htmlstructure;
+		}
+	}
+
+	function alpha(len){
+		document.getElementById("0m").checked=true;
+		document.getElementById("1m").checked=true;
+		document.getElementById("2m").checked=true;
+		document.getElementById("0u").checked=true;
+		document.getElementById("1u").checked=true;
+		document.getElementById("2u").checked=true;
+		document.getElementById("3u").checked=false;
+		document.getElementById("4u").checked=false;
+		document.getElementById("5u").checked=false;
+		document.getElementById("pwlen").value=""+len;
+		if(document.getElementById("numcodes").value=="1") document.getElementById("numcodes").value="20";
+		if(randompoint>499) generate(true);
+	}
+
+	function exp(){
+		document.getElementById('explanationdiv').style.display='block';
+	}
+</script>
+
+<div id="main" class="dashboard-page sb-l-o sb-r-c" onmousemove="rndseed(event)" onkeydown="rndseed(event)" onkeyup="rndseed(event)" ontouchmove="rndseedt(event)">
+        <% include header.ejs %>
+        <% include sidebar.ejs %>
+
+	
+
+
+    <section id="content_wrapper">
+
+	    <header id="topbar">
+	    <div class="topbar-left">
+	        <ol class="breadcrumb">
+	            <li class="crumb-active">
+	                <a href="dashboard">Plan de Table</a>
+	            </li>
+	            <li class="crumb-icon">
+	                <a href="dashboard">
+	                    <span class="glyphicon glyphicon-home"></span>
+	                </a>
+	            </li>
+	            <li class="crumb-link">
+	                <a href="dashboard">Accueil</a>
+	            </li>
+	            <li class="crumb-trail">Generation de Licence</li>
+	        </ol>
+	    </div>
+	    </header>
+
+	    		
+		<input id="generatebutton" type="button" value="Move your mouse or finger to seed the generator" onclick="generate(true)" disabled="disabled"></input>
+		<p style="top:15%" id="result" style="textAlign: center; size:20;"></p>
+
+		<p id="debug"></p>
+
+
+
+		<div style="visibility:hidden;">Strength table - <a href="javascript:exp()">Explanation</a><br>
+		10^9 Low security password<span id="pass9"></span><br>
+		10^13 High security password<span id="pass13"></span><br>
+		10^17 Low security encryption/WiFi/signature key<span id="pass17"></span><br>
+		10^21 High security encryption/WiFi/signature key<span id="pass21"></span></div>
+		<noscript><p style="text-align:center;color:red;">JavaScript is not enabled in your browser, you must enable JavaScript to use the password generator</p></noscript>
+		
+
+
+	</section>
+</div>
+
+
