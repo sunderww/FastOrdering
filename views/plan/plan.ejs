@@ -42,6 +42,12 @@
 
                             //For debug messages
                             var Debugger = function() { };
+                            var result;
+                            var iteration;
+                            var save_reference;
+                            var erase_reference;
+                            var id_reference;
+
                             Debugger.log = function(message) {
                                 try {
                                     console.log(message);
@@ -52,6 +58,8 @@
                             }
 
                             function windowLoadHandler() {
+                                result = [];
+                                iteration = 0;
                                 canvasApp();
                             }
 
@@ -59,15 +67,66 @@
                                 return Modernizr.canvas;
                             }*/
 
-                            function canvasApp() {
-                            /*    if (!canvasSupport()) {
-                                    return;
-                                }*/
+
+                            window.onload = function(type){ 
+
+                                function add_board_select() {
+                                    var element = document.createElement("button");
+                                    element.type = type;
+                                    element.innerHTML = "Titre";
+                                    element.name = "same_test";
+                                    element.id = "board_" + (iteration);
+                                    element.className = "board_select";
+
+                                    element.onclick = function() {
+                                        alert("switch to " + element.innerHTML);
+                                        erase_reference();
+                                        var resultLength = result.length;
+                                        for (var i = 0; i < resultLength; i++) {
+                                            if (result[i].title.localeCompare(element.innerHTML) == 0) {
+                                                canvasApp(result[i]);
+                                            }
+                                        }
+                                    };
+
+                                    var foo = document.getElementById("board_list"); 
+                                    foo.appendChild(element); 
+                                }
+
+                                function update_buttons(type) {
+                                    add_board_select(type);
+                                    var resultLength = result.length;
+                                    for (var i = 0; i < resultLength; i++) {
+                                        document.getElementById("board_" + (i)).innerHTML = result[i].title;
+                                    }
+                                }
+
+                                function new_board() {
+                                    if (save_reference() == -1) {
+                                        return ;
+                                    };
+                                    //console.log(canvasApp.current_id);
+                                    console.log(iteration);
+                                    update_buttons("lolo");
+                                    console.log( result[iteration - 1].title);
+                                    //document.getElementById('board_0').innerHTML = result[iteration - 1].title;
+                                    erase_reference();
+                                    canvasApp();
+                                }
+
+                                document.getElementById('new_board').onclick = function() {
+                                    new_board();
+                                }
+                            };
+
+
+                            function canvasApp(saved_instance) {
                                 
                                 var theCanvas = document.getElementById("canvasOne");
                                 var context = theCanvas.getContext("2d");
+                                var current_id = iteration;
                                 
-                                init();
+                                init(saved_instance);
                                 
                                 var currentShape;
 
@@ -75,9 +134,9 @@
                                 var stepY;
 
                                 var createdShape;
-
                                 var numShapes;
                                 var shapes;
+
                                 var dragIndex;
                                 var dragging;
                                 var mouseX;
@@ -87,10 +146,17 @@
                                 var timer;
                                 var targetX;
                                 var targetY;
-                                var easeAmount;
-                                
+                                var easeAmount;  
 
-                                function init() {
+                                function init(saved_instance) {
+
+                                    document.getElementById('current_title').value = "Titre";
+
+                                    save_reference = save_board;
+                                    erase_reference = erase_all;
+                                    id_reference = current_id;
+                                    iteration++;
+
                                     numShapes = 5;
                                     easeAmount = 0.7;
                                     stepX = 12;
@@ -99,7 +165,19 @@
 
                                     shapes = [];
                                     
-                                    makeShapes();
+                                    if (saved_instance !== undefined) {
+                                        numShapes = 0;
+                                        makeShapes();
+
+                                        stepX = saved_instance.stepX;
+                                        stepY = saved_instance.stepY;
+                                        numShapes = saved_instance.numShapes;
+                                        shapes = saved_instance.position;
+                                        createdShapes = numShapes;
+                                        
+                                    } else {
+                                      makeShapes();
+                                    }
                                     
                                     drawScreen();
                                     
@@ -136,7 +214,8 @@
                                     var bRect = theCanvas.getBoundingClientRect();
                                     mouseX = (evt.clientX - bRect.left)*(theCanvas.width/bRect.width);
                                     mouseY = (evt.clientY - bRect.top)*(theCanvas.height/bRect.height);
-                                            
+                                    console.log(shapes);
+
                                     for (i=0; i < numShapes; i++) {
                                         if (shapes[i].hitTest(mouseX, mouseY)) {    
                                             dragging = true;
@@ -155,10 +234,11 @@
                                         
                                         targetX = mouseX - dragHoldX;
                                         targetY = mouseY - dragHoldY;
-                                        
+                                        console.log("toto");
                                         //start timer
                                         timer = setInterval(onTimerTick, 1000/30);
                                     }
+                                    window.removeEventListener("mousemove", mouseMoveListener, false);
                                     theCanvas.removeEventListener("mousedown", mouseDownListener, false);
                                     window.addEventListener("mouseup", mouseUpListener, false);
                                     
@@ -172,8 +252,8 @@
                                 }
                                 
                                 function onTimerTick() {
-                                    shapes[numShapes-1].x = shapes[numShapes-1].x + easeAmount*(targetX - shapes[numShapes-1].x);
-                                    shapes[numShapes-1].y = shapes[numShapes-1].y + easeAmount*(targetY - shapes[numShapes-1].y);
+                                    shapes[numShapes - 1].x = shapes[numShapes-1].x + easeAmount*(targetX - shapes[numShapes- 1].x);
+                                    shapes[numShapes - 1].y = shapes[numShapes-1].y + easeAmount*(targetY - shapes[numShapes- 1].y);
                                     if ((!dragging)&&(Math.abs(shapes[numShapes-1].x - targetX) < 0.1) && (Math.abs(shapes[numShapes-1].y - targetY) < 0.1)) {
                                         shapes[numShapes-1].x = targetX;
                                         shapes[numShapes-1].y = targetY;
@@ -194,7 +274,7 @@
 
                                             var curr = arr[0];
 
-                                            console.log(arr);
+                                            //console.log(arr);
                                             var diff = Math.abs (target - curr);
                                             for (var val = 0; val < arr.length; val++) {
                                                 var newdiff = Math.abs (target - arr[val]);
@@ -203,7 +283,7 @@
                                                     curr = arr[val];
                                                 }
                                             }
-                                            console.log(curr);
+                                            //console.log(curr);
                                             return curr;
                                 }
                                 
@@ -238,10 +318,6 @@
                                     if (dragging) {
                                         dragging = false;
                                         window.removeEventListener("mousemove", mouseMoveListener, false);
-                                        console.log(targetX);
-                                        console.log(targetY);
-                                                    console.log("------------------");
-
                                         targetX = closest(targetX - (theCanvas.width / stepX / 2), theCanvas.width, stepX) + (theCanvas.width / stepX / 2);
                                         targetY = closest(targetY - (theCanvas.height / stepY / 2), theCanvas.height, stepY) + (theCanvas.width / stepX / 2);
                                     }
@@ -281,7 +357,7 @@
                                 function add_table() {
                                         tempX = theCanvas.width / stepX;
                                         tempY = theCanvas.height / stepY;
-                                        console.log(shapes);
+                                        //console.log(shapes);
                                         tempA = 0.7;
 
                                         tempShape = new SimpleSquareParticle(tempX, tempY, createdShapes);
@@ -293,6 +369,7 @@
                                         numShapes++;
                                         createdShapes++;
                                         tempShape.drawToContext(context);
+                                        console.log(document.getElementById('current_title').value);
                                 }
 
                                 document.getElementById('add_table').onclick = function() {
@@ -325,8 +402,30 @@
                                     add_rowy();
                                 }
 
+                                function save_board() {
+                                    var title = document.getElementById('current_title').value;
+                                    var prepare = {"title":title, "dimX":stepX, "dimY":stepY, "numShapes":numShapes, "position":shapes };
+
+                                    var resultLength = result.length;
+                                    for (var i = 0; i < resultLength; i++) {
+                                        if (result[i].title.localeCompare(title) == 0) {
+                                            alert("Le titre a sauvegarder existe déja.");
+                                            return -1;
+                                        }
+                                    }
+                                    result[current_id] = prepare;
+                                    console.log(result);
+                                    console.log(title);
+                                }
+
+
+                                document.getElementById('save_board').onclick = function() {
+                                    save_board();
+                                }
+
+                                // Table menu buttons
+
                                 function erase_table() {
-                                    console.log("toto");
                                     var index = shapes.indexOf(currentShape);
                                     shapes[index].color = "rgba(255, 255, 255, 1)";
                                     shapes[index].drawToContext(context);
@@ -375,7 +474,7 @@
                                     //bg
                                     context.fillStyle = "#ffffff";
                                     context.fillRect(0,0,theCanvas.width,theCanvas.height);
-
+                                    //console.log("you even draw");
                                     var x = theCanvas.width / stepX;
                                     var y = theCanvas.height / stepY;
                                     for (i = 0;i < stepX; i++) {
@@ -386,6 +485,16 @@
                                     
                                     
                                     drawShapes();       
+                                }
+
+                                function erase_all() {
+                                    theCanvas.removeEventListener("dblclick", onClickListener, false);
+                                    //theCanvas.removeEventListener("mouseup", mouseDownListener, false);
+                                    theCanvas.removeEventListener("mousedown", mouseDownListener, false);
+                                    window.removeEventListener("mousemove", mouseMoveListener, false);
+                                    clearInterval(timer);
+                                    //shapes = [];
+                                    context.clearRect(0, 0, theCanvas.width, theCanvas.height);
                                 }
 
                                 $("#myformNum").submit(function(e) {
@@ -402,16 +511,20 @@
                         <body>
 
                             <div style="top: 50px; text-align:0center">
+                            <h2>
+                                <input id="current_title" class="form-field" type="text" name="firstname" placeholder="Titre"/>
+                                <div id="board_selector"><div id="board_list"><button id="board_0" class="board_select">Titre</button></div><button id="new_board" class="board_select" onClick="new_board()">+</button></div>
+                            </h2>
                             <canvas id="canvasOne" width="600" height="600" style="border:1px solid black">
                             Your browser does not support HTML5 canvas.
                             </canvas>
                                 <div>
                                 <button id="add_table" onclick="add_table()">Ajouter Table</button>
-                                <button id="add_rowy" onclick="add_clmn()">Ajouter Colonne </button>
-                                <button id="add_rowx" onclick="add_row()">Ajouter ligne</button>
-                                <button id="rm_rowy" onclick="rm_clmn()">Supprimer Colonne</button>
-                                <button id="rm_rowX" onclick="rm_row()">Supprimer ligne</button>
-                                <button class"btn btn-success">Sauvegarder plan de salle</button>
+                                <button id="add_rowy" class="managing_board_btn" onclick="add_clmn()">Ajouter Colonne </button>
+                                <button id="add_rowx" class="managing_board_btn" onclick="add_row()">Ajouter ligne</button>
+                                <button id="rm_rowy" class="managing_board_btn" onclick="rm_clmn()">Supprimer Colonne</button>
+                                <button id="rm_rowX" class="managing_board_btn" onclick="rm_row()">Supprimer ligne</button>
+                                <button id="save_board" onclick="save_board()">Sauvegarder plan de salle</button>
                             </div>
                             </div>
 

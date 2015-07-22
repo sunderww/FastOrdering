@@ -113,6 +113,9 @@
 
 		var mustlen=mustuse.length;
 		var htmlstructure="";
+		console.log(arr);
+		console.log(do_it);
+		liblen=library.length;
 		if(do_it){
 			passwords=[];
 			for(var b=0;b<25;b++){
@@ -125,10 +128,11 @@
 				}
 			}
 
-			passwords[passwords.length]=arr.join("");
-			htmlstructure+="<span class='password'>"+arr.join("").replace(/\x26/g,"&amp;").replace(/\x3c/g,"&lt;").replace(/\x3e/g,"&gt;").replace(/\x20/g,"&nbsp;")+"<\/span>";
-			console.log(htmlstructure);
-			document.getElementById("result").innerHTML=htmlstructure;
+		console.log(arr);
+		passwords[passwords.length]=arr.join("");
+		htmlstructure+="<span class='password' style='size:20;''>"+arr.join("").replace(/\x26/g,"&amp;").replace(/\x3c/g,"&lt;").replace(/\x3e/g,"&gt;").replace(/\x20/g,"&nbsp;")+"<\/span>";
+		console.log(htmlstructure);
+		document.getElementById("result").innerHTML=htmlstructure;
 		}
 	}
 
@@ -152,29 +156,52 @@
 	}
 </script>
 
-<body class="dashboard-page sb-l-o sb-r-c" onmousemove="rndseed(event)" onkeydown="rndseed(event)" onkeyup="rndseed(event)" ontouchmove="rndseedt(event)">
-	<% include dashboard.ejs %>
+<div id="main" class="dashboard-page sb-l-o sb-r-c" onmousemove="rndseed(event)" onkeydown="rndseed(event)" onkeyup="rndseed(event)" ontouchmove="rndseedt(event)">
+        <% include header.ejs %>
+        <% include sidebar.ejs %>
 
-	<noscript><p style="text-align:center;color:red;">JavaScript is not enabled in your browser, you must enable JavaScript to use the password generator</p></noscript>
+	
 
 
     <section id="content_wrapper">
 
+	    <header id="topbar">
+	    <div class="topbar-left">
+	        <ol class="breadcrumb">
+	            <li class="crumb-active">
+	                <a href="dashboard">Plan de Table</a>
+	            </li>
+	            <li class="crumb-icon">
+	                <a href="dashboard">
+	                    <span class="glyphicon glyphicon-home"></span>
+	                </a>
+	            </li>
+	            <li class="crumb-link">
+	                <a href="dashboard">Accueil</a>
+	            </li>
+	            <li class="crumb-trail">Generation de Licence</li>
+	        </ol>
+	    </div>
+	    </header>
+
+	    		
+		<input id="generatebutton" type="button" value="Move your mouse or finger to seed the generator" onclick="generate(true)" disabled="disabled"></input>
+		<p style="top:15%" id="result" style="textAlign: center; size:20;"></p>
+
+		<p id="debug"></p>
 
 
-    <p style="top:15%" id="result"></p>
 
-		<input id="generatebutton" type="button" value="Move your mouse or finger to seed the generator" onclick="generate(true)" disabled="disabled"></div>
 		<div style="visibility:hidden;">Strength table - <a href="javascript:exp()">Explanation</a><br>
 		10^9 Low security password<span id="pass9"></span><br>
 		10^13 High security password<span id="pass13"></span><br>
 		10^17 Low security encryption/WiFi/signature key<span id="pass17"></span><br>
 		10^21 High security encryption/WiFi/signature key<span id="pass21"></span></div>
-
+		<noscript><p style="text-align:center;color:red;">JavaScript is not enabled in your browser, you must enable JavaScript to use the password generator</p></noscript>
 		
-		<p id="debug"></p>
+
 
 	</section>
-</body>
+</div>
 
 
