@@ -10,8 +10,16 @@ var UserRole = require('../services/enums.js').UserRole;
 module.exports = {
 
   'register': function (req, res) {
+    if (req.session.user)
+        res.redirect('/dashboard');
     var errflash = _.clone(req.session.flash);
-    res.view('user/register', {flash : errflash});
+    res.view('user/registerRestaurant', {flash : errflash});
+    req.session.flash = {};
+  },
+    
+  'activateKey': function (req, res) {
+    var errflash = _.clone(req.session.flash);
+    res.view('user/registerWaiter', {flash : errflash, id: req.param('id')});
     req.session.flash = {};
   },
 
@@ -20,11 +28,14 @@ module.exports = {
    */
   createRestaurant: function (req, res) {
 
+      if (req.session.user)
+          res.redirect('/dashboard');
+      
       var values = req.params.all();
       
       values.role = UserRole.manager; // Create an Manager
       
-      User.create(req.params.all()).exec(function userCreated(err, user) {
+      User.create(values).exec(function userCreated(err, user) {
         if (err) {
             console.log(err);
             req.session.flash = {
@@ -59,20 +70,41 @@ module.exports = {
    */
   createWaiter: function(req, res) {
       
+      if (!req.session.user)
+          return res.redirect('/login');
+      
       var values = req.params.all();
       
-      values.role = UserRole.waiter; // Create an Manager
+      values.role = UserRole.waiter; // Create an Waiter
     
-      User.create(req.params.all()).exec(function userCreated(err, user) {
+      User.create(values).exec(function userCreated(err, user) {
         if (err) {
             console.log(err);
             req.session.flash = {
                 err: err
+                }
+                return res.redirect('/key/' + req.param('id') + 'activate');
             }
-            return res.redirect('/register');
-        }
+            
+            Restaurant.update({id: req.session.user.restaurant}, {users: user}).exec(function userUpdated(err, user) {
+                if (err) {
+                    console.log(err);
+                    return res.serverError(err);
+                }
+                console.log("Update User");
+                
+                Key.update({id: req.param('id')}, {active: true, user: user.id}).exec(function keyUpdated(err, key) {
+                    if (err) {
+                        console.log(err);
+                        return res.serverError(err);
+                    }
+                    console.log("Update Key");
+                });
+            });
+        
+        console.log("User created");
         res.json(user);
-        res.session.flash = {};  
+        //res.session.flash = {};  
       });
   },
 

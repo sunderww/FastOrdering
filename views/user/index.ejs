@@ -74,7 +74,7 @@
                                 <% _.each(keys, function(key) { %>
                                 <tr data-id="<%= key.id %>" data-model="key">
                                     <td><%= key.code %></td>
-                                    <td><a href="/key/activate/<%= key.id %>" class="btn btn-sm btn-success">Activer</a></td>
+                                    <td><a href="/key/<%= key.id %>/activate" class="btn btn-sm btn-success">Activer</a></td>
                                 </tr>
                                 <% }) %>
                             </table>

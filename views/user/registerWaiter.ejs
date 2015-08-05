@@ -1,0 +1,131 @@
+<body class="external-page sb-l-c sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main" class="animated fadeIn">
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+
+            <!-- begin canvas animation bg -->
+            <div id="canvas-wrapper">
+                <canvas id="demo-canvas"></canvas>
+            </div>
+
+            <!-- Begin: Content -->
+            <section id="content">
+
+                <div class="admin-form theme-info" id="login1">
+
+                    <div class="row mb15 table-layout">
+
+                        <div class="col-xs-6 va-m pln">
+                            <a href="#" title="Return to Dashboard">
+                                <img src="/assets/img/logos/logo_white.png" title="AdminDesigns Logo" class="img-responsive w250">
+                            </a>
+                        </div>
+
+                        <div class="col-xs-6 text-right va-b pr5">
+                            <div class="login-links">
+                                <a href="/login" class="" title="Sign In">Se Connecter</a>
+                                <span class="text-white"> | </span>
+                                <a href="#" class="active" title="Register">S'enregistrer</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-info mt10 br-n panel-heading heading-border">
+                        
+                        <!-- Error -->
+                        <% if (flash && flash.err) { %>
+                        <ul class="alert alert-danger">
+                            <% Object.keys(flash.err).forEach(function(error) { %>
+                            <li><%- JSON.stringify(flash.err[error]) %> </li>
+                            <% }) %>
+                        </ul>
+                        <% } %>
+                        
+
+                        <form method="post" action="/key/<%= id %>/activate" id="contact">
+                            <div class="panel-body bg-light p30">
+                                <div class="row">
+                                    <div class="col-sm-4 pr30">
+                                    </div>
+                                    <div class="col-sm-5 pr30">
+                                        <div class="section">
+                                            <label for="username" class="field-label text-muted fs18 mb10">Email</label>
+                                            <label for="username" class="field prepend-icon">
+                                                <input type="text" name="email" id="email" class="gui-input" placeholder="Email">
+                                                <label for="username" class="field-icon"><i class="fa fa-user"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+
+                                        <div class="section">
+                                            <label for="username" class="field-label text-muted fs18 mb10">Mot de passe</label>
+                                            <label for="password" class="field prepend-icon">
+                                                <input type="password" name="password" id="password" class="gui-input" placeholder="Mot de passe">
+                                                <label for="password" class="field-icon"><i class="fa fa-lock"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+
+                                                                                <div class="section">
+                                            <label for="username" class="field-label text-muted fs18 mb10">Confirmation du mot de passe</label>
+                                            <label for="password" class="field prepend-icon">
+                                                <input type="password" name="confirm_password" id="confirm_password" class="gui-input" placeholder="Mot de passe">
+                                                <label for="password" class="field-icon"><i class="fa fa-lock"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TEMP-- >
+                            <input type="hidden" name="role" value="1">
+                            <!-- end .form-body section -->
+                            <div class="panel-footer clearfix p10 ph15">
+                                <button type="submit" id="loginButton" class="button btn-primary mr10 pull-right">Créer un serveur</button>
+                                <input type="hidden" name="_csrf" value="<%=_csrf %>" />
+                            </div>
+                            <!-- end .form-footer section -->
+                        </form>
+                    </div>
+                </div>
+
+            </section>
+            <!-- End: Content -->
+
+        </section>
+        <!-- End: Content-Wrapper -->
+
+    </div>
+    <!-- End: Main -->
+
+    <!-- BEGIN: PAGE SCRIPTS -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Page Plugins -->
+    <script type="text/javascript" src="/assets/js/pages/login/EasePack.min.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/login/rAF.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/login/TweenLite.min.js"></script>
+    <script type="text/javascript" src="/assets/js/pages/login/login.js"></script>
+
+    <!-- Theme Javascript -->
+    <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
+    <script type="text/javascript" src="/assets/js/main.js"></script>
+    <script type="text/javascript" src="/assets/js/demo.js"></script>
+
+
+    <!-- END: PAGE SCRIPTS -->
