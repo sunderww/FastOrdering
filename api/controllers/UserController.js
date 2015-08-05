@@ -76,6 +76,8 @@ module.exports = {
       var values = req.params.all();
       
       values.role = UserRole.waiter; // Create an Waiter
+      values.restaurant = req.session.user.restaurant;
+      values.key = req.param('id');
     
       User.create(values).exec(function userCreated(err, user) {
         if (err) {
@@ -83,23 +85,14 @@ module.exports = {
             req.session.flash = {
                 err: err
                 }
-                return res.redirect('/key/' + req.param('id') + 'activate');
+                return res.redirect('/key/' + req.param('id') + '/activate');
             }
-            
-            Restaurant.update({id: req.session.user.restaurant}, {users: user}).exec(function userUpdated(err, user) {
+          
+            Key.update({id: req.param('id')}, {active: true, user: user.id}).exec(function keyUpdated(err, key) {
                 if (err) {
                     console.log(err);
                     return res.serverError(err);
-                }
-                console.log("Update User");
-                
-                Key.update({id: req.param('id')}, {active: true, user: user.id}).exec(function keyUpdated(err, key) {
-                    if (err) {
-                        console.log(err);
-                        return res.serverError(err);
-                    }
-                    console.log("Update Key");
-                });
+                }                    console.log("Update Key");
             });
         
         console.log("User created");
