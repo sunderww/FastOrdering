@@ -57,7 +57,9 @@
                                     <td><%= user.role %></td>
                                     <td><%= user.createdAt %></td>
                                     <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Editer</a></td>
+                                    <% if (user.role != 4) { %>
                                     <td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Supprimer</a></td> 
+                                    <% } %>
                                 </tr>
                                 <% }) %>
                             </table>

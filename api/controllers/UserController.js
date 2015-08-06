@@ -110,14 +110,26 @@ module.exports = {
               return res.serverError(err);
           if (!user)
               return res.notFound();
+          if (user.role != 4)
+          {
+            User.destroy(req.param('id')).exec(function Destroyed(err) {
+                if (err)
+                    return res.serverError(err);
+            
+                Key.update({user: user.id}, {active: false, user: null}).exec(function keyUpdated(err, key) {
+                if (err) {
+                    console.log(err);
+                    return res.serverError(err);
+                    }                    
+                    
+                    console.log("Update Key");
+                });  
+                
+            });
+          }
+          
+          return res.redirect('/user');
       });
-      
-      User.destroy(req.param('id')).exec(function Destroyed(err) {
-        if (err)
-            return res.serverError(err);
-      });
-      
-      return res.redirect('/user');
   },
 
 
