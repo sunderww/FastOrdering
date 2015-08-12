@@ -24,18 +24,6 @@
   onConnect: function(session, socket) {
     console.log("Connect");
 
-    socket.on('authentication', function (reqObj, cb) {     
-      console.log("comming");
-      // console.log(reqObj);
-      // console.log(cb);
-
-                         
-  });
-
-
-
-    socket.emit(socket.id,'connexion', {response:"gg" });
-
     socket.on('send_order', function(json) {
      console.log("send_order");
      Order.create({
@@ -43,21 +31,21 @@
       dinerNumber:json.numPA,
       comments: json.globalComment
     }).exec(function(err,model){
-      for (var i = json['order'].length; i >= 0; i--) {
-      
-     OrderedDish.create({
-      order_id:model.id,
-      dish_id:json['order'][i].content[0].id,
-      quantity:json['order'][i].content[0].qty,
-      comment:json['order'][i].content[0].comment,
-      menu_id:json['order'][i].menuId
-    }).exec(function(err,model){
-      console.log(err);
-    });
-      };
-
-
-    socket.emit(socket.id,'receive_order', {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, time:model.time});
+      var arr = [];
+      for (var i = 0;json['order'][0].content[i]; i++) {
+        OrderedDish.create({
+          order_id:model.id,
+          dish_id:json['order'][0].content[i].id,
+          quantity:json['order'][0].content[i].qty,
+          comment:json['order'][0].content[i].comment,
+          menu_id:json['order'][0].content[i].menuId
+        }).exec(function(err,model){
+          console.log(err);
+        });
+        arr.push({numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, time:model.time});
+      }
+      console.log(arr);
+    socket.emit('receive_order', {content: arr});
 
   });
   });
@@ -194,7 +182,7 @@
   // authorization: true,
   authorization: function authSocketConnectionAttempt(reqObj, cb) {     
     var res = sails.controllers.session.loginFromPhone(reqObj, cb);
-    cb("bad", res);
+    cb(null, true);
           // Any data saved in `handshake` is available in subsequent       
           //requests from this as `req.socket.handshake.*`                    
                                                                             
