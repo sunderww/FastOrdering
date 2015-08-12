@@ -150,8 +150,9 @@
             io.socket.get('/ordereddish/read?id=' + idCommand, function (body, response) {
                 e = 0;
                 for (var i = 0; body[i]; i++) {
-                    io.socket.get('/dish/read?id=' + body[0].dish_id, function (body2, response2) {
-                        io.socket.get('/menu/read?id=' + body[0].menu_id, function (body3, response3) {
+                    console.log(body[i]);
+                    io.socket.get('/dish/read?id=' + body[i].dish_id, function (body2, response2) {
+                        io.socket.get('/menu/read?id=' + body[i].menu_id, function (body3, response3) {
                         var number = Math.floor((Math.random() * 100) + 1);
                         var ready = (body[e].ready == true) ? "ready btn btn-success" : "ready btn btn-danger";
 

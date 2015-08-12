@@ -49,7 +49,7 @@ module.exports = {
 question: function(req, res) {
   console.log("question");
   var friendId = sails.io.sockets.clients()[0].id;
-  sails.sockets.emit(friendId, 'question', {msg: "J'ai une question !", numTable:"7"});
+  sails.sockets.emit('notification', {msg: "J'ai une question !", numTable:"7"});
 },
 
 ready: function(req, res) {
@@ -59,7 +59,7 @@ ready: function(req, res) {
         OrderedDish.update({id: req.param("id")}, {status:status}, function(err, model) {
         console.log("ready");
         var friendId = sails.io.sockets.clients()[0].id;
-        sails.sockets.emit(friendId, 'order_ready', {msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"});
+        sails.sockets.emit('notification', {msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"});
         return res.send(doc);
       });
     });
