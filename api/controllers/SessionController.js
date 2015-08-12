@@ -67,10 +67,10 @@ module.exports = {
        // console.log(res);
 
         User.findOne({key: req.headers.user_key}).exec(function findOneEmail(err, user) {
+           sails.session.user = user;
             if (!user) {
                 return false;
             }
-            // req.session.user = user;
             return true;
         });
     },
