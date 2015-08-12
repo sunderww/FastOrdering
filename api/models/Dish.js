@@ -45,12 +45,14 @@ module.exports = {
   		defaultsTo: true
   	},
 
-    // dish_id: {
-	   //   model: "Category"
-    // },      
+     
     categories_ids: {
       type: "array",
       defaultsTo: []
-    }
+    },
+    optioncategories_ids: {
+      type: "array",
+      defaultsTo: []
+    }    
   }
 };

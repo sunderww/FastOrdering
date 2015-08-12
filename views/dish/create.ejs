@@ -1,4 +1,4 @@
-d<body class="dashboard-page sb-l-o sb-r-c">
+<body class="dashboard-page sb-l-o sb-r-c">
 
     <!-- Start: Main -->
     <div id="main">
@@ -58,6 +58,13 @@ d<body class="dashboard-page sb-l-o sb-r-c">
                                                     </select>
                                                 </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="inputStandard" class="col-lg-3 control-label">OptionsCategories</label>
+                                                <div class="col-lg-8">
+                                                    <select id="optioncategories" name="optioncategories_ids" multiple="multiple">
+                                                    </select>
+                                                </div>
+                                    </div>                                    
                                     <div class="form-group">
                                         <label for="inputStandard" class="col-lg-3 control-label"></label>
                                         <div class="col-lg-8">
@@ -164,5 +171,15 @@ d<body class="dashboard-page sb-l-o sb-r-c">
             // console.log(res);
             $("#categories").html(res);
         });
+
+        io.socket.get('/optioncategory/read', function (body, response) {
+            var res = "";
+            body = body.elements;
+            for (var i = body.length - 1; i >= 0; i--) {
+                res += '<option value="' + body[i].id +'">' + body[i].name +'</option>';
+            };
+            console.log(res);
+            $("#optioncategories").html(res);
+        });        
     });
     </script>

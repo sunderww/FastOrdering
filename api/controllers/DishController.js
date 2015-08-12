@@ -20,7 +20,8 @@ module.exports = {
 				id: req.param("id"),
 				name:req.param("name"),
 				price:req.param("price"),
-				categories_ids: req.param("categories_ids")
+				categories_ids: req.param("categories_ids"),
+				optioncategories_ids: req.param("optioncategories_ids")
 			    }).exec(function(err,model) {
 				    if (err) {
 					return res.json({
@@ -63,15 +64,19 @@ module.exports = {
 	},
     update: function (req, res) {
 		var CATEGORIES;
+		var OPTIONCATEGORIES;
 		DishCategory.find(function(err, doc) {
 			CATEGORIES = doc;
 		});
-
+		OptionCategory.find(function(err, doc) {
+			OPTIONCATEGORIES = doc;
+		});
 		if (req.method=="POST") {
 			Dish.update({id:req.param("id")},{
 				name:req.param("name"),
 				price:req.param("price"),
-				categories_ids: req.param("categories_ids")
+				categories_ids: req.param("categories_ids"),
+				optioncategories_ids: req.param("optioncategories_ids")
 			    }).exec(function(err,model) {
 				    if (err) {
 					return res.json({
@@ -82,7 +87,7 @@ module.exports = {
 			res.redirect(307, '/dish/create');
 		}
 		    Dish.findOne({id: req.param("id")} ,function(err, doc) {
-			    return res.view({dish:doc, categories: CATEGORIES});
+			    return res.view({dish:doc, categories: CATEGORIES, optioncategories:OPTIONCATEGORIES});
 			});		   
 	}
 };
