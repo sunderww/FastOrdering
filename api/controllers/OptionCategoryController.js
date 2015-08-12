@@ -13,7 +13,8 @@ module.exports = {
   create: function (req, res) {
     if (req.method=="POST" && req.param("id") == undefined) {
    	OptionCategory.create({
-   		name:req.param("name")
+   		name:req.param("name"),
+      // option: ["55c74a6f3b516d1b65af3571","55c39cde12ac3eb54d51a539"]
    		}).exec(function(err, model){
      		if (err)
      			return res.json({message: err.ValidationError});
@@ -36,7 +37,7 @@ module.exports = {
           return res.send(doc);
       });
     } else {
-        OptionCategory.find( function(err, doc) {
+        OptionCategory.find().populate("option").exec( function(err, doc) {
           return res.json({elements: doc});
       });
     }

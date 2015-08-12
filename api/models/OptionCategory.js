@@ -8,7 +8,9 @@
 module.exports = {
 
   attributes: {
-    name: "string"
+    name: "string",
+	option:{
+      collection: "option"
+    }
   }
 };
-
