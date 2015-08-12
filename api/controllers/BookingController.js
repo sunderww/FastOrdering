@@ -26,8 +26,12 @@ module.exports = {
   create: function(req, res){
 
     var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
-    var params = { date:datetime, name:req.param('name'), nb_persons:req.param('nb_persons'), restaurant_id:req.param('restaurant_id') };
-
+    
+    var params = req.params.all();
+    params.time = null;
+    params.date = datetime;
+    params.restaurant_id = req.session.user.restaurant;
+      
   	Booking.create(params, function bookingCreated(err, booking) {
   		if (err) {
   			console.log(err);
@@ -44,6 +48,7 @@ module.exports = {
   	});	
   },
 
+    // TODO
   edit: function(req, res){
   	Booking.findOne(req.param('id'), function foundBooking(err, booking) {
   		if (err) 
@@ -57,11 +62,14 @@ module.exports = {
   	});
   },
 
+    // TODO
   update: function(req, res){
     
     var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
-    var params = { date:datetime, name:req.param('name'), nb_persons:req.param('nb_persons'), restaurant_id:req.param('restaurant_id') };
-
+    
+    var params = req.params.all();
+    params.date = datetime;
+    params.restaurant_id = req.session.user.restaurant;
       
   	Booking.update(req.param('id'), params, function userUpdated(err) {
   		if (err) {
@@ -72,8 +80,9 @@ module.exports = {
   	});
   },
 
-  index: function(req, res){
-  	Booking.find(function foundBooking(err, bookings) {
+    // A check
+  index: function(req, res) {
+  	Booking.find({restaurant_id : req.session.user.restaurant}, function foundBooking(err, bookings) {
   		if (err) 
             return res.serverError(err);
 

@@ -57,7 +57,9 @@
                                     <td><%= user.role %></td>
                                     <td><%= user.createdAt %></td>
                                     <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Editer</a></td>
+                                    <% if (user.role != 4) { %>
                                     <td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Supprimer</a></td> 
+                                    <% } %>
                                 </tr>
                                 <% }) %>
                             </table>
@@ -74,7 +76,7 @@
                                 <% _.each(keys, function(key) { %>
                                 <tr data-id="<%= key.id %>" data-model="key">
                                     <td><%= key.code %></td>
-                                    <td><a href="/key/activate/<%= key.id %>" class="btn btn-sm btn-success">Activer</a></td>
+                                    <td><a href="/key/<%= key.id %>/activate" class="btn btn-sm btn-success">Activer</a></td>
                                 </tr>
                                 <% }) %>
                             </table>
