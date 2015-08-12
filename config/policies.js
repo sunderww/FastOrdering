@@ -49,7 +49,8 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
     
-    '*': 'isAuthenticated',
+    // '*': 'isAuthenticated',
+  '*': true,
     
     UserController: {
         register: true,
@@ -61,6 +62,22 @@ module.exports.policies = {
         index: 'isAdminOrManager'
     },
     
+    DishController: {
+      read: true
+    },
+
+    MenuController: {
+      read:true,
+      alacarte:true
+    },
+    MenuCompositionController:{
+      read: true
+    },
+
+    DishCategoryController: {
+      read:true
+    },
+
     SessionController: {
         login: true,
         trylogin: true,
