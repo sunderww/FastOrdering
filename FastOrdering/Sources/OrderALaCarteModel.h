@@ -11,15 +11,18 @@
 #import "Dish.h"
 #import "Order.h"
 
-@interface OrderALaCarteModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate> {
+@interface OrderALaCarteModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate> {
 	NSArray * compositions;
 	NSArray * dishes;
 	NSArray * orderContents;
 
 	UITextField * responder;
-	NSMutableArray * counts;
 }
 
-@property (nonatomic, assign) Order *					order;
+- (instancetype)initWithOrder:(Order *)order;
+- (void)reloadData;
+
+@property (nonatomic, assign) Order *	order;
+@property (nonatomic, assign) BOOL		editing;
 
 @end

@@ -22,7 +22,7 @@
 }
 
 - (void)sanitizeInContext:(NSManagedObjectContext *)context {
-	for (OrderedDish * dish in self.dishes) {
+	for (OrderedDish * dish in [NSSet setWithSet:self.dishes]) {
 		if (dish.quantity.integerValue == 0) {
 			dish.order = nil;
 			dish.content = nil;

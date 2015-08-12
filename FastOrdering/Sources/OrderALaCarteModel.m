@@ -24,35 +24,43 @@
 
 @implementation OrderALaCarteModel
 
-- (instancetype)init
+- (instancetype)initWithOrder:(Order *)order
 {
 	self = [super init];
 	if (self) {
-		Menu * menu = [MenuModel new].alacarte;
-		NSMutableArray * tmpDishes = [NSMutableArray new];
-
-		compositions = menu.compositions.allObjects;
-		orderContents = self.order.createALaCarteContents;
-		for (OrderContent * content in orderContents) {
-			DishCategory * category = content.menuComposition.categories.allObjects.firstObject;
-			[tmpDishes addObject:category.availableDishes];
-			
-			for (Dish * dish in category.availableDishes) {
-				OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:content.menuComposition];
-				
-				if (!ordered) {
-					ordered = [OrderedDish create];
-					ordered.dish = dish;
-					ordered.quantity = @0;
-					ordered.comment = @"";
-					[content addDishesObject:ordered];
-				}
-			}
-		}
-		
-		dishes = tmpDishes;
+		self.order = order;		
 	}
 	return self;
+}
+
+- (void)reloadData {
+	NSMutableArray * tmpDishes = [NSMutableArray new];
+	NSMutableArray * comps = [NSMutableArray new];
+	
+	orderContents = self.order.createALaCarteContents;
+	for (OrderContent * content in orderContents) {
+		DishCategory * category = content.menuComposition.categories.allObjects.firstObject;
+		[tmpDishes addObject:category.availableDishes];
+		[comps addObject:content.menuComposition];
+		
+		for (Dish * dish in category.availableDishes) {
+			OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:content.menuComposition];
+			
+			if (!ordered) {
+				ordered = [OrderedDish create];
+				ordered.dish = dish;
+				ordered.quantity = @0;
+				ordered.comment = @"";
+				[content addDishesObject:ordered];
+				DPPLog(@"Didn't order any %@", ordered.dish.name);
+			} else {
+				DPPLog(@"ORDERED %@ %@", ordered.quantity, ordered.dish.name);
+			}
+		}
+	}
+	
+	dishes = tmpDishes;
+	compositions = comps;
 }
 
 #pragma mark - SLExpandableTableView delegate and datasource methods
@@ -96,6 +104,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString * CellIdentifier = @"DishCell";
 	Dish * dish = dishes[indexPath.section][indexPath.row - 1];
+	MenuComposition * composition = compositions[indexPath.section];
+	OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:composition];
 	
 	DishCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
@@ -105,6 +115,7 @@
 	}
 	
 	[cell setDish:dish andTag:kDishCellTag(indexPath.section, indexPath.row - 1)];
+	[cell setQuantity:ordered.quantity.integerValue];
 	return cell;
 }
 
@@ -112,6 +123,16 @@
 	DishCell * cell = (DishCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
 	[cell.textField becomeFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UIScrollView delegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	[responder resignFirstResponder];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+	[responder resignFirstResponder];
 }
 
 #pragma mark - UITextField delegate
@@ -122,12 +143,27 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+	if (!self.editing)
+		return ;
+
 	if (!textField.text.length)
 		textField.text = @"0";
 	
 	NSUInteger row = kDishCellRowForTag(textField.tag);
 	NSUInteger section = kDishCellSectionForTag(textField.tag);
-	counts[section][row] = @(textField.text.integerValue);
+	
+	Dish * dish = dishes[section][row];
+	MenuComposition * composition = compositions[section];
+	OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:composition];
+	
+	if (!ordered) {
+		ordered = [OrderedDish create];
+		ordered.order = self.order;
+		ordered.dish = dish;
+		ordered.content = orderContents[section];
+	}
+	
+	ordered.quantity = @(textField.text.integerValue);
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -137,7 +173,19 @@
 	
 	NSUInteger row = kDishCellRowForTag(textField.tag);
 	NSUInteger section = kDishCellSectionForTag(textField.tag);
-	counts[section][row] = @(text.integerValue);
+	
+	Dish * dish = dishes[section][row];
+	MenuComposition * composition = compositions[section];
+	OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:composition];
+	
+	if (!ordered) {
+		ordered = [OrderedDish create];
+		ordered.order = self.order;
+		ordered.dish = dish;
+		ordered.content = orderContents[section];
+	}
+	
+	ordered.quantity = @(text.integerValue);
 	return YES;
 }
 

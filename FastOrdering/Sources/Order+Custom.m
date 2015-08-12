@@ -15,6 +15,7 @@
 #import "OrderedDish.h"
 #import "MenuModel.h"
 #import "AppDelegate.h"
+#import "NSManagedObject+create.h"
 
 @implementation Order (Custom)
 
@@ -71,7 +72,7 @@ NSObject *  dictSafeValue(NSObject *obj) {
 }
 
 - (void)sanitizeInContext:(NSManagedObjectContext *)context {
-	for (OrderContent * content in self.orderContents) {
+	for (OrderContent * content in [NSSet setWithSet:self.orderContents]) {
 		if (!content.isEmpty) {
 			[content sanitizeInContext:context];
 		} else {
@@ -97,9 +98,33 @@ NSObject *  dictSafeValue(NSObject *obj) {
 	return contents;
 }
 
-- (NSArray *)createALaCarteContents {
+- (NSArray *)createALaCarteContentsInContext:(NSManagedObjectContext *)context {
 // Has to use existing orderContents first than create it if it doesn't exist
-	return nil;
+	NSMutableArray * contents = self.alacarteContents.mutableCopy;
+	Menu * menu = [[MenuModel new] alacarte];
+	
+	for (MenuComposition * composition in menu.compositions) {
+		BOOL found = NO;
+		for (OrderContent * content in contents) {
+			if ([content.menuComposition.serverId isEqualToString:composition.serverId]) {
+				found = YES;
+				break;
+			}
+		}
+		
+		if (!found) {
+			OrderContent * content = [OrderContent createInContext:context];
+			content.menuComposition = composition;
+			content.order = self;
+			[contents addObject:content];
+		}
+	}
+	
+	return contents;
+}
+
+- (NSArray *)createALaCarteContents {
+	return [self createALaCarteContentsInContext:((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext];
 }
 
 - (OrderedDish *)orderedDishWithDish:(Dish *)dish andComposition:(MenuComposition *)composition {

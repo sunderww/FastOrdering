@@ -364,7 +364,7 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
-		843C356E1B3FBC9E005D9959 /* Menu */ = {
+		843C356E1B3FBC9E005D9959 /* Order */ = {
 			isa = PBXGroup;
 			children = (
 				84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */,
@@ -372,7 +372,7 @@
 				844B06B91ABF804800DCFBB3 /* CommandMenuViewController.h */,
 				844B06BA1ABF804800DCFBB3 /* CommandMenuViewController.m */,
 			);
-			name = Menu;
+			name = Order;
 			sourceTree = "<group>";
 		};
 		843C356F1B3FBCA6005D9959 /* About */ = {
@@ -585,7 +585,7 @@
 				843C35711B3FBCBE005D9959 /* Notification */,
 				843C35701B3FBCB3005D9959 /* History */,
 				843C356F1B3FBCA6005D9959 /* About */,
-				843C356E1B3FBC9E005D9959 /* Menu */,
+				843C356E1B3FBC9E005D9959 /* Order */,
 				84C1A1CB19EE08B600E64B40 /* TablePlanViewController.h */,
 				84C1A1CC19EE08B600E64B40 /* TablePlanViewController.m */,
 				84C1A1CE19EE178400E64B40 /* MenuViewController.h */,

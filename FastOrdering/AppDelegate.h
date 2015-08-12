@@ -28,7 +28,7 @@
 #pragma mark - Other defines
 #define kClassNamesToSync   @[@"Plan", @"Table", @"Category", @"Dish"]
 // uncomment this line to begin with an empty db
-//#define kShouldDropDB
+#define kShouldDropDB
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

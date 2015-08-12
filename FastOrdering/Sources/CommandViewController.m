@@ -24,10 +24,9 @@
 	
 	order = [Order create];
 	menuModel = [OrderMenuModel new];
-	carteModel = [OrderALaCarteModel new];
+	carteModel = [[OrderALaCarteModel alloc] initWithOrder:order];
 	reviewModel = [OrderReviewModel new];
 	menuModel.delegate = self;
-	carteModel.order = order;
 //  reviewModel.delegate = self;
 	reviewModel.order = order;
 	reviewModel.tableView = reviewTableView;
@@ -112,6 +111,15 @@
 		v.hidden = v.tag != sender.tag;
 	for (UIView * v in contentViews)
 		v.hidden = v.tag != sender.tag;
+
+	if (sender.tag == alacarteView.tag) {
+		[carteModel reloadData];
+		[carteTableView reloadData];
+		carteModel.editing = YES;
+	} else {
+		[order sanitize];
+		carteModel.editing = NO;
+	}
 	[reviewModel reloadData];
 }
 
@@ -119,6 +127,8 @@
 	SocketHelper * helper = [SocketHelper sharedHelper];
 	[order sanitize];
 	PPLog(@"JSON :\n\n%@\n\n", order.toJSONString);
+
+	DPPLog(@"FORCE FAIL");
 	return [self orderFailed];
 	
 	if (!helper.socket.isConnected) return [self orderFailed];

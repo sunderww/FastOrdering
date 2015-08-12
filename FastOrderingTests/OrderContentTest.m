@@ -40,7 +40,7 @@
 }
 
 - (void)testIsEmpty {
-	
+	XCTAssert(YES, @"Pass");
 }
 
 
