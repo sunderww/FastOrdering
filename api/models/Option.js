@@ -9,7 +9,6 @@ module.exports = {
 
   attributes: {
     name: "string",
-    optioncategories_ids: "array"
   }
 };
 

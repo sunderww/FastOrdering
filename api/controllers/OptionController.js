@@ -6,26 +6,26 @@
  */
 
 module.exports = {
-	
-
 
   /**
    * `OptionController.create()`
    */
-  create: function (req, res) {
+   create: function (req, res) {
     if (req.method=="POST" && req.param("id") == undefined) {
-   	Option.create({
-   		name:req.param("name"),
-   		optioncategories_ids: [req.param("optioncategories_ids")]
-   		}).exec(function(err, model){
-   		if (err)
-   			return res.json({message: err.ValidationError});
-   		// else
-   		// 	return res.json({message: "GG"});
-   Option.find( function(err, doc) {
-          return res.view({options:doc});
-        });	});
-    
+      OptionCategory.findOne({id:req.param("optioncategories_ids")}).populate("option").exec(function(err, doc){
+        if (!err) {
+          var OPTIONCATEGORY = doc.option;
+          Option.create({name:req.param("name"), option: doc.id}).exec(function (err3, doc2, doc) {
+            OPTIONCATEGORY.push(doc2.id);
+              OptionCategory.update({id:req.param("optioncategories_ids")}, {option:OPTIONCATEGORY}).exec(function(err2, doc3){
+                Option.find( function(err, doc) {
+                  return res.view({options:OPTIONCATEGORY});
+                }); 
+            });
+          });
+
+        }
+      });
     }
     else
       Option.find( function(err, doc) {
@@ -73,7 +73,7 @@ module.exports = {
      
       Option.update({id:req.param("id")},{
         name:req.param("name"),
-        optioncategories_ids: [req.param("optioncategories_ids")]
+        optioncategories_ids: req.param("optioncategories_ids")
           }).
       exec(function(err,model) {
             if (err) {
