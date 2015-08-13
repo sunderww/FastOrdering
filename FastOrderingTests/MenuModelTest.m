@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "NSManagedObject+create.h"
 
 
 @interface MenuModelTest : XCTestCase

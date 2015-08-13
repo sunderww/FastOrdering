@@ -607,9 +607,9 @@
 				844B06A81ABBB2B000DCFBB3 /* OrderALaCarteModel.m */,
 				84D4B8051AD4D75100AF57F2 /* OrderReviewModel.h */,
 				84D4B8061AD4D75100AF57F2 /* OrderReviewModel.m */,
-				8403EDD41A568CC6001421D3 /* Managed Objects */,
 				843C35691B3FBBC7005D9959 /* MenuModel.h */,
 				843C356A1B3FBBC7005D9959 /* MenuModel.m */,
+				8403EDD41A568CC6001421D3 /* Managed Objects */,
 			);
 			name = Models;
 			sourceTree = "<group>";
