@@ -15,9 +15,10 @@ import com.eip.fastordering.activity.LoginActivity;
 import com.eip.fastordering.activity.Main;
 import com.eip.fastordering.adapter.AdapterHistory;
 import com.eip.fastordering.adapter.AdapterNotif;
-import com.eip.fastordering.customs.IOAcknowledgeGetOrder;
+import com.eip.fastordering.dialog.DialogOrder;
 import com.eip.fastordering.struct.NotifStruct;
 import com.eip.fastordering.struct.OrderStruct;
+import com.github.nkzawa.socketio.client.Ack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,7 +102,22 @@ public class HomeFragment extends Fragment {
 		JSONObject msg = new JSONObject();
 		try {
 			msg.put("order", item.get_mNumOrder());
-			LoginActivity._mSocket.emit("get_order", new IOAcknowledgeGetOrder(this, getActivity()), msg);
+			//LoginActivity._mSocket.emit("get_order", new IOAcknowledgeGetOrder(this, getActivity()), msg);
+			LoginActivity._mSocket.emit("get_order", "", new Ack() {
+				@Override
+				public void call(Object... args) {
+					JSONObject rep = null;
+					try {
+						rep = new JSONObject(args[0].toString());
+						Log.d("IOACKNOWLEDFE", "FULL ORDER=" + rep.toString());
+					} catch (JSONException e) {
+						Log.d("IOACKNOWLEDGE", "EXCEPTION JSON:" + e.toString());
+					}
+					new DialogOrder(HomeFragment.this.getActivity(), HomeFragment.this, rep).customView().show();
+				}
+			});
+
+
 		} catch (JSONException e) {
 			Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
 		}

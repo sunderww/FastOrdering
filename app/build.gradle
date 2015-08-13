@@ -25,9 +25,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/socketio.jar')
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.google.code.gson:gson:2.2.4'
     testCompile 'org.robolectric:robolectric:3.0-rc2'
+    compile 'com.github.nkzawa:socket.io-client:0.6.0'
 }

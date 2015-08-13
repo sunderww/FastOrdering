@@ -19,25 +19,21 @@ import android.widget.Toast;
 import com.eip.fastordering.R;
 import com.eip.fastordering.fragment.HistoryFragment;
 import com.eip.fastordering.fragment.NotificationsFragment;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Ack;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.util.HashMap;
+import java.net.URISyntaxException;
 import java.util.Map;
-import java.util.Properties;
-
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
-import io.socket.SocketIO;
-import io.socket.SocketIOException;
-
 
 public class LoginActivity extends Activity {
 
-	public static SocketIO _mSocket   = null;
-	private final String   _mIpServer = "http://163.5.84.184:4242";
+	public static Socket _mSocket   = null;
+	private final String _mIpServer = "http://163.5.84.184:4242";
 	private ProgressDialog _mProgressDialog;
 
 	/**
@@ -154,28 +150,36 @@ public class LoginActivity extends Activity {
 
 		//Init the socket
 		try {
-			Properties prop = new Properties();
-			prop.setProperty("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
-			_mSocket = new SocketIO(_mIpServer, prop);
-		} catch (MalformedURLException e) {
+			IO.Options opt = new IO.Options();
+			opt.query = "user_key=" + "55cccc32f80d3658724d6f7e";
+			_mSocket = IO.socket(_mIpServer, opt);
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		//Connect and create the listeners for the socket
-		_mSocket.connect(new IOCallback() {
+		_mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 			@Override
-			public void onMessage(JSONObject json, IOAcknowledge ack) {
-				Log.d("SOCKET", "DATA JSON: " + json.toString());
+			public void call(Object... args) {
+				JSONObject rep = null;
+				try {
+					Log.d("LOGINACTIVITY", "TRYING");
+					rep = new JSONObject(args[0].toString());
+					Log.d("LOGINACTIVITY", "END");
+				} catch (JSONException e) {
+					Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+				}
+				handleAuthentification(rep);
 			}
-
+		}).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
 			@Override
-			public void onMessage(String data, IOAcknowledge ack) {
-				Log.d("SOCKET", "DATA SERV: " + data);
+			public void call(Object... args) {
+				Log.d("SOCKET", "DECO");
 			}
-
+		}).on(Socket.EVENT_ERROR, new Emitter.Listener() {
 			@Override
-			public void onError(SocketIOException socketIOException) {
-				Log.d("SOCKET", "ERROR=" + socketIOException.toString());
-				socketIOException.printStackTrace();
+			public void call(Object... args) {
+//				Log.d("SOCKET", "ERROR=" + socketIOException.toString());
+//				socketIOException.printStackTrace();
 
 				LoginActivity.this.runOnUiThread(new Runnable() {
 					@Override
@@ -186,43 +190,86 @@ public class LoginActivity extends Activity {
 				});
 				_mProgressDialog.dismiss();
 			}
-
+		}).on("receive_order", new Emitter.Listener() {
 			@Override
-			public void onDisconnect() {
-				Log.d("SOCKET", "DECO");
+			public void call(Object... args) {
+				HistoryFragment.addOrderToList((JSONObject) args[0]);
 			}
-
+		}).on("notifications", new Emitter.Listener() {
 			@Override
-			public void onConnect() {
-				Map<String, String> args = new HashMap<String, String>();
-				args.put("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
-
-				JSONObject obj = createObjectURL("/authentification", args);
-
-				LoginActivity._mSocket.emit("post", new IOAcknowledge() {
-					@Override
-					public void ack(Object... objects) {
-						JSONObject rep = null;
-						try {
-							rep = new JSONObject(objects[0].toString());
-						} catch (JSONException e) {
-							Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-						}
-						handleAuthentification(rep);
-					}
-				}, obj);
-
-				//TODO Delete once authentification okay - Alexis
-				//Data to fetch from server
+			public void call(Object... args) {
+				NotificationsFragment.addNotificationToList((JSONObject) args[0]);
+			}
+		}).on("update", new Emitter.Listener() {
+			@Override
+			public void call(Object... args) {
 				fetchAllMenu();
 			}
-
-			@Override
-			public void on(String event, IOAcknowledge ack, Object... args) {
-				Log.d("SOCKET ON", "EVENT " + event);
-				eventsToListen(event, args);
-			}
 		});
+
+//		_mSocket.connect(new IOCallback() {
+//			@Override
+//			public void onMessage(JSONObject json, IOAcknowledge ack) {
+//				Log.d("SOCKET", "DATA JSON: " + json.toString());
+//			}
+
+//			@Override
+//			public void onMessage(String data, IOAcknowledge ack) {
+//				Log.d("SOCKET", "DATA SERV: " + data);
+//			}
+
+//			@Override
+//			public void onError(SocketIOException socketIOException) {
+//				Log.d("SOCKET", "ERROR=" + socketIOException.toString());
+//				socketIOException.printStackTrace();
+//
+//				LoginActivity.this.runOnUiThread(new Runnable() {
+//					@Override
+//					public void run() {
+//						Toast msg = Toast.makeText(LoginActivity.this, R.string.login_toast_error, Toast.LENGTH_LONG);
+//						msg.show();
+//					}
+//				});
+//				_mProgressDialog.dismiss();
+//			}
+//
+//			@Override
+//			public void onDisconnect() {
+//				Log.d("SOCKET", "DECO");
+//			}
+
+//			@Override
+//			public void onConnect() {
+//				Map<String, String> args = new HashMap<String, String>();
+//				args.put("user_key", ((EditText) findViewById(R.id.field_pass)).getText().toString());
+//				args.put("user_key", "55cccc32f80d3658724d6f7e");
+//
+//				JSONObject obj = createObjectURL("/authentification", args);
+//
+//				LoginActivity._mSocket.emit("post", new IOAcknowledge() {
+//					@Override
+//					public void ack(Object... objects) {
+//						JSONObject rep = null;
+//						try {
+//							rep = new JSONObject(objects[0].toString());
+//						} catch (JSONException e) {
+//							Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+//						}
+//						handleAuthentification(rep);
+//					}
+//				}, obj);
+//
+//				//TODO Delete once authentification okay - Alexis
+//				//Data to fetch from server
+//				fetchAllMenu();
+//			}
+//
+//			@Override
+//			public void on(String event, IOAcknowledge ack, Object... args) {
+//				Log.d("SOCKET ON", "EVENT " + event);
+//				eventsToListen(event, args);
+//			}
+//		});
 	}
 
 	/**
@@ -243,9 +290,9 @@ public class LoginActivity extends Activity {
 	private void fetchOptions() {
 		JSONObject obj = createObjectURL("/options", null);
 
-		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
-			public void ack(Object... objects) {
+			public void call(Object... objects) {
 //				try {
 //					TODO Uncomment once done - Alexis
 //					getSharedPreferences("DATACARD", 0).edit().putString("/options", new JSONObject(objects[0].toString()).toString()).commit();
@@ -263,9 +310,9 @@ public class LoginActivity extends Activity {
 	private void fetchElements() {
 		JSONObject obj = createObjectURL("/elements", null);
 
-		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
-			public void ack(Object... objects) {
+			public void call(Object... objects) {
 				try {
 					getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).toString()).commit();
 				} catch (JSONException e) {
@@ -282,9 +329,9 @@ public class LoginActivity extends Activity {
 	private void fetchMenus() {
 		JSONObject obj = createObjectURL("/menus", null);
 
-		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
-			public void ack(Object... objects) {
+			public void call(Object... objects) {
 				getSharedPreferences("DATACARD", 0).edit().putString("/menus", objects[0].toString()).commit();
 			}
 		}, obj);
@@ -296,9 +343,9 @@ public class LoginActivity extends Activity {
 	private void fetchCompos() {
 		JSONObject obj = createObjectURL("/compos", null);
 
-		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
-			public void ack(Object... objects) {
+			public void call(Object... objects) {
 				getSharedPreferences("DATACARD", 0).edit().putString("/compos", objects[0].toString()).commit();
 			}
 		}, obj);
@@ -310,9 +357,9 @@ public class LoginActivity extends Activity {
 	private void fetchCats() {
 		JSONObject obj = createObjectURL("/dishcategory/read", null);
 
-		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
-			public void ack(Object... objects) {
+			public void call(Object... objects) {
 				getSharedPreferences("DATACARD", 0).edit().putString("/cats", objects[0].toString()).commit();
 //                OrderFragment.fetchMenus(_mMenus, _mCompos, _mCats);
 			}
@@ -325,9 +372,9 @@ public class LoginActivity extends Activity {
 	private void fetchAlacarte() {
 		JSONObject obj = createObjectURL("/alacarte", null);
 
-		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
-			public void ack(Object... objects) {
+			public void call(Object... objects) {
 				getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", objects[0].toString()).commit();
 //                OrderFragment.fetchCard(_mAlacarte);
 				_mProgressDialog.dismiss();
@@ -345,9 +392,9 @@ public class LoginActivity extends Activity {
 	private void fetchLastOrders() {
 		JSONObject obj = createObjectURL("/get_last_orders", null);
 
-		LoginActivity._mSocket.emit("get", new IOAcknowledge() {
+		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
-			public void ack(Object... objects) {
+			public void call(Object... objects) {
 				try {
 					HistoryFragment.getLastOrders(new JSONObject(objects[0].toString()));
 				} catch (JSONException e) {

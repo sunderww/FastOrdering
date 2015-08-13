@@ -19,6 +19,7 @@ import com.eip.fastordering.R;
 import com.eip.fastordering.activity.LoginActivity;
 import com.eip.fastordering.adapter.ExpandableListAdapter;
 import com.eip.fastordering.struct.OrderStruct;
+import com.github.nkzawa.socketio.client.Ack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.socket.IOAcknowledge;
 
 /**
  * Created by Mewen on 18-Jan-15.
@@ -279,9 +279,9 @@ public class OrderOrderFragment extends Fragment {
 					}
 
 					Log.d("COMMANDE READY", orderJSON.toString());
-					LoginActivity._mSocket.emit("send_order", new IOAcknowledge() {
+					LoginActivity._mSocket.emit("send_order", new Ack() {
 						@Override
-						public void ack(Object... objects) {
+						public void call(Object... objects) {
 							Log.d("SENDORDERFRAG", "" + objects[0]);
 						}
 					}, orderJSON);
