@@ -63,15 +63,12 @@ module.exports = {
     },
     
     'loginFromPhone' : function(req, res) {
-       // console.log(req);
-       // console.log(res);
-
-        User.findOne({key: req.headers.user_key}).exec(function findOneEmail(err, user) {
-           sails.session.user = user;
+        Key.findOne().where({id: "req.headers.user_key"}).exec(function(err, user) {
+            sails.session.user = user;
             if (!user) {
-                return false;
+                return res(null, false);
             }
-            return true;
+            return res(null, true);
         });
     },
 
