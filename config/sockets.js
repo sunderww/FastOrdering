@@ -181,11 +181,19 @@
 
   // authorization: true,
   authorization: function authSocketConnectionAttempt(reqObj, cb) {     
-    var res = sails.controllers.session.loginFromPhone(reqObj, cb);
-    cb(null, true);
           // Any data saved in `handshake` is available in subsequent       
           //requests from this as `req.socket.handshake.*`                    
-                                                                            
+    Key.findOne().where({id: reqObj.headers.user_key}).exec(function(err, user) {
+      sails.session.user = user;
+      if (!user) {
+        console.log("bad");
+        socket.emit('authentication', {answer: false});
+        return cb(null, false);
+      }
+      console.log("good");
+      socket.emit('authentication', {answer: true});
+      return cb(null, true);
+    });                                                                       
           // to allow the connection, call `cb(null, true)`                 
           // to prevent the connection, call `cb(null, false)`              
           // to report an error, call `cb(err)`                             
