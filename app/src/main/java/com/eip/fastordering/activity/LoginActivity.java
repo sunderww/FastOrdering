@@ -209,7 +209,6 @@ public class LoginActivity extends Activity {
 			}
 		});
 		_mSocket.connect();
-		fetchElements();
 
 //		_mSocket.connect(new IOCallback() {
 //			@Override
@@ -315,8 +314,7 @@ public class LoginActivity extends Activity {
 		Log.d("LOGINACTIVITY", "FETCH ELEMENT");
 
 		JSONObject obj = createObjectURL("/elements", null);
-
-		LoginActivity._mSocket.emit("get", new Ack() {
+		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
 				Log.d("LOGINACTIVITY", "ANSWER ELEMENT");
@@ -326,9 +324,8 @@ public class LoginActivity extends Activity {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-//                OrderFragment.fetchElements(rep);
 			}
-		}, obj);
+		});
 	}
 
 	/**
