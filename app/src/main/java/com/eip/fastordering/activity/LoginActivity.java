@@ -160,15 +160,17 @@ public class LoginActivity extends Activity {
 		_mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 			@Override
 			public void call(Object... args) {
-				JSONObject rep = null;
-				try {
-					Log.d("LOGINACTIVITY", "TRYING");
-					rep = new JSONObject(args[0].toString());
-					Log.d("LOGINACTIVITY", "END");
-				} catch (JSONException e) {
-					Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-				}
-				handleAuthentification(rep);
+				Log.d("LOGINACTIVITY", "CONNECT");
+//				JSONObject rep = null;
+//				try {
+//					Log.d("LOGINACTIVITY", "TRYING");
+//					rep = new JSONObject(args[0].toString());
+//					Log.d("LOGINACTIVITY", "END");
+//				} catch (JSONException e) {
+//					Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+//				}
+//				handleAuthentification(rep);
+				fetchAllMenu();
 			}
 		}).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
 			@Override
@@ -188,7 +190,7 @@ public class LoginActivity extends Activity {
 						msg.show();
 					}
 				});
-				_mProgressDialog.dismiss();
+//				_mProgressDialog.dismiss();
 			}
 		}).on("receive_order", new Emitter.Listener() {
 			@Override
@@ -206,6 +208,8 @@ public class LoginActivity extends Activity {
 				fetchAllMenu();
 			}
 		});
+		_mSocket.connect();
+		fetchElements();
 
 //		_mSocket.connect(new IOCallback() {
 //			@Override
@@ -276,7 +280,7 @@ public class LoginActivity extends Activity {
 	 * Fetch all components of the card of the restaurant
 	 */
 	private void fetchAllMenu() {
-		fetchOptions();
+//		fetchOptions();
 		fetchElements();
 		fetchMenus();
 		fetchCompos();
@@ -308,11 +312,15 @@ public class LoginActivity extends Activity {
 	 * Fetch the /elements data
 	 */
 	private void fetchElements() {
+		Log.d("LOGINACTIVITY", "FETCH ELEMENT");
+
 		JSONObject obj = createObjectURL("/elements", null);
 
 		LoginActivity._mSocket.emit("get", new Ack() {
 			@Override
 			public void call(Object... objects) {
+				Log.d("LOGINACTIVITY", "ANSWER ELEMENT");
+
 				try {
 					getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).toString()).commit();
 				} catch (JSONException e) {
@@ -377,7 +385,7 @@ public class LoginActivity extends Activity {
 			public void call(Object... objects) {
 				getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", objects[0].toString()).commit();
 //                OrderFragment.fetchCard(_mAlacarte);
-				_mProgressDialog.dismiss();
+//				_mProgressDialog.dismiss();
 
 				Intent mainActivity = new Intent(LoginActivity.this, Main.class);
 				mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
