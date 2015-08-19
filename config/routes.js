@@ -40,12 +40,14 @@ module.exports.routes = {
     'get /login': 'SessionController.login',
     'post /login': 'SessionController.trylogin',
     '/logout': 'SessionController.logout',
-    
+//    'post authentication': 'SessionController.loginFromPhone',
+
     // User
     'get /register': 'UserController.register',
     'post /register': 'UserController.createRestaurant', // Create an Admin User with restaurant
     '/user': 'UserController.index',
     '/user/edit': 'UserController.edit',
+
     // '/user/': 'UserController.show', TODO
     
     // Key

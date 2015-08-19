@@ -38,6 +38,15 @@ module.exports = {
 			return res.view({dishs:doc});
    		});
     },
+
+
+
+    getSocketID: function(req, res) {
+	console.log("ttt");
+	return res.ok('My socket ID is: ');
+},
+
+
     /**
      * Permet de recupérer tous les plats ou un plat spécifique si un id est présent
      *
@@ -46,12 +55,14 @@ module.exports = {
      * @return {JSON} Retourne les résultat présents en base de données (0 ou 1 ou plusieurs plats)
      */
     read: function (req, res) {
-		if (req.param("id")) {
+	console.log("JE SUIS DANS /ELEMENTS");
+	if (req.param("id")) {
 		    Dish.find({id: req.param("id")} ,function(err, doc) {
 			    return res.send(doc);
 			});
 		} else {
 		    Dish.find( function(err, doc) {
+			console.log("/ELEMENTS JUSTE AVANT DE RETURN");
 			    return res.json({elements: doc});
 			});
 		}
