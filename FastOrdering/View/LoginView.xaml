@@ -208,13 +208,13 @@
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1">
-            <Border Padding="20, 20" Background="White" Height="230" Width="300"
+            <Border Padding="20, 20" Background="White" Height="120" Width="300"
                     Opacity="0.9" CornerRadius="5">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBox x:Name="ID" Header="IDENTIFIANT" PlaceholderText="Identifiant"
+                    <TextBox x:Name="ID" Header="CLEF" PlaceholderText="Clef"
                              Style="{StaticResource Login_TextBoxStyle}" />
-                    <PasswordBox Header="MOT DE PASSE" PlaceholderText="Mot de passe"
-                                 Style="{StaticResource Login_PasswordBoxStyle}" />
+                    <!--<PasswordBox Header="MOT DE PASSE" PlaceholderText="Mot de passe"
+                                 Style="{StaticResource Login_PasswordBoxStyle}" />-->
                 </StackPanel>
             </Border>
         </Grid>

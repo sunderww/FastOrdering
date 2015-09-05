@@ -13,6 +13,11 @@ using Windows.UI.Xaml;
 using System.Net;
 using FastOrdering.Model;
 using Newtonsoft.Json;
+using System.IO;
+using Windows.Data.Json;
+using Quobject.SocketIoClientDotNet.Client;
+using Newtonsoft.Json.Linq;
+using Windows.Web.Http;
 
 namespace FastOrdering.Misc
 {
@@ -265,37 +270,131 @@ namespace FastOrdering.Misc
 		private StreamSocket clientSocket;
 		private HostName serverHost;
 		private string serverHostnameString = "163.5.84.184";
-		//private string serverHostnameString = "127.0.0.1";
 		private string serverPort = "4242";
-		//private string serverPort = "27017";
 		private bool connected = false;
 		private bool closing = false;
 
+		//System.IO.StreamReader reader;
+		//System.IO.StreamWriter writer;
+		//String GetIPAddress()
+		//{
+		//	List<string> IpAddress = new List<string>();
+		//	var Hosts = Windows.Networking.Connectivity.NetworkInformation.GetHostNames().ToList();
+		//	foreach (var Host in Hosts)
+		//	{
+		//		string IP = Host.DisplayName;
+		//		IpAddress.Add(IP);
+		//	}
+		//	return IpAddress.Last();
+		//}
+		//public async void ConnectLinear(StreamSocket socket, EndpointPair e)//connects, and then returns to the thread
+		//{
+		//	await socket.ConnectAsync(e);
+		//}
+		public async void GetaString()
+		{
+			try
+			{
+				//Create HttpClient
+				HttpClient httpClient = new HttpClient();
+
+				//Define Http Headers
+				httpClient.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
+
+				//Call
+				string ResponseString = await httpClient.GetStringAsync(
+					new Uri("http://163.5.84.184:4242/elements"));
+				//Replace current URL with your URL
+				System.Diagnostics.Debug.WriteLine(ResponseString);
+			}
+
+			catch (Exception ex)
+			{
+				//....
+			}
+		}
 		public Socket()
 		{
-			clientSocket = new StreamSocket();
+			//GetaString();
+			//return;
+			//	const String port = "4242";
+			//	try
+			//	{
+			//		String myIP = GetIPAddress();
+			//		HostName localIP = new HostName(myIP);
+			//		HostName remoteHost = new HostName(serverHostnameString);
+
+			//		StreamSocket socket2 = new StreamSocket();
+			//		EndpointPair e = new EndpointPair(localIP, port, remoteHost, port);
+
+			//		ConnectLinear(socket2, e);
+
+			//		if (socket2.Information.LocalPort != port)//if there is no connection, control will pass to here, but the socket won't have been set up properly.
+			//			return;
+
+			//		System.IO.Stream forReader = socket2.InputStream.AsStreamForRead();
+			//		System.IO.Stream forWriter = socket2.OutputStream.AsStreamForWrite();
+
+			//		reader = new StreamReader(forReader);
+			//		writer = new StreamWriter(forWriter);
+			//		writer.AutoFlush = true;
+			//	}
+			//	catch
+			//	{
+			//		return;
+			//	}
+			//	clientSocket = new StreamSocket();
 			socket = Quobject.SocketIoClientDotNet.Client.IO.Socket("http://163.5.84.184:4242");
-			socket.On(SocketIO.EVENT_CONNECT_ERROR, (data) =>
-				{
-					System.Diagnostics.Debug.WriteLine(data);
-				});
 			socket.On(SocketIO.EVENT_CONNECT, () =>
 			{
-				socket.Emit("/dish/read");
+				JObject jsonObject = new JObject();
+				jsonObject["url"] = "/option";
+				var json = jsonObject.ToString();
+				//JsonObject obj = new JsonObject();
+				//bool res = JsonObject.TryParse("{\"url\" : \"/elements\"}", out obj);
+				//JsonValue val = JsonValue.CreateStringValue("/elements");
+				//obj.Add("url", val);
+				socket.Emit("get", new AckImpl((data) =>
+				{
+					//log.Info("getAckDate data=" + date);
+					//Message = ((DateTime)date).ToString("O");
+					//Number = int.Parse(n.ToString());
+					//ManualResetEvent.Set();
+					System.Diagnostics.Debug.WriteLine("works");
+					System.Diagnostics.Debug.WriteLine(data.ToString());
+				}), jsonObject);
+
+				//socket.Emit("/elements");
 				System.Diagnostics.Debug.WriteLine("emit");
 			});
-			socket.On("/dish/read", (data) =>
+			socket.On(SocketIO.EVENT_ERROR, (object data) =>
 			{
-				System.Diagnostics.Debug.WriteLine("emits");
-				System.Diagnostics.Debug.WriteLine(data);
-				socket.Disconnect();
+				System.Diagnostics.Debug.WriteLine("#####");
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+				System.Diagnostics.Debug.WriteLine("#####");
 			});
-			Emitter emit = socket.Emit("/dish/read", (data) =>
-			{
-				System.Diagnostics.Debug.WriteLine(data);
-				System.Diagnostics.Debug.WriteLine("test");
-			});
-			System.Diagnostics.Debug.WriteLine("end");
+			//socket.On("/elements", (data) =>
+			//{
+			//	System.Diagnostics.Debug.WriteLine("emits");
+			//	System.Diagnostics.Debug.WriteLine(data);
+			//	socket.Disconnect();
+			//});
+			socket.Disconnect();
+			return;
+			//socket.On(SocketIO.EVENT_CONNECT_ERROR, (object data) =>
+			//{
+			//	System.Diagnostics.Debug.WriteLine("#####");
+			//	System.Diagnostics.Debug.WriteLine(data.ToString());
+			//	System.Diagnostics.Debug.WriteLine("#####");
+			//});
+			//Emitter emit = socket.Emit("/elements", (data) =>
+			//{
+			//	System.Diagnostics.Debug.WriteLine(data);
+			//	System.Diagnostics.Debug.WriteLine("test");
+			//});
+			//System.Diagnostics.Debug.WriteLine("end");
+			//socket.Disconnect();
+
 			Connect_Click();
 		}
 
@@ -335,7 +434,7 @@ namespace FastOrdering.Misc
 				{
 					throw;
 				}
-
+				System.Diagnostics.Debug.WriteLine("Connect failed with error: " + exception.Message);
 				// Could retry the connection, but for this simple example
 				// just close the socket.
 
@@ -362,7 +461,8 @@ namespace FastOrdering.Misc
 			try
 			{
 				// add a newline to the text to send
-				string sendData = "/dish/read" + Environment.NewLine;
+				//string sendData = "/dish/read" + Environment.NewLine;
+				string sendData = "/elements" + Environment.NewLine;
 				DataWriter writer = new DataWriter(clientSocket.OutputStream);
 				len = writer.MeasureString(sendData); // Gets the UTF-8 string length.
 				writer.WriteString(sendData);
@@ -401,20 +501,23 @@ namespace FastOrdering.Misc
 
 			try
 			{
-
+				StringBuilder strBuilder = new StringBuilder();
 				DataReader reader = new DataReader(clientSocket.InputStream);
 				// Set inputstream options so that we don't have to know the data size
 				reader.InputStreamOptions = InputStreamOptions.Partial;
 				System.Diagnostics.Debug.WriteLine("loadasync1");
-				await reader.LoadAsync(2048);
+				await reader.LoadAsync(8192);
 				System.Diagnostics.Debug.WriteLine("loadasync2");
-				string data = "";
 				while (reader.UnconsumedBufferLength > 0)
 				{
-					uint toread = reader.ReadUInt32();
-					data = reader.ReadString(toread);
+					strBuilder.Append(reader.ReadString(reader.UnconsumedBufferLength));
+					await reader.LoadAsync(8192);
+					//uint toread = reader.ReadUInt32();
+					//data = reader.ReadString(toread);
 				}
-				System.Diagnostics.Debug.WriteLine(data);
+				//System.Diagnostics.Debug.WriteLine(data);
+				System.Diagnostics.Debug.WriteLine(strBuilder.ToString());
+				reader.DetachStream();
 			}
 			catch (Exception exception)
 			{
