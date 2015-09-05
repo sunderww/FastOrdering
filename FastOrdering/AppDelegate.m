@@ -118,20 +118,20 @@
 	// This function drops the db if we change the server source (from local to remote and the other way)
 	NSUserDefaults * defaults = NSUserDefaults.standardUserDefaults;
 	
-	if ([defaults boolForKey:@"alexisServer"]) {
-#ifndef USE_ALEXIS_SERVER
+	if ([defaults boolForKey:@"EIPServer"]) {
+#ifndef USE_EIP_SERVER
 		[self dropDB];
 #endif
 	} else {
-#ifdef USE_ALEXIS_SERVER
+#ifdef USE_EIP_SERVER
 		[self dropDB];
 #endif
 	}
 	
-#ifdef USE_ALEXIS_SERVER
-	[defaults setBool:@YES forKey:@"alexisServer"];
+#ifdef USE_EIP_SERVER
+	[defaults setBool:@YES forKey:@"EIPServer"];
 #else
-	[defaults setBool:@NO forKey:@"alexisServer"];
+	[defaults setBool:@NO forKey:@"EIPServer"];
 #endif
 	[defaults synchronize];
 }

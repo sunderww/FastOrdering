@@ -48,7 +48,7 @@
     panelView.hidden = NO;
     overlay.alpha = 0;
 	hasLoaded = NO;
-	timer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
+	timer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
 
     titleLabel.text = NSLocalizedString(@"Main Page", @"");
     lastNotificationsLabel.text = NSLocalizedString(@"Last Notifications", @"");
@@ -111,13 +111,27 @@
 //        DPPLog(@"%@", response);
 //    }];
 
-    NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
+	NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
     syncer.delegate = self;
     for (NSString * class in classes) {
         classesToSync++;
         [syncer syncClassNamed:class];
     }
     [syncer syncDeletedObjectsOfClasses:classes];
+//#warning DEBUG
+//	DLog(@"SOCKET TEST");
+//	SocketIO * socket = SocketHelper.sharedSocket;
+//	[socket sendAcknowledgement:@"/elements" withArgs:@[@{@"url":@"/elements"}]];
+//	[socket sendEvent:@"get" withData:@{@"url": @"/elements"} andAcknowledge:^(id argsData) {
+//		DPPLog(@"%@", argsData);
+//	}];
+//	[socket sendEvent:@"/elements" withData:nil];
+//	[socket sendJSON:@{@"url": @"/elements"} withAcknowledge:^(id argsData) {
+//		DPPLog(@"%@", argsData);
+//	}];
+//	[socket sendMessage:@"/elements" withAcknowledge:^(id argsData) {
+//		DPPLog(@"%@", argsData);
+//	}];
 }
 
 - (void)syncEnded {
@@ -196,9 +210,14 @@
 }
 
 - (void)syncDidStopForClass:(NSString *)className {
-    DLog(@"sync OK %@", className);
-    if (!--classesToSync)
+	DLog(@"sync OK %@", className);
+	[timer invalidate];
+	if (!--classesToSync) {
         [self syncEnded];
+	} else {
+		[timer fire];
+	}
+	hasLoaded = YES;
 }
 
 #pragma mark - UITableView delegate and datasource methods

@@ -44,6 +44,18 @@
 	[self buttonClicked:menuButton];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[order sanitize];
+
+	if (order.orderContents.count + order.dishes.count == 0) {
+		AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
+
+		[delegate.managedObjectContext deleteObject:order];
+		[delegate saveContext];
+	}
+}
+
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.

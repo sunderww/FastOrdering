@@ -12,10 +12,10 @@
 
 #pragma mark - Server defines
 
-// uncomment this line to use alexis' server
-#define USE_ALEXIS_SERVER
+// uncomment this line to use EIP' server
+#define USE_EIP_SERVER
 
-#ifdef USE_ALEXIS_SERVER
+#ifdef USE_EIP_SERVER
     #define kSocketIOHost       @"163.5.84.184"
     #define kSocketIOPort       4242
 #else
@@ -28,7 +28,7 @@
 #pragma mark - Other defines
 #define kClassNamesToSync   @[@"Plan", @"Table", @"Category", @"Dish"]
 // uncomment this line to begin with an empty db
-#define kShouldDropDB
+//#define kShouldDropDB
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
