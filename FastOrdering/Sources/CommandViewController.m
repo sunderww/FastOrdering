@@ -46,9 +46,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	[order sanitize];
 
-	if (order.orderContents.count + order.dishes.count == 0) {
+	if (!didOrder) {
 		AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
 
 		[delegate.managedObjectContext deleteObject:order];
@@ -148,6 +147,7 @@
 	loaderView.hidden = NO;
 	[helper pushDelegate:self];
 	[helper.socket sendEvent:@"send_order" withData:order.toJSON];
+	// find a way to get a callback
 	timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(orderFailed) userInfo:nil repeats:NO];
 }
 

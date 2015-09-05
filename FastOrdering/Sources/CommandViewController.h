@@ -37,6 +37,7 @@
 	UIViewController *      presentController;
 	Order *                 order;
 	NSTimer *               timer;
+	BOOL					didOrder;
 }
 
 - (IBAction)buttonClicked:(UIButton *)sender;
