@@ -4,6 +4,7 @@
 
             <!-- sidebar menu -->
             <ul class="nav sidebar-menu">
+                <% if (session.user && session.user.role == 4) { %>
                 <li class="sidebar-label pt20">Menu</li>
                 <li>
                    <a href="/dish/create"><span class="glyphicons glyphicons-sampler"></span> <span class="sidebar-title">Gérer les plats </span></a>
@@ -14,31 +15,34 @@
                 </li>
                 <li class="sidebar-label pt15">Booking</li>
                 <li>
+                    <li>
+                        <a href="/booking">
+                        <span class="glyphicons glyphicons-show_big_thumbnails"></span> 
+                        <span class="sidebar-title">Gérer les réservations </span></a>
+                    </li>
+                    <li>
+                        <a href="#">
+                        <span class="glyphicons glyphicons-sampler"></span> <span class="sidebar-title">Historique </span></a>
+                    </li>
+                </li>
+                <% } %>
+                <% if (session.user && (session.user.role == 2 || session.user.role == 4)) { %>
+                    <li class="sidebar-label pt20">Cuisine</li>
+                    <li>
                         <li>
-                            <a href="/booking">
-                                <span class="glyphicons glyphicons-show_big_thumbnails"></span> 
-                                <span class="sidebar-title">Gérer les réservations </span></a>
+                            <a href="/kitchen">
+                            <span class="glyphicons glyphicons-coins"></span> <span class="sidebar-title">Commandes en cours </span></a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <span class="glyphicons glyphicons-sampler"></span> <span class="sidebar-title">Historique </span></a>
-                            </li>
-                        </li>
-
-                        <li class="sidebar-label pt20">Cuisine</li>
-                        <li>
-                            <li>
-                                <a href="/kitchen">
-                                    <span class="glyphicons glyphicons-coins"></span> <span class="sidebar-title">Commandes en cours </span></a>
-                                </li>
-                            </li>
+                    </li>
+                <% } %>
                 <!-- sidebar resources -->
+                <% if (session.user && (session.user.role == 4 || session.user.role == 8)) { %>
                 <li class="sidebar-label pt20">Plan de table</li>
                         <li>
                             <a href="#">
                                 <span class="glyphicons glyphicons-hdd"></span> <span class="sidebar-title">Gérer le plan de table</span></a>
                         </li>
-                <% if (session.user && (session.user.role == 4 || session.user.role == 8)) { %>
+
                 <li class="sidebar-label pt20">Options</li>
                         <li>
                             <a href="/user">
