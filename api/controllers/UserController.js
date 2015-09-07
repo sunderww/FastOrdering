@@ -19,7 +19,7 @@ module.exports = {
     
   'activateKey': function (req, res) {
     var errflash = _.clone(req.session.flash);
-    res.view('user/registerWaiter', {flash : errflash, id: req.param('id')});
+    res.view('user/registerWaiterOrCook', {flash : errflash, id: req.param('id')});
     req.session.flash = {};
   },
 
@@ -60,7 +60,8 @@ module.exports = {
             
         });
         // Redirect and Login
-        res.json(user); 
+        res.redirect('/login');
+        // res.json(user); 
         req.session.flash = {};
    	});
   },
@@ -68,14 +69,13 @@ module.exports = {
   /**
    * `UserController.createWaiter()`
    */
-  createWaiter: function(req, res) {
+  createWaiterOrCook: function(req, res) {
       
       if (!req.session.user)
           return res.redirect('/login');
       
       var values = req.params.all();
       
-      values.role = UserRole.waiter; // Create an Waiter
       values.restaurant = req.session.user.restaurant;
       values.key = req.param('id');
     
@@ -92,11 +92,13 @@ module.exports = {
                 if (err) {
                     console.log(err);
                     return res.serverError(err);
-                }                    console.log("Update Key");
+                }                   
+                console.log("Update Key");
             });
         
         console.log("User created");
-        res.json(user);
+        // res.json(user);
+        res.redirect('/user');
         //res.session.flash = {};  
       });
   },

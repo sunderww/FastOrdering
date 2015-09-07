@@ -50,16 +50,21 @@ module.exports.policies = {
 	// }
     
     // '*': 'isAuthenticated',
-  '*': true,
+  '*': false,
     
     UserController: {
         register: true,
         createRestaurant: true,
-        createWaiter: 'isManager',
+        activateKey: 'isManager',
+        createWaiterOrCook: 'isManager',
         destroy: 'isAdminOrManager',
         edit: 'isAdminOrManager',
         update: 'isAdminOrManager',
         index: 'isAdminOrManager'
+    },
+    
+    BookingController: {
+        '*': 'isManager',
     },
     
     DishController: {
@@ -87,5 +92,9 @@ module.exports.policies = {
     KeyController: {
         create: 'isManager',
         activate: 'isManager',
-    }
+    },
+    
+    Dashboard: {
+        view: 'isManagerOrCookOrWaiter',
+    },
 };
