@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends Activity {
@@ -150,9 +151,9 @@ public class LoginActivity extends Activity {
 
 		//Init the socket
 		try {
-			IO.Options opt = new IO.Options();
-			opt.query = "user_key=" + "55cccc32f80d3658724d6f7e";
-			_mSocket = IO.socket(_mIpServer, opt);
+//			IO.Options opt = new IO.Options();
+//			opt.query = "user_key=" + "55cccc32f80d3658724d6f7e";
+			_mSocket = IO.socket(_mIpServer);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -170,6 +171,18 @@ public class LoginActivity extends Activity {
 //					Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
 //				}
 //				handleAuthentification(rep);
+				JSONObject obj = createObjectURL("/authentication", new HashMap<String, String>() {
+					{
+						put("user_key", "55cccc32f80d3658724d6f7e");
+					}
+				});
+				_mSocket.emit("post", obj, new Ack() {
+					@Override
+					public void call(Object... args) {
+						Log.d("LOGINACTIVITY", "SOCKETID ANSWER");
+						Log.d("LOGINACTIVITY", "SOCKETID=" + args[0].toString());
+					}
+				});
 				fetchAllMenu();
 			}
 		}).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
@@ -180,7 +193,7 @@ public class LoginActivity extends Activity {
 		}).on(Socket.EVENT_ERROR, new Emitter.Listener() {
 			@Override
 			public void call(Object... args) {
-//				Log.d("SOCKET", "ERROR=" + socketIOException.toString());
+				Log.d("SOCKET", "ERROR=SOCKET");
 //				socketIOException.printStackTrace();
 
 				LoginActivity.this.runOnUiThread(new Runnable() {
@@ -190,14 +203,15 @@ public class LoginActivity extends Activity {
 						msg.show();
 					}
 				});
-//				_mProgressDialog.dismiss();
+				_mProgressDialog.dismiss();
 			}
 		}).on("receive_order", new Emitter.Listener() {
 			@Override
 			public void call(Object... args) {
+				//TODO To check, maybe jobj "body" to delete
 				HistoryFragment.addOrderToList((JSONObject) args[0]);
 			}
-		}).on("notifications", new Emitter.Listener() {
+		}).on("notification", new Emitter.Listener() {
 			@Override
 			public void call(Object... args) {
 				NotificationsFragment.addNotificationToList((JSONObject) args[0]);
@@ -293,7 +307,7 @@ public class LoginActivity extends Activity {
 	private void fetchOptions() {
 		JSONObject obj = createObjectURL("/options", null);
 
-		LoginActivity._mSocket.emit("get", new Ack() {
+		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
 //				try {
@@ -303,7 +317,7 @@ public class LoginActivity extends Activity {
 //					e.printStackTrace();
 //				}
 			}
-		}, obj);
+		});
 
 	}
 
@@ -313,14 +327,17 @@ public class LoginActivity extends Activity {
 	private void fetchElements() {
 		Log.d("LOGINACTIVITY", "FETCH ELEMENT");
 
-		JSONObject obj = createObjectURL("/elements", null);
+		final JSONObject obj = createObjectURL("/elements", null);
+		Log.d("TEST", "" + obj.toString());
 		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
 				Log.d("LOGINACTIVITY", "ANSWER ELEMENT");
 
 				try {
-					getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).toString()).commit();
+					Log.d("LOGINACTIVITY", "ELEMENT=" + objects[0].toString());
+//					getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).toString()).commit();
+					getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -333,13 +350,20 @@ public class LoginActivity extends Activity {
 	 */
 	private void fetchMenus() {
 		JSONObject obj = createObjectURL("/menus", null);
+		Log.d("LOGINACTIVITY", "FETCH MENUS");
 
-		LoginActivity._mSocket.emit("get", new Ack() {
+		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
-				getSharedPreferences("DATACARD", 0).edit().putString("/menus", objects[0].toString()).commit();
+				Log.d("LOGINACTIVITY", "ANSWER MENUS");
+
+				try {
+					getSharedPreferences("DATACARD", 0).edit().putString("/menus", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
-		}, obj);
+		});
 	}
 
 	/**
@@ -347,13 +371,19 @@ public class LoginActivity extends Activity {
 	 */
 	private void fetchCompos() {
 		JSONObject obj = createObjectURL("/compos", null);
+		Log.d("LOGINACTIVITY", "FETCH COMPOS");
 
-		LoginActivity._mSocket.emit("get", new Ack() {
+		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
-				getSharedPreferences("DATACARD", 0).edit().putString("/compos", objects[0].toString()).commit();
+				Log.d("LOGINACTIVITY", "ANSWER COMPOS");
+				try {
+					getSharedPreferences("DATACARD", 0).edit().putString("/compos", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
-		}, obj);
+		});
 	}
 
 	/**
@@ -361,14 +391,20 @@ public class LoginActivity extends Activity {
 	 */
 	private void fetchCats() {
 		JSONObject obj = createObjectURL("/dishcategory/read", null);
+		Log.d("LOGINACTIVITY", "FETCH CATS");
 
-		LoginActivity._mSocket.emit("get", new Ack() {
+		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
-				getSharedPreferences("DATACARD", 0).edit().putString("/cats", objects[0].toString()).commit();
+				Log.d("LOGINACTIVITY", "ANSWER CATS");
+				try {
+					getSharedPreferences("DATACARD", 0).edit().putString("/cats", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 //                OrderFragment.fetchMenus(_mMenus, _mCompos, _mCats);
 			}
-		}, obj);
+		});
 	}
 
 	/**
@@ -376,19 +412,25 @@ public class LoginActivity extends Activity {
 	 */
 	private void fetchAlacarte() {
 		JSONObject obj = createObjectURL("/alacarte", null);
+		Log.d("LOGINACTIVITY", "FETCH ALACARTE");
 
-		LoginActivity._mSocket.emit("get", new Ack() {
+		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
-				getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", objects[0].toString()).commit();
+				Log.d("LOGINACTIVITY", "ANSWER ALACARTE");
+				try {
+					getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 //                OrderFragment.fetchCard(_mAlacarte);
-//				_mProgressDialog.dismiss();
+				_mProgressDialog.dismiss();
 
 				Intent mainActivity = new Intent(LoginActivity.this, Main.class);
 				mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(mainActivity);
 			}
-		}, obj);
+		});
 	}
 
 	/**
@@ -397,7 +439,7 @@ public class LoginActivity extends Activity {
 	private void fetchLastOrders() {
 		JSONObject obj = createObjectURL("/get_last_orders", null);
 
-		LoginActivity._mSocket.emit("get", new Ack() {
+		LoginActivity._mSocket.emit("get", obj, new Ack() {
 			@Override
 			public void call(Object... objects) {
 				try {
@@ -406,7 +448,7 @@ public class LoginActivity extends Activity {
 					Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
 				}
 			}
-		}, obj);
+		});
 	}
 
 	/**

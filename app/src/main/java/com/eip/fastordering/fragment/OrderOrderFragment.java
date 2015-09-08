@@ -279,12 +279,12 @@ public class OrderOrderFragment extends Fragment {
 					}
 
 					Log.d("COMMANDE READY", orderJSON.toString());
-					LoginActivity._mSocket.emit("send_order", new Ack() {
+					LoginActivity._mSocket.emit("send_order", orderJSON, new Ack() {
 						@Override
 						public void call(Object... objects) {
 							Log.d("SENDORDERFRAG", "" + objects[0]);
 						}
-					}, orderJSON);
+					});
 				} catch (JSONException e) {
 
 				}
