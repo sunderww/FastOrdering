@@ -58,6 +58,7 @@ module.exports = {
    	} else {
    		DishCategory.find( function(err, doc) {
    		    return res.json({elements: doc});
+//   		    return res.ok(doc);
    		});
    	}
   },

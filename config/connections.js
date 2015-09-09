@@ -91,5 +91,7 @@ module.exports.connections = {
   * More adapters: https://github.com/balderdashy/sails                      *
   *                                                                          *
   ***************************************************************************/
-
+,
+   charset   : 'utf8',
+    collation : 'utf8_general_ci'
 };

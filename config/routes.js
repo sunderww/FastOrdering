@@ -40,7 +40,7 @@ module.exports.routes = {
     'get /login': 'SessionController.login',
     'post /login': 'SessionController.trylogin',
     '/logout': 'SessionController.logout',
-//    'post authentication': 'SessionController.loginFromPhone',
+    '/authentication': 'SessionController.loginFromPhone',
 
     // User
     'get /register': 'UserController.register',
@@ -70,7 +70,8 @@ module.exports.routes = {
     '/compos' : 'MenuCompositionController.read',
     '/alacarte' : 'MenuController.alacarte',
     '/cats' : 'DishCategoryController.read',
-    
+    '/options': 'OptionController.read',
+    '/send_order': 'DishController.create',
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

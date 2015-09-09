@@ -15,6 +15,7 @@ module.exports = {
      * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
      */
     create: function (req, res) {
+	console.log("HELLO");
 		if (req.method=="POST") {
 			Dish.findOrCreate({
 				id: req.param("id"),
@@ -63,7 +64,12 @@ module.exports = {
 		} else {
 		    Dish.find( function(err, doc) {
 			console.log("/ELEMENTS JUSTE AVANT DE RETURN");
-			    return res.json({elements: doc});
+			console.log(new Date());
+			doc.forEach(function(entry) {
+				entry.createdAt = new Date("1995-12-17T03:24:00");
+				entry.updatedAt = new Date("1995-12-17T03:24:00");
+			});
+		    return res.json({elements: doc});
 			});
 		}
     },

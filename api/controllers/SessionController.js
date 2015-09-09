@@ -64,11 +64,14 @@ module.exports = {
     },
     
     'loginFromPhone' : function(req, res) {
+//	return ;
 	console.log("authentication");
-	console.log(req.param['user_key']);
+//	console.log(req.param['user_key'])//
 	console.log(req.param('user_key'));
-
-        Key.findOne().where({id: "req.headers.user_key"}).exec(function(err, user) {
+	
+	console.log(sails.request.allParams);
+	return;
+	Key.findOne().where({id: "req.headers.user_key"}).exec(function(err, user) {
             sails.session.user = user;
             if (!user) {
                 return res(null, false);

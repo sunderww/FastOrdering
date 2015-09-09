@@ -15,19 +15,30 @@ module.exports = {
   * @param {String} globalComment Nombre de personne
   * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
   */
+
+
+    delete: function(id) {
+	Order.destroy({id:id}).exec(function(err, doc) {
+	    return res.ok("ok");
+	});
+    },
+
   create: function (req, res) {
+	console.log("Create order");
+
    Order.create({
     table_id:"1",
     dinerNumber:"2",
-    comments: "vite"
+    comments: "commande avec menu delice"
   }).exec(function(err,model){
+      console.log(err);
     OrderedDish.create({
       order_id:model.id,
-      dish_id:"5508cb2447347e023f344813",
+      dish_id:"572f78d9937726dc7ab8f8f2",
       quantity:1,
       ready:false,
       comment:"ok, chaud2",
-      menu_id:"5508c9ccfb42fcf03ea2c173"
+      menu_id:"572abe8049bb4c97702057db"
     }).exec(function(err,model){
       console.log(err);
       return res.send(model);
@@ -35,10 +46,10 @@ module.exports = {
     });
     OrderedDish.create({
       order_id:model.id,
-      dish_id:"5508cb2447347e023f344813",
+      dish_id:"572f78d9937726dc7ab8f8f2",
       quantity:1,
       comment:"ok, chaud2",
-      menu_id:"5508c9ccfb42fcf03ea2c173"
+      menu_id:"572abe8049bb4c97702057db"
     }).exec(function(err,model){
       console.log(err);
       return res.send(model);
@@ -48,8 +59,12 @@ module.exports = {
 
 question: function(req, res) {
   console.log("question");
-  var friendId = sails.io.sockets.clients()[0].id;
-  sails.sockets.emit('notification', {msg: "J'ai une question !", numTable:"7"});
+//  var friendId = sails.io.sockets.clients()[0].id;
+
+//console.log(friendId);
+    sails.io.sockets.emit('notifications', {msg: "J'ai une question !", numTable:"7"});
+    return res.ok("ok");
+
 },
 
 ready: function(req, res) {
@@ -59,7 +74,7 @@ ready: function(req, res) {
         OrderedDish.update({id: req.param("id")}, {status:status}, function(err, model) {
         console.log("ready");
         var friendId = sails.io.sockets.clients()[0].id;
-        sails.sockets.emit('notification', {msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"});
+        sails.sockets.emit('notifications', {msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"});
         return res.send(doc);
       });
     });

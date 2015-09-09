@@ -19,7 +19,7 @@ module.exports = {
     */  	
     date: {
       type: 'string',
-      defaultsTo: function() {return moment().format("m/d/YYYY"); }
+      defaultsTo: function() {return moment().format("DD/MM/YYYY"); }
     },
 
     /**
