@@ -159,6 +159,7 @@ public class OrderOrderFragment extends Fragment {
 						int two = Integer.parseInt(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).get(j));
 						_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).set(j, ((Integer) (one + two)).toString());
 						_mListAdapter.notifyDataSetChanged();
+						Toast.makeText(_mRootView.getContext(), R.string.order_added_success, Toast.LENGTH_SHORT).show();
 						checkListEmpty();
 						return;
 					}
@@ -168,6 +169,7 @@ public class OrderOrderFragment extends Fragment {
 				_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).add(_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(), idDish);
 				_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).size(), number);
 				_mListAdapter.notifyDataSetChanged();
+				Toast.makeText(_mRootView.getContext(), R.string.order_added_success, Toast.LENGTH_SHORT).show();
 				checkListEmpty();
 				return;
 			}
@@ -178,6 +180,7 @@ public class OrderOrderFragment extends Fragment {
 		_mListAdapter.get_listDataChild().get(OrderFragment.get_mCard().get_mId()).add(0, idDish);
 		_mListDataNb.get(OrderFragment.get_mCard().get_mId()).add(0, number);
 		_mListAdapter.notifyDataSetChanged();
+		Toast.makeText(_mRootView.getContext(), R.string.order_added_success, Toast.LENGTH_SHORT).show();
 		checkListEmpty();
 	}
 

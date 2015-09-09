@@ -28,27 +28,27 @@ import java.util.List;
 
 public class HistoryFragment extends Fragment {
 
-	private static final String            ARG_SECTION_NUMBER = "section_number";
-	private static final int               _mSizeList         = 20;
-	public static        List<OrderStruct> _mItems            = new ArrayList<>();
-	private static Fragment       _mFragment;
-	private static AdapterHistory _mAdapter;
+    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final int _mSizeList = 20;
+    public static List<OrderStruct> _mItems = new ArrayList<>();
+    private static Fragment _mFragment;
+    private static AdapterHistory _mAdapter;
 
-	/**
-	 * Constructor
-	 */
-	public HistoryFragment() {
+    /**
+     * Constructor
+     */
+    public HistoryFragment() {
 
-	}
+    }
 
-	public static HistoryFragment newInstance(int sectionNumber) {
-		_mFragment = new HistoryFragment();
-		Bundle args = new Bundle();
-		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-		_mFragment.setArguments(args);
+    public static HistoryFragment newInstance(int sectionNumber) {
+        _mFragment = new HistoryFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        _mFragment.setArguments(args);
 
 
-		//TODO Delete after demo
+        //TODO Delete after demo
 //        JSONObject orders = new JSONObject();
 //        JSONArray arr = new JSONArray();
 //        _mItems.clear();
@@ -69,93 +69,94 @@ public class HistoryFragment extends Fragment {
 //        } catch (JSONException e) {
 //        }
 //        getLastOrders(orders);
-		//TODO End delete
+        //TODO End delete
 
 
-		return (HistoryFragment) _mFragment;
-	}
+        return (HistoryFragment) _mFragment;
+    }
 
-	/***
-	 * Add an item to the custom list view
-	 * @param cmd, Command formatted in JSON
-	 */
-	static public void addOrderToList(JSONObject cmd) {
-		if (_mItems.size() >= _mSizeList)
-			_mItems.remove(_mSizeList - 1);
-		_mItems.add(0, new OrderStruct(cmd));
-		if (_mAdapter != null)
-			_mAdapter.notifyDataSetChanged();
-	}
+    /***
+     * Add an item to the custom list view
+     *
+     * @param cmd, Command formatted in JSON
+     */
+    static public void addOrderToList(JSONObject cmd) {
+        if (_mItems.size() >= _mSizeList)
+            _mItems.remove(_mSizeList - 1);
+        _mItems.add(0, new OrderStruct(cmd));
+        if (_mAdapter != null)
+            _mAdapter.notifyDataSetChanged();
+    }
 
-	static public void getLastOrders(JSONObject orders) {
-		JSONArray arrayOrders = null;
-		try {
-			arrayOrders = orders.getJSONArray("orders");
-		} catch (JSONException e) {
+    static public void getLastOrders(JSONObject orders) {
+        JSONArray arrayOrders = null;
+        try {
+            arrayOrders = orders.getJSONArray("orders");
+        } catch (JSONException e) {
 
-		}
-		for (int i = 0; i < arrayOrders.length(); ++i) {
-			try {
-				addOrderToList(arrayOrders.getJSONObject(i));
-			} catch (JSONException e) {
+        }
+        for (int i = 0; i < arrayOrders.length(); ++i) {
+            try {
+                addOrderToList(arrayOrders.getJSONObject(i));
+            } catch (JSONException e) {
 
-			}
-		}
-	}
+            }
+        }
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_history, container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_history, container, false);
 
-		/***
-		 * Create a custom adapter for the listview of orders
-		 */
-		_mAdapter = new AdapterHistory(container.getContext(), _mItems);
+        /***
+         * Create a custom adapter for the listview of orders
+         */
+        _mAdapter = new AdapterHistory(container.getContext(), _mItems);
 
-		ListView lv = (ListView) rootView.findViewById(R.id.history_list);
-		lv.setAdapter(_mAdapter);
-		lv.setEmptyView(rootView.findViewById(R.id.history_list_empty));
+        ListView lv = (ListView) rootView.findViewById(R.id.history_list);
+        lv.setAdapter(_mAdapter);
+        lv.setEmptyView(rootView.findViewById(R.id.history_list_empty));
 
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				displayPopupOrder((OrderStruct) adapterView.getAdapter().getItem(i));
-			}
-		});
-		return rootView;
-	}
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                displayPopupOrder((OrderStruct) adapterView.getAdapter().getItem(i));
+            }
+        });
+        return rootView;
+    }
 
-	private void displayPopupOrder(OrderStruct item) {
-		JSONObject msg = new JSONObject();
-		try {
-			msg.put("order", item.get_mNumOrder());
+    private void displayPopupOrder(OrderStruct item) {
+        JSONObject msg = new JSONObject();
+        try {
+            msg.put("order", item.get_mNumOrder());
 //			LoginActivity._mSocket.emit("get_order", new IOAcknowledgeGetOrder(this, getActivity()), msg);
+            Log.d("GETORDER", "GETORDER=" + msg.toString());
 
-			LoginActivity._mSocket.emit("get_order", "", new Ack() {
-				@Override
-				public void call(Object... args) {
-					JSONObject rep = null;
-					try {
-						rep = new JSONObject(args[0].toString());
-						Log.d("IOACKNOWLEDFE", "FULL ORDER=" + rep.toString());
-					} catch (JSONException e) {
-						Log.d("IOACKNOWLEDGE", "EXCEPTION JSON:" + e.toString());
-					}
-					new DialogOrder(HistoryFragment.this.getActivity(), HistoryFragment.this, rep).customView().show();
-				}
-			});
+            LoginActivity._mSocket.emit("get_order", msg, new Ack() {
+                @Override
+                public void call(Object... args) {
+                    JSONObject rep = null;
+                    try {
+                        rep = new JSONObject(args[0].toString());
+                        Log.d("IOACKNOWLEDFE", "FULL ORDER=" + rep.toString());
+                    } catch (JSONException e) {
+                        Log.d("IOACKNOWLEDGE", "EXCEPTION JSON:" + e.toString());
+                    }
+                    new DialogOrder(HistoryFragment.this.getActivity(), HistoryFragment.this, rep).customView().show();
+                }
+            });
+        } catch (JSONException e) {
+            Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
+        }
+    }
 
-		} catch (JSONException e) {
-			Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-		}
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((Main) activity).onSectionAttached(
-				getArguments().getInt(ARG_SECTION_NUMBER));
-	}
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((Main) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
 
 }
