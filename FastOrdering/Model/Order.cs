@@ -13,12 +13,16 @@ namespace FastOrdering.Model
 	{
 		public static ObservableCollection<Order> orders = new ObservableCollection<Order>();
 
-		public Order(int numOrder, int numTable, int numPA, DateTime date, DateTime hour)
+		public Order(string id, int table_id, int dinerNumber, string date, DateTime time)
 		{
-			this.numTable = numTable;
-			this.pa = numPA;
-			this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
-			this.id = numOrder;
+			this.numTable = table_id;
+			this.pa = dinerNumber;
+			DateTime d;
+			//DateTime d = DateTime.ParseExact(date, "d/M/yyyy", null);
+			if (DateTime.TryParseExact(date, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
+				this.date = new DateTime(d.Year, d.Month, d.Day, time.Hour, time.Minute, time.Second);
+			this.id = id;
+			this.globalComment = "ééé";
 		}
 
 		public void PrepareOrder()
@@ -40,7 +44,7 @@ namespace FastOrdering.Model
 		//}
 
 		[JsonIgnore]
-		public int numOrder { get { return this.id; } }
+		public string numOrder { get { return this.id; } }
 		[JsonIgnore]
 		public int Table
 		{
@@ -69,11 +73,11 @@ namespace FastOrdering.Model
 		[JsonIgnore]
 		public DateTime Time { get { return this.date; } }
 		[JsonIgnore]
-		public string Message { get { return "Commande #" + this.id + ", Table #" + this.numTable + ", PA : " + this.pa; } }
+		public string Message { get { return "Table #" + this.numTable + ", PA : " + this.pa; } }
 
-		private int id;
+		private string id;
 		[JsonIgnore]
-		public int ID
+		public string ID
 		{
 			get { return id; }
 		}

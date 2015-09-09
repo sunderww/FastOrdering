@@ -82,6 +82,11 @@ namespace FastOrdering.View
 					secondNotifTime = Notification.notifications.ElementAt(idx - 1).Time;
 				}
 			}
+			else
+			{
+				LastNotifs.Visibility = Visibility.Collapsed;
+				NoNotif.Visibility = Visibility.Visible;
+			}
 
 			count = Order.orders.Count;
 			if (count > 0)
@@ -95,6 +100,12 @@ namespace FastOrdering.View
 					secondOrderTime = Order.orders.ElementAt(idx - 1).Time;
 				}
 			}
+			else
+			{
+				LastOrders.Visibility = Visibility.Collapsed;
+				NoOrder.Visibility = Visibility.Visible;
+			}
+
 
 			this.DataContext = this;
 		}

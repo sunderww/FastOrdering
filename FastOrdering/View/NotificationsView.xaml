@@ -19,7 +19,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!-- Title Bar -->
-        <Grid x:Name="TitleBar" Background="#00ADEF" Grid.Row ="0" Height="50">
+        <Grid x:Name="TitleBar" Background="{StaticResource PhoneAccentBrush}" Grid.Row ="0" Height="50">
             <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />

@@ -60,7 +60,7 @@ namespace FastOrdering.View
 
 		private Collection<KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>> categoriesDishes = new Collection<KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>>();
 
-		private Order ord = new Order(1, 0, 0, DateTime.Now, DateTime.Now);
+		private Order ord = new Order("1", 0, 0, "02/07/1990", DateTime.Now);
 		public Order Ord
 		{
 			get { return ord; }
@@ -82,7 +82,7 @@ namespace FastOrdering.View
 			get { return selectedCompo; }
 		}
 
-		private int modifOrderID = 0;
+		private string modifOrderID = "";
 		//public ObservableCollection<Order> orders;
 
 		public NewOrderView()
@@ -113,7 +113,7 @@ namespace FastOrdering.View
 			//orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
 			if (e.Parameter == null)
 				return;
-			modifOrderID = int.Parse(e.Parameter.ToString());
+			modifOrderID = e.Parameter.ToString();
 			foreach (Order o in Order.orders)
 			{
 				if (o.ID == modifOrderID)

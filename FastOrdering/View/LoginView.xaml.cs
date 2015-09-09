@@ -42,7 +42,7 @@ namespace FastOrdering.View
 		private void AppBarButton_Click(object sender, RoutedEventArgs e)
 		{
 			sock = new Socket();
-			Socket.Authentification(ID.Text);
+			Socket.Authentication(ID.Text);
 			//sock.Connect();
 			//System.Diagnostics.Debug.WriteLine("emit");
 			//System.Diagnostics.Debug.WriteLine(sock.Emit("/elements"));

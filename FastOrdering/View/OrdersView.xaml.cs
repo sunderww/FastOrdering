@@ -36,6 +36,17 @@ namespace FastOrdering.View
 			//orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
 			//orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
 			OrdersListbox.ItemsSource = Order.orders;
+
+			if (Order.orders.Count == 0)
+			{
+				history.Visibility = Visibility.Collapsed;
+				NoOrder.Visibility = Visibility.Visible;
+			}
+			else
+			{
+				history.Visibility = Visibility.Visible;
+				NoOrder.Visibility = Visibility.Collapsed;
+			}
 		}
 
 		/// <summary>
@@ -57,7 +68,7 @@ namespace FastOrdering.View
 
 		private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			int id = (int)(sender as Grid).Tag;
+			string id = (sender as Grid).Tag.ToString();
 			Order ord = null;
 			foreach (Order o in Order.orders)
 			{

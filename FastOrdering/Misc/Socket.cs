@@ -23,23 +23,35 @@ namespace FastOrdering.Misc
 {
 	public class Socket
 	{
+		static private SocketIO socket;
 
 		static public void SendOrder(Order order)
 		{
 			order.PrepareOrder();
 			string str = JsonConvert.SerializeObject(order);
 			System.Diagnostics.Debug.WriteLine(str);
+			socket.Emit("send_order", new AckImpl((data) =>
+			{
+				System.Diagnostics.Debug.WriteLine("works");
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+			}), str);
 		}
 
-		static public void Authentification(string key)
+		static public void Authentication(string key)
 		{
-			string str = "{\"user_key\": \"" + key + "\"}";
+			string str = "55f0a0ea3f5b415b2023ede8";
 			System.Diagnostics.Debug.WriteLine(str);
+			JObject jsonObject = new JObject();
+			jsonObject["user_key"] = key;
+			socket.Emit("authentication", new AckImpl((data) =>
+			{
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+			}), jsonObject);
 		}
 
-		private void GetNotification()
+		private void GetNotification(string str)
 		{
-			string str = "{\"numTable\": \"1\", \"msg\": \"egre erger fwef ewf\", \"date\": \"12/12/12\", \"hour\": \"12:12\"}";
+			//string str = "{\"numTable\": \"1\", \"msg\": \"egre erger fwef ewf\", \"date\": \"12/12/12\", \"hour\": \"12:12\"}";
 
 			Notification.notifications.Add(JsonConvert.DeserializeObject<Notification>(str));
 		}
@@ -51,110 +63,116 @@ namespace FastOrdering.Misc
 			Order.orders.Add(JsonConvert.DeserializeObject<Order>(str));
 		}
 
-		private void GetLastOrders()
+		private async Task GetLastOrders()
 		{
-			string str = "{\"orders\": [{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"3\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}]}";
+			string str = await GetaString("order");
+			if (str == null)
+				return;
+			//string str = "{\"orders\": [{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"3\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
-			foreach (Object order in output["orders"])
+			foreach (Object order in output)
 			{
 				string orderStr = order.ToString();
 				Order.orders.Add(JsonConvert.DeserializeObject<Order>(orderStr));
 			}
 		}
 
-		static public Order GetOrder()
-		{
-			string str = "{\"numOrder\": \"35\", \"numTable\": \"2\", \"numPA\": \"5\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
-				"\"order\": [{\"menuId\": \"572abe8049bb4c97702057db\", \"content\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", ";
-			str += "\"options\": [{\"id\": \"324r434\", \"qty\": \"2\"},{\"id\": \"id33cl\",\"qty\": \"2\"}]}],}]}";
+		//static public Order GetOrder()
+		//{
+		//	string str = "{\"numOrder\": \"35\", \"numTable\": \"2\", \"numPA\": \"5\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
+		//		"\"order\": [{\"menuId\": \"572abe8049bb4c97702057db\", \"content\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", ";
+		//	str += "\"options\": [{\"id\": \"324r434\", \"qty\": \"2\"},{\"id\": \"id33cl\",\"qty\": \"2\"}]}],}]}";
 
-			dynamic output = JsonConvert.DeserializeObject(str);
-			int numOrder = (int)output["numOrder"];
-			int numTable = (int)output["numOrder"];
-			int numPA = (int)output["numPA"];
-			DateTime date = (DateTime)output["date"];
-			DateTime hour = (DateTime)output["hour"];
-			string globalComment = (string)output["globalComment"];
-			Order ord = new Order(numOrder, numTable, numPA, date, hour);
-			ord.GlobalComment = globalComment;
-			foreach (Object order in output["order"])
-			{
-				string orderStr = order.ToString();
-				dynamic orderOut = JsonConvert.DeserializeObject(orderStr);
-				string menuId = (string)orderOut["menuId"];
-				Menu menu = null;
-				foreach (Menu m in Menu.menus)
-				{
-					if (m.IDMenu == menuId)
-					{
-						ord.Menus.Add(m);
-						menu = ord.Menus.Last();
-						break;
-					}
-				}
-				foreach (Object content in orderOut["content"])
-				{
-					string contentStr = content.ToString();
-					dynamic contentOut = JsonConvert.DeserializeObject(contentStr);
-					string id = (string)contentOut["id"];
-					foreach (Dish dish in Dish.dishes)
-					{
-						if (id == dish.ID)
-						{
-							MyDictionary<Dish> dict = new MyDictionary<Dish>();
-							dict.Value = (int)contentOut["qty"];
-							dict.Key = dish;
-							dict.Key.comment = (string)contentOut["comment"];
-							foreach (Object option in contentOut["options"])
-							{
-								str = option.ToString();
-								dynamic optionOut = JsonConvert.DeserializeObject(str);
-								foreach (KeyValuePair<string, int> op in dict.Key.options)
-								{
-									if (op.Key == (string)optionOut["id"])
-									{
-										int nb = dict.Value + (int)optionOut["qty"];
-										dict.Key.options.Remove(op.Key);
-										dict.Key.options.Add(op.Key, nb);
-										break;
-									}
-								}
-								//dict.Key.options. Add((string)optionOut["id"], (int)optionOut["qty"]);
-							}
-							dict.Key.status = (int)contentOut["status"];
-							menu.Dishes.Add(dict);
-							break;
-						}
-					}
-					//foreach (MyDictionary<Dish> dishes in menu.Dishes)
-					//{
-					//	if (id == dishes.Key.ID)
-					//	{
-					//		dishes.Value = (int)contentOut["qty"];
-					//		dishes.Key.comment = (string)contentOut["comment"];
-					//		foreach (Object option in contentOut["options"])
-					//		{
-					//			str = option.ToString();
-					//			dynamic optionOut = JsonConvert.DeserializeObject(str);
-					//			dishes.Key.options.Add((string)optionOut["id"], (int)optionOut["qty"]);
-					//		}
-					//		//dishes.Key.options = (string)contentOut["options"];
-					//		dishes.Key.status = (int)contentOut["status"];
-					//		break;
-					//	}
-					//}
-				}
-			}
-			Order.orders.Add(ord);
-			return ord;
-		}
+		//	dynamic output = JsonConvert.DeserializeObject(str);
+		//	int numOrder = (int)output["numOrder"];
+		//	int numTable = (int)output["numOrder"];
+		//	int numPA = (int)output["numPA"];
+		//	DateTime date = (DateTime)output["date"];
+		//	DateTime hour = (DateTime)output["hour"];
+		//	string globalComment = (string)output["globalComment"];
+		//	Order ord = new Order(numOrder, numTable, numPA, date, hour);
+		//	ord.GlobalComment = globalComment;
+		//	foreach (Object order in output["order"])
+		//	{
+		//		string orderStr = order.ToString();
+		//		dynamic orderOut = JsonConvert.DeserializeObject(orderStr);
+		//		string menuId = (string)orderOut["menuId"];
+		//		Menu menu = null;
+		//		foreach (Menu m in Menu.menus)
+		//		{
+		//			if (m.IDMenu == menuId)
+		//			{
+		//				ord.Menus.Add(m);
+		//				menu = ord.Menus.Last();
+		//				break;
+		//			}
+		//		}
+		//		foreach (Object content in orderOut["content"])
+		//		{
+		//			string contentStr = content.ToString();
+		//			dynamic contentOut = JsonConvert.DeserializeObject(contentStr);
+		//			string id = (string)contentOut["id"];
+		//			foreach (Dish dish in Dish.dishes)
+		//			{
+		//				if (id == dish.ID)
+		//				{
+		//					MyDictionary<Dish> dict = new MyDictionary<Dish>();
+		//					dict.Value = (int)contentOut["qty"];
+		//					dict.Key = dish;
+		//					dict.Key.comment = (string)contentOut["comment"];
+		//					foreach (Object option in contentOut["options"])
+		//					{
+		//						str = option.ToString();
+		//						dynamic optionOut = JsonConvert.DeserializeObject(str);
+		//						foreach (KeyValuePair<string, int> op in dict.Key.options)
+		//						{
+		//							if (op.Key == (string)optionOut["id"])
+		//							{
+		//								int nb = dict.Value + (int)optionOut["qty"];
+		//								dict.Key.options.Remove(op.Key);
+		//								dict.Key.options.Add(op.Key, nb);
+		//								break;
+		//							}
+		//						}
+		//						//dict.Key.options. Add((string)optionOut["id"], (int)optionOut["qty"]);
+		//					}
+		//					dict.Key.status = (int)contentOut["status"];
+		//					menu.Dishes.Add(dict);
+		//					break;
+		//				}
+		//			}
+		//			//foreach (MyDictionary<Dish> dishes in menu.Dishes)
+		//			//{
+		//			//	if (id == dishes.Key.ID)
+		//			//	{
+		//			//		dishes.Value = (int)contentOut["qty"];
+		//			//		dishes.Key.comment = (string)contentOut["comment"];
+		//			//		foreach (Object option in contentOut["options"])
+		//			//		{
+		//			//			str = option.ToString();
+		//			//			dynamic optionOut = JsonConvert.DeserializeObject(str);
+		//			//			dishes.Key.options.Add((string)optionOut["id"], (int)optionOut["qty"]);
+		//			//		}
+		//			//		//dishes.Key.options = (string)contentOut["options"];
+		//			//		dishes.Key.status = (int)contentOut["status"];
+		//			//		break;
+		//			//	}
+		//			//}
+		//		}
+		//	}
+		//	Order.orders.Add(ord);
+		//	return ord;
+		//}
 
-		private void GetMenus()
+		private async Task GetMenus()
 		{
-			string str = "{\"elements\": [{\"name\": \"Délices\", \"createdAt\": \"2016-05-05T03:31:12.211Z\", \"updatedAt\": \"2016-05-05T03:31:12.211Z\", \"id\": \"572abe8049bb4c97702057db\"}, ";
-			str += "{\"name\": \"alacarte\", \"createdAt\": \"2016-05-08T17:31:17.702Z\", \"updatedAt\": \"2016-05-08T17:31:17.702Z\", \"id\": \"572f77e5e4e081cc7a7006d2\"}, ";
-			str += "{\"name\": \"Gourmet\", \"createdAt\": \"2016-05-08T17:40:48.815Z\", \"updatedAt\": \"2016-05-08T17:40:48.815Z\", \"id\": \"572f7a20937726dc7ab8f903\"}]}";
+			string str = await GetaString("menus");
+			if (str == null)
+				return;
+			//string str = "{\"elements\": [{\"name\": \"Délices\", \"createdAt\": \"2016-05-05T03:31:12.211Z\", \"updatedAt\": \"2016-05-05T03:31:12.211Z\", \"id\": \"572abe8049bb4c97702057db\"}, ";
+			//str += "{\"name\": \"alacarte\", \"createdAt\": \"2016-05-08T17:31:17.702Z\", \"updatedAt\": \"2016-05-08T17:31:17.702Z\", \"id\": \"572f77e5e4e081cc7a7006d2\"}, ";
+			//str += "{\"name\": \"Gourmet\", \"createdAt\": \"2016-05-08T17:40:48.815Z\", \"updatedAt\": \"2016-05-08T17:40:48.815Z\", \"id\": \"572f7a20937726dc7ab8f903\"}]}";
 
 			dynamic ouput = JsonConvert.DeserializeObject(str);
 			foreach (Object menu in ouput["elements"])
@@ -166,17 +184,20 @@ namespace FastOrdering.Misc
 			}
 		}
 
-		private void GetCategories()
+		private async Task GetCategories()
 		{
-			string str = "{\"elements\": [{\"name\": \"Entrées_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:21.278Z\", \"updatedAt\": \"2016-05-05T03:29:21.278Z\", \"id\": \"572abe1149bb4c97702057d8\"}, ";
-			str += "{\"name\": \"Plats_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:30.359Z\", \"updatedAt\": \"2016-05-05T03:29:30.359Z\", \"id\": \"572abe1a49bb4c97702057d9\"}, ";
-			str += "{\"name\": \"Desserts_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:36.854Z\", \"updatedAt\": \"2016-05-05T03:29:36.854Z\", \"id\": \"572abe2049bb4c97702057da\"}, ";
-			str += "{\"name\": \"Entrées_menu_delice\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:33:55.672Z\", \"updatedAt\": \"2016-05-08T17:33:55.672Z\", \"id\": \"572f7883937726dc7ab8f8ef\"}, ";
-			str += "{\"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:27:45.694Z\", \"name\": \"Plats_menu_delice\", \"updatedAt\": \"2016-05-08T17:34:03.901Z\", \"id\": \"572abdb149bb4c97702057d5\"}, ";
-			str += "{\"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:27:52.345Z\", \"name\": \"Desserts_menu_delice\", \"updatedAt\": \"2016-05-08T17:34:09.770Z\", \"id\": \"572abdb849bb4c97702057d6\"}, ";
-			str += "{\"name\": \"Entrées_menu_gourmet\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:37:54.032Z\",  \"updatedAt\": \"2016-05-08T17:37:54.032Z\", \"id\": \"572f7972937726dc7ab8f8f8\"}, ";
-			str += "{\"name\": \"Plats_menu_gourmet\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:38:03.304Z\", \"updatedAt\": \"2016-05-08T17:38:03.304Z\", \"id\": \"572f797b937726dc7ab8f8f9\"}, ";
-			str += "{\"name\": \"Desserts_menu_gourmet\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:38:13.213Z\", \"updatedAt\": \"2016-05-08T17:38:13.213Z\", \"id\": \"572f7985937726dc7ab8f8fa\"}]}";
+			string str = await GetaString("cats");
+			if (str == null)
+				return;
+			//string str = "[{\"name\": \"Entrées_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:21.278Z\", \"updatedAt\": \"2016-05-05T03:29:21.278Z\", \"id\": \"572abe1149bb4c97702057d8\"}, ";
+			//str += "{\"name\": \"Plats_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:30.359Z\", \"updatedAt\": \"2016-05-05T03:29:30.359Z\", \"id\": \"572abe1a49bb4c97702057d9\"}, ";
+			//str += "{\"name\": \"Desserts_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:36.854Z\", \"updatedAt\": \"2016-05-05T03:29:36.854Z\", \"id\": \"572abe2049bb4c97702057da\"}, ";
+			//str += "{\"name\": \"Entrées_menu_delice\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:33:55.672Z\", \"updatedAt\": \"2016-05-08T17:33:55.672Z\", \"id\": \"572f7883937726dc7ab8f8ef\"}, ";
+			//str += "{\"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:27:45.694Z\", \"name\": \"Plats_menu_delice\", \"updatedAt\": \"2016-05-08T17:34:03.901Z\", \"id\": \"572abdb149bb4c97702057d5\"}, ";
+			//str += "{\"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:27:52.345Z\", \"name\": \"Desserts_menu_delice\", \"updatedAt\": \"2016-05-08T17:34:09.770Z\", \"id\": \"572abdb849bb4c97702057d6\"}, ";
+			//str += "{\"name\": \"Entrées_menu_gourmet\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:37:54.032Z\",  \"updatedAt\": \"2016-05-08T17:37:54.032Z\", \"id\": \"572f7972937726dc7ab8f8f8\"}, ";
+			//str += "{\"name\": \"Plats_menu_gourmet\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:38:03.304Z\", \"updatedAt\": \"2016-05-08T17:38:03.304Z\", \"id\": \"572f797b937726dc7ab8f8f9\"}, ";
+			//str += "{\"name\": \"Desserts_menu_gourmet\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-08T17:38:13.213Z\", \"updatedAt\": \"2016-05-08T17:38:13.213Z\", \"id\": \"572f7985937726dc7ab8f8fa\"}]";
 
 			dynamic ouput = JsonConvert.DeserializeObject(str);
 			foreach (Object categories in ouput["elements"])
@@ -186,10 +207,13 @@ namespace FastOrdering.Misc
 			}
 		}
 
-		private void GetDishes()
+		private async Task GetDishes()
 		{
-			string str = "{\"elements\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"name\": \"Crottin de chèvre frais sur pomme\", \"price\": 0, \"categories_ids\": [\"572f7883937726dc7ab8f8ef\"], \"available\": true, \"options\" : [\"234335t43\"], \"createdAt\": \"2016-05-08T17:35:21.100Z\", \"updatedAt\": \"2016-05-08T17:35:21.100Z\"}, ";
-			str += "{\"available\": true, \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f797b937726dc7ab8f8f9\"], \"createdAt\": \"2016-05-08T17:35:47.075Z\", \"id\": \"572f78f3937726dc7ab8f8f4\", \"name\": \"Plat végétarien \", \"price\": 10, \"options\" : [\"234335t43\"], \"updatedAt\": \"2016-05-08T17:51:12.064Z\"}]}";
+			string str = await GetaString("elements");
+			if (str == null)
+				return;
+			//string str = "{\"elements\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"name\": \"Crottin de chèvre frais sur pomme\", \"price\": 0, \"categories_ids\": [\"572f7883937726dc7ab8f8ef\"], \"available\": true, \"options\" : [\"234335t43\"], \"createdAt\": \"2016-05-08T17:35:21.100Z\", \"updatedAt\": \"2016-05-08T17:35:21.100Z\"}, ";
+			//str += "{\"available\": true, \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f797b937726dc7ab8f8f9\"], \"createdAt\": \"2016-05-08T17:35:47.075Z\", \"id\": \"572f78f3937726dc7ab8f8f4\", \"name\": \"Plat végétarien \", \"price\": 10, \"options\" : [\"234335t43\"], \"updatedAt\": \"2016-05-08T17:51:12.064Z\"}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			foreach (Object dish in output["elements"])
@@ -199,9 +223,12 @@ namespace FastOrdering.Misc
 			}
 		}
 
-		private void GetAlacarte()
+		private async Task GetAlacarte()
 		{
-			string str = "{\"elements\": {\"id\": \"572f77e5e4e081cc7a7006d2\", \"name\": \"alacarte\", \"compo\": [\"572f7929937726dc7ab8f8f6\", \"572f793f937726dc7ab8f8f7\", \"572f7a3f937726dc7ab8f904\", \"572f7d3fd3a349ab7b1d860e\", \"572f7d4bd3a349ab7b1d860f\", \"572f7d56d3a349ab7b1d8610\"]}}";
+			string str = await GetaString("alacarte");
+			if (str == null)
+				return;
+			//string str = "{\"elements\": {\"id\": \"572f77e5e4e081cc7a7006d2\", \"name\": \"alacarte\", \"compo\": [\"572f7929937726dc7ab8f8f6\", \"572f793f937726dc7ab8f8f7\", \"572f7a3f937726dc7ab8f904\", \"572f7d3fd3a349ab7b1d860e\", \"572f7d4bd3a349ab7b1d860f\", \"572f7d56d3a349ab7b1d8610\"]}}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			var tab = (output["elements"])["compo"];
@@ -227,14 +254,17 @@ namespace FastOrdering.Misc
 			//}
 		}
 
-		private void GetCompos()
+		private async Task GetCompos()
 		{
-			string str = "{\"elements\": [{\"name\": \"Entrée et plat\", \"price\": 12, \"menu_id\": \"572abe8049bb4c97702057db\", \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f7883937726dc7ab8f8ef\"], \"createdAt\": \"2016-05-08T17:36:41.009Z\", \"updatedAt\": \"2016-05-08T17:36:41.009Z\", \"id\": \"572f7929937726dc7ab8f8f6\"}, ";
-			str += "{\"name\": \"Plat et dessert\", \"price\": 10, \"menu_id\": \"572abe8049bb4c97702057db\", \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572abe2049bb4c97702057da\"], \"createdAt\": \"2016-05-08T17:37:03.596Z\", \"updatedAt\": \"2016-05-08T17:37:03.596Z\", \"id\": \"572f793f937726dc7ab8f8f7\"}, ";
-			str += "{\"name\": \"Unique\", \"price\": 20, \"menu_id\": \"572f7a20937726dc7ab8f903\", \"categories_ids\": [\"572f7985937726dc7ab8f8fa\", \"572f797b937726dc7ab8f8f9\", \"572f7972937726dc7ab8f8f8\"], \"createdAt\": \"2016-05-08T17:41:19.131Z\", \"updatedAt\": \"2016-05-08T17:41:19.131Z\", \"id\": \"572f7a3f937726dc7ab8f904\"}, ";
-			str += "{\"name\": \"Desserts\", \"price\": 0, \"menu_id\": \"572f77e5e4e081cc7a7006d2\", \"categories_ids\": [\"572abe2049bb4c97702057da\"], \"createdAt\": \"2016-05-08T17:54:07.621Z\", \"updatedAt\": \"2016-05-08T17:54:07.621Z\", \"id\": \"572f7d3fd3a349ab7b1d860e\"}, ";
-			str += "{\"name\": \"Plats\", \"price\": 0, \"menu_id\": \"572f77e5e4e081cc7a7006d2\", \"categories_ids\": [\"572abe1a49bb4c97702057d9\"],\"createdAt\": \"2016-05-08T17:54:19.635Z\", \"updatedAt\": \"2016-05-08T17:54:19.635Z\", \"id\": \"572f7d4bd3a349ab7b1d860f\"}, ";
-			str += "{\"name\": \"Entrées\", \"price\": 0, \"menu_id\": \"572f77e5e4e081cc7a7006d2\", \"categories_ids\": [\"572abe1149bb4c97702057d8\"], \"createdAt\": \"2016-05-08T17:54:30.982Z\", \"updatedAt\": \"2016-05-08T17:54:30.982Z\", \"id\": \"572f7d56d3a349ab7b1d8610\"}]}";
+			string str = await GetaString("compos");
+			if (str == null)
+				return;
+			//string str = "{\"elements\": [{\"name\": \"Entrée et plat\", \"price\": 12, \"menu_id\": \"572abe8049bb4c97702057db\", \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f7883937726dc7ab8f8ef\"], \"createdAt\": \"2016-05-08T17:36:41.009Z\", \"updatedAt\": \"2016-05-08T17:36:41.009Z\", \"id\": \"572f7929937726dc7ab8f8f6\"}, ";
+			//str += "{\"name\": \"Plat et dessert\", \"price\": 10, \"menu_id\": \"572abe8049bb4c97702057db\", \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572abe2049bb4c97702057da\"], \"createdAt\": \"2016-05-08T17:37:03.596Z\", \"updatedAt\": \"2016-05-08T17:37:03.596Z\", \"id\": \"572f793f937726dc7ab8f8f7\"}, ";
+			//str += "{\"name\": \"Unique\", \"price\": 20, \"menu_id\": \"572f7a20937726dc7ab8f903\", \"categories_ids\": [\"572f7985937726dc7ab8f8fa\", \"572f797b937726dc7ab8f8f9\", \"572f7972937726dc7ab8f8f8\"], \"createdAt\": \"2016-05-08T17:41:19.131Z\", \"updatedAt\": \"2016-05-08T17:41:19.131Z\", \"id\": \"572f7a3f937726dc7ab8f904\"}, ";
+			//str += "{\"name\": \"Desserts\", \"price\": 0, \"menu_id\": \"572f77e5e4e081cc7a7006d2\", \"categories_ids\": [\"572abe2049bb4c97702057da\"], \"createdAt\": \"2016-05-08T17:54:07.621Z\", \"updatedAt\": \"2016-05-08T17:54:07.621Z\", \"id\": \"572f7d3fd3a349ab7b1d860e\"}, ";
+			//str += "{\"name\": \"Plats\", \"price\": 0, \"menu_id\": \"572f77e5e4e081cc7a7006d2\", \"categories_ids\": [\"572abe1a49bb4c97702057d9\"],\"createdAt\": \"2016-05-08T17:54:19.635Z\", \"updatedAt\": \"2016-05-08T17:54:19.635Z\", \"id\": \"572f7d4bd3a349ab7b1d860f\"}, ";
+			//str += "{\"name\": \"Entrées\", \"price\": 0, \"menu_id\": \"572f77e5e4e081cc7a7006d2\", \"categories_ids\": [\"572abe1149bb4c97702057d8\"], \"createdAt\": \"2016-05-08T17:54:30.982Z\", \"updatedAt\": \"2016-05-08T17:54:30.982Z\", \"id\": \"572f7d56d3a349ab7b1d8610\"}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			foreach (Object compo in output["elements"])
@@ -244,9 +274,12 @@ namespace FastOrdering.Misc
 			}
 		}
 
-		private void GetOptions()
+		private async Task GetOptions()
 		{
-			string str = "{\"elements\": [{\"id\": \"234335t43\", \"values\": [{\"name\": \"bleue\", \"id\": \"324r434\"}]}]}";
+			string str = await GetaString("option");
+			if (str == null)
+				return;
+			//string str = "{\"elements\": [{\"id\": \"234335t43\", \"values\": [{\"name\": \"bleue\", \"id\": \"324r434\"}]}]}";
 
 			dynamic output = JsonConvert.DeserializeObject(str);
 			foreach (Object option in output["elements"])
@@ -265,106 +298,46 @@ namespace FastOrdering.Misc
 			}
 		}
 
-		private SocketIO socket;
-
-		private StreamSocket clientSocket;
-		private HostName serverHost;
-		private string serverHostnameString = "163.5.84.184";
-		private string serverPort = "4242";
-		private bool connected = false;
-		private bool closing = false;
-
-		//System.IO.StreamReader reader;
-		//System.IO.StreamWriter writer;
-		//String GetIPAddress()
-		//{
-		//	List<string> IpAddress = new List<string>();
-		//	var Hosts = Windows.Networking.Connectivity.NetworkInformation.GetHostNames().ToList();
-		//	foreach (var Host in Hosts)
-		//	{
-		//		string IP = Host.DisplayName;
-		//		IpAddress.Add(IP);
-		//	}
-		//	return IpAddress.Last();
-		//}
-		//public async void ConnectLinear(StreamSocket socket, EndpointPair e)//connects, and then returns to the thread
-		//{
-		//	await socket.ConnectAsync(e);
-		//}
-		public async void GetaString()
+		public async Task<string> GetaString(string path)
 		{
+			string str = "";
 			try
 			{
-				//Create HttpClient
 				HttpClient httpClient = new HttpClient();
-
-				//Define Http Headers
 				httpClient.DefaultRequestHeaders.Accept.TryParseAdd("application/json");
-
-				//Call
-				string ResponseString = await httpClient.GetStringAsync(
-					new Uri("http://163.5.84.184:4242/elements"));
-				//Replace current URL with your URL
-				System.Diagnostics.Debug.WriteLine(ResponseString);
+				str = await httpClient.GetStringAsync(new Uri("http://163.5.84.184:4242/" + path));
 			}
-
 			catch (Exception ex)
 			{
-				//....
+				System.Diagnostics.Debug.WriteLine(ex.Message);
 			}
+			return str;
 		}
+
 		public Socket()
 		{
-			//GetaString();
-			//return;
-			//	const String port = "4242";
-			//	try
-			//	{
-			//		String myIP = GetIPAddress();
-			//		HostName localIP = new HostName(myIP);
-			//		HostName remoteHost = new HostName(serverHostnameString);
-
-			//		StreamSocket socket2 = new StreamSocket();
-			//		EndpointPair e = new EndpointPair(localIP, port, remoteHost, port);
-
-			//		ConnectLinear(socket2, e);
-
-			//		if (socket2.Information.LocalPort != port)//if there is no connection, control will pass to here, but the socket won't have been set up properly.
-			//			return;
-
-			//		System.IO.Stream forReader = socket2.InputStream.AsStreamForRead();
-			//		System.IO.Stream forWriter = socket2.OutputStream.AsStreamForWrite();
-
-			//		reader = new StreamReader(forReader);
-			//		writer = new StreamWriter(forWriter);
-			//		writer.AutoFlush = true;
-			//	}
-			//	catch
-			//	{
-			//		return;
-			//	}
-			//	clientSocket = new StreamSocket();
+			Connect_Click();
 			socket = Quobject.SocketIoClientDotNet.Client.IO.Socket("http://163.5.84.184:4242");
+			socket.On("notifications", (object data) =>
+			{
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+				GetNotification(data.ToString());
+			});
+			socket.On("receive_order", (object data) =>
+			{
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+			});
+			return;
 			socket.On(SocketIO.EVENT_CONNECT, () =>
 			{
 				JObject jsonObject = new JObject();
 				jsonObject["url"] = "/option";
 				var json = jsonObject.ToString();
-				//JsonObject obj = new JsonObject();
-				//bool res = JsonObject.TryParse("{\"url\" : \"/elements\"}", out obj);
-				//JsonValue val = JsonValue.CreateStringValue("/elements");
-				//obj.Add("url", val);
 				socket.Emit("get", new AckImpl((data) =>
 				{
-					//log.Info("getAckDate data=" + date);
-					//Message = ((DateTime)date).ToString("O");
-					//Number = int.Parse(n.ToString());
-					//ManualResetEvent.Set();
 					System.Diagnostics.Debug.WriteLine("works");
 					System.Diagnostics.Debug.WriteLine(data.ToString());
 				}), jsonObject);
-
-				//socket.Emit("/elements");
 				System.Diagnostics.Debug.WriteLine("emit");
 			});
 			socket.On(SocketIO.EVENT_ERROR, (object data) =>
@@ -373,363 +346,29 @@ namespace FastOrdering.Misc
 				System.Diagnostics.Debug.WriteLine(data.ToString());
 				System.Diagnostics.Debug.WriteLine("#####");
 			});
-			//socket.On("/elements", (data) =>
-			//{
-			//	System.Diagnostics.Debug.WriteLine("emits");
-			//	System.Diagnostics.Debug.WriteLine(data);
-			//	socket.Disconnect();
-			//});
-			socket.Disconnect();
-			return;
-			//socket.On(SocketIO.EVENT_CONNECT_ERROR, (object data) =>
-			//{
-			//	System.Diagnostics.Debug.WriteLine("#####");
-			//	System.Diagnostics.Debug.WriteLine(data.ToString());
-			//	System.Diagnostics.Debug.WriteLine("#####");
-			//});
-			//Emitter emit = socket.Emit("/elements", (data) =>
-			//{
-			//	System.Diagnostics.Debug.WriteLine(data);
-			//	System.Diagnostics.Debug.WriteLine("test");
-			//});
-			//System.Diagnostics.Debug.WriteLine("end");
 			//socket.Disconnect();
+			return;
+		}
 
-			Connect_Click();
+		private void Disconnect()
+		{
+			socket.Disconnect();
 		}
 
 		private async void Connect_Click()
 		{
-			GetMenus();
-			GetCategories();
-			GetOptions();
-			GetDishes();
-			GetCompos();
-			GetOrder();
+			await GetMenus();
+			await GetCategories();
+			//GetOptions();
+			await GetDishes();
+			await GetCompos();
+			await GetLastOrders();
+			await GetAlacarte();
+			return;
+			//GetOrder();
 			//SendOrder();
-			GetLastOrders();
 			ReceiveOrder();
-			GetNotification();
-			GetAlacarte();
-			//return;
-
-			if (connected)
-			{
-				return;
-			}
-
-			try
-			{
-				serverHost = new HostName(serverHostnameString);
-				// Try to connect to the 
-				await clientSocket.ConnectAsync(serverHost, serverPort).AsTask();
-				//		await _clientSocket.ConnectAsync(remoteHost, "27017").AsTask(cancellationToken.Token);
-				connected = true;
-			}
-			catch (Exception exception)
-			{
-				// If this is an unknown status, 
-				// it means that the error is fatal and retry will likely fail.
-				if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-				{
-					throw;
-				}
-				System.Diagnostics.Debug.WriteLine("Connect failed with error: " + exception.Message);
-				// Could retry the connection, but for this simple example
-				// just close the socket.
-
-				closing = true;
-				// the Close method is mapped to the C# Dispose
-				clientSocket.Dispose();
-				clientSocket = null;
-
-			}
-			Send_Click();
+			//GetNotification();
 		}
-
-		private async void Send_Click()
-		{
-			if (!connected)
-			{
-				return;
-			}
-
-			uint len = 0; // Gets the UTF-8 string length.
-
-			System.Diagnostics.Debug.WriteLine("begin write");
-
-			try
-			{
-				// add a newline to the text to send
-				//string sendData = "/dish/read" + Environment.NewLine;
-				string sendData = "/elements" + Environment.NewLine;
-				DataWriter writer = new DataWriter(clientSocket.OutputStream);
-				len = writer.MeasureString(sendData); // Gets the UTF-8 string length.
-				writer.WriteString(sendData);
-
-				// Call StoreAsync method to store the data to a backing stream
-				await writer.StoreAsync();
-				await writer.FlushAsync();
-
-				// detach the stream and close it
-				writer.DetachStream();
-				writer.Dispose();
-
-			}
-			catch (Exception exception)
-			{
-				// If this is an unknown status, 
-				// it means that the error is fatal and retry will likely fail.
-				if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-				{
-					throw;
-				}
-
-				// Could retry the connection, but for this simple example
-				// just close the socket.
-
-				closing = true;
-				clientSocket.Dispose();
-				clientSocket = null;
-				connected = false;
-
-			}
-
-			// Now try to receive data from server
-
-			System.Diagnostics.Debug.WriteLine("begin read");
-
-			try
-			{
-				StringBuilder strBuilder = new StringBuilder();
-				DataReader reader = new DataReader(clientSocket.InputStream);
-				// Set inputstream options so that we don't have to know the data size
-				reader.InputStreamOptions = InputStreamOptions.Partial;
-				System.Diagnostics.Debug.WriteLine("loadasync1");
-				await reader.LoadAsync(8192);
-				System.Diagnostics.Debug.WriteLine("loadasync2");
-				while (reader.UnconsumedBufferLength > 0)
-				{
-					strBuilder.Append(reader.ReadString(reader.UnconsumedBufferLength));
-					await reader.LoadAsync(8192);
-					//uint toread = reader.ReadUInt32();
-					//data = reader.ReadString(toread);
-				}
-				//System.Diagnostics.Debug.WriteLine(data);
-				System.Diagnostics.Debug.WriteLine(strBuilder.ToString());
-				reader.DetachStream();
-			}
-			catch (Exception exception)
-			{
-				// If this is an unknown status, 
-				// it means that the error is fatal and retry will likely fail.
-				if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-				{
-					throw;
-				}
-
-				// Could retry, but for this simple example
-				// just close the socket.
-
-				closing = true;
-				clientSocket.Dispose();
-				clientSocket = null;
-				connected = false;
-
-			}
-			System.Diagnostics.Debug.WriteLine("end");
-		}
-
-		private StreamSocket sock = new StreamSocket();
-		//private SocketIO socket;
-		//private string uri = "http://alexis-semren.com:1337";
-		//private string uri = "http://163.5.84.184:4242/";
-		//public string ret = "";
-
-		//private StreamSocket _clientSocket = new StreamSocket();
-		//private bool _connected = false;
-		//private DataReader _dataReader;
-		//public readonly string Channel;
-
-		//public Socket()
-		//{
-		//	Connect();
-		//}
-
-		//public async void Connect()
-		//{
-		//	//StreamSocket tcpSocket = new StreamSocket();
-		//	//HostName remoteHost = new HostName("127.0.0.1");
-		//	HostName remoteHost = new HostName("163.5.84.184");
-		//	//HostName remoteHost = new HostName("alexis-semren.com");
-		//	CancellationTokenSource cancellationToken = new CancellationTokenSource();
-
-		//	cancellationToken.CancelAfter(5000);
-		//	try
-		//	{
-		//		await _clientSocket.ConnectAsync(remoteHost, "4242").AsTask(cancellationToken.Token);
-		//		//await tcpSocket.ConnectAsync(remoteHost, "1337").AsTask(cancellationToken.Token);
-		//		//await _clientSocket.ConnectAsync(remoteHost, "27017").AsTask(cancellationToken.Token);
-		//		_connected = true;
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		var socketError = SocketError.GetStatus(ex.HResult);
-		//	}
-		//	SendRawMessage("/dish/read");
-		//	ReadData();
-		//	_clientSocket.Dispose();
-		//	//if (_connected) return false;
-		//	//var hostname = new HostName("www.alexis-semren.com");
-		//	//var hostname = new HostName("127.0.0.1");
-		//	//await _clientSocket.ConnectAsync(hostname, "1337");
-		//	//try
-		//	//{
-		//	//	await _clientSocket.ConnectAsync(hostname, "27017");
-		//	//	_connected = true;
-		//	//	ReadData();
-		//	//}
-		//	//catch (Exception exception)
-		//	//{
-		//	//	if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-		//	//	{
-		//	//		throw;
-		//	//	}
-		//	//	System.Diagnostics.Debug.WriteLine("Connect failed with error: " + exception.Message);
-		//	//	_clientSocket.Dispose();
-		//	//}
-		//	//return true;
-		//}
-
-		//async public void ReadData()
-		//{
-		//	try
-		//	{
-		//		System.Diagnostics.Debug.WriteLine("begin");
-		//		if (!_connected || _clientSocket == null) return;
-		//		_dataReader = new DataReader(_clientSocket.InputStream);
-		//		_dataReader.InputStreamOptions = InputStreamOptions.Partial;
-		//		uint s = await _dataReader.LoadAsync(2048);
-		//		string data = _dataReader.ReadString(s);
-		//		System.Diagnostics.Debug.WriteLine(data);
-		//		ReadData();
-		//		System.Diagnostics.Debug.WriteLine("end");
-		//	}
-		//	catch (Exception exception)
-		//	{
-		//		if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-		//		{
-		//			throw;
-		//		}
-		//		System.Diagnostics.Debug.WriteLine("Receive failed with error: " + exception.Message);
-		//		_clientSocket.Dispose();
-		//		_connected = false;
-
-		//	}
-		//}
-
-		//async public void SendRawMessage(string message)
-		//{
-		//	try
-		//	{
-		//		var writer = new DataWriter(_clientSocket.OutputStream);
-		//		writer.WriteString(message + "\r\n");
-		//		uint len = writer.MeasureString(message + Environment.NewLine);
-		//		await writer.StoreAsync();
-		//		//await writer.FlushAsync();
-		//		writer.DetachStream();
-		//		writer.Dispose();
-		//	}
-		//	catch (Exception exception)
-		//	{
-		//		if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-		//		{
-		//			throw;
-		//		}
-		//		System.Diagnostics.Debug.WriteLine("Send data failed with error: " + exception.Message);
-		//		_clientSocket.Dispose();
-		//		_connected = false;
-
-		//	}
-		//}
-
-		//public Socket()
-		//{
-		//	Connect_Click();
-		//	//await sock.ConnectAsync("http://alexis-semren.com", "1337");
-		//	System.Diagnostics.Debug.WriteLine("begin");
-		//	socket = Quobject.SocketIoClientDotNet.Client.IO.Socket("http://163.5.84.184:4242");
-
-		//	socket.On(SocketIO.EVENT_CONNECT_ERROR, (data) =>
-		//		{
-		//			System.Diagnostics.Debug.WriteLine(data);
-		//		});
-		//	socket.On(SocketIO.EVENT_CONNECT, () =>
-		//	{
-		//		socket.Emit("/dish/read");
-		//		System.Diagnostics.Debug.WriteLine("emit");
-		//	});
-		//	socket.On("/dish/read", (data) =>
-		//	{
-		//		System.Diagnostics.Debug.WriteLine("emits");
-		//		System.Diagnostics.Debug.WriteLine(data);
-		//		socket.Disconnect();
-		//	});
-		//	Emitter emit = socket.Emit("/dish/read", (data) =>
-		//	{
-		//		System.Diagnostics.Debug.WriteLine(data);
-		//		System.Diagnostics.Debug.WriteLine("test");
-		//	});
-		//	System.Diagnostics.Debug.WriteLine("end");
-		//}
-
-		//public void Connect()
-		//{
-		//	System.Diagnostics.Debug.WriteLine("begin");
-
-		//	socket.On(SocketIO.EVENT_CONNECT_ERROR, (data) =>
-		//	{
-		//		System.Diagnostics.Debug.WriteLine("error");
-		//		System.Diagnostics.Debug.WriteLine(data);
-		//	});
-		//	socket.On(SocketIO.EVENT_CONNECT, () =>
-		//	{
-		//		socket.Emit("/elements");
-		//		System.Diagnostics.Debug.WriteLine("emit");
-		//	});
-		//	socket.On("/elements", (data) =>
-		//	{
-		//		System.Diagnostics.Debug.WriteLine("emits");
-		//		System.Diagnostics.Debug.WriteLine(data);
-		//	});
-		//	System.Diagnostics.Debug.WriteLine("end");
-		//}
-
-		//public void Disconnect()
-		//{
-		//	//socket.Disconnect();
-		//}
-
-		//void callback()
-		//{
-
-		//}
-
-		//public string Emit(string eventString)
-		//{
-		//	//Emitter em = socket.Emit(eventString);
-		//	Emitter emit = socket.Emit(eventString, (data) =>
-		//	{
-		//		this.ret = data.ToString();
-		//		System.Diagnostics.Debug.WriteLine(data);
-		//		System.Diagnostics.Debug.WriteLine("test");
-		//	});
-		//	return this.ret;
-		//}
-
-		//public void Disconnect()
-		//{
-		//	socket.Disconnect();
-		//}
 	}
 }

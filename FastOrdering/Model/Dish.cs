@@ -13,7 +13,7 @@ namespace FastOrdering.Model
 		public static ObservableCollection<Dish> dishes = new ObservableCollection<Dish>();
 
 		[JsonConstructor]
-		public Dish(string id, string name, int price, string[] options, string[] categories_ids, bool available, DateTime createdAt, DateTime updatedAt)
+		public Dish(string id, string name, double price, string[] options, string[] categories_ids, bool available, DateTime createdAt, DateTime updatedAt)
 		{
 			this.id = id;
 			this.name = name;
