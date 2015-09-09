@@ -260,8 +260,8 @@ public class OrderOrderFragment extends Fragment {
 							}
 						}
 						menu = new JSONObject();
-						menu.put("content", content);
 						menu.put("menuId", _mListAdapter.getGroup(i).toString());
+						menu.put("content", content);
 						arrMenus.put(menu);
 					}
 					//SET UP ORDER JSON
