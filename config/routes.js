@@ -54,14 +54,15 @@ module.exports.routes = {
     // If want restful modify address by /key/:id/action
     '/user/create_key': 'KeyController.create',
     'get /key/:id/activate': 'UserController.activateKey',
-    'post /key/:id/activate': 'UserController.createWaiter',
+    'post /key/:id/activate': 'UserController.createWaiterOrCook',
     
-    '/dashboard': {view: 'dashboard'},
+    '/dashboard': 'DashboardController.view',
 
     // Booking
     '/booking' : 'BookingController.index',
     '/booking/new' : 'BookingController.new',
     '/booking/edit' : 'BookingController.edit',
+    '/booking/destroy:id': 'BookingController.destroy',
 
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',

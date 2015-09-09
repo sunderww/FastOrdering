@@ -96,21 +96,23 @@ module.exports = {
         
         // TODO FIX THIS
         User.find({email: values.email}).exec(function findEmail(err, found) {
+            console.log(found);
             if (found.length > 0) {  
                 errors.push("Email already use");
             }
             if (err)
                 console.log(err);
-        });
-        
-        console.log(errors);
-        if (errors.length > 0)
-            return cb({err : errors});
-        
-        sails.bcrypt.hash(values.password, 10, function(err, hash) {
-            if (err) return cb(err);
-            values.password = hash;
-            cb();
+                
+                
+            console.log(errors);
+            if (errors.length > 0)
+                return cb({err : errors});
+                
+            sails.bcrypt.hash(values.password, 10, function(err, hash) {
+                if (err) return cb(err);
+                    values.password = hash;
+                    cb();
+            });
         });
   }
 

@@ -53,7 +53,11 @@
                                 <% _.each(users, function(user) { %>
                                 <tr data-id="<%= user.id %>" data-model="user">
                                     <td><%= user.email %></td>
-                                    <td><%= user.key %></td>
+                                    <% if (user.key) { %>
+                                    <td><%= user.key.code %></td>
+                                    <% } else { %>
+                                    <td></td>
+                                    <% } %>
                                     <td><%= user.role %></td>
                                     <td><%= user.createdAt %></td>
                                     <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Editer</a></td>

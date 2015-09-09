@@ -43,7 +43,8 @@ module.exports = {
   			return res.redirect('/booking/new');
   		}
 
-  		res.json(booking);
+        res.redirect('/booking');
+  // 		res.json(booking);
 	  	req.session.flash = {};
   	});	
   },
@@ -95,6 +96,17 @@ module.exports = {
   			bookings: bookings
   		});
   	});
+  },
+  
+  destroy: function(req, res){
+    
+      Booking.destroy(req.param('id'), function userUpdated(err) {
+          if (err) {
+              return res.serverError('Error');
+          }
+
+          res.redirect('/booking/index');
+      });
   },
 
   /**

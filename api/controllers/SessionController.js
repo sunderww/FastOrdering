@@ -57,6 +57,7 @@ module.exports = {
                 // Everything is OK begin Authentification
                 req.session.user = user;
                 
+                console.log(user);
                 res.redirect('/dashboard');
             });
         });

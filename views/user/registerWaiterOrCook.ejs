@@ -73,12 +73,22 @@
                                         </div>
                                         <!-- end section -->
 
-                                                                                <div class="section">
+                                        <div class="section">
                                             <label for="username" class="field-label text-muted fs18 mb10">Confirmation du mot de passe</label>
                                             <label for="password" class="field prepend-icon">
                                                 <input type="password" name="confirm_password" id="confirm_password" class="gui-input" placeholder="Mot de passe">
                                                 <label for="password" class="field-icon"><i class="fa fa-lock"></i>
                                                 </label>
+                                            </label>
+                                        </div>
+                                        <!-- end section -->
+                                        <div class="section">
+                                            <label for="role" class="field-label text-muted fs18 mb10">Role</label>
+                                            <label for="role" class="field select">
+                                                <select name="role" class="form-control">
+                                                    <option value="2">Chef</option>
+                                                    <option value="1">Serveur</option>
+                                                </select>
                                             </label>
                                         </div>
                                         <!-- end section -->
@@ -90,7 +100,7 @@
                             <input type="hidden" name="role" value="1">
                             <!-- end .form-body section -->
                             <div class="panel-footer clearfix p10 ph15">
-                                <button type="submit" id="loginButton" class="button btn-primary mr10 pull-right">Créer un serveur</button>
+                                <button type="submit" id="loginButton" class="button btn-primary mr10 pull-right">Créer un nouvel utilisateur</button>
                                 <input type="hidden" name="_csrf" value="<%=_csrf %>" />
                             </div>
                             <!-- end .form-footer section -->
