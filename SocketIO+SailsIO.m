@@ -48,18 +48,22 @@
     if(json){
         
         [self sendEvent:method withData:json andAcknowledge:^(id argsData) {
-            
-            NSData *json = [argsData dataUsingEncoding:NSUTF8StringEncoding];
-            NSError *error;
-            
-            id data = [NSJSONSerialization JSONObjectWithData:json options:0 error:&error];
-            
-            callback(data);
-            
+			
+			if ([argsData respondsToSelector:@selector(dataUsingEncoding:)]) {
+				NSData *json = [argsData dataUsingEncoding:NSUTF8StringEncoding];
+				NSError *error;
+				
+				id data = [NSJSONSerialization JSONObjectWithData:json options:0 error:&error];
+				
+				callback(data);
+			} else {
+				PPLog(@"ERROR RECEIVED WRONG TYPE %@ with object : %@", NSStringFromClass([argsData class]), argsData);
+			}
+			
         }];
-        
+			
     }
-    
+		 
 }
 
 @end

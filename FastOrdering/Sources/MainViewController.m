@@ -42,13 +42,13 @@
 {
     [super viewDidLoad];
 
+	timer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
     [self loadDatabase];
     [self syncDatabase];
     panelShown = NO;
     panelView.hidden = NO;
     overlay.alpha = 0;
 	hasLoaded = NO;
-	timer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
 
     titleLabel.text = NSLocalizedString(@"Main Page", @"");
     lastNotificationsLabel.text = NSLocalizedString(@"Last Notifications", @"");
@@ -105,26 +105,29 @@
     
     [SocketHelper connectSocket];
     classesToSync = 0;
-//
+
+//	SocketIO * socket = SocketHelper.sharedSocket;
+//	[socket sendEvent:@"authentication" withData:@{@"user_key": @"some_user_key"} andAcknowledge:^(id argsData) {
+//		DPPLog(@"%@", argsData);
+//	}];
+
 //    [[SocketHelper sharedSocket] put:@"/dish" withData:@{@"name":@"Test", @"available":@YES, @"price":@6.5} callback:^(id response) {
 //        DPPLog(@"%@", [response class]);
 //        DPPLog(@"%@", response);
 //    }];
 
-	NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
+	NSArray * classes = @[];//@[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
     syncer.delegate = self;
     for (NSString * class in classes) {
         classesToSync++;
         [syncer syncClassNamed:class];
     }
     [syncer syncDeletedObjectsOfClasses:classes];
-//#warning DEBUG
+#warning DEBUG
+	[self syncEnded];
+	[timer invalidate];
 //	DLog(@"SOCKET TEST");
-//	SocketIO * socket = SocketHelper.sharedSocket;
 //	[socket sendAcknowledgement:@"/elements" withArgs:@[@{@"url":@"/elements"}]];
-//	[socket sendEvent:@"get" withData:@{@"url": @"/elements"} andAcknowledge:^(id argsData) {
-//		DPPLog(@"%@", argsData);
-//	}];
 //	[socket sendEvent:@"/elements" withData:nil];
 //	[socket sendJSON:@{@"url": @"/elements"} withAcknowledge:^(id argsData) {
 //		DPPLog(@"%@", argsData);

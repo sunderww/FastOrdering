@@ -12,6 +12,7 @@
 #import "NSManagedObject+create.h"
 #import "SocketHelper.h"
 #import "AppDelegate.h"
+#import "UNIRest.h"
 
 @interface CommandViewController ()
 
@@ -139,14 +140,27 @@
 	[order sanitize];
 	PPLog(@"JSON :\n\n%@\n\n", order.toJSONString);
 
-	DPPLog(@"FORCE FAIL");
-	return [self orderFailed];
+//	DPPLog(@"FORCE FAIL");
+//	return [self orderFailed/Users/admin/Documents/Epitech/EIP/FastOrdering/FastOrdering/Sources/Menu.m];
+
+//	NSDictionary* headers = @{@"Content-Type": @"application/json"};
+//	
+//	UNIHTTPJsonResponse *response = [[UNIRest post:^(UNISimpleRequest *request) {
+//  [request setUrl:[NSString stringWithFormat:@"http://%@:%d/send_order", kSocketIOHost, kSocketIOPort]];
+//  [request setHeaders:headers];
+//  [request setParameters:@{@"json": order.toJSONString}];
+//	}] asJson];
+//	
+//	PPLog(@"%@", response.body);
 	
 	if (!helper.socket.isConnected) return [self orderFailed];
 	
 	loaderView.hidden = NO;
 	[helper pushDelegate:self];
-	[helper.socket sendEvent:@"send_order" withData:order.toJSON];
+	[helper.socket sendEvent:@"send_order" withData:order.toJSON andAcknowledge:^(id argsData) {
+		PPLog(@"%@", argsData);
+	}];
+
 	// find a way to get a callback
 	timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(orderFailed) userInfo:nil repeats:NO];
 }

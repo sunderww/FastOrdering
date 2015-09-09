@@ -8,14 +8,16 @@
 
 #import "SocketHelper.h"
 #import "AppDelegate.h"
+#import "SocketIOTransport.h"
 
 static SocketHelper *   _sharedHelper = nil;
 
 @implementation SocketHelper
 
 + (instancetype)sharedHelper {
-    if (!_sharedHelper)
+	if (!_sharedHelper) {
         _sharedHelper = [SocketHelper new];
+	}
     return _sharedHelper;
 }
 
@@ -27,8 +29,10 @@ static SocketHelper *   _sharedHelper = nil;
     SocketHelper * helper = [SocketHelper sharedHelper];
 
     if (helper.socket.isConnected) return ;
-    if (!helper.socket)
+	if (!helper.socket) {
         helper.socket = [[SocketIO alloc] initWithDelegate:helper];
+		helper.socket.version = V10x;
+	}
     [helper.socket connectToHost:kSocketIOHost onPort:kSocketIOPort withParams:@{}];
 }
 

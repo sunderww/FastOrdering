@@ -62,9 +62,7 @@ typedef enum {
     NSString *_sid;
     NSString *_endpoint;
     NSDictionary *_params;
-    
-    SocketIOVersion _version;    
-    
+        
     __weak id<SocketIODelegate> _delegate;
     
     NSObject <SocketIOTransport> *_transport;
@@ -100,6 +98,7 @@ typedef enum {
 @property (nonatomic, readonly) NSInteger port;
 @property (nonatomic, readonly) NSString *sid;
 @property (nonatomic, readonly) NSTimeInterval heartbeatTimeout;
+@property (nonatomic) SocketIOVersion version;
 @property (nonatomic) BOOL useSecure;
 @property (nonatomic) NSArray *cookies;
 @property (nonatomic, readonly) BOOL isConnected, isConnecting;
