@@ -8,13 +8,13 @@
 var Promise = require('q');
 
 module.exports = {
-/*	
+	
 	index : function(req, res) {
 		
 		var date = new Date(sails.moment().format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z');
 		
 		Promise.all([
-			Booking.count({restaurant_id: req.session.user.restaurant, where: {start : {'<=', date}}}),
+			Booking.count({restaurant_id: req.session.user.restaurant, where: {start : {'<=': date}}}),
 		])
 		.spread(function () {
 			
@@ -31,6 +31,5 @@ module.exports = {
 			return res.view('stats/index');
 		});
 	}
-*/	
 };
 

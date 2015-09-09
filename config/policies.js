@@ -76,7 +76,7 @@ module.exports.policies = {
       alacarte:true
     },
     MenuCompositionController:{
-      read: true
+      read:true
     },
 
     DishCategoryController: {
