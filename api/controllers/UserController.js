@@ -192,7 +192,7 @@ module.exports = {
                 });
             }
             if (req.session.user.role == UserRole.manager) {
-                User.find({restaurant: req.session.user.restaurant}).exec(function foundUsers(err, users) {
+                User.find({restaurant: req.session.user.restaurant}).populate('key').exec(function foundUsers(err, users) {
                     if (err) {
                         console.error(err);
                         return res.serverError(err);
