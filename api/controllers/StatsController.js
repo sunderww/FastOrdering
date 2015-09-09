@@ -11,24 +11,47 @@ module.exports = {
 	
 	index : function(req, res) {
 		
-		var date = new Date(sails.moment().format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z');
-		
-		Promise.all([
-			Booking.count({restaurant_id: req.session.user.restaurant, where: {start : {'<=': date}}}),
-		])
-		.spread(function () {
+		var getStats = function(cb) {
+			var date = sails.moment(new Date(new Date().getTime() - 60 * 60 * 24 * 7 * 1000)).format('YYYY-MM-DDTHH:mm:ss.SSS');
+			var results = {};
 			
-		})
-		.catch(function() {
-			res.serverError("Request fail");
+			return Promise.all([
+				Booking.find({restaurant_id: req.session.user.restaurant}).where({'createdAt' : {'<=': date}}),
+			])
+			.spread(function (booking) {
+				finalRes.booking = booking;
+				console.log(booking);
+			})
+			.catch(function(err) {
+				return res.serverError(err);
+			})
+			.done(function () {
+				console.log("done");
+				return cb(finalRes);
+			});
+		};
+		
+		getStats(function(results) {
+			console.log(results);
+			return res.json(results);
 		});
 	},
 	
-	getStats : function(req, res) {
-		Booking.count({restaurant_id: req.session.user.restaurant}).exec(function (err, booking){
-			if (err)
-				res.serverError(err);		
-			return res.view('stats/index');
+	getStats : function() {
+		return Promise.all([
+			Booking.find({restaurant_id: req.session.user.restaurant}).where({'createdAt' : {'<=': date}}),
+		])
+		.spread(function (booking) {
+			results.booking = booking;
+			return booking;
+			console.log(booking);
+		})
+		.catch(function(err) {
+			return res.serverError(err);
+		})
+		.done(function () {
+			console.log("done");
+			return results;
 		});
 	}
 };
