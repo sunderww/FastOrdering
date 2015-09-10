@@ -59,20 +59,7 @@ module.exports = {
 					"content": ordered
 				}]
 			};
-		}).then(function(order, ordered){
-			ret = {
-				'numOrder' : order.id,
-				'numTable' : order.table_id,
-				'date' : order.date,
-				'time' : order.time,
-				'globalComment': order.comments,
-				'order' : [{
-					"menuId" : ordered[0].menu_id,
-					"content": ordered
-				}]
-			};
-		})
-		.catch(function(err){
+		}).catch(function(err){
 			console.log(err);
 		})
 		.done(function(){
