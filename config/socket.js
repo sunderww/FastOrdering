@@ -41,7 +41,7 @@
 	else 
 	    id = null;
      Order.create({
-	 id:id,
+	    id:id,
       table_id:json.numTable,
       dinerNumber:json.numPA,
       comments: json.globalComment
@@ -113,6 +113,25 @@
         cb(result);
       });
     });
+
+    socket.on('get_last_order', function(json, cb){
+      if (json.number == undefined)
+        json.number = 5;
+       Order.find().sort("createdAt DESC").limit(json.number).exec(function(err, orders){
+        var result = new Array();
+        orders.forEach(function(order) {
+          result.push({
+            "numOrder": order.id,
+            "numTable": order.table_id,
+            "numPA": order.dinerNumber,
+            "date": order.date,
+            "hour": order.time
+          });
+          cb({orders:result});
+        });
+      }); 
+    });
+
   },
 
 
