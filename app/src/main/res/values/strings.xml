@@ -85,4 +85,5 @@
     <string name="order_order_table_missing">Veuillez remplir le champ Table #</string>
     <string name="order_order_order_missing">Veuillez ajouter au moins un plat</string>
     <string name="order_added_success">Ajouté à la commande</string>
+    <string name="order_send_success">Commande envoyée</string>
 </resources>

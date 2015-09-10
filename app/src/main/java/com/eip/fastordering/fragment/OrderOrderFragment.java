@@ -282,6 +282,7 @@ public class OrderOrderFragment extends Fragment {
 					}
 
 					Log.d("COMMANDE READY", orderJSON.toString());
+					Toast.makeText(_mRootView.getContext(), R.string.order_send_success, Toast.LENGTH_SHORT).show();
 					LoginActivity._mSocket.emit("send_order", orderJSON, new Ack() {
 						@Override
 						public void call(Object... objects) {

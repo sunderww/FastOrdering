@@ -214,9 +214,10 @@ public class LoginActivity extends Activity {
                 //TODO To check, maybe jobj "body" to delete
                 HistoryFragment.addOrderToList((JSONObject) args[0]);
             }
-        }).on("notification", new Emitter.Listener() {
+        }).on("notifications", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+                Log.d("NOTIF", "Notif recue");
                 NotificationsFragment.addNotificationToList((JSONObject) args[0]);
             }
         }).on("update", new Emitter.Listener() {
