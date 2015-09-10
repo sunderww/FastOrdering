@@ -63,6 +63,9 @@ module.exports.routes = {
     '/booking/new' : 'BookingController.new',
     '/booking/edit' : 'BookingController.edit',
     '/booking/destroy:id': 'BookingController.destroy',
+    
+    // Stats
+    '/stats' : 'StatsController.index',
 
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',

@@ -100,6 +100,19 @@ module.exports = {
 	      return res.json({elements: doc});
 	  });
   },
+
+  getMenu : function(res, req) {
+ if (req.param("id")) {
+      Menu.findOne({id:req.param("id")}, function(err, doc) {
+        return res.json({elements: doc});
+      });  
+    }
+    Menu.find({name: { '!' : ["alacarte"]}}, function(err, doc) {
+        return res.json({elements: doc});
+    });
+  },
+
+
     delete: function(req, res) {
         Menu.destroy({id:req.param("id")}).exec(function(err, doc) {
            res.json({elements: doc});
@@ -116,7 +129,7 @@ module.exports = {
   */
   alacarte: function(req, res) {
     Menu.findOne({name:"alacarte"}).exec(function(err, doc){
-  	  MenuComposition.find({menu_id:doc.id}).exec(function(err, result){
+      MenuComposition.find({menu_id:doc.id}).exec(function(err, result){
         id = 0;
         compos = new Array();
         if (result.length > 0) {
