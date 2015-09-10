@@ -38,32 +38,19 @@
             <!-- Begin: Content -->
             <section id="content" class="animated fadeIn">
                 <!-- Dashboard Tiles -->
-
-                <section id="content" class="animated fadeIn">
-                    <div id='calendar'></div>
-              <!--      <div class="row table-layout" id="modal-content">
-                        <div class="container">
-                            <h3>Bookings</h3>
-                            <table class="table">
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Date</td>
-                                </tr>
-                                <% _.each(bookings, function(booking) { %>
-                                <tr data-id="<%= booking.id %>" data-model="booking">
-                                    <td><%= booking.name %></td>
-                                    <td><%= booking.date %></td>
-                                    <td><a href="/booking/edit/<%= booking.id %>" class="btn btn-sm btn-warning">Edit</a></td>
-                                    <td><a href="/booking/destroy/<%= booking.id %>" class="btn btn-sm btn-danger">Delete</a></td> 
-                                </tr>
-                                <% }) %>
-                            </table>
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-title">Réservation :</span>
                         </div>
-                    </div> -->
-                    <div>
-                        <a href="/booking/new" class="btn btn-sm btn-success">New reservation</a>
+                        <div class="panel-body">
+                            <div id='calendar'></div>
+                            <div>
+                                <a href="/booking/new" class="btn btn-sm btn-success">Nouvelle réservation</a>
+                            </div>
+                        </div>
                     </div>
-                </section>
+                </div>
             </section>
 
             <!-- End: Main -->
