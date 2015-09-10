@@ -106,11 +106,12 @@
 	  console.log("Beau gosse du 36");
       });
 
-    socket.on('get_order', function(json){
-    console.log("get_order" + json.order);
-    OrderServices.getOneOrder(json.order, function (result) {
-      socket.emit("get_order", result);
-    });
+    socket.on('get_order', function(json, cb){
+      console.log("get_order" + json.order);
+      OrderServices.getOneOrder(json.order, function (result) {
+        console.log(result);
+        cb(result);
+      });
     });
   },
 
