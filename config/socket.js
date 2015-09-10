@@ -107,8 +107,8 @@
       });
 
     socket.on('get_order', function(json){
-  	console.log(json);
-    OrderServices.getOneOrder("55f0b125bcd880f22267d8f2", function (result) {
+    console.log("get_order" + json.order);
+    OrderServices.getOneOrder(json.order, function (result) {
       socket.emit("get_order", result);
     });
     });
