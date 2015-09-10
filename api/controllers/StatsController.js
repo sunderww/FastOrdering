@@ -27,7 +27,7 @@ module.exports = {
 		}
 		
 		for (i = 0; i < 12; i++) {
-			request.push(Order.find({}).where({createdAt : {'>=': months[i], '<=': months[i + 1]}, status : 'delivered'}));
+			request.push(Order.find({}).where({createdAt : {'>=': months[i], '<=': months[i + 1]}, status : 'ordered'}));
 		}
 		
 		// for (i = 0; i < 12; i++) {
