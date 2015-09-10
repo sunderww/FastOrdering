@@ -28,11 +28,13 @@
   onConnect: function(session, socket) {
     console.log("Connect");
       
-    socket.on('send_order', function(json) {
+      socket.on('send_order', function(json, cb) {
      console.log("send_order");
      try {
       var json = JSON.parse(json);
-    }catch(e){}
+    }catch(e){
+
+    }
 	console.log(json);
 	if (json.id != undefined) {
       sails.controllers.Order.delete(json.id);
@@ -46,6 +48,8 @@
       dinerNumber:json.numPA,
       comments: json.globalComment
     }).exec(function(err,model){
+	if (err)
+	    return cb(err);
       var arr = [];
 
       for (var i = 0;json['order'][0].content[i]; i++) {
@@ -61,11 +65,14 @@
 //          menu_id:json['order'][0].content[i].menuId
         }).exec(function(err,model){
           console.log(err);
+	    return cb(err);
         });
         var arr = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};
-      }
       console.log(arr);
     socket.emit('receive_order', arr);
+	  cb(arr);
+      }
+
 
   });
   });
