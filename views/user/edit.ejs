@@ -55,7 +55,10 @@
                                             <label>Confirmation du mot de passe :</label>
                                             <input class="form-control" placeholder="Confirmation Password" name="confirm_password" value="" >
                                             <label>Role :</label>
-                                            <input class="form-control" placeholder="Role" name="role" value="<%= user.role %>" >
+                                            <select name="role" class="form-control" value=<%= user.role %> >
+                                                <option value="2">Chef</option>
+                                                <option value="1">Serveur</option>
+                                            </select>
                                         </div>
                                         <input type="submit" class="btn btn-primary" value="Submit"</input>
                                         <a href="/user/destroy/<%= user.id %>" class="btn btn-danger">Delete</a>
