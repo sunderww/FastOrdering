@@ -150,12 +150,13 @@
             io.socket.get('/ordereddish/read?id=' + idCommand, function (body, response) {
                 e = 0;
                 for (var i = 0; body[i]; i++) {
-                    console.log(body[i]);
+                    var menu_id = body[i].menu_id;
+                    // console.log(menu_id);
                     io.socket.get('/dish/read?id=' + body[i].dish_id, function (body2, response2) {
-                        io.socket.get('/menu/read?id=' + body[i].menu_id, function (body3, response3) {
+                        io.socket.get('/menu/read?id=' + menu_id, function (body3, response3) {
                         var number = Math.floor((Math.random() * 100) + 1);
                         var ready = (body[e].ready == true) ? "ready btn btn-success" : "ready btn btn-danger";
-
+                        // console.log(body3);
                         var	res = '<div class="admin-form"><h3>Menu - ' + body3.elements.name  + '</h3>        <div><span style="width:100px; float:left !important;">' + body2[0].name + '</span style="float:right !important;"><span>comment</span></div><div></br><span id="' + body[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div><hr class="short alt">';
                             $(".dish-zoom").append(res);
                         e++;

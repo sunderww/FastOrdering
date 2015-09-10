@@ -47,11 +47,11 @@ module.exports = {
         type: 'string'//, // the waiter is a user object
   //		required: true
       },
- status: {
-      type: 'string',
-      enum: ["canceled", "ordered", "cooking", "toDeliver", "delivered"],
-      defaultsTo: "ordered"
-    },       
+      status: {
+        type: 'string',
+        enum: ["canceled", "ordered", "cooking", "toDeliver", "delivered"],
+        defaultsTo: "ordered"
+      },       
       comments: {type:"string"},
 
       // orderContent_id: {
