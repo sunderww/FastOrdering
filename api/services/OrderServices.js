@@ -38,7 +38,7 @@ module.exports = {
 // }
 	getOneOrder: function(order_id, cb){
 		var ret = "Error: nothing";
-			Promise.all([
+		Promise.all([
 			Order.findOne({id:order_id}),
 			OrderedDish.find({order_id: order_id})
 		])
@@ -60,6 +60,29 @@ module.exports = {
 			};
 		}).catch(function(err){
 			console.log(err);
+		})
+		.done(function(){
+			return cb(ret);
+		});
+	},
+	getLastOrders: function(limit, cb) {
+		var ret = new Array();
+
+		Promise.all([
+			  Order.find().sort("createdAt DESC").limit(limit)
+		])
+		.spread(function(orders){
+			orders.forEach(function(order) {
+   				ret.push({
+   					"numOrder": order.id,
+            		"numTable": order.table_id,
+            		"numPA": order.dinerNumber,
+            		"date": order.date,
+            		"hour": order.time
+            	});
+			});
+		}).catch(function(err){
+			cb(err);
 		})
 		.done(function(){
 			return cb(ret);
