@@ -50,9 +50,13 @@ module.exports.policies = {
 	// }
     
     // '*': 'isAuthenticated',
+<<<<<<< HEAD
   '*': true,
-    /*
-    UserController: {
+=======
+  '*': 'isManager',
+>>>>>>> 70c0bc828fd102c2473f297917deb3b038e9ad7d
+    
+  /*    UserController: {
         register: true,
         createRestaurant: true,
         activateKey: 'isManager',
@@ -76,7 +80,7 @@ module.exports.policies = {
       alacarte:true
     },
     MenuCompositionController:{
-      read: true
+      read:true
     },
 
     DishCategoryController: {
@@ -97,5 +101,5 @@ module.exports.policies = {
     Dashboard: {
         view: 'isManagerOrCookOrWaiter',
     },
-*/
+  */
 };

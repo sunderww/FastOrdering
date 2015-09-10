@@ -16,17 +16,17 @@
                 <div class="topbar-left">
                     <ol class="breadcrumb">
                         <li class="crumb-active">
-                            <a href="dashboard">Reservation</a>
+                            <a href="/booking">Réservation</a>
                         </li>
                         <li class="crumb-icon">
-                            <a href="dashboard">
+                            <a href="/dashboard">
                                 <span class="glyphicon glyphicon-home"></span>
                             </a>
                         </li>
                         <li class="crumb-link">
-                            <a href="dashboard">Accueil</a>
+                            <a href="/dashboard">Accueil</a>
                         </li>
-                        <li class="crumb-trail">Reservation</li>
+                        <li class="crumb-trail">Gérer les Réservation</li>
                     </ol>
                 </div>
 
@@ -37,14 +37,11 @@
             <section id="content" class="animated fadeIn">
                 <!-- Dashboard Tiles -->
 
-                <section id="content" class="animated fadeIn">
-
                     <div class="row table-layout" id="modal-content">
-                        <div class="col-lg-3"></div>
-                        <div class="col-lg-6">
-                            <div class="panel panel-default">
+                        <div class="col-md-12">
+                            <div class="panel">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">Edit reservation</h3>
+                                    <span class="panel-title">Editer une réservation :</span>
                                 </div>
 
                                 <div class="panel-body">
@@ -60,16 +57,14 @@
                                             <input type="time" class="form-control" placeholder="Heure" name="time" value="<%= booking.time %>" > 
                                             <input type="hidden" name="restaurant_id" value="1">
                                         </div>
-                                        <input type="submit" class="btn btn-default" value="Submit"</input>
-                                        <a href="/booking/destroy/<%= booking.id %>" class="btn btn-sm btn-danger">Delete</a>
+                                        <input type="submit" class="btn btn-primary" value="Modifier"</input>
+                                        <a href="/booking/destroy/<%= booking.id %>" class="btn btn-danger">Supprimer</a>
                                         <input type="hidden" name="_csrf" value="<%=_csrf %>" />
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3"></div>
                     </div>
-                </section>
             </section>
             <!-- End: Main -->
 

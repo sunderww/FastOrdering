@@ -140,10 +140,12 @@ module.exports = {
     */
     update: function (req, res) {
         User.update(req.param('id'), req.params.all()).exec(function Updated(err, updated){
-            if (err)
-            res.redirect('/user/edit/' + req.param('id')); // TODO ERROR GESTION (flash err)
+            if (err) {
+                console.log(err);
+                return res.redirect('/user/edit/' + req.param('id')); // TODO ERROR GESTION (flash err)
+            }
             
-            res.redirect('/user');
+            return res.redirect('/user');
         });
     },
     
@@ -153,9 +155,9 @@ module.exports = {
     edit: function(req, res) {
         User.findOne({id: req.param('id')}).exec(function(err, user) {
             if (err)
-            return res.serverError(err);
+                return res.serverError(err);
             if (!user)
-            return res.notFound();
+                return res.notFound();
             
             res.view('user/edit', {user: user});
         });
