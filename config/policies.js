@@ -50,7 +50,7 @@ module.exports.policies = {
 	// }
     
     // '*': 'isAuthenticated',
-  '*': false,
+  '*': 'isManager',
     
     UserController: {
         register: true,
