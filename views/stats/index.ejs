@@ -1,22 +1,22 @@
 <body class="dashboard-page sb-l-o sb-r-c">
-
+    
     <!-- Start: Main -->
     <div id="main">
-
+        
         <% include ../header.ejs %>
         <% include ../sidebar.ejs %>
-
+        
         <!-- Start: Content-Wrapper -->
         <section id="content_wrapper">
-
-           
-
+            
+            
+            
             <!-- Start: Topbar -->
             <header id="topbar">
                 <div class="topbar-left">
                     <ol class="breadcrumb">
                         <li class="crumb-active">
-                            <a href="dashboard">Reservation</a>
+                            <a href="dashboard">Statistiques</a>
                         </li>
                         <li class="crumb-icon">
                             <a href="dashboard">
@@ -26,51 +26,108 @@
                         <li class="crumb-link">
                             <a href="dashboard">Accueil</a>
                         </li>
-                        <li class="crumb-trail">Reservation</li>
+                        <li class="crumb-trail">Statistiques</li>
                     </ol>
                 </div>
                 
             </header>
             <!-- End: Topbar -->
-
+            
             <!-- Begin: Content -->
-
+            
+            <div id="highchart-reservation" style="width: 100%; height: 250px; margin: 0 auto"></div>
+            
+            
         </div>
         <!-- End: Main -->
-
+        
         <!-- BEGIN: PAGE SCRIPTS -->
-
+        
         <!-- jQuery -->
         <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
         <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
-
+        
         <!-- Bootstrap -->
         <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
-
+        
         <!-- Theme Javascript -->
         <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
         <script type="text/javascript" src="../assets/js/main.js"></script>
         <script type="text/javascript" src="../assets/js/demo.js"></script>
-
-
-        <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
-
+                
         <!-- Bootstrap -->
         <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
-
+        
         <!-- Page Plugins -->
         <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
-
+        <script src="vendor/plugins/highcharts/highcharts.js"></script>
+        
         <!-- Admin Forms Javascript -->
         <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
         <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
         <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
         <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
         <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
-
+        
         <!-- Theme Javascript -->
         <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
         <script type="text/javascript" src="../assets/js/main.js"></script>
         <script type="text/javascript" src="../assets/js/demo.js"></script>
+        
+        
+        <!-- Charts -->
+        <script>
+        $(function () {
+            
+            $('#highchart-reservation').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Reservations'
+                },
+                xAxis: {
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Nb reservations'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Reservations',
+                    data: [<%= stats.booking %>]
+                }]
+            });
+        });
+        </script>
