@@ -239,6 +239,7 @@ public class LoginActivity extends Activity {
         fetchCompos();
         fetchCats();
         fetchAlacarte();
+        fetchLastOrders();
     }
 
     /**
