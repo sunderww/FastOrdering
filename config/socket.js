@@ -30,10 +30,12 @@
       
     socket.on('send_order', function(json) {
      console.log("send_order");
-	var json = JSON.parse(json);
+     try {
+      var json = JSON.parse(json);
+    }catch(e){}
 	console.log(json);
 	if (json.id != undefined) {
-	    sails.controllers.Order.delete(json.id);
+      sails.controllers.Order.delete(json.id);
 	    id = json.id;
 	}
 	else 
@@ -54,7 +56,8 @@
           dish_id:json['order'][0].content[i].id,
           quantity:json['order'][0].content[i].qty,
           comment:json['order'][0].content[i].comment,
-          menu_id:json['order'][0].menuId
+          menu_id:json['order'][0].menuId,
+          options:json['order'][0].content[i].options
 //          menu_id:json['order'][0].content[i].menuId
         }).exec(function(err,model){
           console.log(err);
@@ -104,15 +107,10 @@
       });
 
     socket.on('get_order', function(json){
-	console.log("hello");
-	console.log(json);
-	console.log("hello2");
-	OrderedDish.findOne({order_id:json.order}).exec(function(err, mod){
-//          OrderedDish.find(socket.id,{order_id: json.order}, function(err2, mod2){
-	    console.log(mod);
-      socket.emit("get_order", {numOrder:mod.id, numTable:mod.table_id, date:mod.date, hour:mod.hour, globalComment:mod.comment,order:mod2});
-  //      });
-      });
+  	console.log(json);
+    OrderServices.getOneOrder("55f0b125bcd880f22267d8f2", function (result) {
+      socket.emit("get_order", result);
+    });
     });
   },
 
