@@ -51,7 +51,9 @@ module.exports = {
       enum: ["canceled", "ordered", "cooking", "toDeliver", "delivered"],
       defaultsTo: "ordered"
     }, 
-
+    options :{
+      type: "collection"
+    },
     /**
     * Id du menu
     * 
