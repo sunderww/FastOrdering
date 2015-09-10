@@ -4,6 +4,7 @@
 * @class OrderController
 * @constructor
 */
+var moment = require('moment');
 
 module.exports = {
   /**
@@ -16,6 +17,12 @@ module.exports = {
   * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
   */
 
+getOneOrder: function(req, res) {
+ OrderServices.getOneOrder("55f0b125bcd880f22267d8f2", function (result) {
+    return res.json(result);
+ });
+
+},
 
     delete: function(id) {
 	Order.destroy({id:id}).exec(function(err, doc) {
@@ -38,7 +45,7 @@ module.exports = {
       quantity:1,
       ready:false,
       comment:"ok, chaud2",
-      menu_id:"572abe8049bb4c97702057db"
+      menu_id:"572abe8049bb4c97702057db",
     }).exec(function(err,model){
       console.log(err);
       return res.send(model);
@@ -62,8 +69,9 @@ question: function(req, res) {
 //  var friendId = sails.io.sockets.clients()[0].id;
 
 //console.log(friendId);
-    sails.io.sockets.emit('notifications', {msg: "J'ai une question !", numTable:"7"});
-    return res.ok("ok");
+        var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:"7"}
+    sails.io.sockets.emit('notifications', data);
+    return res.ok(data);
 
 },
 
@@ -74,7 +82,8 @@ ready: function(req, res) {
         OrderedDish.update({id: req.param("id")}, {status:status}, function(err, model) {
         console.log("ready");
         var friendId = sails.io.sockets.clients()[0].id;
-        sails.sockets.emit('notifications', {msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"});
+        var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"}
+        sails.sockets.emit('notifications', data);
         return res.send(doc);
       });
     });
