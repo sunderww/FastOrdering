@@ -160,7 +160,7 @@
 			if ([[value class] isSubclassOfClass:NSClassFromString(class)])
 				[obj setValue:value forKey:key];
 			else
-				PPLog(@"%@ != %@", class, [value class]);
+				PPLog(@"%@ != %@ (%@)", class, [value class], value);
 		}
 	}
 }

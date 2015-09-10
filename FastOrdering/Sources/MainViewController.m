@@ -21,6 +21,9 @@
 #import "CommandViewController.h"
 #import "HistoryViewController.h"
 
+// Uncomment the following line to skip the sync
+//#define SKIP_SYNC
+
 #define kTableViewCellHeight    55
 
 @interface MainViewController ()
@@ -140,7 +143,11 @@
 //        DPPLog(@"%@", response);
 //    }];
 
+#ifdef SKIP_SYNC
+	NSArray * classes = @[];
+#else
 	NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
+#endif
     syncer.delegate = self;
     for (NSString * class in classes) {
         classesToSync++;
@@ -148,8 +155,10 @@
     }
     [syncer syncDeletedObjectsOfClasses:classes];
 //#warning DEBUG
-//	[self syncEnded];
-//	[timer invalidate];
+#ifdef SKIP_SYNC
+	[self syncEnded];
+	[timer invalidate];
+#endif
 //	DLog(@"SOCKET TEST");
 //	[socket sendAcknowledgement:@"/elements" withArgs:@[@{@"url":@"/elements"}]];
 //	[socket sendEvent:@"/elements" withData:nil];
@@ -165,11 +174,12 @@
     NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
     NSError * error;
     
+	[timer invalidate];
     if (![context save:&error])
         PPLog(@"%@", error);
     DLog(@"END SYNC");
     loaderView.hidden = YES;
-	[timer invalidate];
+	[self viewWillAppear:NO];
 }
 
 - (void)loadDatabase {
