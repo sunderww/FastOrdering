@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SyncHelper.h"
 #import "LoaderView.h"
+#import "Order.h"
 
 @interface MainViewController : UIViewController <SyncerDelegate, UITableViewDataSource, UITableViewDelegate> {
     IBOutletCollection(UIButton) NSArray *  panelButtons;
@@ -47,5 +48,8 @@
 - (IBAction)buttonClicked:(id)sender;
 - (IBAction)logOut;
 - (IBAction)showPanel;
+
+- (void)goToOrder:(Order *)order;
+- (void)goBackToMainPage;
 
 @end

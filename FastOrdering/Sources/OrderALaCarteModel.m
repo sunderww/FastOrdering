@@ -52,9 +52,6 @@
 				ordered.quantity = @0;
 				ordered.comment = @"";
 				[content addDishesObject:ordered];
-				DPPLog(@"Didn't order any %@", ordered.dish.name);
-			} else {
-				DPPLog(@"ORDERED %@ %@", ordered.quantity, ordered.dish.name);
 			}
 		}
 	}

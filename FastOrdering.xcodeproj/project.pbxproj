@@ -49,6 +49,7 @@
 		845DE86A1B9B452400FF4509 /* UNIHTTPRequestWithBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 845DE8591B9B452400FF4509 /* UNIHTTPRequestWithBody.m */; };
 		845DE86B1B9B452500FF4509 /* UNIRest.m in Sources */ = {isa = PBXBuildFile; fileRef = 845DE85C1B9B452400FF4509 /* UNIRest.m */; };
 		845DE86C1B9B452500FF4509 /* UNIUrlConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 845DE85E1B9B452400FF4509 /* UNIUrlConnection.m */; };
+		845DE86F1BA1AD8600FF4509 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 845DE86E1BA1AD8600FF4509 /* Order.m */; };
 		84B1E9F71A569CC900985E57 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B1E9F61A569CC900985E57 /* CoreData.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */; };
 		84B1EA431A57681100985E57 /* SocketIO+SailsIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B1EA411A57681100985E57 /* SocketIO+SailsIO.m */; };
@@ -94,7 +95,6 @@
 		84D4B7F21AD2361000AF57F2 /* MenuComposition.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7F11AD2361000AF57F2 /* MenuComposition.m */; };
 		84D4B7F51AD2361000AF57F2 /* OrderContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7F41AD2361000AF57F2 /* OrderContent.m */; };
 		84D4B7F81AD2361000AF57F2 /* Dish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7F71AD2361000AF57F2 /* Dish.m */; };
-		84D4B7FB1AD2361000AF57F2 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7FA1AD2361000AF57F2 /* Order.m */; };
 		84D4B7FE1AD2361000AF57F2 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7FD1AD2361000AF57F2 /* Plan.m */; };
 		84D4B8011AD2361000AF57F2 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B8001AD2361000AF57F2 /* Table.m */; };
 		84D4B8041AD2361100AF57F2 /* DishCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B8031AD2361100AF57F2 /* DishCategory.m */; };
@@ -193,6 +193,8 @@
 		845DE85C1B9B452400FF4509 /* UNIRest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRest.m; sourceTree = "<group>"; };
 		845DE85D1B9B452400FF4509 /* UNIUrlConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIUrlConnection.h; sourceTree = "<group>"; };
 		845DE85E1B9B452400FF4509 /* UNIUrlConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIUrlConnection.m; sourceTree = "<group>"; };
+		845DE86D1BA1AD8600FF4509 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		845DE86E1BA1AD8600FF4509 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		84B1E9F61A569CC900985E57 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		84B1EA3E1A57681100985E57 /* NSString+TrimmingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TrimmingAdditions.h"; sourceTree = "<group>"; };
 		84B1EA3F1A57681100985E57 /* NSString+TrimmingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TrimmingAdditions.m"; sourceTree = "<group>"; };
@@ -267,8 +269,6 @@
 		84D4B7F41AD2361000AF57F2 /* OrderContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderContent.m; sourceTree = "<group>"; };
 		84D4B7F61AD2361000AF57F2 /* Dish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dish.h; sourceTree = "<group>"; };
 		84D4B7F71AD2361000AF57F2 /* Dish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dish.m; sourceTree = "<group>"; };
-		84D4B7F91AD2361000AF57F2 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
-		84D4B7FA1AD2361000AF57F2 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		84D4B7FC1AD2361000AF57F2 /* Plan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plan.h; sourceTree = "<group>"; };
 		84D4B7FD1AD2361000AF57F2 /* Plan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plan.m; sourceTree = "<group>"; };
 		84D4B7FF1AD2361000AF57F2 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
@@ -318,6 +318,8 @@
 		8403EDD41A568CC6001421D3 /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
+				845DE86D1BA1AD8600FF4509 /* Order.h */,
+				845DE86E1BA1AD8600FF4509 /* Order.m */,
 				843C35681B3FBA48005D9959 /* Customs */,
 				84D4B8021AD2361100AF57F2 /* DishCategory.h */,
 				84D4B8031AD2361100AF57F2 /* DishCategory.m */,
@@ -325,8 +327,6 @@
 				84D4B8001AD2361000AF57F2 /* Table.m */,
 				84D4B7FC1AD2361000AF57F2 /* Plan.h */,
 				84D4B7FD1AD2361000AF57F2 /* Plan.m */,
-				84D4B7F91AD2361000AF57F2 /* Order.h */,
-				84D4B7FA1AD2361000AF57F2 /* Order.m */,
 				84D4B7F61AD2361000AF57F2 /* Dish.h */,
 				84D4B7F71AD2361000AF57F2 /* Dish.m */,
 				84D4B7F31AD2361000AF57F2 /* OrderContent.h */,
@@ -868,6 +868,7 @@
 				84D4B7EC1AD2361000AF57F2 /* Notification.m in Sources */,
 				844B06C41ABF88D800DCFBB3 /* DishCell.m in Sources */,
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
+				845DE86F1BA1AD8600FF4509 /* Order.m in Sources */,
 				84D4B8041AD2361100AF57F2 /* DishCategory.m in Sources */,
 				845DE83C1B7FBFC700FF4509 /* SocketIOPacket.m in Sources */,
 				84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */,
@@ -876,7 +877,6 @@
 				84D4B80A1AD4D84100AF57F2 /* ReviewExpandableCell.m in Sources */,
 				84B1EA501A5A033F00985E57 /* Dish+Custom.m in Sources */,
 				84D4B7F51AD2361000AF57F2 /* OrderContent.m in Sources */,
-				84D4B7FB1AD2361000AF57F2 /* Order.m in Sources */,
 				84E274591AE09E3200E5A32A /* LoaderView.m in Sources */,
 				844B06B31ABBB76400DCFBB3 /* SLExpandableTableView.m in Sources */,
 				84B1EA4D1A5A014400985E57 /* DishCategory+Custom.m in Sources */,

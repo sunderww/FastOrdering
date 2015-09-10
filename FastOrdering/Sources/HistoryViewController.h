@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainViewController.h"
 
 @interface HistoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
-  IBOutlet UITableView *  orders;
-  NSMutableArray *        data;
+	IBOutlet UITableView *  orders;
+	NSMutableArray *        data;
 }
+
+@property (nonatomic, retain) MainViewController * mainController;
 
 @end

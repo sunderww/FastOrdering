@@ -14,6 +14,7 @@
 #import "CommandMenuViewController.h"
 #import "LoaderView.h"
 #import "SocketHelper.h"
+#import "MainViewController.h"
 
 @interface CommandViewController : UIViewController <OrderMenuDelegate, CommandMenuDelegate, SocketIODelegate> {
 	IBOutlet UIButton *     menuButton;
@@ -35,10 +36,14 @@
 	IBOutletCollection(UIView) NSArray * contentViews;
 	
 	UIViewController *      presentController;
-	Order *                 order;
 	NSTimer *               timer;
 	BOOL					didOrder;
+	BOOL					forceReview;
 }
+
+
+@property (nonatomic, retain) Order *				order;
+@property (nonatomic, retain) MainViewController *	mainController;
 
 - (IBAction)buttonClicked:(UIButton *)sender;
 

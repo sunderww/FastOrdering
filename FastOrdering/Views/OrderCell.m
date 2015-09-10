@@ -27,7 +27,7 @@
   f.dateFormat = @"'Le' dd/MM/yy 'à' HH:mm";
   NSString * table = order.table.name ? [NSString stringWithFormat:@"table #%@, ", order.table.name] : @"";
   NSString * orderId = [NSString stringWithFormat:@"%@...%@", [order.serverId substringToIndex:4], [order.serverId substringFromIndex:order.serverId.length - 4]];
-  mainLabel.text = [NSString stringWithFormat:@"Order #%@, %@PA:%@", orderId, table, @"?"];
+  mainLabel.text = [NSString stringWithFormat:@"Order #%@, %@PA:%@", orderId, table, order.dinerNumber];
   descLabel.text = [f stringFromDate:order.updatedAt];
 }
 

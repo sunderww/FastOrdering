@@ -71,6 +71,13 @@
   return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	Order * order = data[indexPath.row];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	[self.mainController goToOrder:order];
+}
+
 #pragma mark - UIScrollView delegate methods
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

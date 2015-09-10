@@ -138,7 +138,7 @@
                             </state>
                             <state key="highlighted" backgroundImage="green_button_pressed"/>
                             <connections>
-                                <action selector="order" destination="-1" eventType="touchUpInside" id="ANU-W1-RTv"/>
+                                <action selector="takeOrder" destination="-1" eventType="touchUpInside" id="AKv-HM-oHg"/>
                             </connections>
                         </button>
                     </subviews>

@@ -61,7 +61,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    lastOrders = [Order last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
+	[super viewWillAppear:animated];
+
+    lastOrders = [Order last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
     lastNotifications = [Notification last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
 
     CGRect frame = lastOrdersTableView.frame;
@@ -82,6 +84,28 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)goToOrder:(Order *)order {
+	// Basically code in buttonClicked: method to change the current view
+	[self prepareChange];
+	
+	controller = [[CommandViewController alloc] initWithNibName:@"CommandView" bundle:nil];
+	((CommandViewController *)controller).order = order;
+	titleLabel.text = NSLocalizedString(@"order", @"").capitalizedString;
+	
+	[self postChange];
+}
+
+- (void)goBackToMainPage {
+	[self prepareChange];
+	
+	controller = nil;
+	mainView.hidden = NO;
+	titleLabel.text = NSLocalizedString(@"Main Page", @"");
+	[self viewWillAppear:NO];
+	
+	[self postChange];
 }
 
 #pragma mark - Helper methods
@@ -116,16 +140,16 @@
 //        DPPLog(@"%@", response);
 //    }];
 
-	NSArray * classes = @[];//@[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
+	NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
     syncer.delegate = self;
     for (NSString * class in classes) {
         classesToSync++;
         [syncer syncClassNamed:class];
     }
     [syncer syncDeletedObjectsOfClasses:classes];
-#warning DEBUG
-	[self syncEnded];
-	[timer invalidate];
+//#warning DEBUG
+//	[self syncEnded];
+//	[timer invalidate];
 //	DLog(@"SOCKET TEST");
 //	[socket sendAcknowledgement:@"/elements" withArgs:@[@{@"url":@"/elements"}]];
 //	[socket sendEvent:@"/elements" withData:nil];
@@ -158,6 +182,19 @@
         [self showPanel];
 }
 
+- (void)prepareChange {
+	[controller.view removeFromSuperview];
+	mainView.hidden = YES;
+}
+
+- (void)postChange {
+	[self hidePanel];
+	CGRect frame = centralView.frame;
+	frame.origin = CGPointZero;
+	controller.view.frame = frame;
+	[centralView addSubview:controller.view];
+}
+
 #pragma mark - IBAction methods
 
 - (IBAction)showPanel {
@@ -172,14 +209,15 @@
 }
 
 - (IBAction)buttonClicked:(id)sender {
-    [controller.view removeFromSuperview];
+	[self prepareChange];
 
-    mainView.hidden = YES;
     if (sender == takeOrderButton || sender == orderButton) {
         controller = [[CommandViewController alloc] initWithNibName:@"CommandView" bundle:nil];
+		((CommandViewController *)controller).mainController = self;
         titleLabel.text = NSLocalizedString(@"order", @"").capitalizedString;
     } else if (sender == historyButton) {
         controller = [[HistoryViewController alloc] initWithNibName:@"HistoryView" bundle:nil];
+		((HistoryViewController *)controller).mainController = self;
         titleLabel.text = NSLocalizedString(@"history", @"").capitalizedString;
     } else if (sender == notificationsButton) {
         controller = [[NotificationViewController alloc] initWithNibName:@"NotificationView" bundle:nil];
@@ -191,13 +229,10 @@
         controller = nil;
         mainView.hidden = NO;
         titleLabel.text = NSLocalizedString(@"Main Page", @"");
+		[self viewWillAppear:NO];
     }
 
-    [self hidePanel];
-    CGRect frame = centralView.frame;
-    frame.origin = CGPointZero;
-    controller.view.frame = frame;
-    [centralView addSubview:controller.view];
+	[self postChange];
 }
 
 - (IBAction)logOut {
@@ -257,6 +292,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     return ((tableView == lastOrdersTableView) ? [self orderCellAtIndexPath:indexPath] : [self notificationCellAtIndexPath:indexPath]);
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (tableView != lastOrdersTableView) return;
+	
+	Order * order = lastOrders[indexPath.row];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+	[self goToOrder:order];
 }
 
 /*

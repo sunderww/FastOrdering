@@ -23,13 +23,19 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	order = [Order create];
+	if (self.order) {
+		forceReview = YES;
+	} else {
+		self.order = [Order create];
+		forceReview = NO;
+	}
+
 	menuModel = [OrderMenuModel new];
-	carteModel = [[OrderALaCarteModel alloc] initWithOrder:order];
+	carteModel = [[OrderALaCarteModel alloc] initWithOrder:self.order];
 	reviewModel = [OrderReviewModel new];
 	menuModel.delegate = self;
 //  reviewModel.delegate = self;
-	reviewModel.order = order;
+	reviewModel.order = self.order;
 	reviewModel.tableView = reviewTableView;
 	menuTableView.dataSource = menuModel;
 	menuTableView.delegate = menuModel;
@@ -41,19 +47,18 @@
 	[menuButton setTitle:NSLocalizedString(@"Menus", @"").uppercaseString forState:UIControlStateNormal];
 	[alacarteButton setTitle:NSLocalizedString(@"A la carte", @"").uppercaseString forState:UIControlStateNormal];
 	[reviewButton setTitle:NSLocalizedString(@"Order", @"").uppercaseString forState:UIControlStateNormal];
-	
-	[self buttonClicked:menuButton];
+
+	[self buttonClicked:(forceReview ? reviewButton : menuButton)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 
-	if (!didOrder) {
-		AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
+	AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
+	if (!didOrder && !forceReview)
+		[delegate.managedObjectContext deleteObject:self.order];
 
-		[delegate.managedObjectContext deleteObject:order];
-		[delegate saveContext];
-	}
+	[delegate saveContext];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,7 +97,7 @@
 	AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
 	
 	if (content.dishes.count > 0) {
-		[order addOrderContentsObject:content];
+		[self.order addOrderContentsObject:content];
 	} else {
 		[delegate.managedObjectContext deleteObject:content];
 	}
@@ -129,26 +134,27 @@
 		[carteTableView reloadData];
 		carteModel.editing = YES;
 	} else {
-		[order sanitize];
+		[self.order sanitize];
 		carteModel.editing = NO;
 	}
 	[reviewModel reloadData];
 }
 
-- (IBAction)order {
+- (IBAction)takeOrder {
 	SocketHelper * helper = [SocketHelper sharedHelper];
-	[order sanitize];
-	PPLog(@"JSON :\n\n%@\n\n", order.toJSONString);
+	[self.order sanitize];
+	self.order.numTable = @"2";
+	PPLog(@"JSON :\n\n%@\n\n", self.order.toJSONString);
 
 //	DPPLog(@"FORCE FAIL");
-//	return [self orderFailed/Users/admin/Documents/Epitech/EIP/FastOrdering/FastOrdering/Sources/Menu.m];
+//	return [self orderFailed];
 
 //	NSDictionary* headers = @{@"Content-Type": @"application/json"};
 //	
 //	UNIHTTPJsonResponse *response = [[UNIRest post:^(UNISimpleRequest *request) {
 //  [request setUrl:[NSString stringWithFormat:@"http://%@:%d/send_order", kSocketIOHost, kSocketIOPort]];
 //  [request setHeaders:headers];
-//  [request setParameters:@{@"json": order.toJSONString}];
+//  [request setParameters:@{@"json": self.order.toJSONString}];
 //	}] asJson];
 //	
 //	PPLog(@"%@", response.body);
@@ -157,8 +163,21 @@
 	
 	loaderView.hidden = NO;
 	[helper pushDelegate:self];
-	[helper.socket sendEvent:@"send_order" withData:order.toJSON andAcknowledge:^(id argsData) {
-		PPLog(@"%@", argsData);
+	[helper.socket sendEvent:@"send_order" withData:self.order.toJSON andAcknowledge:^(id argsData) {
+		NSDictionary * dict = argsData;
+		
+		if (dict[@"error"]) {
+			[timer fire];
+		} else {
+			[timer invalidate];
+			loaderView.hidden = YES;
+			didOrder = YES;
+			
+			self.order.createdAt = [NSDate date];
+			self.order.updatedAt = [NSDate date];
+			self.order.serverId = dict[@"numOrder"];
+			[self.mainController goBackToMainPage];
+		}
 	}];
 
 	// find a way to get a callback

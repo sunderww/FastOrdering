@@ -26,7 +26,7 @@ NSObject *  dictSafeValue(NSObject *obj) {
 - (NSDictionary *)toJSON {
   NSMutableDictionary * dict = [NSMutableDictionary new];
   
-  dict[@"numTable"] = dictSafeValue(self.table.name);
+  dict[@"numTable"] = dictSafeValue(self.numTable);
   dict[@"numPA"] = dictSafeValue(self.dinerNumber);
   dict[@"globalComment"] = dictSafeValue(self.comments);
   dict[@"order"] = [NSMutableArray new];

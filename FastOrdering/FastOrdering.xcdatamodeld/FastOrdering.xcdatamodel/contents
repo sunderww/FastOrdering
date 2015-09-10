@@ -48,6 +48,7 @@
         <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dinerNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="numTable" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="serverId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -98,7 +99,7 @@
         <element name="Menu" positionX="-9" positionY="108" width="128" height="118"/>
         <element name="MenuComposition" positionX="0" positionY="117" width="128" height="165"/>
         <element name="Notification" positionX="9" positionY="108" width="128" height="90"/>
-        <element name="Order" positionX="0" positionY="99" width="128" height="193"/>
+        <element name="Order" positionX="0" positionY="99" width="128" height="208"/>
         <element name="OrderContent" positionX="-9" positionY="135" width="128" height="163"/>
         <element name="OrderedDish" positionX="-9" positionY="90" width="128" height="178"/>
         <element name="Plan" positionX="27" positionY="72" width="128" height="118"/>
