@@ -77,38 +77,6 @@
   });
   });
 
-
-      socket.on('update_order', function(json){
-	  sails.controllers.Order.delete(json.id);
-	  console.log("update_order");
-          console.log(json);
-	  Order.create({
-	      id: json.id,
-	      table_id:json.numTable,
-	      dinerNumber:json.numPA,
-	      comments: json.globalComment
-	  }).exec(function(err,model){
-	      var arr = [];
-              console.log(json);
-	      for (var i = 0;json['order'][0].content[i]; i++) {
-
-		  OrderedDish.create({
-		      order_id:model.id,
-		      dish_id:json['order'][0].content[i].id,
-		      quantity:json['order'][0].content[i].qty,
-		      comment:json['order'][0].content[i].comment,
-		      menu_id:json['order'][0].content[i].menuId
-		  }).exec(function(err,model){
-		      console.log(err);
-		  });
-		  var arr = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, time:model.time};
-	      }
-	      console.log(arr);
-	      socket.emit('receive_order', arr);
-
-	  });
-      });
-
       socket.on('authentication', function(json){
 	  console.log("Beau gosse du 36");
       });
@@ -126,9 +94,9 @@
         json.number = 5;
       Promise.all([
         ])
-       Order.find().sort("createdAt DESC").limit(json.number).then(function(orders){
+	Order.find().sort("createdAt DESC").limit(json.number).then(function(orders, cb2){
         var result = new Array();
-        orders.forEach(function(order) {
+/*        orders.forEach(function(order) {
           result.push({
             "numOrder": order.id,
             "numTable": order.table_id,
@@ -137,10 +105,11 @@
             "hour": order.time
           });
         });
+*/
         console.log("toot");
-       console.log(result);
+       console.log(orders);
         console.log("toot2");
-          cb({"orders":result});
+          cb2(orders);
 
       });
 
