@@ -16,11 +16,24 @@ module.exports = {
   * @param {String} globalComment Nombre de personne
   * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
   */
-
 getOneOrder: function(req, res) {
- OrderServices.getOneOrder("55f0b125bcd880f22267d8f2", function (result) {
-    return res.json(result);
- });
+   Order.find().sort("createdAt DESC").limit(2).exec(function(err, orders){
+    var result = new Array();
+    orders.forEach(function(order) {
+      result.push({
+        "numOrder": order.id,
+        "numTable": order.table_id,
+        "numPA": order.dinerNumber,
+        "date": order.date,
+        "hour": order.time
+      });
+    });
+    //      cb(orders);
+    res.ok({orders : result});
+        });
+ // OrderServices.getOneOrder("55f0b125bcd880f22267d8f2", function (result) {
+ //    return res.json(result);
+ // });
 
 },
 
