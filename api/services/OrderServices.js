@@ -50,17 +50,17 @@ module.exports = {
 				ret = {
 				'numOrder' : order.id,
 				'numTable' : order.table_id,
-      'numPA': order.dinerNumber,				
+				'numPA': order.dinerNumber,				
 				'date' : order.date,
 				'hour' : order.time,
 				'globalComment': order.comments,
 				'order' : [{
-					"menuId" : ordered[0].menu_id,
-					"content": ordered
+				"menuId" : ordered[0].menu_id,
+				"content": ordered
 				}]
 			};
 		}).catch(function(err){
-			console.log(err);
+			cb(err);
 		})
 		.done(function(){
 			return cb(ret);
