@@ -117,7 +117,9 @@
     socket.on('get_last_orders', function(json, cb){
       if (json.number == undefined)
         json.number = 5;
-       Order.find().sort("createdAt DESC").limit(json.number).exec(function(err, orders){
+      Promise.all([
+        ])
+       Order.find().sort("createdAt DESC").limit(json.number).then(function(orders){
         var result = new Array();
         orders.forEach(function(order) {
           result.push({
@@ -127,9 +129,14 @@
             "date": order.date,
             "hour": order.time
           });
-          cb({"orders":result});
         });
-      }); 
+        console.log("toot");
+       console.log(result);
+        console.log("toot2");
+          cb({"orders":result});
+
+      });
+
     });
 
   },
