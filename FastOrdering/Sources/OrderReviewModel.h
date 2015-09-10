@@ -10,9 +10,11 @@
 #import "SLExpandableTableView.h"
 #import "Order+Custom.h"
 
-@interface OrderReviewModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate> {
-  NSArray * sections;
-  NSArray * dishes;
+@interface OrderReviewModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate> {
+	NSArray * sections;
+	NSArray * dishes;
+	
+	UITextField * responder;
 }
 
 - (void)reloadData;

@@ -34,10 +34,10 @@
 		[titles addObject:[NSString stringWithFormat:@"%@ - %@", content.menuComposition.menu.name, content.menuComposition.name]];
 		[contents addObject:content.dishes.allObjects];
 	}
-	if (self.order.dishes.count) {
-		[titles addObject:@"A la carte"];
-		[contents addObject:self.order.dishes.allObjects];
-	}
+//	if (self.order.dishes.count) {
+//		[titles addObject:@"A la carte"];
+//		[contents addObject:self.order.dishes.allObjects];
+//	}
 	
 	sections = titles;
 	dishes = contents;
@@ -90,6 +90,7 @@
 	
 	if (!cell) {
 		cell = [[NSBundle mainBundle] loadNibNamed:@"DishCell" owner:self options:nil][0];
+		cell.delegate = self;
 		//    cell = [[DishCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
@@ -103,6 +104,47 @@
 	DishCell * cell = (DishCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
 	[cell.textField becomeFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UIScrollView delegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	[responder resignFirstResponder];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+	[responder resignFirstResponder];
+}
+#pragma mark - UITextField delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+	textField.text = @"";
+	responder = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	if (!textField.text.length)
+		textField.text = @"0";
+	
+	NSUInteger row = kDishCellRowForTag(textField.tag);
+	NSUInteger section = kDishCellSectionForTag(textField.tag);
+	
+	OrderedDish * dish = dishes[section][row];
+	dish.quantity = @(textField.text.integerValue);
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	NSString * text = [textField.text stringByReplacingCharactersInRange:range withString:string];
+	if (!text.length)
+		text = @"0";
+	
+	NSUInteger row = kDishCellRowForTag(textField.tag);
+	NSUInteger section = kDishCellSectionForTag(textField.tag);
+	
+	OrderedDish * dish = dishes[section][row];
+	dish.quantity = @(text.integerValue);
+
+	return YES;
 }
 
 @end
