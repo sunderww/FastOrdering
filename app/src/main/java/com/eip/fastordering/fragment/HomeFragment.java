@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.eip.fastordering.R;
 import com.eip.fastordering.activity.LoginActivity;
@@ -103,17 +104,32 @@ public class HomeFragment extends Fragment {
 		try {
 			msg.put("order", item.get_mNumOrder());
 			//LoginActivity._mSocket.emit("get_order", new IOAcknowledgeGetOrder(this, getActivity()), msg);
-			LoginActivity._mSocket.emit("get_order", "", new Ack() {
+			LoginActivity._mSocket.emit("get_order", msg, new Ack() {
 				@Override
-				public void call(Object... args) {
+				public void call(final Object... argss) {
 					JSONObject rep = null;
 					try {
-						rep = new JSONObject(args[0].toString());
+						rep = new JSONObject(argss[0].toString());
 						Log.d("IOACKNOWLEDFE", "FULL ORDER=" + rep.toString());
 					} catch (JSONException e) {
 						Log.d("IOACKNOWLEDGE", "EXCEPTION JSON:" + e.toString());
 					}
-					new DialogOrder(HomeFragment.this.getActivity(), HomeFragment.this, rep).customView().show();
+					Log.d("IOACKNOWLEDFE", "Will run on UI");
+
+
+					HomeFragment.this.getActivity().runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								new DialogOrder(HomeFragment.this.getActivity(), HomeFragment.this, new JSONObject(argss[0].toString())).customView().show();
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					});
+
+
+//					new DialogOrder(HomeFragment.this.getActivity(), HomeFragment.this, rep).customView().show();
 				}
 			});
 

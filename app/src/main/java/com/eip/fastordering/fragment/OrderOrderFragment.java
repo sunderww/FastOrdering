@@ -43,6 +43,7 @@ public class OrderOrderFragment extends Fragment {
 	private static HashMap<String, List<String>> _mListDataNb;
 	private static OrderStruct                   _mDetails;
 	private        ExpandableListView            _mExpListView;
+	private static String _idOrder = null;
 
 	/**
 	 * Constructor
@@ -60,6 +61,11 @@ public class OrderOrderFragment extends Fragment {
 
 		if (order != null) {
 			setDataOrderToLists(order);
+			try {
+				_idOrder = order.getString("numOrder");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 
 		Bundle b = new Bundle();

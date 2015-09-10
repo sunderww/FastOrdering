@@ -1,6 +1,7 @@
 package com.eip.fastordering.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.eip.fastordering.R;
 import com.eip.fastordering.activity.Main;
+import com.eip.fastordering.customs.StockMenu;
 import com.eip.fastordering.struct.CardStruct;
 import com.eip.fastordering.struct.CategoryStruct;
 import com.eip.fastordering.struct.CompositionStruct;
@@ -73,7 +75,8 @@ public class OrderFragment extends Fragment {
 	 */
 	public static void fetchOptions() {
 		try {
-			_mOptions = new OptionsStruct(new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/options", "toto")));
+			_mOptions = new OptionsStruct(new JSONObject(StockMenu.instance().read("/options")));
+//			_mOptions = new OptionsStruct(new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/options", "toto")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,7 +89,8 @@ public class OrderFragment extends Fragment {
 		JSONArray arr;
 		_mElements.clear();
 		try {
-			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/elements", "toto")).getJSONArray("elements");
+			arr = new JSONObject(StockMenu.instance().read("/elements")).getJSONArray("elements");
+//			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/elements", "toto")).getJSONArray("elements");
 			for (int i = 0; i < arr.length(); ++i)
 				_mElements.add(new ElementStruct(arr.getJSONObject(i)));
 		} catch (JSONException e) {
@@ -100,7 +104,8 @@ public class OrderFragment extends Fragment {
 	public static void fetchCard() {
 		fetchMenus();
 		try {
-			_mCard = new CardStruct(new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/alacarte", "toto")), _mCats);
+			_mCard = new CardStruct(new JSONObject(StockMenu.instance().read("/alacarte")), _mCats);
+//			_mCard = new CardStruct(new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/alacarte", "toto")), _mCats);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -119,7 +124,8 @@ public class OrderFragment extends Fragment {
 
 		//Create all the cats
 		try {
-			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/cats", "toto")).getJSONArray("elements");
+			arr = new JSONObject(StockMenu.instance().read("/cats")).getJSONArray("elements");
+//			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/cats", "toto")).getJSONArray("elements");
 			for (int i = 0; i < arr.length(); ++i) {
 				_mCats.add(new CategoryStruct(arr.getJSONObject(i)));
 			}
@@ -140,7 +146,8 @@ public class OrderFragment extends Fragment {
 
 		//Create all the compos and add the categories to them
 		try {
-			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/compos", "toto")).getJSONArray("elements");
+			arr = new JSONObject(StockMenu.instance().read("/compos")).getJSONArray("elements");
+//			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/compos", "toto")).getJSONArray("elements");
 			for (int i = 0; i < arr.length(); ++i) {
 				_mCompos.add(new CompositionStruct(arr.getJSONObject(i), _mCats));
 			}
@@ -150,7 +157,8 @@ public class OrderFragment extends Fragment {
 
 		//Create all the menu
 		try {
-			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/menus", "toto")).getJSONArray("elements");
+			arr = new JSONObject(StockMenu.instance().read("/menus")).getJSONArray("elements");
+//			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/menus", "toto")).getJSONArray("elements");
 			for (int i = 0; i < arr.length(); ++i) {
 				_mMenus.add(new MenuStruct(arr.getJSONObject(i)));
 			}
@@ -215,9 +223,9 @@ public class OrderFragment extends Fragment {
 	 * @param id
 	 * @return
 	 */
-	public static String getNameCatById(String id) {
+	public static String getNameCatById(String id, Context context) {
 		if (id.equals(get_mCard().get_mId()))
-			return _mActivity.getString(R.string.card);
+			return context.getString(R.string.card);
 		for (MenuStruct menu : _mMenus) {
 			if (menu.get_mId().equals(id))
 				return menu.get_mName();

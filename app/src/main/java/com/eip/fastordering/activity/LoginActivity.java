@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.eip.fastordering.R;
+import com.eip.fastordering.customs.StockMenu;
 import com.eip.fastordering.fragment.HistoryFragment;
 import com.eip.fastordering.fragment.NotificationsFragment;
 import com.github.nkzawa.emitter.Emitter;
@@ -67,6 +68,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        StockMenu.instance().init(getApplicationContext());
 
         //Add event listener to connexion button
         final Button button = (Button) findViewById(R.id.connexion_button);
@@ -254,7 +257,8 @@ public class LoginActivity extends Activity {
                 try {
                     Log.d("LOGINACTIVITY", "OPTIONS=" + objects[0].toString());
 //					TODO Uncomment once done - Alexis
-                    getSharedPreferences("DATACARD", 0).edit().putString("/options", new JSONObject(objects[0].toString()).toString()).commit();
+                    StockMenu.instance().write("/options", new JSONObject(objects[0].toString()).toString());
+//                    getSharedPreferences("DATACARD", 0).edit().putString("/options", new JSONObject(objects[0].toString()).toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -278,7 +282,9 @@ public class LoginActivity extends Activity {
 
                 try {
                     Log.d("LOGINACTIVITY", "ELEMENT=" + objects[0].toString());
-                    getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+                    StockMenu.instance().write("/elements", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
+
+//                    getSharedPreferences("DATACARD", 0).edit().putString("/elements", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -299,7 +305,9 @@ public class LoginActivity extends Activity {
                 Log.d("LOGINACTIVITY", "ANSWER MENUS");
 
                 try {
-                    getSharedPreferences("DATACARD", 0).edit().putString("/menus", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+                    StockMenu.instance().write("/menus", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
+
+//                    getSharedPreferences("DATACARD", 0).edit().putString("/menus", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -319,7 +327,9 @@ public class LoginActivity extends Activity {
             public void call(Object... objects) {
                 Log.d("LOGINACTIVITY", "ANSWER COMPOS");
                 try {
-                    getSharedPreferences("DATACARD", 0).edit().putString("/compos", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+                    StockMenu.instance().write("/compos", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
+
+//                    getSharedPreferences("DATACARD", 0).edit().putString("/compos", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -339,7 +349,9 @@ public class LoginActivity extends Activity {
             public void call(Object... objects) {
                 Log.d("LOGINACTIVITY", "ANSWER CATS");
                 try {
-                    getSharedPreferences("DATACARD", 0).edit().putString("/cats", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+                    StockMenu.instance().write("/cats", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
+
+//                    getSharedPreferences("DATACARD", 0).edit().putString("/cats", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -360,7 +372,9 @@ public class LoginActivity extends Activity {
             public void call(Object... objects) {
                 Log.d("LOGINACTIVITY", "ANSWER ALACARTE");
                 try {
-                    getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
+                    StockMenu.instance().write("/alacarte", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
+
+//                    getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -378,9 +392,8 @@ public class LoginActivity extends Activity {
      * Fetch the last orders
      */
     private void fetchLastOrders() {
-        JSONObject obj = createObjectURL("/get_last_orders", null);
 
-        LoginActivity._mSocket.emit("get_last_orders", null, new Ack() {
+        LoginActivity._mSocket.emit("get_last_orders", new Ack() {
             @Override
             public void call(Object... objects) {
                 try {

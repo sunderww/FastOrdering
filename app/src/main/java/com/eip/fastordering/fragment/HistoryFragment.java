@@ -46,32 +46,6 @@ public class HistoryFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         _mFragment.setArguments(args);
-
-
-        //TODO Delete after demo
-//        JSONObject orders = new JSONObject();
-//        JSONArray arr = new JSONArray();
-//        _mItems.clear();
-//        JSONObject cmd = new JSONObject();
-//        try {
-//            cmd.put("numOrder", "12");
-//            cmd.put("numTable", "2");
-//            cmd.put("numPA", "4");
-//            cmd.put("hour", "12:24");
-//            cmd.put("date", "01/01/15");
-//            arr.put(cmd);
-//        } catch (JSONException e) {
-//        }
-//        try {
-//            cmd.put("hour", "12:25");
-//            arr.put(cmd);
-//            orders.put("orders", arr);
-//        } catch (JSONException e) {
-//        }
-//        getLastOrders(orders);
-        //TODO End delete
-
-
         return (HistoryFragment) _mFragment;
     }
 
@@ -136,15 +110,27 @@ public class HistoryFragment extends Fragment {
 
             LoginActivity._mSocket.emit("get_order", msg, new Ack() {
                 @Override
-                public void call(Object... args) {
+                public void call(final Object... argss) {
                     JSONObject rep = null;
                     try {
-                        rep = new JSONObject(args[0].toString());
+                        rep = new JSONObject(argss[0].toString());
                         Log.d("IOACKNOWLEDFE", "FULL ORDER=" + rep.toString());
                     } catch (JSONException e) {
                         Log.d("IOACKNOWLEDGE", "EXCEPTION JSON:" + e.toString());
                     }
-                    new DialogOrder(HistoryFragment.this.getActivity(), HistoryFragment.this, rep).customView().show();
+
+                    HistoryFragment.this.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new DialogOrder(HistoryFragment.this.getActivity(), HistoryFragment.this, new JSONObject(argss[0].toString())).customView().show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+//                    new DialogOrder(HistoryFragment.this.getActivity(), HistoryFragment.this, rep).customView().show();
                 }
             });
         } catch (JSONException e) {
