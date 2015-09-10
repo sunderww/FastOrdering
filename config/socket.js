@@ -127,7 +127,7 @@
             "date": order.date,
             "hour": order.time
           });
-          cb({orders:result});
+          cb({"orders":result});
         });
       }); 
     });
