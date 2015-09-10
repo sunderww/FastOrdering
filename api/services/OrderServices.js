@@ -50,8 +50,9 @@ module.exports = {
 				ret = {
 				'numOrder' : order.id,
 				'numTable' : order.table_id,
+      'numPA': order.dinerNumber,				
 				'date' : order.date,
-				'time' : order.time,
+				'hour' : order.time,
 				'globalComment': order.comments,
 				'order' : [{
 					"menuId" : ordered[0].menu_id,
