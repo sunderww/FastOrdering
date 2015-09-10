@@ -114,7 +114,7 @@
       });
     });
 
-    socket.on('get_last_order', function(json, cb){
+    socket.on('get_last_orders', function(json, cb){
       if (json.number == undefined)
         json.number = 5;
        Order.find().sort("createdAt DESC").limit(json.number).exec(function(err, orders){
