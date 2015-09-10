@@ -62,7 +62,7 @@
           comment:json['order'][0].content[i].comment,
           menu_id:json['order'][0].menuId,
           options:json['order'][0].content[i].options
-//          menu_id:json['order'][0].content[i].menuId
+
         }).exec(function(err,model){
           console.log(err);
 	    return cb(err);
@@ -89,14 +89,10 @@
       });
     });
 
-    socket.on('get_last_orders', function(json, cb){
-      if (json.number == undefined)
-       json.number = 5;
-      OrderServices.getLastOrders(json.number, function (result) {
-        console.log("cb");
-        console.log(cb);
-        cb(result);
-	  socket.emit("get_last_orders", result);
+    socket.on('get_last_orders', function(cb){
+      OrderServices.getLastOrders(10, function (result) {
+        console.log(result);
+          cb({"orders": result});
       });
     });
 
