@@ -380,10 +380,11 @@ public class LoginActivity extends Activity {
     private void fetchLastOrders() {
         JSONObject obj = createObjectURL("/get_last_orders", null);
 
-        LoginActivity._mSocket.emit("get", obj, new Ack() {
+        LoginActivity._mSocket.emit("get_last_orders", null, new Ack() {
             @Override
             public void call(Object... objects) {
                 try {
+                    Log.d("HISTORY", "ORDER=" + new JSONObject(objects[0].toString()));
                     HistoryFragment.getLastOrders(new JSONObject(objects[0].toString()));
                 } catch (JSONException e) {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
