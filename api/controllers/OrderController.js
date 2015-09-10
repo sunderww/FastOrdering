@@ -7,6 +7,14 @@
 var moment = require('moment');
 
 module.exports = {
+
+
+    getAll: function(req, res) {
+	Order.find().exec(function(err, orders) {
+	    return res.ok(orders);
+	});
+
+    },
   /**
   * Permet d'ajouter une commande
   *

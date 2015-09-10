@@ -50,8 +50,8 @@ module.exports.policies = {
 	// }
     
     // '*': 'isAuthenticated',
-  '*': false,
-    
+  '*': true,
+    /*
     UserController: {
         register: true,
         createRestaurant: true,
@@ -97,4 +97,5 @@ module.exports.policies = {
     Dashboard: {
         view: 'isManagerOrCookOrWaiter',
     },
+*/
 };

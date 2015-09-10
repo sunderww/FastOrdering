@@ -91,28 +91,13 @@
 
     socket.on('get_last_orders', function(json, cb){
       if (json.number == undefined)
-        json.number = 5;
-      Promise.all([
-        ])
-	Order.find().sort("createdAt DESC").limit(json.number).then(function(orders, cb2){
-        var result = new Array();
-/*        orders.forEach(function(order) {
-          result.push({
-            "numOrder": order.id,
-            "numTable": order.table_id,
-            "numPA": order.dinerNumber,
-            "date": order.date,
-            "hour": order.time
-          });
-        });
-*/
-        console.log("toot");
-       console.log(orders);
-        console.log("toot2");
-          cb2(orders);
-
+       json.number = 5;
+      OrderServices.getLastOrders(json.number, function (result) {
+        console.log("cb");
+        console.log(cb);
+        cb(result);
+	  socket.emit("get_last_orders", result);
       });
-
     });
 
   },
