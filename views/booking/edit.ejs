@@ -16,15 +16,15 @@
                 <div class="topbar-left">
                     <ol class="breadcrumb">
                         <li class="crumb-active">
-                            <a href="dashboard">Reservation</a>
+                            <a href="/booking">Reservation</a>
                         </li>
                         <li class="crumb-icon">
-                            <a href="dashboard">
+                            <a href="/dashboard">
                                 <span class="glyphicon glyphicon-home"></span>
                             </a>
                         </li>
                         <li class="crumb-link">
-                            <a href="dashboard">Accueil</a>
+                            <a href="/dashboard">Accueil</a>
                         </li>
                         <li class="crumb-trail">Reservation</li>
                     </ol>
@@ -59,7 +59,7 @@
                                             <input type="time" class="form-control" placeholder="Heure" name="time" value="<%= booking.time %>" > 
                                             <input type="hidden" name="restaurant_id" value="1">
                                         </div>
-                                        <input type="submit" class="btn btn-default" value="Modifier"</input>
+                                        <input type="submit" class="btn btn-primary" value="Modifier"</input>
                                         <a href="/booking/destroy/<%= booking.id %>" class="btn btn-danger">Supprimer</a>
                                         <input type="hidden" name="_csrf" value="<%=_csrf %>" />
                                     </form>
