@@ -37,8 +37,7 @@ module.exports = {
 //     ]
 // }
 	getOneOrder: function(order_id, cb){
-		var ret = "toto";
-
+		var ret = "Error: nothing";
 			Promise.all([
 			Order.findOne({id:order_id}),
 			OrderedDish.find({order_id: order_id})
@@ -67,31 +66,3 @@ module.exports = {
 		});
 	}
 }
- // [ { order_id: '55f0b125bcd880f22267d8f2',
- //    dish_id: '572f78d9937726dc7ab8f8f2',
- //    quantity: 1,
- //    comment: 'ok, chaud2',
- //    menu_id: '572abe8049bb4c97702057db',
- //    status: 'ordered',
- //    createdAt: Thu Sep 10 2015 00:22:29 GMT+0200 (CEST),
- //    updatedAt: Thu Sep 10 2015 00:22:29 GMT+0200 (CEST),
- //    id: '55f0b125bcd880f22267d8f3' },
- //  { order_id: '55f0b125bcd880f22267d8f2',
- //    dish_id: '572f78d9937726dc7ab8f8f2',
- //    quantity: 1,
- //    comment: 'ok, chaud2',
- //    menu_id: '572abe8049bb4c97702057db',
- //    status: 'ordered',
- //    createdAt: Thu Sep 10 2015 00:22:29 GMT+0200 (CEST),
- //    updatedAt: Thu Sep 10 2015 00:22:29 GMT+0200 (CEST),
- //    id: '55f0b125bcd880f22267d8f4' } ]
-
- // table_id: '1',
- //  dinerNumber: 2,
- //  comments: 'commande avec menu delice',
- //  date: '10/09/2015',
- //  time: '12:22',
- //  status: 'ordered',
- //  createdAt: Thu Sep 10 2015 00:22:29 GMT+0200 (CEST),
- //  updatedAt: Thu Sep 10 2015 00:22:29 GMT+0200 (CEST),
- //  id: '55f0b125bcd880f22267d8f2' }
