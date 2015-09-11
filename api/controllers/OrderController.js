@@ -103,9 +103,11 @@ ready: function(req, res) {
         OrderedDish.update({id: req.param("id")}, {status:status}, function(err, model) {
         console.log("ready");
         // var friendId = sails.io.sockets.clients()[0].id;
-        var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"}
-        sails.io.sockets.emit('notifications', data);
-        return res.send(doc);
+        Dish.findOne({id: model[0].dish_id}).exec(function(err, doc) {
+          var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + doc.name + "est pret!", numTable:"7"}
+          sails.io.sockets.emit('notifications', data);
+          return res.send(doc);
+        });
       });
     });
   }    
