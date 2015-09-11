@@ -56,21 +56,21 @@
                 </div>
                                   <section id="content" class="animated fadeIn">
 
-                        <div class="row table-layout" id="modal-content">
+                        <div style="width:1000px !important;margin:auto"class="row table-layout" id="modal-content">
 
-                <div id="modal-panel" class="popup-basic bg-none mfp-with-anim mfp-hide">
+                <div id="modal-panel"  style="width:1000px!important;height:500px;margin:0px;padding:0px; margin:auto" class="popup-large bg-none mfp-with-anim mfp-hide">
 
 
-                    <div class="panel">
+                    <div style="width:1000px!important;height:500px; margin:0px;padding:0px;" class="panel">
                         <div class="panel-heading">
-                            <span class="panel-icon"></i>
+                            <span class="panel-icon"><i></i>
                             </span>
                             <span class="panel-title">Contenu de la Commande</span>
                         </div>
                      <div class="panel-body">
                             <h3 class="mt5">Description des plats</h3>
                             <hr class="short alt">
-			    <div class="dish-zoom"></div>
+			    <div style="display:inline-block !important;width:1000px" class="dish-zoom"></div>
                     </div>
                        <!--  <div class="panel-footer text-right">
                             <button class="btn btn-primary" type="button">Fermer</button>
@@ -120,6 +120,12 @@
     <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
     <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
 
+
+<style type="text/css">
+.element-zoom{padding-right:10px;}
+
+</style>
+
     <!-- Theme Javascript -->
     <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
     <script type="text/javascript" src="../assets/js/main.js"></script>
@@ -147,17 +153,19 @@
                 $(".dish-zoom").html("");
                 var e;
             var idCommand = $(this).parent().attr("idCommand");
-            io.socket.get('/ordereddish/read?id=' + idCommand, function (body, response) {
+            io.socket.get('/ordereddish/read?id=' + idCommand, function (ordered, response) {
                 e = 0;
-                for (var i = 0; body[i]; i++) {
-                    var menu_id = body[i].menu_id;
+                for (var i = 0; ordered[i]; i++) {
+                    var menu_id = ordered[i].menu_id;
                     // console.log(menu_id);
-                    io.socket.get('/dish/read?id=' + body[i].dish_id, function (body2, response2) {
-                        io.socket.get('/menu/read?id=' + menu_id, function (body3, response3) {
-                        var number = Math.floor((Math.random() * 100) + 1);
-                        var ready = (body[e].ready == true) ? "ready btn btn-success" : "ready btn btn-danger";
-                        // console.log(body3);
-                        var	res = '<div class="admin-form"><h3>Menu - ' + body3.elements.name  + '</h3>        <div><span style="width:100px; float:left !important;">' + body2[0].name + '</span style="float:right !important;"><span>comment</span></div><div></br><span id="' + body[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div><hr class="short alt">';
+                    io.socket.get('/dish/read?id=' + ordered[i].dish_id, function (dish, response2) {
+                        io.socket.get('/menu/read?id=' + menu_id, function (menu, response3) {
+                        // var number = Math.floor((Math.random() * 100) + 1);
+                        var ready = (ordered[e].ready == true) ? "ready btn btn-success" : "ready btn btn-danger";
+                        var	res = '<div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form"><h3>Menu - ' + menu.elements.name  + '</h3>        <div style="height:30px"><span class="element-zoom" style="float:left;font-size:40px;">' + ordered[e].quantity + '</span><span class="element-zoom" style="width:100px; float:left !important;">' + dish[0].name + '</span><span class="element-zoom">'+ordered[e].comment+'</span></div></br><div><span id="' + ordered[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div></div>';
+                        // <hr class="short alt" style="width:400px;margin:0px;">
+                        res += res;
+                        res += res;
                             $(".dish-zoom").append(res);
                         e++;
                         });

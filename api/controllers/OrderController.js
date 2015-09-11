@@ -102,7 +102,7 @@ ready: function(req, res) {
         var status = doc.status == "toDeliver" ? "cooking" : "toDeliver";
         OrderedDish.update({id: req.param("id")}, {status:status}, function(err, model) {
         console.log("ready");
-        var friendId = sails.io.sockets.clients()[0].id;
+        // var friendId = sails.io.sockets.clients()[0].id;
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"}
         sails.sockets.emit('notifications', data);
         return res.send(doc);
