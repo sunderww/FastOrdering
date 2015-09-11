@@ -46,7 +46,7 @@ getOneOrder: function(req, res) {
 },
 
     delete: function(id) {
-	Order.destroy({id:id}).exec(function(err, doc) {
+	Order.destroy().exec(function(err, doc) {
 	    return res.ok("ok");
 	});
     },
@@ -151,13 +151,11 @@ json: function (req, res) {
   },
 
   getToday: function(req, res) {
-      console.log(moment().format("DD/MM/YYYY"));
       Order.find().where({"date": moment().format("DD/MM/YYYY")}).exec(function(err, doc) {
       return res.view({orders:doc});
       });
   },
   gettodayy: function(req, res) {
-      console.log(moment().format("DD/MM/YYYY"));
       Order.find().where({"date": moment().format("DD/MM/YYYY")}).sort("createdAt DESC").exec(function(err, doc) {
       return res.ok(doc);
       });
