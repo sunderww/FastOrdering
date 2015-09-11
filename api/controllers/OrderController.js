@@ -158,7 +158,7 @@ json: function (req, res) {
   },
   gettodayy: function(req, res) {
       console.log(moment().format("DD/MM/YYYY"));
-      Order.find().where({"date": moment().format("DD/MM/YYYY")}).exec(function(err, doc) {
+      Order.find().where({"date": moment().format("DD/MM/YYYY")}).sort("createdAt DESC").exec(function(err, doc) {
       return res.ok(doc);
       });
   },
