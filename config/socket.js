@@ -30,57 +30,30 @@
       // console.log(socket);
       // console.log(socket.id);
       socket.on('send_order', function(json, cb) {
-     console.log("send_order");
-     try {
-      var json = JSON.parse(json);
-    }catch(e){
+       console.log("send_order");
+       try {
+        var json = JSON.parse(json);
+      }catch(e){
 
-    }
-	console.log(json);
-	if (json.numOrder != undefined) {
-//	      sails.controllers.Order.delete(json.numOrder);
-Order.destroy({id:json.numOrder}).exec(function(err, doc) {
-//	    return res.ok("ok");
-	});
-	    id = json.numOrder;
-	console.log("EDIT");
-	console.log(id);
-	}
-	else 
-	    id = null;
-     Order.create({
-	    id:id,
-      table_id:json.numTable,
-      dinerNumber:json.numPA,
-      comments: json.globalComment
-    }).exec(function(err,model){
-	if (err)
-	    return cb(err);
-      var arr = [];
-
-      for (var i = 0;json['order'][0].content[i]; i++) {
-
-	  console.log(json['order'][0].content[i]);
-        OrderedDish.create({
-          order_id:model.id,
-          dish_id:json['order'][0].content[i].id,
-          quantity:json['order'][0].content[i].qty,
-          comment:json['order'][0].content[i].comment,
-          menu_id:json['order'][0].menuId,
-          options:json['order'][0].content[i].options
-
-        }).exec(function(err,model){
-          console.log(err);
-	    return cb(err);
-        });
-        var arr = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};
-      console.log(arr);
-    socket.emit('receive_order', arr);
-	  cb(arr);
       }
 
+      id = json.numOrder != undefined ? json.numOrder : null;
+      if (id !=null) {
 
-  });
+       OrderServices.deleteOrder(id, function (result) {
+        OrderServices.createOrder(json, function (result) {
+          return socket.emit('receive_order', {"orders":result});
+        });
+
+      });
+     } else {
+
+      console.log(json);
+      console.log("id" + id);
+      OrderServices.createOrder(json, function (result) {
+        return socket.emit('receive_order', {"orders":result});
+        });
+    }
   });
 
       socket.on('authentication', function(json){
@@ -88,16 +61,13 @@ Order.destroy({id:json.numOrder}).exec(function(err, doc) {
       });
 
     socket.on('get_order', function(json, cb){
-//      console.log("get_order" + json.order);
       OrderServices.getOneOrder(json.order, function (result) {
-  //      console.log(result);
         cb(result);
       });
     });
 
     socket.on('get_last_orders', function(cb){
       OrderServices.getLastOrders(10, function (result) {
-    //    console.log(result);
           cb({"orders": result});
       });
     });

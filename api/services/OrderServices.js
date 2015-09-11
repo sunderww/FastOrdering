@@ -3,6 +3,7 @@
  *
  * this file contains the function about key.
  */
+
 var Promise = require('q');
 module.exports = {
 // {
@@ -43,22 +44,22 @@ module.exports = {
 			OrderedDish.find({order_id: order_id})
 		])
 		.spread(function(order, ordered){
+			var res = new Array();
 			ordered.forEach(function(entry) {
 				entry.qty = entry.quantity;
 				entry.id = entry.dish_id
+				res.push({"menuId":entry.menu_id, "content": [entry]});
 			});
-				ret = {
+			ret = {
 				'numOrder' : order.id,
 				'numTable' : order.table_id,
 				'numPA': order.dinerNumber,				
 				'date' : order.date,
 				'hour' : order.time,
 				'globalComment': order.comments,
-				'order' : [{
-				"menuId" : ordered[0].menu_id,
-				"content": ordered
-				}]
+				'order' : res
 			};
+			console.log(ret);
 		}).catch(function(err){
 			cb(err);
 		})
@@ -84,6 +85,55 @@ module.exports = {
 			});
 		}).catch(function(err){
 			cb(err);
+		})
+		.done(function(){
+			return cb(ret);
+		});
+	},
+
+	deleteOrder: function(id, cb) {
+		Promise.all([
+			Order.destroy({id:id}),
+			OrderedDish.destroy({order_id:id})
+		])
+		.catch(function(err){
+			cb(err);
+		})
+		.then(function(){
+			return cb("ok");
+		});
+	},
+	createOrder: function(json, cb) {
+		var ret;
+		Promise.all([
+			Order.create({
+				id:id,
+				table_id:json.numTable,
+				dinerNumber:json.numPA,
+				comments: json.globalComment
+			})
+			])
+		.spread(function(model){
+			for (var a = 0;json['order'][a]; a++) {
+				for (var i = 0;json['order'][a].content[i]; i++) {
+					console.log(json['order'][a].content[i]);
+					OrderedDish.create({
+						order_id:model.id,
+						dish_id:json['order'][a].content[i].id,
+						quantity:json['order'][a].content[i].qty,
+						comment:json['order'][a].content[i].comment,
+						menu_id:json['order'][a].menuId,
+						options:json['order'][a].content[i].options
+
+					}).exec(function(err,model){
+						if (err)
+							return cb(err);
+					});
+				}
+			}
+			ret = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};
+		}).catch(function(err){
+			return cb(err);
 		})
 		.done(function(){
 			return cb(ret);
