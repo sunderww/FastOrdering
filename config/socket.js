@@ -27,7 +27,8 @@
   ***************************************************************************/
   onConnect: function(session, socket) {
     console.log("Connect");
-      
+      // console.log(socket);
+      // console.log(socket.id);
       socket.on('send_order', function(json, cb) {
      console.log("send_order");
      try {

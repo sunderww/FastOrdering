@@ -70,6 +70,7 @@ module.exports.routes = {
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',
     '/kitchen' : 'OrderController.getToday',   
+    // '/kitchen' : 'OrderController.read',   
     '/compos' : 'MenuCompositionController.read',
     '/alacarte' : 'MenuController.alacarte',
     '/cats' : 'DishCategoryController.read',

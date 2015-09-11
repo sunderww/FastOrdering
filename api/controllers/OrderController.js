@@ -91,7 +91,7 @@ question: function(req, res) {
 
 //console.log(friendId);
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:"7"}
-    // sails.io.sockets.emit('notifications', data);
+    sails.io.sockets.emit('notifications', data);
     return res.ok(data);
 
 },
@@ -104,7 +104,7 @@ ready: function(req, res) {
         console.log("ready");
         // var friendId = sails.io.sockets.clients()[0].id;
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + doc['name'] + "est pret!", numTable:"7"}
-        // sails.sockets.emit('notifications', data);
+        sails.io.sockets.emit('notifications', data);
         return res.send(doc);
       });
     });
@@ -151,12 +151,17 @@ json: function (req, res) {
   },
 
   getToday: function(req, res) {
-      console.log(moment().format("MM/DD/YYYY"));
-//      return ;
-      Order.find().where({"date": moment().format("MM/DD/YYYY")}).exec(function(err, doc) {
-	  console.log(doc);
+      console.log(moment().format("DD/MM/YYYY"));
+      Order.find().where({"date": moment().format("DD/MM/YYYY")}).exec(function(err, doc) {
       return res.view({orders:doc});
       });
-  }
+  },
+  gettodayy: function(req, res) {
+      console.log(moment().format("DD/MM/YYYY"));
+      Order.find().where({"date": moment().format("DD/MM/YYYY")}).exec(function(err, doc) {
+      return res.ok(doc);
+      });
+  },
+
 };
 
