@@ -151,8 +151,11 @@ json: function (req, res) {
   },
 
   getToday: function(req, res) {
-     Order.find({"createdAt":moment().startOf("day").fromNow()}).exec(function(err, doc) {
-        return res.view({orders:doc});
+      console.log(moment().format("MM/DD/YYYY"));
+//      return ;
+      Order.find().where({"date": moment().format("MM/DD/YYYY")}).exec(function(err, doc) {
+	  console.log(doc);
+      return res.view({orders:doc});
       });
   }
 };
