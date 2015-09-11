@@ -122,7 +122,7 @@
 
 
 <style type="text/css">
-.element-zoom{padding-right:10px;}
+.element-zoom{padding-right:10px;text-align: center;}
 
 </style>
 
@@ -148,6 +148,11 @@
                 // });
             }
 
+            io.socket.on("receive_order", function(res){
+                console.log(res);
+            });
+
+
             // Form Skin Switcher
             $('.panel-footer').not(".dont").on('click', function() {
                 $(".dish-zoom").html("");
@@ -161,7 +166,7 @@
                     io.socket.get('/dish/read?id=' + ordered[i].dish_id, function (dish, response2) {
                         io.socket.get('/menu/read?id=' + menu_id, function (menu, response3) {
                         // var number = Math.floor((Math.random() * 100) + 1);
-                        var ready = (ordered[e].ready == true) ? "ready btn btn-success" : "ready btn btn-danger";
+                        var ready = (ordered[e].status == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
                         var	res = '<div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form"><h3>Menu - ' + menu.elements.name  + '</h3>        <div style="height:30px"><span class="element-zoom" style="float:left;font-size:40px;">' + ordered[e].quantity + '</span><span class="element-zoom" style="width:100px; float:left !important;">' + dish[0].name + '</span><span class="element-zoom">'+ordered[e].comment+'</span></div></br><div><span id="' + ordered[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div></div>';
                         // <hr class="short alt" style="width:400px;margin:0px;">
                         res += res;
@@ -193,8 +198,12 @@
                 var id = $(this).parent().attr("id");
                 var me = $(this);
                 io.socket.get('/order/ready?id=' + id, function (body, response) {
-                    me.css("background-color", response.body.status == "toDeliver" ? "green" : "red");
-                    me.css("border-color", response.body.status == "toDeliver" ? "green" : "red");
+                    console.log(response);
+                   me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger"
+                   );
+                   me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success" );
+                   // me.css("background-color", response.body.status == "toDeliver" ? "green" : "red");
+                    //me.css("border-color", response.body.status == "toDeliver" ? "green" : "red");
                 });
 
             });
@@ -203,7 +212,8 @@
                 var id = $(this).parent().attr("id");
                 console.log(id);
                 io.socket.get('/order/question?id=' + id, function (body, response) {
-                    console.log(response);                    
+                    alert("Il arrive ;)")
+                    // console.log(response);                    
                 });
             });
         });
