@@ -48,13 +48,13 @@
                                     <form action="/booking/update/<%= booking.id %>" method="POST" class="form-signin">
                                         <div class="form-group">
                                             <label>Nom :</label>
-                                            <input class="form-control" placeholder="Nom" name="name" value="<%= booking.name %>">
+                                            <input class="form-control" placeholder="Nom" name="name" value="<%= booking.name %>" required>
                                             <label>Nombre de personnes :</label>
-                                            <input class="form-control" placeholder="Nombre de personnes" name="nb_persons" value="<%= booking.nb_persons %>">
+                                            <input class="form-control" placeholder="Nombre de personnes" name="nb_persons" value="<%= booking.nb_persons %>" required>
                                             <label>Date :</label>
-                                            <input type="date" class="form-control" placeholder="Date" name="date" value="<%= booking.date %>" >
+                                            <input type="date" class="form-control" placeholder="Date" name="date" value="<%= booking.date %>" required>
                                             <label>Heure :</label>
-                                            <input type="time" class="form-control" placeholder="Heure" name="time" value="<%= booking.time %>" > 
+                                            <input type="time" class="form-control" placeholder="Heure" name="time" value="<%= booking.time %>" required> 
                                             <input type="hidden" name="restaurant_id" value="1">
                                         </div>
                                         <input type="submit" class="btn btn-primary" value="Modifier"</input>
