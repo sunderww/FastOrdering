@@ -57,11 +57,11 @@
                                         <form method="post" action="/key/<%= id %>/activate" class="form-signin">
                                             <div class="form-group">
                                                 <label>Email :</label>
-                                                <input class="form-control" placeholder="Email" name="email" value="">
+                                                <input class="form-control" placeholder="Email" name="email" value="" required>
                                                 <label>Mot de passe :</label>
-                                                <input type="password" class="form-control" placeholder="Password" name="password" value="">
+                                                <input type="password" class="form-control" placeholder="Password" name="password" value="" required>
                                                 <label>Confirmation du mot de passe :</label>
-                                                <input type="password" class="form-control" placeholder="Confirmation Password" name="confirm_password" value="" >
+                                                <input type="password" class="form-control" placeholder="Confirmation Password" name="confirm_password" value="" required>
                                                 <label>Role :</label>
                                                 <select name="role" class="form-control">
                                                     <option value="2">Chef</option>
