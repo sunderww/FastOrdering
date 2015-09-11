@@ -31,7 +31,7 @@ module.exports = {
     */    
       time: {
           type: 'string',
-          defaultsTo: function() {return moment().format("hh:mm");}
+          defaultsTo: function() {return moment().format("HH:mm");}
       },
     	table_id: {
     		type: 'string',
