@@ -162,7 +162,8 @@
             }, 5000);
 
             // Form Skin Switcher
-            $('.panel-footer').not(".dont").on('click', function() {
+              // $("html").on('click', 
+            $('html').on('click',".panel-footer" ,function() {
                 $(".dish-zoom").html("");
                 var e;
             var idCommand = $(this).parent().attr("idCommand");
