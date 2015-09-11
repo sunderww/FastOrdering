@@ -36,9 +36,14 @@
 
     }
 	console.log(json);
-	if (json.id != undefined) {
-      sails.controllers.Order.delete(json.id);
-	    id = json.id;
+	if (json.numOrder != undefined) {
+//	      sails.controllers.Order.delete(json.numOrder);
+Order.destroy({id:json.numOrder}).exec(function(err, doc) {
+//	    return res.ok("ok");
+	});
+	    id = json.numOrder;
+	console.log("EDIT");
+	console.log(id);
 	}
 	else 
 	    id = null;
@@ -82,16 +87,16 @@
       });
 
     socket.on('get_order', function(json, cb){
-      console.log("get_order" + json.order);
+//      console.log("get_order" + json.order);
       OrderServices.getOneOrder(json.order, function (result) {
-        console.log(result);
+  //      console.log(result);
         cb(result);
       });
     });
 
     socket.on('get_last_orders', function(cb){
       OrderServices.getLastOrders(10, function (result) {
-        console.log(result);
+    //    console.log(result);
           cb({"orders": result});
       });
     });
