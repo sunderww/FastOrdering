@@ -27,31 +27,26 @@
   ***************************************************************************/
   onConnect: function(session, socket) {
     console.log("Connect");
-      // console.log(socket);
-      // console.log(socket.id);
       socket.on('send_order', function(json, cb) {
-       console.log("send_order");
        try {
         var json = JSON.parse(json);
-      }catch(e){
-
-      }
-
+      }catch(e){}
       id = json.numOrder != undefined ? json.numOrder : null;
-      if (id !=null) {
+      if (id != null) {
+       console.log("update_order(send_order)");
 
-       OrderServices.deleteOrder(id, function (result) {
+       OrderServices.deleteOrder(id, function () {
         OrderServices.createOrder(json, function (result) {
-          return socket.emit('receive_order', {"orders":result});
+          return socket.emit('receive_order', result);
         });
-
       });
      } else {
+       console.log("send_order");
 
       console.log(json);
       console.log("id" + id);
       OrderServices.createOrder(json, function (result) {
-        return socket.emit('receive_order', {"orders":result});
+        return socket.emit('receive_order', result);
         });
     }
   });
