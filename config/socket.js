@@ -40,7 +40,7 @@
       id = json.numOrder != undefined ? json.numOrder : null;
       if (id !=null) {
 
-       OrderServices.deleteOrder(id, function (result) {
+       OrderServices.deleteOrder(id, function () {
         OrderServices.createOrder(json, function (result) {
           return socket.emit('receive_order', {"orders":result});
         });
