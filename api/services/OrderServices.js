@@ -38,6 +38,7 @@ module.exports = {
 //     ]
 // }
 	getOneOrder: function(order_id, cb){
+		console.log("getOneOrder");
 		var ret = "Error: nothing";
 		Promise.all([
 			Order.findOne({id:order_id}),
@@ -59,7 +60,6 @@ module.exports = {
 				'globalComment': order.comments,
 				'order' : res
 			};
-			console.log(ret);
 		}).catch(function(err){
 			cb(err);
 		})
@@ -68,6 +68,7 @@ module.exports = {
 		});
 	},
 	getLastOrders: function(limit, cb) {
+		console.log("getLastOrders");
 		var ret = new Array();
 
 		Promise.all([
@@ -92,6 +93,7 @@ module.exports = {
 	},
 
 	deleteOrder: function(id, cb) {
+		console.log("deleteOrder");
 		Promise.all([
 			Order.destroy({id:id}),
 			OrderedDish.destroy({order_id:id})
@@ -104,6 +106,7 @@ module.exports = {
 		});
 	},
 	createOrder: function(json, cb) {
+		console.log("createOrder")
 		var ret;
 		Promise.all([
 			Order.create({
@@ -116,7 +119,6 @@ module.exports = {
 		.spread(function(model){
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
-					console.log(json['order'][a].content[i]);
 					OrderedDish.create({
 						order_id:model.id,
 						dish_id:json['order'][a].content[i].id,
