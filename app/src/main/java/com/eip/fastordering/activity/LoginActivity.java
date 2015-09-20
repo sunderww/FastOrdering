@@ -159,8 +159,6 @@ public class LoginActivity extends Activity {
 
         //Init the socket
         try {
-//			IO.Options opt = new IO.Options();
-//			opt.query = "user_key=" + "55cccc32f80d3658724d6f7e";
             _mSocket = IO.socket(_mIpServer);
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -170,28 +168,33 @@ public class LoginActivity extends Activity {
             @Override
             public void call(Object... args) {
                 Log.d("LOGINACTIVITY", "CONNECT");
-//				JSONObject rep = null;
-//				try {
-//					Log.d("LOGINACTIVITY", "TRYING");
-//					rep = new JSONObject(args[0].toString());
-//					Log.d("LOGINACTIVITY", "END");
-//				} catch (JSONException e) {
-//					Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());
-//				}
-//				handleAuthentification(rep);
-                JSONObject obj = createObjectURL("/authentication", new HashMap<String, String>() {
-                    {
-                        put("user_key", "55cccc32f80d3658724d6f7e");
-                    }
-                });
-                _mSocket.emit("post", obj, new Ack() {
+//                JSONObject obj = createObjectURL("/authentication", new HashMap<String, String>() {
+//                    {
+//                        put("user_key", "55cccc32f80d3658724d6f7e");
+//                    }
+//                });
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("user_key", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                _mSocket.emit("authentication", obj, new Ack() {
                     @Override
                     public void call(Object... args) {
                         Log.d("LOGINACTIVITY", "SOCKETID ANSWER");
                         Log.d("LOGINACTIVITY", "SOCKETID=" + args[0].toString());
+                        try {
+                            JSONObject rep = new JSONObject(args[0].toString());
+                            if (rep.getBoolean("answer")) {
+                                fetchAllMenu();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-                fetchAllMenu();
             }
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
             @Override
