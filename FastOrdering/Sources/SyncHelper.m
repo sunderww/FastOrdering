@@ -25,7 +25,18 @@
 
 @implementation SyncHelper
 
+- (instancetype)init {
+	if (self = [super init]) {
+		self.stopped = NO;
+	}
+	
+	return self;
+}
+
 - (void)syncClassNamed:(NSString *)name {
+	if (self.stopped)
+		return ;
+
 	if ([self.delegate respondsToSelector:@selector(syncDidStartForClass:)])
 		[self.delegate syncDidStartForClass:name];
 	
@@ -33,10 +44,17 @@
 	NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%d/%@", kSocketIOHost, kSocketIOPort, name]];
 	
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		NSData * data = [NSData dataWithContentsOfURL:url];
 		NSError * error;
-		NSArray * results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+		NSData * data = [NSData dataWithContentsOfURL:url options:kNilOptions error:&error];
 		
+		if (error) {
+			PPLog(@"ERROR : %@", error);
+			if ([self.delegate respondsToSelector:@selector(syncDidFailWithError:forClass:)])
+				[self.delegate syncDidFailWithError:error forClass:name];
+			return ;
+		}
+
+		NSArray * results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if (error) {
 				PPLog(@"ERROR : %@", error);

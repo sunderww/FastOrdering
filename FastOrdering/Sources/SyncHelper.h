@@ -34,6 +34,11 @@
  */
 - (void)syncDeletedObjectsOfClasses:(NSArray *)classes;
 
+/*
+ * stopped: boolean that tells to stop the sync if it is still running
+ */
+@property (nonatomic, assign) BOOL					stopped;
+
 @property (nonatomic, retain) id<SyncerDelegate>    delegate;
 @property (nonatomic, copy) NSString *              restaurantId;
 @property (nonatomic, copy) NSString *              waiterId;

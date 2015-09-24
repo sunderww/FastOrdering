@@ -16,7 +16,8 @@
 #define USE_EIP_SERVER
 
 #ifdef USE_EIP_SERVER
-    #define kSocketIOHost       @"163.5.84.184"
+//    #define kSocketIOHost       @"163.5.84.184"
+#define kSocketIOHost	@"10.224.9.184"
     #define kSocketIOPort       4242
 #else
     #define kSocketIOHost       @"127.0.0.1"
