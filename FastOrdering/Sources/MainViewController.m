@@ -142,6 +142,8 @@
 //        DPPLog(@"%@", [response class]);
 //        DPPLog(@"%@", response);
 //    }];
+	
+	loaderView.hidden = NO;
 
 #ifdef SKIP_SYNC
 	NSArray * classes = @[];
@@ -157,7 +159,6 @@
 //#warning DEBUG
 #ifdef SKIP_SYNC
 	[self syncEnded];
-	[timer invalidate];
 #endif
 //	DLog(@"SOCKET TEST");
 //	[socket sendAcknowledgement:@"/elements" withArgs:@[@{@"url":@"/elements"}]];
@@ -178,8 +179,8 @@
     if (![context save:&error])
         PPLog(@"%@", error);
     DLog(@"END SYNC");
-    loaderView.hidden = YES;
-	[self viewWillAppear:NO];
+	[self viewWillAppear:YES];
+	loaderView.hidden = YES;
 }
 
 - (void)loadDatabase {
