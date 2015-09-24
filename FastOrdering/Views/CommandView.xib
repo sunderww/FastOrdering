@@ -13,9 +13,11 @@
                 <outlet property="loaderView" destination="gYV-kQ-lF6" id="2yA-hf-1J9"/>
                 <outlet property="menuButton" destination="Jbc-DD-YwI" id="5oa-rd-7Nx"/>
                 <outlet property="menuTableView" destination="4ML-Os-6Hu" id="PSO-ve-faa"/>
+                <outlet property="numPAField" destination="GeG-1O-x2Q" id="yFm-bf-VuS"/>
                 <outlet property="orderButton" destination="30V-mg-X8e" id="z4g-kg-Ght"/>
                 <outlet property="reviewButton" destination="C1B-Vt-dVU" id="B2U-fe-YvT"/>
                 <outlet property="reviewTableView" destination="26h-pI-e4E" id="2oi-jj-Cvg"/>
+                <outlet property="tableNumberField" destination="cfW-aw-Q01" id="91n-e7-uFq"/>
                 <outlet property="view" destination="iN0-l3-epB" id="ln4-jj-Vga"/>
                 <outletCollection property="clickedViews" destination="IAX-P5-7hU" id="uaU-0R-cl0"/>
                 <outletCollection property="clickedViews" destination="Rnj-8B-iFc" id="j7y-Uf-P8s"/>
@@ -123,8 +125,20 @@
                     <rect key="frame" x="20" y="70" width="280" height="468"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Table #" minimumFontSize="17" id="cfW-aw-Q01">
+                            <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nombre de plats" minimumFontSize="17" id="GeG-1O-x2Q">
+                            <rect key="frame" x="160" y="0.0" width="120" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="26h-pI-e4E" customClass="SLExpandableTableView">
-                            <rect key="frame" x="0.0" y="0.0" width="280" height="416"/>
+                            <rect key="frame" x="0.0" y="53" width="280" height="363"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </tableView>

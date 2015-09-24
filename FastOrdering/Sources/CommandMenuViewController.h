@@ -19,15 +19,18 @@
 @end
 
 @interface CommandMenuViewController : UIViewController <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate> {
-
-  IBOutlet SLExpandableTableView *  expandableTableView;
-  IBOutlet UIButton * orderButton;
-  
-  UITextField * responder;
-  NSMutableArray * counts;
-  NSArray * categories;
-  NSArray * dishes;
+	
+	IBOutlet SLExpandableTableView *  expandableTableView;
+	IBOutlet UIButton * orderButton;
+	
+	UITextField * responder;
+	NSMutableArray * counts;
+	NSArray * categories;
+	NSArray * dishes;
 }
+
+- (IBAction)orderTaken;
+- (IBAction)cancel;
 
 @property (nonatomic, retain) MenuComposition *       composition;
 @property (nonatomic, retain) id<CommandMenuDelegate> delegate;

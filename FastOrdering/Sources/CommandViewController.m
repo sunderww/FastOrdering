@@ -14,6 +14,9 @@
 #import "AppDelegate.h"
 #import "UNIRest.h"
 
+// Uncomment the following line to not test if the fields are blank
+//#define kDoNotTestFields
+
 @interface CommandViewController ()
 
 @end
@@ -43,6 +46,9 @@
 	carteTableView.delegate = carteModel;
 	reviewTableView.delegate = reviewModel;
 	reviewTableView.dataSource = reviewModel;
+	
+	numPAField.text = self.order.dinerNumber ? self.order.dinerNumber.stringValue : nil;
+	tableNumberField.text = self.order.numTable ? self.order.numTable : nil;
 	
 	[menuButton setTitle:NSLocalizedString(@"Menus", @"").uppercaseString forState:UIControlStateNormal];
 	[alacarteButton setTitle:NSLocalizedString(@"A la carte", @"").uppercaseString forState:UIControlStateNormal];
@@ -121,6 +127,21 @@
 	[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_ErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
 }
 
+- (BOOL)testFields {
+	// Bypass the security for test purposes
+#ifdef kDoNotTestFields
+	return YES;
+#endif
+
+	if (!numPAField.text.length || !tableNumberField.text.length) {
+		DLog(@"%d and %d", numPAField.text.length, tableNumberField.text.length);
+		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_FieldErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+		return NO;
+	}
+	
+	return YES;
+}
+
 #pragma mark - IBAction methods
 
 - (IBAction)buttonClicked:(UIButton *)sender {
@@ -141,10 +162,12 @@
 }
 
 - (IBAction)takeOrder {
+	if (!self.testFields) return;
+
 	SocketHelper * helper = [SocketHelper sharedHelper];
 	[self.order sanitize];
-	self.order.numTable = @"2";
-	PPLog(@"JSON :\n\n%@\n\n", self.order.toJSONString);
+	self.order.numTable = tableNumberField.text;
+	self.order.dinerNumber = @(numPAField.text.integerValue);
 
 //	DPPLog(@"FORCE FAIL");
 //	return [self orderFailed];
@@ -161,12 +184,15 @@
 	
 	if (!helper.socket.isConnected) return [self orderFailed];
 	
+	DPPLog(@"Will send JSON :\n%@\n\n", self.order.toJSONString);
+
 	loaderView.hidden = NO;
 	[helper pushDelegate:self];
 	[helper.socket sendEvent:@"send_order" withData:self.order.toJSON andAcknowledge:^(id argsData) {
 		NSDictionary * dict = argsData;
 		
 		if (dict[@"error"]) {
+			PPLog(@"%@", dict[@"error"]);
 			[timer fire];
 		} else {
 			[timer invalidate];

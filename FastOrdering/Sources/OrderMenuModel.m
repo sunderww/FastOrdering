@@ -17,75 +17,76 @@
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self) {
-    NSMutableArray * compos = [NSMutableArray new];
-    menus = [MenuModel new].menus;
-
-    for (Menu * menu in menus) {
-      [compos addObject:menu.compositions.allObjects];
-    }
-    compositions = compos;
-  }
-  return self;
+	self = [super init];
+	if (self) {
+		NSMutableArray * compos = [NSMutableArray new];
+		menus = [MenuModel new].menus;
+		
+		for (Menu * menu in menus) {
+			[compos addObject:menu.compositions.allObjects];
+		}
+		compositions = compos;
+	}
+	return self;
 }
 
 #pragma mark - SLExpandableTableView delegate and datasource methods
 
 - (BOOL)tableView:(SLExpandableTableView *)tableView canExpandSection:(NSInteger)section {
-  return ((Menu *)menus[section]).compositions.count > 0;
+	return ((Menu *)menus[section]).compositions.count > 0;
 }
 
 - (BOOL)tableView:(SLExpandableTableView *)tableView needsToDownloadDataForExpandableSection:(NSInteger)section {
-  return NO;
+	return NO;
 }
 
 - (UITableViewCell<UIExpandingTableViewCell> *)tableView:(SLExpandableTableView *)tableView expandingCellForSection:(NSInteger)section {
-  static NSString * CellIdentifier = @"MenuCell";
-  
-  MenuExpandableCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  
-  if (!cell) {
-    cell = [[MenuExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-  }
-  
-  cell.menu = menus[section];
-  return cell;
+	static NSString * CellIdentifier = @"MenuCell";
+	
+	MenuExpandableCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+	if (!cell) {
+		cell = [[MenuExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+	}
+	
+	cell.menu = menus[section];
+	return cell;
 }
 
 - (void)tableView:(SLExpandableTableView *)tableView downloadDataForExpandableSection:(NSInteger)section {
-  [tableView expandSection:section animated:YES];
+	[tableView expandSection:section animated:YES];
 }
 
 #pragma mark - UITableView delegate and datasource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return menus.count;
+	return menus.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return ((NSArray *)compositions[section]).count + 1;
+	return ((NSArray *)compositions[section]).count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString * CellIdentifier = @"CompositionCell";
-  MenuComposition * composition = compositions[indexPath.section][indexPath.row - 1];
-
-  UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  
-  if (!cell) {
-    //        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-  }
-  
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", composition.name, composition.serverId];
-  return cell;
+	static NSString * CellIdentifier = @"CompositionCell";
+	MenuComposition * composition = compositions[indexPath.section][indexPath.row - 1];
+	
+	UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+	if (!cell) {
+		//        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+	}
+	
+	//  cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", composition.name, composition.serverId];
+	cell.textLabel.text = composition.name;
+	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  MenuComposition * composition = compositions[indexPath.section][indexPath.row - 1];
-  [self.delegate menuCompositionClicked:composition];
-  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+	MenuComposition * composition = compositions[indexPath.section][indexPath.row - 1];
+	[self.delegate menuCompositionClicked:composition];
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 
