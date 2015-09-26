@@ -23,6 +23,8 @@
 "Order_ErrorMessage"            =   "Impossible d'envoyer la commande sur le serveur. Veuillez vérifier votre connexion internet.";
 "Order_FieldErrorMessage"		=	"Veuillez remplir tous les champs avant de cliquer sur envoyer.";
 "Sync_ErrorMessage"				=	"Impossible de synchroniser l'application au serveur. Veuillez vérifier votre connexion internet.";
+"Connectivity_ErrorMessage"		=	"Impossible de se connecter au serveur. Veuillez vérifier votre connexion internet.";
+"Login_ErrorMessage"			=	"Nous n'avons pas pu vous connecter. Veuillez vérifier votre clé utilisateur réessayez.";
 
 /* Vocabulary */
 "add"							=	"ajouter";

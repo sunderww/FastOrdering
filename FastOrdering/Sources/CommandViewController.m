@@ -134,7 +134,6 @@
 #endif
 
 	if (!numPAField.text.length || !tableNumberField.text.length) {
-		DLog(@"%d and %d", numPAField.text.length, tableNumberField.text.length);
 		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_FieldErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
 		return NO;
 	}

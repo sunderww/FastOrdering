@@ -8,4 +8,6 @@
 
 "Order_ErrorMessage" = "The app hasn't been able to send the order. This may be due to network connectivity problems, or an error on the server.";
 "Sync_ErrorMessage" = "The app hasn't been able to synchronise. This may be due to network connectivity problems, or an error on the server.";
+"Connectivity_ErrorMessage" = "The app could not connect to the server. Please check your internet connection and try again later";
 "Order_FieldErrorMessage" = "Please fill the fields before taking the order.";
+"Login_ErrorMessage" = "We could not log you in. Please check your user key and try again.";

@@ -14,6 +14,13 @@ static SocketHelper *   _sharedHelper = nil;
 
 @implementation SocketHelper
 
+- (instancetype)init {
+	if (self = [super init]) {
+		delegates = [NSMutableArray new];
+	}
+	return self;
+}
+
 + (instancetype)sharedHelper {
 	if (!_sharedHelper) {
         _sharedHelper = [SocketHelper new];

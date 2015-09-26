@@ -129,20 +129,8 @@
 
 - (void)syncDatabase {
     SyncHelper * syncer = [SyncHelper new];
-    
-    [SocketHelper connectSocket];
-    classesToSync = 0;
 
-//	SocketIO * socket = SocketHelper.sharedSocket;
-//	[socket sendEvent:@"authentication" withData:@{@"user_key": @"some_user_key"} andAcknowledge:^(id argsData) {
-//		DPPLog(@"%@", argsData);
-//	}];
-
-//    [[SocketHelper sharedSocket] put:@"/dish" withData:@{@"name":@"Test", @"available":@YES, @"price":@6.5} callback:^(id response) {
-//        DPPLog(@"%@", [response class]);
-//        DPPLog(@"%@", response);
-//    }];
-	
+    classesToSync = 0;	
 	loaderView.hidden = NO;
 
 #ifdef SKIP_SYNC

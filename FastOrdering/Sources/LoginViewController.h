@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoaderView.h"
+#import "SocketHelper.h"
 
-@interface LoginViewController : UIViewController {
-    IBOutlet UITextField *  emailField;
-    IBOutlet UITextField *  passwordField;
+@interface LoginViewController : UIViewController <SocketIODelegate> {
+    IBOutlet UITextField *  keyField;
     IBOutlet UIButton *     loginButton;
+	IBOutlet LoaderView *	loader;
+	
+	BOOL					waitingResponse;
 }
 
 - (IBAction)login;

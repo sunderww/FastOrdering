@@ -8,6 +8,18 @@
 
 #import "LoginViewController.h"
 #import "MainViewController.h"
+#import "SocketHelper.h"
+
+#if DEBUG
+// Uncomment the following line to directly skip the LoginView
+//# define kSkipLoginView
+
+// Uncomment the following line to not check the server validation
+# define kLoginDoNotValidate
+#endif
+
+// The key of the JSON response send by the server : { valid: true }
+#define kLoginResponseKey	@"valid"
 
 @interface LoginViewController ()
 
@@ -27,7 +39,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	[SocketHelper.sharedHelper pushDelegate:self];
     [loginButton setTitle:NSLocalizedString(@"LogIn", @"") forState:UIControlStateNormal];
+	
+#ifdef kSkipLoginView
+	[SocketHelper connectSocket];
+	[self nextPage];
+#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,11 +54,57 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)nextPage {
+	MainViewController * controller = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
+	[self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void)loginFailedWithWrongKey:(NSNumber *)wrongKey {
+	NSString * message = NSLocalizedString(wrongKey.boolValue ? @"Login_ErrorMessage" : @"Connectivity_ErrorMessage", @"");
+	[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+}
+
 #pragma mark - IBAction methods
 
 - (IBAction)login {
-    MainViewController * controller = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
-    [self.navigationController pushViewController:controller animated:YES];
+	[SocketHelper connectSocket];
+	
+#ifdef kLoginDoNotValidate
+	[self nextPage];
+#else
+	waitingResponse = YES;
+	loader.hidden = NO;
+
+	[SocketHelper.sharedSocket sendEvent:@"authentication" withData:@{@"user_key": keyField.text} andAcknowledge:^(id argsData) {
+		DPPLog(@"%@", argsData);
+
+		waitingResponse = NO;
+		loader.hidden = NO;
+
+		NSDictionary * data = (NSDictionary *)argsData;
+		NSNumber * loggedIn = [data valueForKey:kLoginResponseKey];
+
+		// Check these lines with a working connection
+#warning NOT TESTED CODE
+		if (loggedIn.boolValue) {
+			[self nextPage];
+		} else {
+			[self loginFailedWithWrongKey:@YES];
+		}
+	}];
+#endif
+}
+
+#pragma mark - SocketIO delegate methods
+
+- (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
+	if (waitingResponse) {
+		DLog(@"SocketIO error for connection");
+		
+		waitingResponse = NO;
+		loader.hidden = YES;
+		[self loginFailedWithWrongKey:@NO];
+	}
 }
 
 /*
