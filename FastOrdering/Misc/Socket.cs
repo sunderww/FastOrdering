@@ -34,13 +34,12 @@ namespace FastOrdering.Misc
 			{
 				System.Diagnostics.Debug.WriteLine("works");
 				System.Diagnostics.Debug.WriteLine(data.ToString());
+				ReceiveOrder(data.ToString());
 			}), str);
 		}
 
 		static public void Authentication(string key)
 		{
-			string str = "55f0a0ea3f5b415b2023ede8";
-			System.Diagnostics.Debug.WriteLine(str);
 			JObject jsonObject = new JObject();
 			jsonObject["user_key"] = key;
 			socket.Emit("authentication", new AckImpl((data) =>
@@ -56,17 +55,16 @@ namespace FastOrdering.Misc
 			Notification.notifications.Add(JsonConvert.DeserializeObject<Notification>(str));
 		}
 
-		private void ReceiveOrder()
+		static private void ReceiveOrder(string str)
 		{
-			string str = "{\"numOrder\": \"2\", \"numTable\": \"5\", \"numPA\": \"1\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}";
-
+			//string str = "{\"numOrder\": \"2\", \"numTable\": \"5\", \"numPA\": \"1\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}";
 			Order.orders.Add(JsonConvert.DeserializeObject<Order>(str));
 		}
 
 		private async Task GetLastOrders()
 		{
 			string str = await GetaString("order");
-			if (str == null)
+			if (str == null || str == "")
 				return;
 			//string str = "{\"orders\": [{\"numOrder\": \"1\", \"numTable\": \"7\", \"numPA\": \"3\", \"date\": \"01/01/2001\", \"hour\": \"12:12\"}]}";
 
@@ -74,101 +72,112 @@ namespace FastOrdering.Misc
 			foreach (Object order in output)
 			{
 				string orderStr = order.ToString();
-				Order.orders.Add(JsonConvert.DeserializeObject<Order>(orderStr));
+				Order newOrder = JsonConvert.DeserializeObject<Order>(orderStr);
+				if (Order.orders.Count == 0 || newOrder.Time.CompareTo(Order.orders.First().Time) < 0)
+					Order.orders.Add(newOrder);
+				else
+					Order.orders.Insert(0, newOrder);
 			}
 		}
 
-		//static public Order GetOrder()
-		//{
-		//	string str = "{\"numOrder\": \"35\", \"numTable\": \"2\", \"numPA\": \"5\", \"date\": \"01/01/2001\", \"hour\": \"12:12\", \"globalComment\": \"blablabla\", " +
-		//		"\"order\": [{\"menuId\": \"572abe8049bb4c97702057db\", \"content\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"qty\": \"2\", \"comment\": \"blabla\", \"status\": \"0\", ";
-		//	str += "\"options\": [{\"id\": \"324r434\", \"qty\": \"2\"},{\"id\": \"id33cl\",\"qty\": \"2\"}]}],}]}";
+		static public Order GetOrder(string idOrder)
+		{
+			return null;
+			JObject jsonObject = new JObject();
+			jsonObject["order"] = idOrder;
+			socket.Emit("get_order", new AckImpl((data) =>
+			{
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+			}), jsonObject);
 
-		//	dynamic output = JsonConvert.DeserializeObject(str);
-		//	int numOrder = (int)output["numOrder"];
-		//	int numTable = (int)output["numOrder"];
-		//	int numPA = (int)output["numPA"];
-		//	DateTime date = (DateTime)output["date"];
-		//	DateTime hour = (DateTime)output["hour"];
-		//	string globalComment = (string)output["globalComment"];
-		//	Order ord = new Order(numOrder, numTable, numPA, date, hour);
-		//	ord.GlobalComment = globalComment;
-		//	foreach (Object order in output["order"])
-		//	{
-		//		string orderStr = order.ToString();
-		//		dynamic orderOut = JsonConvert.DeserializeObject(orderStr);
-		//		string menuId = (string)orderOut["menuId"];
-		//		Menu menu = null;
-		//		foreach (Menu m in Menu.menus)
-		//		{
-		//			if (m.IDMenu == menuId)
-		//			{
-		//				ord.Menus.Add(m);
-		//				menu = ord.Menus.Last();
-		//				break;
-		//			}
-		//		}
-		//		foreach (Object content in orderOut["content"])
-		//		{
-		//			string contentStr = content.ToString();
-		//			dynamic contentOut = JsonConvert.DeserializeObject(contentStr);
-		//			string id = (string)contentOut["id"];
-		//			foreach (Dish dish in Dish.dishes)
-		//			{
-		//				if (id == dish.ID)
-		//				{
-		//					MyDictionary<Dish> dict = new MyDictionary<Dish>();
-		//					dict.Value = (int)contentOut["qty"];
-		//					dict.Key = dish;
-		//					dict.Key.comment = (string)contentOut["comment"];
-		//					foreach (Object option in contentOut["options"])
-		//					{
-		//						str = option.ToString();
-		//						dynamic optionOut = JsonConvert.DeserializeObject(str);
-		//						foreach (KeyValuePair<string, int> op in dict.Key.options)
-		//						{
-		//							if (op.Key == (string)optionOut["id"])
-		//							{
-		//								int nb = dict.Value + (int)optionOut["qty"];
-		//								dict.Key.options.Remove(op.Key);
-		//								dict.Key.options.Add(op.Key, nb);
-		//								break;
-		//							}
-		//						}
-		//						//dict.Key.options. Add((string)optionOut["id"], (int)optionOut["qty"]);
-		//					}
-		//					dict.Key.status = (int)contentOut["status"];
-		//					menu.Dishes.Add(dict);
-		//					break;
-		//				}
-		//			}
-		//			//foreach (MyDictionary<Dish> dishes in menu.Dishes)
-		//			//{
-		//			//	if (id == dishes.Key.ID)
-		//			//	{
-		//			//		dishes.Value = (int)contentOut["qty"];
-		//			//		dishes.Key.comment = (string)contentOut["comment"];
-		//			//		foreach (Object option in contentOut["options"])
-		//			//		{
-		//			//			str = option.ToString();
-		//			//			dynamic optionOut = JsonConvert.DeserializeObject(str);
-		//			//			dishes.Key.options.Add((string)optionOut["id"], (int)optionOut["qty"]);
-		//			//		}
-		//			//		//dishes.Key.options = (string)contentOut["options"];
-		//			//		dishes.Key.status = (int)contentOut["status"];
-		//			//		break;
-		//			//	}
-		//			//}
-		//		}
-		//	}
-		//	Order.orders.Add(ord);
-		//	return ord;
-		//}
+			return null;
+
+			string str = "";
+			dynamic output = JsonConvert.DeserializeObject(str);
+			string numOrder = (string)output["numOrder"];
+			int numTable = (int)output["numOrder"];
+			int numPA = (int)output["numPA"];
+			string date = (string)output["date"];
+			DateTime hour = (DateTime)output["hour"];
+			string globalComment = (string)output["globalComment"];
+			Order ord = new Order(numOrder, numTable, numPA, date, hour);
+			ord.GlobalComment = globalComment;
+			foreach (Object order in output["order"])
+			{
+				string orderStr = order.ToString();
+				dynamic orderOut = JsonConvert.DeserializeObject(orderStr);
+				string menuId = (string)orderOut["menuId"];
+				Menu menu = null;
+				foreach (Menu m in Menu.menus)
+				{
+					if (m.IDMenu == menuId)
+					{
+						ord.Menus.Add(m);
+						menu = ord.Menus.Last();
+						break;
+					}
+				}
+				foreach (Object content in orderOut["content"])
+				{
+					string contentStr = content.ToString();
+					dynamic contentOut = JsonConvert.DeserializeObject(contentStr);
+					string id = (string)contentOut["id"];
+					foreach (Dish dish in Dish.dishes)
+					{
+						if (id == dish.ID)
+						{
+							MyDictionary<Dish> dict = new MyDictionary<Dish>();
+							dict.Value = (int)contentOut["qty"];
+							dict.Key = dish;
+							dict.Key.comment = (string)contentOut["comment"];
+							foreach (Object option in contentOut["options"])
+							{
+								str = option.ToString();
+								dynamic optionOut = JsonConvert.DeserializeObject(str);
+								foreach (KeyValuePair<string, int> op in dict.Key.options)
+								{
+									if (op.Key == (string)optionOut["id"])
+									{
+										int nb = dict.Value + (int)optionOut["qty"];
+										dict.Key.options.Remove(op.Key);
+										dict.Key.options.Add(op.Key, nb);
+										break;
+									}
+								}
+								//dict.Key.options. Add((string)optionOut["id"], (int)optionOut["qty"]);
+							}
+							dict.Key.status = (int)contentOut["status"];
+							menu.Dishes.Add(dict);
+							break;
+						}
+					}
+					//foreach (MyDictionary<Dish> dishes in menu.Dishes)
+					//{
+					//	if (id == dishes.Key.ID)
+					//	{
+					//		dishes.Value = (int)contentOut["qty"];
+					//		dishes.Key.comment = (string)contentOut["comment"];
+					//		foreach (Object option in contentOut["options"])
+					//		{
+					//			str = option.ToString();
+					//			dynamic optionOut = JsonConvert.DeserializeObject(str);
+					//			dishes.Key.options.Add((string)optionOut["id"], (int)optionOut["qty"]);
+					//		}
+					//		//dishes.Key.options = (string)contentOut["options"];
+					//		dishes.Key.status = (int)contentOut["status"];
+					//		break;
+					//	}
+					//}
+				}
+			}
+			Order.orders.Add(ord);
+			return ord;
+		}
 
 		private async Task GetMenus()
 		{
 			string str = await GetaString("menus");
-			if (str == null)
+			if (str == null || str == "")
 				return;
 			//string str = "{\"elements\": [{\"name\": \"Délices\", \"createdAt\": \"2016-05-05T03:31:12.211Z\", \"updatedAt\": \"2016-05-05T03:31:12.211Z\", \"id\": \"572abe8049bb4c97702057db\"}, ";
 			//str += "{\"name\": \"alacarte\", \"createdAt\": \"2016-05-08T17:31:17.702Z\", \"updatedAt\": \"2016-05-08T17:31:17.702Z\", \"id\": \"572f77e5e4e081cc7a7006d2\"}, ";
@@ -187,7 +196,7 @@ namespace FastOrdering.Misc
 		private async Task GetCategories()
 		{
 			string str = await GetaString("cats");
-			if (str == null)
+			if (str == null || str == "")
 				return;
 			//string str = "[{\"name\": \"Entrées_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:21.278Z\", \"updatedAt\": \"2016-05-05T03:29:21.278Z\", \"id\": \"572abe1149bb4c97702057d8\"}, ";
 			//str += "{\"name\": \"Plats_alacarte\", \"colorString\": \"16777215\", \"createdAt\": \"2016-05-05T03:29:30.359Z\", \"updatedAt\": \"2016-05-05T03:29:30.359Z\", \"id\": \"572abe1a49bb4c97702057d9\"}, ";
@@ -210,7 +219,7 @@ namespace FastOrdering.Misc
 		private async Task GetDishes()
 		{
 			string str = await GetaString("elements");
-			if (str == null)
+			if (str == null || str == "")
 				return;
 			//string str = "{\"elements\": [{\"id\": \"572f78d9937726dc7ab8f8f2\", \"name\": \"Crottin de chèvre frais sur pomme\", \"price\": 0, \"categories_ids\": [\"572f7883937726dc7ab8f8ef\"], \"available\": true, \"options\" : [\"234335t43\"], \"createdAt\": \"2016-05-08T17:35:21.100Z\", \"updatedAt\": \"2016-05-08T17:35:21.100Z\"}, ";
 			//str += "{\"available\": true, \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f797b937726dc7ab8f8f9\"], \"createdAt\": \"2016-05-08T17:35:47.075Z\", \"id\": \"572f78f3937726dc7ab8f8f4\", \"name\": \"Plat végétarien \", \"price\": 10, \"options\" : [\"234335t43\"], \"updatedAt\": \"2016-05-08T17:51:12.064Z\"}]}";
@@ -226,7 +235,7 @@ namespace FastOrdering.Misc
 		private async Task GetAlacarte()
 		{
 			string str = await GetaString("alacarte");
-			if (str == null)
+			if (str == null || str == "")
 				return;
 			//string str = "{\"elements\": {\"id\": \"572f77e5e4e081cc7a7006d2\", \"name\": \"alacarte\", \"compo\": [\"572f7929937726dc7ab8f8f6\", \"572f793f937726dc7ab8f8f7\", \"572f7a3f937726dc7ab8f904\", \"572f7d3fd3a349ab7b1d860e\", \"572f7d4bd3a349ab7b1d860f\", \"572f7d56d3a349ab7b1d8610\"]}}";
 
@@ -257,7 +266,7 @@ namespace FastOrdering.Misc
 		private async Task GetCompos()
 		{
 			string str = await GetaString("compos");
-			if (str == null)
+			if (str == null || str == "")
 				return;
 			//string str = "{\"elements\": [{\"name\": \"Entrée et plat\", \"price\": 12, \"menu_id\": \"572abe8049bb4c97702057db\", \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572f7883937726dc7ab8f8ef\"], \"createdAt\": \"2016-05-08T17:36:41.009Z\", \"updatedAt\": \"2016-05-08T17:36:41.009Z\", \"id\": \"572f7929937726dc7ab8f8f6\"}, ";
 			//str += "{\"name\": \"Plat et dessert\", \"price\": 10, \"menu_id\": \"572abe8049bb4c97702057db\", \"categories_ids\": [\"572abdb149bb4c97702057d5\", \"572abe2049bb4c97702057da\"], \"createdAt\": \"2016-05-08T17:37:03.596Z\", \"updatedAt\": \"2016-05-08T17:37:03.596Z\", \"id\": \"572f793f937726dc7ab8f8f7\"}, ";
@@ -277,7 +286,7 @@ namespace FastOrdering.Misc
 		private async Task GetOptions()
 		{
 			string str = await GetaString("option");
-			if (str == null)
+			if (str == null || str == "")
 				return;
 			//string str = "{\"elements\": [{\"id\": \"234335t43\", \"values\": [{\"name\": \"bleue\", \"id\": \"324r434\"}]}]}";
 
@@ -327,26 +336,10 @@ namespace FastOrdering.Misc
 			{
 				System.Diagnostics.Debug.WriteLine(data.ToString());
 			});
-			return;
-			socket.On(SocketIO.EVENT_CONNECT, () =>
+			socket.On("get_order", (object data) =>
 			{
-				JObject jsonObject = new JObject();
-				jsonObject["url"] = "/option";
-				var json = jsonObject.ToString();
-				socket.Emit("get", new AckImpl((data) =>
-				{
-					System.Diagnostics.Debug.WriteLine("works");
-					System.Diagnostics.Debug.WriteLine(data.ToString());
-				}), jsonObject);
-				System.Diagnostics.Debug.WriteLine("emit");
-			});
-			socket.On(SocketIO.EVENT_ERROR, (object data) =>
-			{
-				System.Diagnostics.Debug.WriteLine("#####");
 				System.Diagnostics.Debug.WriteLine(data.ToString());
-				System.Diagnostics.Debug.WriteLine("#####");
 			});
-			//socket.Disconnect();
 			return;
 		}
 
@@ -367,7 +360,7 @@ namespace FastOrdering.Misc
 			return;
 			//GetOrder();
 			//SendOrder();
-			ReceiveOrder();
+			//ReceiveOrder();
 			//GetNotification();
 		}
 	}

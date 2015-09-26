@@ -31,10 +31,6 @@ namespace FastOrdering.View
 		public OrdersView()
 		{
 			this.InitializeComponent();
-			//DrawerLayout.InitializeDrawerLayout();
-			//orders = new ObservableCollection<Order>();
-			//orders.Add(new Order(1, 5, DateTime.Now, orders.Count + 1));
-			//orders.Add(new Order(2, 3, DateTime.Today, orders.Count + 1));
 			OrdersListbox.ItemsSource = Order.orders;
 
 			if (Order.orders.Count == 0)
@@ -58,14 +54,6 @@ namespace FastOrdering.View
 		{
 		}
 
-		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
-		//{
-		//	if (DrawerLayout.IsDrawerOpen)
-		//		DrawerLayout.CloseDrawer();
-		//	else
-		//		DrawerLayout.OpenDrawer();
-		//}
-
 		private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			string id = (sender as Grid).Tag.ToString();
@@ -76,8 +64,7 @@ namespace FastOrdering.View
 					ord = o;
 			}
 
-			//string emit = "{\"order\": \"" + id + "\"}";
-			//ord = Socket.GetOrder();
+			ord = Socket.GetOrder(id);
 			if (ord == null)
 				return;
 

@@ -48,8 +48,8 @@
                                     </Grid.RowDefinitions>
 
                                     <StackPanel Orientation="Horizontal" DataContext="{Binding Ord}">
-                                        <TextBlock Grid.Row="0" Text="Commande #" Foreground="Black" FontSize="20" />
-                                        <TextBlock Grid.Row="0" Text="{Binding ID}" Foreground="Black" FontSize="20" />
+                                        <TextBlock Grid.Row="0" Text="Commande" Foreground="Black" FontSize="20" />
+                                        <!--<TextBlock Grid.Row="0" Text="{Binding ID}" Foreground="Black" FontSize="20" />-->
                                     </StackPanel>
                                     <Grid Grid.Row="1" Margin="0,10,0,0" DataContext="{Binding Ord}">
                                         <Grid.ColumnDefinitions>
@@ -90,56 +90,56 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>-->
-                                        <ListView x:Name="MenusList" DataContext="{Binding Ord}" ItemsSource="{Binding Menus}">
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel>
-                                                        <TextBlock Text="{Binding Name}" FontSize="20" />
-                                                        <ListView x:Name="EntryList" ItemsSource="{Binding Dishes}" Margin="20, 0, 0, 0">
-                                                            <ListView.ItemContainerStyle>
-                                                                <Style TargetType="ListViewItem">
-                                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                                </Style>
-                                                            </ListView.ItemContainerStyle>
-                                                            <ListView.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <TextBlock Text="{Binding Value}" FontSize="16" />
-                                                                        <TextBlock Text="x" FontSize="16" />
-                                                                        <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
+                                    <ListView x:Name="MenusList" DataContext="{Binding Ord}" ItemsSource="{Binding Menus}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}" FontSize="20" />
+                                                    <ListView x:Name="EntryList" ItemsSource="{Binding Dishes}" Margin="20, 0, 0, 0">
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding Value}" FontSize="16" />
+                                                                    <TextBlock Text="x" FontSize="16" />
+                                                                    <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
                                                                                FontSize="16" Margin="10, 0, 0, 0" />
-                                                                    </StackPanel>
-                                                                </DataTemplate>
-                                                            </ListView.ItemTemplate>
-                                                        </ListView>
-                                                        <ListView x:Name="DessertList" ItemsSource="{Binding Desserts}" Margin="20, 0, 0, 0">
-                                                            <ListView.ItemContainerStyle>
-                                                                <Style TargetType="ListViewItem">
-                                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                                </Style>
-                                                            </ListView.ItemContainerStyle>
-                                                            <ListView.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <StackPanel Orientation="Horizontal">
-                                                                        <TextBlock Text="{Binding Value}" FontSize="16" />
-                                                                        <TextBlock Text="x" FontSize="16" />
-                                                                        <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                    <ListView x:Name="DessertList" ItemsSource="{Binding Desserts}" Margin="20, 0, 0, 0">
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding Value}" FontSize="16" />
+                                                                    <TextBlock Text="x" FontSize="16" />
+                                                                    <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
                                                                                FontSize="16" Margin="10, 0, 0, 0" />
-                                                                    </StackPanel>
-                                                                </DataTemplate>
-                                                            </ListView.ItemTemplate>
-                                                        </ListView>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
 
-                                        <!--<ListView x:Name="DishOrdList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
+                                    <!--<ListView x:Name="DishOrdList" DataContext="{Binding Ord}" ItemsSource="{Binding Dishes}">
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -203,26 +203,26 @@
                                                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                                 </Style>
                                                             </ListView.ItemContainerStyle>-->
-                                                            <ListView.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <Grid>
-                                                                        <Grid.RowDefinitions>
-                                                                            <RowDefinition Height="Auto" />
-                                                                        </Grid.RowDefinitions>
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="*" />
-                                                                            <ColumnDefinition Width="Auto" />
-                                                                        </Grid.ColumnDefinitions>
-                                                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}"
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}"
                                                                                    FontSize="14" VerticalAlignment="Center" Margin="15, 0, 0, 0" />
-                                                                        <TextBox x:Name="Entries" InputScope="Number" Text="0"
+                                                        <TextBox x:Name="Entries" InputScope="Number" Text="0"
                                                                                  Grid.Row="0" Grid.Column="1"
                                                                                  Tag="{Binding ID}" LostFocus="TextBox_LostFocus" />
-                                                                    </Grid>
-                                                                </DataTemplate>
-                                                            </ListView.ItemTemplate>
-                                                        </ListView>
-                                                    <!--</StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                        <!--</StackPanel>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>-->
                                         <!--</ListView>-->
@@ -454,19 +454,19 @@
         </drawerLayout:DrawerLayout>-->
     </Grid>
 
-        <Page.BottomAppBar>
-            <CommandBar>
-                <CommandBar.PrimaryCommands>
-                    <AppBarButton Icon="Home" Label="Reception" Click="Home_Click" />
-                    <AppBarButton x:Name="SendOrderButton" Icon="Send" Label="Envoyer" Click="SendOrder" />
-                    <AppBarButton x:Name="BackToOrderButton" Icon="Back" Label="Ajouter" Click="BackToOrder" />
-                </CommandBar.PrimaryCommands>
-                <CommandBar.SecondaryCommands>
-                    <AppBarButton Label="Notification" Click="Notification_Click" />
-                    <AppBarButton Label="Historique" Click="History_Click" />
-                    <AppBarButton Label="A propos" Click="About_Click" />
-                    <AppBarButton Label="Déconnexion" Click="LogOut_Click" />
-                </CommandBar.SecondaryCommands>
-            </CommandBar>
-        </Page.BottomAppBar>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Home" Label="Reception" Click="Home_Click" />
+                <AppBarButton x:Name="SendOrderButton" Icon="Send" Label="Envoyer" Click="SendOrder" />
+                <AppBarButton x:Name="BackToOrderButton" Icon="Back" Label="Ajouter" Click="BackToOrder" />
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Notification" Click="Notification_Click" />
+                <AppBarButton Label="Historique" Click="History_Click" />
+                <AppBarButton Label="A propos" Click="About_Click" />
+                <AppBarButton Label="Déconnexion" Click="LogOut_Click" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

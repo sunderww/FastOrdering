@@ -18,11 +18,10 @@ namespace FastOrdering.Model
 			this.numTable = table_id;
 			this.pa = dinerNumber;
 			DateTime d;
-			//DateTime d = DateTime.ParseExact(date, "d/M/yyyy", null);
 			if (DateTime.TryParseExact(date, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
 				this.date = new DateTime(d.Year, d.Month, d.Day, time.Hour, time.Minute, time.Second);
 			this.id = id;
-			this.globalComment = "ééé";
+			this.globalComment = "";
 		}
 
 		public void PrepareOrder()
@@ -32,16 +31,6 @@ namespace FastOrdering.Model
 				menu.FillContent();
 			}
 		}
-
-		//[JsonConstructor]
-		//public Order(int numOrder, int numTable, int numPA, DateTime date, DateTime hour, string globalComment)
-		//{
-		//	this.numTable = numTable;
-		//	this.pa = numPA;
-		//	this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
-		//	this.id = numOrder;
-		//	this.globalComment = globalComment;
-		//}
 
 		[JsonIgnore]
 		public string numOrder { get { return this.id; } }

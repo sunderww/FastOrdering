@@ -28,6 +28,7 @@ namespace FastOrdering.View
 		public LoginView()
 		{
 			this.InitializeComponent();
+			ID.Text = "55f0a0ea3f5b415b2023ede8";
 		}
 
 		/// <summary>
