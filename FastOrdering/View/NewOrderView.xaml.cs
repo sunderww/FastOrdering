@@ -29,9 +29,9 @@ namespace FastOrdering.View
 			get { return Menu.menus; }
 		}
 
-		public ObservableCollection<Dish> ALaCarte
+		public ObservableCollection<Category> ALaCarte
 		{
-			get { return Menu.ALaCarte; }
+			get { return Menu.alacarte.Categories; }
 		}
 
 		private Collection<KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>> categoriesDishes = new Collection<KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>>();
@@ -77,6 +77,7 @@ namespace FastOrdering.View
 		private void SendOrder(object sender, RoutedEventArgs e)
 		{
 			Socket.SendOrder(ord);
+			Frame.Navigate(typeof(ReceptionView));
 		}
 
 		private void ToggleSwitch_Menu(object sender, RoutedEventArgs e)
@@ -326,25 +327,52 @@ namespace FastOrdering.View
 			}
 		}
 
-		private void ToggleSwitch_Toggled_1(object sender, RoutedEventArgs e)
+		private void TextBox_Alacarte(object sender, RoutedEventArgs e)
 		{
-			var toggleSwitch = sender as ToggleSwitch;
-			var g = toggleSwitch.Parent as StackPanel;
-			ListView lv = null;
+			TextBox tb = sender as TextBox;
+			Menu menu = null;
+			bool isAlreadyIn = false;
 
-			foreach (var elem in g.Children)
+			foreach (Menu m in ord.Menus)
 			{
-				lv = elem as ListView;
-				if (lv != null)
+				if (m.IDMenu == Menu.alacarte.IDMenu)
+				{
+					menu = m;
+					isAlreadyIn = true;
 					break;
+				}
 			}
+			if (!isAlreadyIn)
+				menu = Menu.alacarte;
+			if (menu == null)
+				return;
 
-			if (toggleSwitch != null && lv != null)
+			foreach (KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string> col in categoriesDishes)
 			{
-				if (toggleSwitch.IsOn == true)
-					lv.Visibility = Visibility.Visible;
-				else
-					lv.Visibility = Visibility.Collapsed;
+				foreach (MyDictionary<Dish> dish in col.Key)
+				{
+					if (dish.Key.ID == tb.Tag.ToString())
+					{
+						foreach (var d in menu.Dishes)
+						{
+							if (d.Key.ID == dish.Key.ID)
+							{
+								menu.Dishes.Remove(d);
+								break;
+							}
+						}
+						if (tb.Text.Replace(".", "") == "")
+							tb.Text = "0";
+						dish.Value = int.Parse(tb.Text);
+						if (dish.Value > 0)
+							menu.Dishes.Add(dish);
+						if (menu.Dishes.Count == 0)
+							ord.Menus.Remove(menu);
+						if (!isAlreadyIn && menu.Dishes.Count > 0)
+							ord.Menus.Add(menu);
+						break;
+					}
+				}
 			}
 		}
 

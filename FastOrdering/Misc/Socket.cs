@@ -246,13 +246,13 @@ namespace FastOrdering.Misc
 			//{
 			//	if (m.menuId == (string)((output["elements"])["id"]))
 			//	{
-			foreach (Composition compo in Composition.compositions)
+			foreach (Category cat in Category.categories)
 			{
 				foreach (string id in tab)
 				{
-					if (id == compo.ID)
+					if (id == cat.ID)
 					{
-						Menu.alacarte.Compositions.Add(compo);
+						Menu.alacarte.Categories.Add(cat);
 						break;
 					}
 				}
@@ -337,6 +337,10 @@ namespace FastOrdering.Misc
 				System.Diagnostics.Debug.WriteLine(data.ToString());
 			});
 			socket.On("get_order", (object data) =>
+			{
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+			});
+			socket.On("authentication", (object data) =>
 			{
 				System.Diagnostics.Debug.WriteLine(data.ToString());
 			});

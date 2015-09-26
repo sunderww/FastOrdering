@@ -33,31 +33,6 @@ namespace FastOrdering.Model
 			this.hasNoCompo = (entryDish == "Visible" || dishDessert == "Visible") ? "Collapsed" : "Visible";
 			this.Entry = "Collapsed";
 			this.Dessert = "Collapsed";
-
-			//MyDictionary<Dish> d = new MyDictionary<Dish>();
-			//d.Key = new Dish("0", 5, "Salade");
-			//d.Value = 0;
-			//entries.Add(d);
-			//MyDictionary<Dish> d2 = new MyDictionary<Dish>();
-			//d2.Key = new Dish("2", 3, "Radis");
-			//entries.Add(d2);
-
-			//MyDictionary<Dish> d3 = new MyDictionary<Dish>();
-			//d3.Key = new Dish("1", 9, "Bavette");
-			//dishes.Add(d3);
-			//MyDictionary<Dish> d1 = new MyDictionary<Dish>();
-			//d1.Key = new Dish("4", 8, "Moules frites");
-			//dishes.Add(d1);
-			//MyDictionary<Dish> d4 = new MyDictionary<Dish>();
-			//d4.Key = new Dish("7", 10, "Boeuf bourguignon");
-			//dishes.Add(d4);
-
-			//MyDictionary<Dish> d5 = new MyDictionary<Dish>();
-			//d5.Key = new Dish("8", 4, "Glace");
-			//desserts.Add(d5);
-			//MyDictionary<Dish> d6 = new MyDictionary<Dish>();
-			//d6.Key = new Dish("9", 5, "Gâteau");
-			//desserts.Add(d6);
 		}
 
 		public void FillContent()
@@ -156,6 +131,14 @@ namespace FastOrdering.Model
 		public ObservableCollection<Composition> Compositions
 		{
 			get { return compositions; }
+		}
+
+		[JsonIgnore]
+		private ObservableCollection<Category> categories = new ObservableCollection<Category>();
+		[JsonIgnore]
+		public ObservableCollection<Category> Categories
+		{
+			get { return categories; }
 		}
 	}
 }
