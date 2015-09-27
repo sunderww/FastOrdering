@@ -73,9 +73,8 @@ NSObject *  dictSafeValue(NSObject *obj) {
 
 - (void)sanitizeInContext:(NSManagedObjectContext *)context {
 	for (OrderContent * content in [NSSet setWithSet:self.orderContents]) {
-		if (!content.isEmpty) {
-			[content sanitizeInContext:context];
-		} else {
+		[content sanitizeInContext:context];
+		if (content.isEmpty) {
 			content.order = nil;
 			[context deleteObject:content];
 		}

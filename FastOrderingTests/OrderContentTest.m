@@ -39,16 +39,88 @@
     [super tearDown];
 }
 
-- (void)testSanitize {
+- (void)testSanitizeEmpty {
+	OrderContent * content = [OrderContent createInContext:self.moc];
+	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
+	[content sanitizeInContext:self.moc];
+	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
+}
+
+- (void)testSanitizeWithSanitizing {
+	OrderContent * content = [OrderContent createInContext:self.moc];
+
+	Dish * dish = [Dish createInContext:self.moc];
+	dish.name = @"Empty dish";
+
+	OrderedDish * ordered = [OrderedDish createInContext:self.moc];
+	ordered.dish = dish;
+	ordered.content = content;
+	ordered.quantity = @0;
+
+	XCTAssertEqual(content.dishes.count, 1, @"OrderContent should have 1 dish");
+	[content sanitizeInContext:self.moc];
+	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
+}
+
+- (void)testSanitizeWithEmptyQuantity {
+	OrderContent * content = [OrderContent createInContext:self.moc];
+	
+	Dish * dish = [Dish createInContext:self.moc];
+	dish.name = @"No Quantity Dish";
+	
+	OrderedDish * ordered = [OrderedDish createInContext:self.moc];
+	ordered.dish = dish;
+	ordered.content = content;
+
+	XCTAssertEqual(content.dishes.count, 1, @"OrderContent should have 1 dish");
+	[content sanitizeInContext:self.moc];
+	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
+}
+
+- (void)testSanitizeWithoutSanitizing {
+	OrderContent * content = [OrderContent createInContext:self.moc];
+	NSMutableArray * dishes = [NSMutableArray new];
+	Dish * dish;
+	OrderedDish * ordered;
+	
+	// First dish
+	dish = [Dish createInContext:self.moc];
+	dish.name = @"Dish 1";
+	ordered = [OrderedDish createInContext:self.moc];
+	ordered.dish = dish;
+	ordered.content = content;
+	ordered.quantity = @2;
+	[dishes addObject:ordered];
+	
+	// Second dish
+	dish = [Dish createInContext:self.moc];
+	dish.name = @"Dish 2";
+	ordered = [OrderedDish createInContext:self.moc];
+	ordered.dish = dish;
+	ordered.content = content;
+	ordered.quantity = @3;
+	[dishes addObject:ordered];
+	
+	// Third dish
+	dish = [Dish createInContext:self.moc];
+	dish.name = @"Dish 3";
+	ordered = [OrderedDish createInContext:self.moc];
+	ordered.dish = dish;
+	ordered.content = content;
+	ordered.quantity = @1;
+	[dishes addObject:ordered];
+	
+	XCTAssertEqual(content.dishes.count, dishes.count, @"OrderContent should have %lu dishes", dishes.count);
+	[content sanitizeInContext:self.moc];
+	XCTAssertEqual(content.dishes.count, dishes.count, @"OrderContent should have %lu dishes", dishes.count);
+}
+
+- (void)testSanitizeComplete {
 	OrderContent * content = [OrderContent createInContext:self.moc];
 	NSMutableArray * dishes = [NSMutableArray new];
 	NSMutableArray * emptyDishes = [NSMutableArray new];
 	Dish * dish;
 	OrderedDish * ordered;
-
-	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
-	[content sanitizeInContext:self.moc];
-	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
 	
 	// First dish
 	dish = [Dish createInContext:self.moc];
@@ -84,17 +156,6 @@
 	XCTAssertEqual(content.dishes.count, dishes.count - emptyDishes.count, @"OrderContent should have %lu dishes", dishes.count - emptyDishes.count);
 	[content sanitizeInContext:self.moc];
 	XCTAssertEqual(content.dishes.count, dishes.count - emptyDishes.count, @"OrderContent should have %lu dishes", dishes.count - emptyDishes.count);
-	
-	content = [OrderContent createInContext:self.moc];
-	dish = [Dish createInContext:self.moc];
-	dish.name = @"Dish 4";
-	ordered = [OrderedDish createInContext:self.moc];
-	ordered.dish = dish;
-	ordered.content = content;
-	ordered.quantity = @0;
-	[dishes addObject:ordered];
-	[content sanitizeInContext:self.moc];
-	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
 }
 
 - (void)testIsEmpty {

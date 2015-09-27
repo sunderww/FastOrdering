@@ -11,7 +11,9 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "NSManagedObject+create.h"
-
+#import "MenuModel.h"
+#import "Menu+Custom.h"
+#import "NSManagedObject+create.h"
 
 @interface MenuModelTest : XCTestCase
 
@@ -37,16 +39,120 @@
     [super tearDown];
 }
 
-- (void)testMenusWithMenus {
-    XCTAssert(YES, @"Pass");
+- (void)testMenusWithEverything {
+	NSMutableArray * expected = [NSMutableArray new];
+
+	Menu * menu = [Menu createInContext:self.moc];
+	menu.name = @"menu1";
+	[expected addObject:menu];
+	
+	menu = [Menu createInContext:self.moc];
+	menu.name = @"";
+	[expected addObject:menu];
+	
+	menu = [Menu createInContext:self.moc];
+	// try without setting a name
+	[expected addObject:menu];
+	
+	menu = [Menu createInContext:self.moc];
+	menu.name = kMenuALaCarteName;
+
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+
+	NSArray * menus = model.menus;
+	XCTAssertEqual(menus.count, expected.count);
+	for (Menu * m in menus) {
+		XCTAssertNotEqualObjects(m.name, kMenuALaCarteName, @"%@ should not be in the menus", kMenuALaCarteName);
+	}
 }
 
-- (void)testALaCarteWithMenus {
-	XCTAssert(YES, @"Pass");
+- (void)testALaCarteWithEverything {
+	Menu * menu = [Menu createInContext:self.moc];
+	menu.name = @"menu1";
+	
+	menu = [Menu createInContext:self.moc];
+	menu.name = @"";
+	
+	menu = [Menu createInContext:self.moc];
+	// try without setting a name
+
+	menu = [Menu createInContext:self.moc];
+	menu.name = kMenuALaCarteName;
+
+	
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+	XCTAssertEqualObjects(model.alacarte, menu, @"Alacarte menus should be equals");
+	XCTAssertEqualObjects(model.alacarte.name, kMenuALaCarteName, @"alacarte name should be %@", kMenuALaCarteName);
+}
+
+- (void)testMenusEmptyMenus {
+	Menu * menu = [Menu createInContext:self.moc];
+	menu.name = kMenuALaCarteName;
+	
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+	XCTAssertEqual(model.menus.count, 0, @"There shouldn't be any menus with only alacarte in database");
+}
+
+- (void)testALaCarteEmptyMenus {
+	Menu * menu = [Menu createInContext:self.moc];
+	menu.name = kMenuALaCarteName;
+	
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+	XCTAssertEqualObjects(model.alacarte, menu, @"Alacarte menus should be equals");
+	XCTAssertEqualObjects(model.alacarte.name, kMenuALaCarteName, @"alacarte name should be %@", kMenuALaCarteName);}
+
+- (void)testMenusEmptyCarte {
+	NSMutableArray * expected = [NSMutableArray new];
+
+	Menu * menu = [Menu createInContext:self.moc];
+	menu.name = @"menu1";
+	[expected addObject:menu];
+	
+	menu = [Menu createInContext:self.moc];
+	menu.name = @"";
+	[expected addObject:menu];
+	
+	menu = [Menu createInContext:self.moc];
+	// try without setting a name
+	[expected addObject:menu];
+	
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+	XCTAssertEqual(model.menus.count, expected.count, @"There should only be %lu menus", (unsigned long)expected.count);
+}
+
+- (void)testALaCarteEmptyCarte {
+	Menu * menu = [Menu createInContext:self.moc];
+	menu.name = @"menu1";
+	
+	menu = [Menu createInContext:self.moc];
+	menu.name = @"";
+
+	menu = [Menu createInContext:self.moc];
+	// try without setting a name
+	
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+	
+	XCTAssertNil(model.alacarte, @"Expected alacarte to be nil with only menus in database");
+}
+
+- (void)testMenusEmpty {
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+	
+	XCTAssertEqual(model.menus.count, 0, @"There shouldn't be any menus with no objects in database");
 }
 
 - (void)testALaCarteEmpty {
-	XCTAssert(YES, @"Pass");
+	MenuModel * model = [MenuModel new];
+	model.context = self.moc;
+
+	XCTAssertNil(model.alacarte, @"Expected alacarte to be nil with no object in database");
 }
 
 @end
