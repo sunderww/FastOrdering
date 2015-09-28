@@ -19,6 +19,7 @@
 "Order"                         =   "Commande";
 "Covers :"						=	"Couverts :";
 "Table :"						=	"Table :";
+"Comments :"					=	"Commentaires :";
 
 /* Misc */
 "Erase all"                     =   "Tout effacer";

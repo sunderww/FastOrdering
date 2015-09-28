@@ -25,6 +25,8 @@
 	
 	IBOutlet UILabel *		tableNumberLabel;
 	IBOutlet UITextField *	tableNumberField;
+	IBOutlet UILabel *		commentLabel;
+	IBOutlet UITextView *	commentTextView;
 	IBOutlet UILabel *		numPALabel;
 	IBOutlet UITextField *	numPAField;
 	IBOutlet UIButton *     orderButton;

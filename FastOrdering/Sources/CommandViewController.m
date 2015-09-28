@@ -47,16 +47,19 @@
 	reviewTableView.delegate = reviewModel;
 	reviewTableView.dataSource = reviewModel;
 	
-	numPAField.text = self.order.dinerNumber ? self.order.dinerNumber.stringValue : nil;
+	numPAField.text = self.order.dinerNumber.integerValue ? self.order.dinerNumber.stringValue : nil;
 	tableNumberField.text = self.order.numTable ? self.order.numTable : nil;
+	commentTextView.text = self.order.comments;
 	
 	[menuButton setTitle:NSLocalizedString(@"Menus", @"").uppercaseString forState:UIControlStateNormal];
 	[alacarteButton setTitle:NSLocalizedString(@"A la carte", @"").uppercaseString forState:UIControlStateNormal];
 	[reviewButton setTitle:NSLocalizedString(@"Order", @"").uppercaseString forState:UIControlStateNormal];
 	[addAlacarteButton setTitle:NSLocalizedString(@"add", @"").uppercaseString forState:UIControlStateNormal];
 	[orderButton setTitle:NSLocalizedString(@"order", @"").uppercaseString forState:UIControlStateNormal];
+
 	tableNumberLabel.text = NSLocalizedString(tableNumberLabel.text, @"");
 	numPALabel.text = NSLocalizedString(numPALabel.text, @"");
+	commentLabel.text = NSLocalizedString(commentLabel.text, @"");
 
 	[self buttonClicked:(forceReview ? reviewButton : menuButton)];
 }
@@ -177,19 +180,10 @@
 	[self.order sanitize];
 	self.order.numTable = tableNumberField.text;
 	self.order.dinerNumber = @(numPAField.text.integerValue);
+	self.order.comments = commentTextView.text;
 
 //	DPPLog(@"FORCE FAIL");
 //	return [self orderFailed];
-
-//	NSDictionary* headers = @{@"Content-Type": @"application/json"};
-//	
-//	UNIHTTPJsonResponse *response = [[UNIRest post:^(UNISimpleRequest *request) {
-//  [request setUrl:[NSString stringWithFormat:@"http://%@:%d/send_order", kSocketIOHost, kSocketIOPort]];
-//  [request setHeaders:headers];
-//  [request setParameters:@{@"json": self.order.toJSONString}];
-//	}] asJson];
-//	
-//	PPLog(@"%@", response.body);
 	
 	if (!helper.socket.isConnected) return [self orderFailed];
 	
