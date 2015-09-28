@@ -15,11 +15,11 @@
 //# define kSkipLoginView
 
 // Uncomment the following line to not check the server validation
-# define kLoginDoNotValidate
+//# define kLoginDoNotValidate
 #endif
 
 // The key of the JSON response send by the server : { valid: true }
-#define kLoginResponseKey	@"valid"
+#define kLoginResponseKey	@"answer"
 
 @interface LoginViewController ()
 
@@ -57,17 +57,21 @@
 - (void)nextPage {
 	MainViewController * controller = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
 	[self.navigationController pushViewController:controller animated:YES];
+	loginButton.enabled = YES;
 }
 
 - (void)loginFailedWithWrongKey:(NSNumber *)wrongKey {
 	NSString * message = NSLocalizedString(wrongKey.boolValue ? @"Login_ErrorMessage" : @"Connectivity_ErrorMessage", @"");
 	[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+	loginButton.enabled = YES;
+	loader.hidden = YES;
 }
 
 #pragma mark - IBAction methods
 
 - (IBAction)login {
 	[SocketHelper connectSocket];
+	loginButton.enabled = NO;
 	
 #ifdef kLoginDoNotValidate
 	[self nextPage];
@@ -85,7 +89,6 @@
 		NSNumber * loggedIn = [data valueForKey:kLoginResponseKey];
 
 		// Check these lines with a working connection
-#warning NOT TESTED CODE
 		if (loggedIn.boolValue) {
 			[self nextPage];
 		} else {
