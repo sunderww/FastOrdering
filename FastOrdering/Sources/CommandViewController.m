@@ -53,6 +53,9 @@
 	[menuButton setTitle:NSLocalizedString(@"Menus", @"").uppercaseString forState:UIControlStateNormal];
 	[alacarteButton setTitle:NSLocalizedString(@"A la carte", @"").uppercaseString forState:UIControlStateNormal];
 	[reviewButton setTitle:NSLocalizedString(@"Order", @"").uppercaseString forState:UIControlStateNormal];
+	[orderButton setTitle:NSLocalizedString(@"order", @"").uppercaseString forState:UIControlStateNormal];
+	tableNumberLabel.text = NSLocalizedString(tableNumberLabel.text, @"");
+	numPALabel.text = NSLocalizedString(numPALabel.text, @"");
 
 	[self buttonClicked:(forceReview ? reviewButton : menuButton)];
 }

@@ -20,7 +20,9 @@
 	IBOutlet UIButton *     menuButton;
 	IBOutlet UIButton *     alacarteButton;
 	IBOutlet UIButton *     reviewButton;
+	IBOutlet UILabel *		tableNumberLabel;
 	IBOutlet UITextField *	tableNumberField;
+	IBOutlet UILabel *		numPALabel;
 	IBOutlet UITextField *	numPAField;
 	IBOutlet UIButton *     orderButton;
 	IBOutlet UIView *		alacarteView;

@@ -17,6 +17,8 @@
 "Menus"                         =   "Menus";
 "A la carte"                    =   "A la carte";
 "Order"                         =   "Commande";
+"Covers :"						=	"Couverts :";
+"Table :"						=	"Table :";
 
 /* Misc */
 "Erase all"                     =   "Tout effacer";
