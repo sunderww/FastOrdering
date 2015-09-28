@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommandViewController">
             <connections>
+                <outlet property="addAlacarteButton" destination="kof-Ls-Azj" id="R4j-55-F7G"/>
                 <outlet property="alacarteButton" destination="Vbd-Xo-Ofh" id="47I-fN-Fha"/>
                 <outlet property="alacarteView" destination="TpI-yF-fk2" id="EJM-ch-bnr"/>
                 <outlet property="carteTableView" destination="BVT-9S-e0W" id="eSn-TK-6mo"/>
@@ -116,12 +117,25 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="BVT-9S-e0W" customClass="SLExpandableTableView">
-                            <rect key="frame" x="0.0" y="0.0" width="280" height="468"/>
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="416"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </tableView>
+                        <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kof-Ls-Azj">
+                            <rect key="frame" x="0.0" y="430" width="280" height="40"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                            <state key="normal" title="ADD" backgroundImage="green_button_default">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted" backgroundImage="green_button_pressed"/>
+                            <connections>
+                                <action selector="buttonClicked:" destination="-1" eventType="touchUpInside" id="2gn-IS-V80"/>
+                            </connections>
+                        </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.064182253650000007" green="0.70201300180000004" blue="0.20452212589999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view hidden="YES" tag="102" contentMode="scaleToFill" id="l3u-CW-uLQ" userLabel="View 3">
                     <rect key="frame" x="20" y="70" width="280" height="468"/>

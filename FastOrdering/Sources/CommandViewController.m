@@ -53,6 +53,7 @@
 	[menuButton setTitle:NSLocalizedString(@"Menus", @"").uppercaseString forState:UIControlStateNormal];
 	[alacarteButton setTitle:NSLocalizedString(@"A la carte", @"").uppercaseString forState:UIControlStateNormal];
 	[reviewButton setTitle:NSLocalizedString(@"Order", @"").uppercaseString forState:UIControlStateNormal];
+	[addAlacarteButton setTitle:NSLocalizedString(@"add", @"").uppercaseString forState:UIControlStateNormal];
 	[orderButton setTitle:NSLocalizedString(@"order", @"").uppercaseString forState:UIControlStateNormal];
 	tableNumberLabel.text = NSLocalizedString(tableNumberLabel.text, @"");
 	numPALabel.text = NSLocalizedString(numPALabel.text, @"");
@@ -104,14 +105,20 @@
 
 - (void)didCreateOrderContent:(OrderContent *)content {
 	AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
-	
+
+	// Do not add an empty order content
+	// Now that [Order sanitize] exists, maybe it could be used
 	if (content.dishes.count > 0) {
 		[self.order addOrderContentsObject:content];
 	} else {
 		[delegate.managedObjectContext deleteObject:content];
 	}
-
+	
+	// Save the db
 	[delegate saveContext];
+	
+	// go to review page
+	[self buttonClicked:reviewButton];
 }
 
 - (void)popCommandMenuView {
