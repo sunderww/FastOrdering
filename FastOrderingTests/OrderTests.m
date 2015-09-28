@@ -138,12 +138,12 @@
 	menu.createdAt = [NSDate date];
 	menu.updatedAt = [NSDate date];
 	
-	// Alacarte compo
+	// Alacarte desserts
 	compo = [MenuComposition createInContext:self.moc];
 	compo.createdAt = [NSDate date];
 	compo.updatedAt = [NSDate date];
-	compo.serverId = @"Carte_Compo";
-	compo.name = @"Carte Compo";
+	compo.serverId = @"Carte_Dessert";
+	compo.name = @"Desserts";
 	[menu addCompositionsObject:compo];
 	
 	// Alacarte category desserts
@@ -154,7 +154,7 @@
 	category.name = @"Desserts";
 	[compo addCategoriesObject:category];
 	
-	// Alacarte dishes - we add one dessert from a menu and a second dessert
+	// Alacarte dessert dishes - we add one dessert from a menu and a second dessert
 	[category addDishesObject:dish];
 	dish = [Dish createInContext:self.moc];
 	dish.createdAt = [NSDate date];
@@ -165,7 +165,15 @@
 	dish.available = @YES;
 	[category addDishesObject:dish];
 	
-	// Alacarte category plats
+	// Alacarte main
+	compo = [MenuComposition createInContext:self.moc];
+	compo.createdAt = [NSDate date];
+	compo.updatedAt = [NSDate date];
+	compo.serverId = @"Carte_Main";
+	compo.name = @"Desserts";
+	[menu addCompositionsObject:compo];
+
+	// Alacarte category main
 	category = [DishCategory createInContext:self.moc];
 	category.createdAt = [NSDate date];
 	category.updatedAt = [NSDate date];
@@ -173,7 +181,7 @@
 	category.name = @"Plats";
 	[compo addCategoriesObject:category];
 	
-	// Alacarte dishes
+	// Alacarte main dishes
 	dish = [Dish createInContext:self.moc];
 	dish.createdAt = [NSDate date];
 	dish.updatedAt = [NSDate date];
@@ -241,7 +249,7 @@
 	// Test the number of objects
 	XCTAssertEqual([Dish allObjectsInContext:self.moc].count, 9, @"There should be exactly 9 dishes in the database");
 	XCTAssertEqual([DishCategory allObjectsInContext:self.moc].count, 5, @"There should be exactly 5 dish categories in the database");
-	XCTAssertEqual([MenuComposition allObjectsInContext:self.moc].count, 3, @"There should be exactly 3 menu compositions in the database");
+	XCTAssertEqual([MenuComposition allObjectsInContext:self.moc].count, 4, @"There should be exactly 4 menu compositions in the database");
 	
 	// Test the menus part
 	menu = [Menu retrieveWithServerId:@"unexistent_menu" inContext:self.moc];
@@ -264,8 +272,8 @@
 	XCTAssertEqual(compo2.categories.count, 2, @"Compo2 should have 2 categories");
 	DishCategory * category = [DishCategory retrieveWithServerId:@"cat1" inContext:self.moc];
 	XCTAssertEqual(category.compositions.count, 1, @"Category %@ should be in only one composition", category);
-//	category = [DishCategory retrieveWithServerId:@"cat2" inContext:self.moc];
-//	XCTAssertEqual(category.compositions.count, 2, @"Category %@ should be in two compositions", category);
+	category = [DishCategory retrieveWithServerId:@"cat2" inContext:self.moc];
+	XCTAssertEqual(category.compositions.count, 2, @"Category %@ should be in two compositions", category);
 	cat = compo1.categories.allObjects.firstObject;
 	XCTAssertEqual(cat.dishes.count, 2, @"Compo1 categories should have 2 dishes");
 	cat = compo1.categories.allObjects.lastObject;
@@ -280,12 +288,14 @@
 	MenuModel * menuModel = [MenuModel new];
 	menuModel.context = self.moc;
 	menu = menuModel.alacarte;
-	XCTAssertEqual(menu.compositions.count, 1, @"Alacarte should have 1 composition");
-	compo1 = menu.compositions.allObjects.firstObject;
-	XCTAssertEqual(compo1.categories.count, 2, @"Alacarte compo should have 2 categories");
+	XCTAssertEqual(menu.compositions.count, 2, @"Alacarte should have 2 composition");
+	NSArray * tmp = menu.compositions.allObjects;
+	compo1 = tmp.firstObject;
+	compo2 = tmp.lastObject;
+	XCTAssertEqual(compo1.categories.count, 1, @"Alacarte compos should have only 1 category");
 	cat = compo1.categories.allObjects.firstObject;
 	XCTAssertEqual(cat.dishes.count, 2, @"Alacarte categories should have 2 dishes");
-	cat = compo1.categories.allObjects.lastObject;
+	cat = compo2.categories.allObjects.firstObject;
 	XCTAssertEqual(cat.dishes.count, 2, @"Alacarte categories should have 2 dishes");
 }
 
@@ -299,7 +309,7 @@
 							@"order": @[]
 							};
 	
-	XCTAssert([json isEqualToDictionary:dict], @"Empty order JSON is not right : `%@` != `%@`", json, dict);
+	XCTAssertEqualObjects(json, dict, @"Empty order JSON is not right : `%@` != `%@`", json, dict);
 }
 
 - (void)testOrderJSONTable {
@@ -315,17 +325,34 @@
 							@"order": @[],
 							};
 	
-	XCTAssert([json isEqualToDictionary:dict], @"Table order JSON is not right : `%@` != `%@`", json, dict);
+	XCTAssertEqualObjects(json, dict, @"Table order JSON is not right : `%@` != `%@`", json, dict);
 }
 
 - (void)testOrderJSONOrderMenus {
 	[self populateDB];
 	
+//	// Initialize variables
 	Order * order = [Order createInContext:self.moc];
-	OrderContent * content = [OrderContent createInContext:self.moc];
-	content.comment = @"This is a comment";
-	
-	
+//	OrderContent * content = [OrderContent createInContext:self.moc];
+//	MenuComposition * compoMenu = [MenuComposition retrieveWithServerId:@"compo2" inContext:self.moc];
+//	MenuComposition * compoCarte = [MenuComposition retrieveWithServerId:@"compo1" inContext:self.moc];
+//	Dish * dish1 = [Dish retrieveWithServerId:@"dish1" inContext:self.moc]; // Entrée 1
+//	Dish * dish4 = [Dish retrieveWithServerId:@"dish4" inContext:self.moc]; // Plat 2
+//	Dish * dish5 = [Dish retrieveWithServerId:@"dish5" inContext:self.moc]; // Dessert 1
+//	Dish * dish6 = [Dish retrieveWithServerId:@"dish6" inContext:self.moc]; // Dessert 2
+//	content.order = order;
+//	content.menuComposition = compo2;
+//	
+//	// Be careful to put dishes that are inside the menucomposition
+//	OrderedDish * ordered = [OrderedDish createInContext:self.moc];
+//	ordered.dish = dish4;
+//	ordered.quantity = @1;
+//	ordered.content = content;
+//	
+//	ordered = [OrderedDish createInContext:self.moc];
+//	ordered.dish = dish5;
+//	ordered.quantity = @1;
+//	ordered.content = content;
 	
 	NSDictionary * json = order.toJSON;
 	NSDictionary * dict = @{
@@ -353,20 +380,6 @@
 	
 	XCTAssert([json isEqualToDictionary:dict], @"Alacarte order JSON is not right : `%@` != `%@`", json, dict);
 }
-
-//- (void)testOrderJSONComplete {
-//  Order * order = [Order createInContext:self.moc];
-//
-//  NSDictionary * json = order.toJSON;
-//  NSDictionary * dict = @{
-//                          @"numTable": @"",
-//                          @"numPA": @0,
-//                          @"globalComment": @"",
-//                          @"order": @[],
-//                          };
-//
-//  XCTAssert([json isEqualToDictionary:dict], @"Complete order JSON is not right : `%@` != `%@`", json, dict);
-//}
 
 - (void)testSanitizeEmpty {
 	Order * order = [Order createInContext:self.moc];
@@ -597,10 +610,10 @@
 	OrderContent * content1 = [OrderContent createInContext:self.moc];
 	OrderContent * content2 = [OrderContent createInContext:self.moc];
 	MenuComposition * compo2 = [MenuComposition retrieveWithServerId:@"compo2" inContext:self.moc];
-	MenuComposition * carte = [MenuComposition retrieveWithServerId:@"Carte_Compo" inContext:self.moc];
+	MenuComposition * carte = [MenuComposition retrieveWithServerId:@"Carte_Dessert" inContext:self.moc];
 	Dish * dish4 = [Dish retrieveWithServerId:@"dish4" inContext:self.moc]; // Plat 2
 	Dish * dish6 = [Dish retrieveWithServerId:@"dish6" inContext:self.moc]; // Dessert 2
-	Dish * dish9 = [Dish retrieveWithServerId:@"dish9" inContext:self.moc]; // Plat carte 2
+	Dish * dish7 = [Dish retrieveWithServerId:@"dish7" inContext:self.moc]; // Dessert 3 (carte only)
 	content1.order = order;
 	content1.menuComposition = compo2;
 	content2.order = order;
@@ -623,15 +636,15 @@
 	ordered6Carte.quantity = @1;
 	ordered6Carte.content = content2;
 	
-	OrderedDish * ordered9 = [OrderedDish createInContext:self.moc];
-	ordered9.dish = dish9;
-	ordered9.quantity = @1;
-	ordered9.content = content2;
+	OrderedDish * ordered7 = [OrderedDish createInContext:self.moc];
+	ordered7.dish = dish7;
+	ordered7.quantity = @1;
+	ordered7.content = content2;
 	
 	XCTAssertEqual([order orderedDishWithDish:dish4 andComposition:compo2], ordered4, @"orderedDishWithDish:andComposition: did not returned the expected object");
 	XCTAssertEqual([order orderedDishWithDish:dish6 andComposition:compo2], ordered6Menu, @"orderedDishWithDish:andComposition: did not returned the expected object");
 	XCTAssertEqual([order orderedDishWithDish:dish6 andComposition:carte], ordered6Carte, @"orderedDishWithDish:andComposition: did not returned the expected object");
-	XCTAssertEqual([order orderedDishWithDish:dish9 andComposition:carte], ordered9, @"orderedDishWithDish:andComposition: did not returned the expected object");
+	XCTAssertEqual([order orderedDishWithDish:dish7 andComposition:carte], ordered7, @"orderedDishWithDish:andComposition: did not returned the expected object");
 }
 
 @end
