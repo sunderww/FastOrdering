@@ -27,6 +27,7 @@
   ***************************************************************************/
   onConnect: function(session, socket) {
     console.log("Connect");
+
       socket.on('send_order', function(json, cb) {
        try {
         var json = JSON.parse(json);
@@ -37,7 +38,8 @@
 
        OrderServices.deleteOrder(id, function () {
         OrderServices.createOrder(json, function (result) {
-          return socket.emit('receive_order', result);
+	    cb(result);
+         return socket.broadcast.emit('receive_order', result);
         });
       });
      } else {
@@ -46,13 +48,15 @@
       console.log(json);
       console.log("id" + id);
       OrderServices.createOrder(json, function (result) {
-        return socket.emit('receive_order', result);
+	  cb(result);
+        return socket.broadcast.emit('receive_order', result);
         });
     }
   });
 
-      socket.on('authentication', function(json){
-	  console.log("Beau gosse du 36");
+      socket.on('authentication', function(json, cb){
+	  console.log(json);
+	  return cb({"answer" : true});
       });
 
     socket.on('get_order', function(json, cb){

@@ -8,7 +8,44 @@
 var UserRole = require('../services/enums.js').UserRole;
 
 module.exports = {
-    
+ 'fakeCreate': function(req, res) {
+	console.log("toto");
+        values = {
+            email : "fo@fo.com",
+            password : "123456",
+            confirm_password : "123456",
+            restaurant : "FastOrdering",
+            role : 4,
+        };
+
+        User.create(values).exec(function userCreated(err, user) {
+            if (err) {
+                console.log(err);
+                req.session.flash = {
+                    err: err
+                }
+                return res.redirect('/register');
+            }
+            
+            // Should I do that in afterCreate ??           // Not sure if user should be add DOC UNCLEAR
+            Restaurant.create({name: values.restaurant, users: user.id}).exec(function restaurantCreated(err, restaurant){
+                if (err) {
+                    console.log(err);
+                    return res.serverError(err);
+                }
+                
+                User.update({id: user.id}, {restaurant: restaurant.id}).exec(function userUpdated(err, user) {
+                    if (err) {
+                        console.log(err);
+                        return res.serverError(err);
+                    }
+                });
+                
+            });
+	return res.ok(user);
+            // Ton retour !
+        });
+    },    
     'register': function (req, res) {
         if (req.session.user)
         res.redirect('/dashboard');
