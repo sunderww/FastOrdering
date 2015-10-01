@@ -4,8 +4,7 @@
  * @description :: Server-side logic for managing Options
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-	var utf8 = require('utf8');
-	var encoding = require('encoding');
+
 module.exports = {
   /**
    * `OptionController.create()`
