@@ -11,28 +11,23 @@ module.exports = {
   attributes: {
   	
     name: {
-      type: 'string',
-      required: true
+      type: 'string'
     },
 
     dimX: {
-      type: 'int',
-      required: true
+      type: 'integer'
     },
 
     dimY: {
-      type: 'int',
-      required: true
+      type: 'integer'
     },
 
     numShapes: {
-      type: 'int',
-      required:true
+      type: 'integer'
     },
 
     position: {
-      type: 'string',
-      required: true
+      type: 'string'
     },
 
     tables: function(cb) {
@@ -52,7 +47,7 @@ module.exports = {
               result.push(tmp);
           } 
           console.log("wtf + " + JSON.stringify(result));
-          JSON.stringify(result);
+          return JSON.stringify(result);
       });
       console.log("double2 = " + string_res);
       return (string_res);

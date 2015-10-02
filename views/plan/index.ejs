@@ -218,7 +218,6 @@
 
                                     document.getElementById('current_title').value = "Titre";
 
-                                    save_reference = save_board;
                                     erase_reference = erase_all;
                                     id_reference = current_id;
                                     iteration++;
@@ -631,14 +630,23 @@
                                 <button id="rm_rowx" class="managing_board_btn" onclick="rm_row()">Supprimer ligne</button>
                                 <button id="save_board" onclick="save_board()">Sauvegarder plan de salle</button>
                                 <button id="flush_board" onclick="flush()">Supprimer les plans</button>
+                                <% _.each(plans, function(plan) { %>
+                                <tr data-id="<%= plan.id %>" data-model="booking">
+                                    <td><%= plan.name %></td>
+                                </tr>
+                                <% }) %>
                                 <script type='text/javascript'>
                                     var jojo;
                                     jQuery(document).ready(function() {
 
                                         "use strict";
-                                        <%- Plan.find({}).exec(function(body, response) {
-                                            console.log("model.find version = " + body)
-                                        }) %>
+                                        <%- Plan.count(function (err, num) {
+                                                if(err) {
+                                                   return console.log(err)
+                                                }
+                                                console.log(num)
+                                        })%>
+
 
                                         var result;
                                         console.log("Tryin to find");
