@@ -39,11 +39,6 @@ module.exports.routes = {
     '/login': {view: 'login'},
     '/dashboard': {view: 'dashboard'},
 
-    '/manage_plan': {
-      controller: 'PlanController',
-      view: 'plan/plan' 
-    },
-
     '/licence': {
       view: 'licence' 
     },
@@ -54,7 +49,8 @@ module.exports.routes = {
 
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',
-    
+
+    '/manage_plan' : 'PlanController.index',
     '/compos' : 'MenuCompositionController.read',
     '/alacarte' : 'MenuController.alacarte',
     '/send_order' : 'OrderController.create',
