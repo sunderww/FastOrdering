@@ -13,6 +13,7 @@
 @interface Order (Custom)
 
 - (NSDictionary *)toJSON;
+- (NSDictionary *)toJSONTest; // Replaces NSArrays with NSCountedSet for comparing
 - (NSData *)toJSONData;
 - (NSString *)toJSONString;
 

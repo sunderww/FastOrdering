@@ -328,57 +328,76 @@
 	XCTAssertEqualObjects(json, dict, @"Table order JSON is not right : `%@` != `%@`", json, dict);
 }
 
-- (void)testOrderJSONOrderMenus {
-	[self populateDB];
-	
-//	// Initialize variables
-	Order * order = [Order createInContext:self.moc];
-//	OrderContent * content = [OrderContent createInContext:self.moc];
-//	MenuComposition * compoMenu = [MenuComposition retrieveWithServerId:@"compo2" inContext:self.moc];
-//	MenuComposition * compoCarte = [MenuComposition retrieveWithServerId:@"compo1" inContext:self.moc];
-//	Dish * dish1 = [Dish retrieveWithServerId:@"dish1" inContext:self.moc]; // Entrée 1
-//	Dish * dish4 = [Dish retrieveWithServerId:@"dish4" inContext:self.moc]; // Plat 2
-//	Dish * dish5 = [Dish retrieveWithServerId:@"dish5" inContext:self.moc]; // Dessert 1
-//	Dish * dish6 = [Dish retrieveWithServerId:@"dish6" inContext:self.moc]; // Dessert 2
-//	content.order = order;
-//	content.menuComposition = compo2;
-//	
-//	// Be careful to put dishes that are inside the menucomposition
-//	OrderedDish * ordered = [OrderedDish createInContext:self.moc];
-//	ordered.dish = dish4;
-//	ordered.quantity = @1;
-//	ordered.content = content;
-//	
-//	ordered = [OrderedDish createInContext:self.moc];
-//	ordered.dish = dish5;
-//	ordered.quantity = @1;
-//	ordered.content = content;
-	
-	NSDictionary * json = order.toJSON;
-	NSDictionary * dict = @{
-							@"numTable": @"",
-							@"numPA": @0,
-							@"globalComment": @"",
-							@"order": @[],
-							};
-	
-	XCTAssert([json isEqualToDictionary:dict], @"Menu order JSON is not right : `%@` != `%@`", json, dict);
-}
-
-- (void)testOrderJSONOrderALaCarte {
+- (void)testOrderJSONComplete {
 	[self populateDB];
 
+	// Create a complex order
 	Order * order = [Order createInContext:self.moc];
+	order.comments = @"Coupon 10€";
+	order.numTable = @"16";
+	order.dinerNumber = @4;
+	order.createdAt = [NSDate date];
+	order.updatedAt = [NSDate date];
 	
-	NSDictionary * json = order.toJSON;
+	OrderContent * content1 = [OrderContent createInContext:self.moc];
+	OrderContent * content2 = [OrderContent createInContext:self.moc];
+	MenuComposition * compo2 = [MenuComposition retrieveWithServerId:@"compo2" inContext:self.moc];
+	MenuComposition * carte = [MenuComposition retrieveWithServerId:@"Carte_Dessert" inContext:self.moc];
+	Dish * dish4 = [Dish retrieveWithServerId:@"dish4" inContext:self.moc]; // Plat 2
+	Dish * dish6 = [Dish retrieveWithServerId:@"dish6" inContext:self.moc]; // Dessert 2
+	Dish * dish7 = [Dish retrieveWithServerId:@"dish7" inContext:self.moc]; // Dessert 3 (carte only)
+	content1.order = order;
+	content1.menuComposition = compo2;
+	content2.order = order;
+	content2.menuComposition = carte;
+	
+	// Be careful to put dishes that are inside the correct menucomposition
+	OrderedDish * ordered4 = [OrderedDish createInContext:self.moc];
+	ordered4.dish = dish4;
+	ordered4.quantity = @4;
+	ordered4.content = content1;
+	ordered4.comment = @"Extra Sauce for 2";
+	
+	OrderedDish * ordered6Menu = [OrderedDish createInContext:self.moc];
+	ordered6Menu.dish = dish6;
+	ordered6Menu.quantity = @1;
+	ordered6Menu.content = content1;
+	
+	OrderedDish * ordered6Carte = [OrderedDish createInContext:self.moc];
+	ordered6Carte.dish = dish6;
+	ordered6Carte.quantity = @2;
+	ordered6Carte.content = content2;
+	
+	OrderedDish * ordered7 = [OrderedDish createInContext:self.moc];
+	ordered7.dish = dish7;
+	ordered7.quantity = @1;
+	ordered7.content = content2;
+	ordered7.comment = @"aaa";
+	
+	
+	// And test the result
+	NSDictionary * json = order.toJSONTest;
+	NSDictionary * content1Dict = @{ @"menuId": @"menu",
+									 @"content": [NSCountedSet setWithArray:@[
+											 @{@"id": @"dish4", @"qty": @4, @"comment": @"Extra Sauce for 2"},
+											 @{@"id": @"dish6", @"qty": @1, @"comment": @""},
+											 ]]
+									};
+	NSDictionary * content2Dict = @{ @"menuId": @"menu a la carte",
+									 @"content": [NSCountedSet setWithArray:@[
+											 @{@"id": @"dish6", @"qty": @2, @"comment": @""},
+											 @{@"id": @"dish7", @"qty": @1, @"comment": @"aaa"},
+											 ]]
+									 };
+
 	NSDictionary * dict = @{
-							@"numTable": @"",
-							@"numPA": @0,
-							@"globalComment": @"",
-							@"order": @[],
+							@"numTable": @"16",
+							@"numPA": @4,
+							@"globalComment": @"Coupon 10€",
+							@"order": [NSCountedSet setWithArray:@[content1Dict, content2Dict]]
 							};
-	
-	XCTAssert([json isEqualToDictionary:dict], @"Alacarte order JSON is not right : `%@` != `%@`", json, dict);
+
+	XCTAssertEqualObjects(json, dict, @"Complete order JSON is not right : `%@` != `%@`", json, dict);
 }
 
 - (void)testSanitizeEmpty {
