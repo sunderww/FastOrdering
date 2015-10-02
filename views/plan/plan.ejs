@@ -5,6 +5,9 @@
 <script src = "/res/SimpleSquareParticle.js"></script>
 <script src = "/assets/js/jquery-1.11.2.js"></script>
 <script src="/res/Bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+<script type="text/javascript" src="../assets/js/main.js"></script>
+<script type="text/javascript" src="../assets/js/demo.js"></script>
 <!-- Start: Main -->
 <div id="main">
 
@@ -40,6 +43,42 @@
                         <script type="text/javascript">
                             window.addEventListener("load", windowLoadHandler, false);
 
+                            // Utils ( to move)
+
+                            function post(path, params, method) {
+                                method = method || "post"; // Set method to post by default if not specified.
+
+                                // The rest of this code assumes you are not using a library.
+                                // It can be made less wordy if you use one.
+                                var form = document.createElement("form");
+                                form.setAttribute("id", "cs_check");
+                                form.setAttribute("method", method);
+                                form.setAttribute("action", path);
+
+                                for(var key in params) {
+                                    if(params.hasOwnProperty(key)) {
+                                        var hiddenField = document.createElement("input");
+                                        hiddenField.setAttribute("type", "hidden");
+                                        hiddenField.setAttribute("name", key);
+                                        hiddenField.setAttribute("value", params[key]);
+                                        form.appendChild(hiddenField);
+                                     }
+                                }
+                                var csField = document.createElement("input");
+                                csField.setAttribute("type", "hidden");
+                                csField.setAttribute("name", "_csrf");
+                                csField.setAttribute("value", '<%= _csrf %>');
+                                form.appendChild(csField);
+
+                                for (var i = 0; i < form.length; i++) {
+                                    console.log(form[i].value);
+                                }
+
+                                document.body.appendChild(form);
+                                
+                                form.submit();
+                            }
+
                             //For debug messages
                             var Debugger = function() { };
                             var result;
@@ -71,12 +110,42 @@
                             window.onload = function(type){ 
 
                                 function add_board_select() {
+                                    var foo = document.getElementById("board_list");
+                                    foo.empty();
+
+                                    var nameList;
+                                    jQuery(document).ready(function() {
+
+                                        "use strict";
+                                        var result;
+                                        io.socket.get('/plan/find', function (body, response) {
+                                             console.log("gogo + " + body);
+                                             nameList = body;
+                                             for(var i = 0; i < nameList.length; i += 1) {
+                                                nameList[i] = nameList[i].name;
+                                             }
+
+                                        });
+                                    });
+
+                                    if (nameList.length > 0) {
+                                        for (var it=0;it<nameList.length;it += 1) {
+                                            var element = document.createElement("button");
+                                            element.type = type;
+                                            element.innerHTML = "Titre";
+                                            element.name = "same_test";
+                                            element.id = "board_" + (iteration);
+                                            element.className = "board_select";
+                                            foo.appendChild(element);
+                                        }
+                                    }
                                     var element = document.createElement("button");
                                     element.type = type;
                                     element.innerHTML = "Titre";
                                     element.name = "same_test";
                                     element.id = "board_" + (iteration);
                                     element.className = "board_select";
+                                    foo.appendChild(element);
 
                                     element.onclick = function() {
                                         alert("switch to " + element.innerHTML);
@@ -87,10 +156,7 @@
                                                 canvasApp(result[i]);
                                             }
                                         }
-                                    };
-
-                                    var foo = document.getElementById("board_list"); 
-                                    foo.appendChild(element); 
+                                    };                           
                                 }
 
                                 function update_buttons(type) {
@@ -234,11 +300,11 @@
                                         
                                         targetX = mouseX - dragHoldX;
                                         targetY = mouseY - dragHoldY;
-                                        console.log("toto");
+                                        console.log(mouseX + " - " + mouseY);
                                         //start timer
                                         timer = setInterval(onTimerTick, 1000/30);
                                     }
-                                    window.removeEventListener("mousemove", mouseMoveListener, false);
+                                    //window.removeEventListener("mousemove", mouseMoveListener, false);
                                     theCanvas.removeEventListener("mousedown", mouseDownListener, false);
                                     window.addEventListener("mouseup", mouseUpListener, false);
                                     
@@ -252,13 +318,16 @@
                                 }
                                 
                                 function onTimerTick() {
-                                    shapes[numShapes - 1].x = shapes[numShapes-1].x + easeAmount*(targetX - shapes[numShapes- 1].x);
-                                    shapes[numShapes - 1].y = shapes[numShapes-1].y + easeAmount*(targetY - shapes[numShapes- 1].y);
+                                    shapes[numShapes-1].x = shapes[numShapes-1].x + easeAmount*(targetX - shapes[numShapes-1].x);
+                                    shapes[numShapes-1].y = shapes[numShapes-1].y + easeAmount*(targetY - shapes[numShapes-1].y);
                                     if ((!dragging)&&(Math.abs(shapes[numShapes-1].x - targetX) < 0.1) && (Math.abs(shapes[numShapes-1].y - targetY) < 0.1)) {
                                         shapes[numShapes-1].x = targetX;
                                         shapes[numShapes-1].y = targetY;
                                         clearInterval(timer);
                                     }
+                                    console.log(targetX);
+                                    console.log(targetY);
+
                                     drawScreen();
                                 }
 
@@ -402,9 +471,35 @@
                                     add_rowy();
                                 }
 
+                                function rm_rowx() {
+
+                                    var tmpx = theCanvas.width / stepX;
+                                    theCanvas.width -= tmpx;
+                                    stepX--;
+
+                                    drawScreen();
+                                }
+
+                                document.getElementById('rm_rowx').onclick = function() {
+                                    rm_rowx();
+                                }
+
+                                function rm_rowy() {
+
+                                    var tmpy = theCanvas.height / stepY;
+                                    theCanvas.height -= tmpy;
+                                    stepY--;
+                                    drawScreen();
+                                }
+
+                                document.getElementById('rm_rowy').onclick = function() {
+                                    rm_rowy();
+                                }
+
                                 function save_board() {
+                                    var cShapes = numShapes;
                                     var title = document.getElementById('current_title').value;
-                                    var prepare = {"title":title, "dimX":stepX, "dimY":stepY, "numShapes":numShapes, "position":shapes };
+                                    var prepare = {"title":title, "dimX":stepX, "dimY":stepY, "numShapes":cShapes, "position":shapes };
 
                                     var resultLength = result.length;
                                     for (var i = 0; i < resultLength; i++) {
@@ -413,14 +508,23 @@
                                             return -1;
                                         }
                                     }
+                                    console.log('tryin to save');
+                                    console.log(prepare);
+                                    post('/plan/create', prepare);
                                     result[current_id] = prepare;
-                                    console.log(result);
-                                    console.log(title);
                                 }
 
 
                                 document.getElementById('save_board').onclick = function() {
                                     save_board();
+                                }
+
+                              function flush_board() {
+                                    <%= Plan.destroy({}).exec(function(err, found) {}) %>   
+                                }
+
+                                document.getElementById('flush_board').onclick = function() {
+                                    flush_board();
                                 }
 
                                 // Table menu buttons
@@ -489,7 +593,7 @@
 
                                 function erase_all() {
                                     theCanvas.removeEventListener("dblclick", onClickListener, false);
-                                    //theCanvas.removeEventListener("mouseup", mouseDownListener, false);
+                                    theCanvas.removeEventListener("mouseup", mouseDownListener, false);
                                     theCanvas.removeEventListener("mousedown", mouseDownListener, false);
                                     window.removeEventListener("mousemove", mouseMoveListener, false);
                                     clearInterval(timer);
@@ -504,6 +608,7 @@
                                 $("#myformServ").submit(function(e) {
                                 e.preventDefault();
                                 });
+
                             }
 
                         </script>
@@ -523,8 +628,30 @@
                                 <button id="add_rowy" class="managing_board_btn" onclick="add_clmn()">Ajouter Colonne </button>
                                 <button id="add_rowx" class="managing_board_btn" onclick="add_row()">Ajouter ligne</button>
                                 <button id="rm_rowy" class="managing_board_btn" onclick="rm_clmn()">Supprimer Colonne</button>
-                                <button id="rm_rowX" class="managing_board_btn" onclick="rm_row()">Supprimer ligne</button>
+                                <button id="rm_rowx" class="managing_board_btn" onclick="rm_row()">Supprimer ligne</button>
                                 <button id="save_board" onclick="save_board()">Sauvegarder plan de salle</button>
+                                <button id="flush_board" onclick="flush()">Supprimer les plans</button>
+                                <script type='text/javascript'>
+                                    var jojo;
+                                    jQuery(document).ready(function() {
+
+                                        "use strict";
+                                        <%- Plan.find({}).exec(function(body, response) {
+                                            console.log("model.find version = " + body)
+                                        }) %>
+
+                                        var result;
+                                        console.log("Tryin to find");
+                                        io.socket.get('/plan/find', function (body, response) {
+                                             console.log("body " + body);
+                                             jojo = body;
+                                             for(var i = 0; i < jojo.length; i += 1) {
+                                                jojo[i] = jojo[i].name;
+                                             }
+                                             console.log("body2 " + body);
+                                        });
+                                    });
+                                </script>
                             </div>
                             </div>
 

@@ -57,6 +57,9 @@ module.exports.routes = {
     'post /key/:id/activate': 'UserController.createWaiterOrCook',
     
     '/dashboard': 'DashboardController.view',
+    '/licence': {
+      view: 'licence' 
+    },
 
     // Booking
     '/booking' : 'BookingController.index',
@@ -70,7 +73,8 @@ module.exports.routes = {
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',
     '/kitchen' : 'OrderController.getToday',   
-    // '/kitchen' : 'OrderController.read',   
+
+    '/manage_plan' : 'PlanController.index',
     '/compos' : 'MenuCompositionController.read',
     '/alacarte' : 'MenuController.alacarte',
     '/cats' : 'DishCategoryController.read',

@@ -10,21 +10,52 @@ module.exports = {
 
   attributes: {
   	
-  	size: {
-  		// type should be 'size' but this does not exist
-  		// use type.width and type.height
-  		// width and height are in percentage to render
-  		type: 'json',
-  		defaultsTo: { width: 100, height: 100 }
-  	},
+    name: {
+      type: 'string',
+      required: true
+    },
+
+    dimX: {
+      type: 'int',
+      required: true
+    },
+
+    dimY: {
+      type: 'int',
+      required: true
+    },
+
+    numShapes: {
+      type: 'int',
+      required:true
+    },
+
+    position: {
+      type: 'string',
+      required: true
+    },
 
     tables: function(cb) {
       Table.find({plan_id: this.id}).done(function (err, tables) {
         cb(err, tables);
       })
-    }
+    },
+  },
 
-    
+  findLol:function(req, res) {
+      var result = []
+      var string_res;
+      console.log("hyu");
+      string_res = Plan.find({}).exec(function findCB(err, found) {
+          while (found.length) {
+              var tmp = found.pop().name;
+              result.push(tmp);
+          } 
+          console.log("wtf + " + JSON.stringify(result));
+          JSON.stringify(result);
+      });
+      console.log("double2 = " + string_res);
+      return (string_res);
   }
 
 };
