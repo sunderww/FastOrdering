@@ -17,8 +17,6 @@
 
 module.exports = {
 
-	state: [],
-
     create: function (req, res) {
     Plan.create({
       name:req.param("title"),
@@ -33,6 +31,7 @@ module.exports = {
         });
       }
       else {
+      	console.log(err);
       	console.log(req.param("title") + "a été sauvegardé");
         return res.redirect('/plan');       
       }
@@ -41,7 +40,13 @@ module.exports = {
   },
 
   index: function (req, res) {
-  		return res.view('plan/plan');
+  		Plan.find(function foundPlan(err, plans) {
+  		if (err) return next(err);
+
+  		res.view({
+  			plans: plans
+  		});
+  	});
   },
 
   /**
@@ -68,13 +73,19 @@ module.exports = {
   read: function (req, res) {
     if (req.param("id")) {
       Table.find({id: req.param("id")}, function(err, doc) {
-        return res.send(doc);
+        return res.send(JSON.stringify(doc));
       });
     } else {
       Table.find( function(err, doc) {
-        return res.send(doc);
+        return res.send(JSON.stringify(doc));
       });
     }
+  },
+
+  readAll: function (req, res) {
+   Plan.find( function(err, doc) {
+		return res.json({elements: doc});
+  	});
   },
 
   findOne: function(req, res) {
@@ -87,7 +98,7 @@ module.exports = {
   			return res.send(doc);
   		});
   	}
-  }
+  },
 
   /**
    * Overrides for the settings in `config/controllers.js`
