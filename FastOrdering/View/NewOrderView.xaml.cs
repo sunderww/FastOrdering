@@ -1,28 +1,20 @@
-﻿using FastOrdering.Model;
+﻿using FastOrdering.Misc;
+using FastOrdering.Model;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Newtonsoft.Json;
-using System.Collections.ObjectModel;
-using FastOrdering.Misc;
 
 namespace FastOrdering.View
 {
 
 	public sealed partial class NewOrderView : Page
 	{
-
+		#region Attributes
 		private ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
 		public ObservableCollection<Menu> Menus
 		{
@@ -52,8 +44,10 @@ namespace FastOrdering.View
 			get { return selectedCompo; }
 		}
 
-		private string modifOrderID = "";
+		private static string MenuIDSelected;
+		#endregion
 
+		#region Methods
 		public NewOrderView()
 		{
 			this.InitializeComponent();
@@ -66,49 +60,21 @@ namespace FastOrdering.View
 			ord = new Order("1", 0, 0, DateTime.Now.ToString(), DateTime.Now);
 			if (e.Parameter == null)
 				return;
-			modifOrderID = e.Parameter.ToString();
-			foreach (Order o in Order.orders)
-			{
-				if (o.ID == modifOrderID)
-					ord = o;
-			}
+			ord = e.Parameter as Order;
+		}
+
+		private void Control_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (sender is ListView)
+				menuList = sender as ListView;
+			else if (sender is Grid)
+				menuCompo = sender as Grid;
 		}
 
 		private void SendOrder(object sender, RoutedEventArgs e)
 		{
 			Socket.SendOrder(ord);
 			Frame.Navigate(typeof(ReceptionView));
-		}
-
-		private void ToggleSwitch_Menu(object sender, RoutedEventArgs e)
-		{
-			var toggleSwitch = sender as ToggleSwitch;
-			var g = toggleSwitch.Parent as Grid;
-			Grid menus = null;
-
-			foreach (var elem in g.Children)
-			{
-				menus = elem as Grid;
-				if (menus != null && menus.Name == "MenuCompo")
-					break;
-			}
-
-			if (toggleSwitch != null && menus != null)
-			{
-				if (toggleSwitch.IsOn == true)
-					menus.Visibility = Visibility.Visible;
-				else
-					menus.Visibility = Visibility.Collapsed;
-			}
-		}
-
-		private void BackToOrder(object sender, RoutedEventArgs e)
-		{
-			selectedCompo = null;
-			menuList.Visibility = Visibility.Visible;
-			menuCompo.Visibility = Visibility.Collapsed;
-			BackToOrderButton.Visibility = Visibility.Collapsed;
-			categoriesDishes.Clear();
 		}
 
 		private void Hub_SectionsInViewChanged(object sender, SectionsInViewChangedEventArgs e)
@@ -130,7 +96,6 @@ namespace FastOrdering.View
 			}
 		}
 
-		private static string MenuIDSelected;
 		private void Menu_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			TextBlock tb = sender as TextBlock;
@@ -158,15 +123,69 @@ namespace FastOrdering.View
 			}
 			BackToOrderButton.Visibility = Visibility.Visible;
 		}
+		#endregion
 
-		private void Control_Loaded(object sender, RoutedEventArgs e)
+		#region ToggleSwitch Methods
+		private void ToggleSwitch_Menu(object sender, RoutedEventArgs e)
 		{
-			if (sender is ListView)
-				menuList = sender as ListView;
-			else if (sender is Grid)
-				menuCompo = sender as Grid;
+			var toggleSwitch = sender as ToggleSwitch;
+			var g = toggleSwitch.Parent as Grid;
+			Grid menus = null;
+
+			foreach (var elem in g.Children)
+			{
+				menus = elem as Grid;
+				if (menus != null && menus.Name == "MenuCompo")
+					break;
+			}
+
+			if (toggleSwitch != null && menus != null)
+			{
+				if (toggleSwitch.IsOn == true)
+					menus.Visibility = Visibility.Visible;
+				else
+					menus.Visibility = Visibility.Collapsed;
+			}
 		}
 
+		private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+		{
+			var toggleSwitch = sender as ToggleSwitch;
+			var g = toggleSwitch.Parent as StackPanel;
+			ListView lv = null;
+
+			foreach (var elem in g.Children)
+			{
+				lv = elem as ListView;
+				if (lv != null)
+					break;
+			}
+
+			ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
+			foreach (Dish dish in Dish.dishes)
+			{
+				if (dish.Categories.Contains(g.Tag.ToString()))
+				{
+					MyDictionary<Dish> newDish = new MyDictionary<Dish>();
+					newDish.Key = dish;
+					newDish.Value = 0;
+					dishes.Add(newDish);
+				}
+			}
+			categoriesDishes.Add(new KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>(dishes, g.Tag.ToString()));
+			lv.ItemsSource = dishes;
+
+			if (toggleSwitch != null && lv != null)
+			{
+				if (toggleSwitch.IsOn == true)
+					lv.Visibility = Visibility.Visible;
+				else
+					lv.Visibility = Visibility.Collapsed;
+			}
+		}
+		#endregion
+
+		#region TextBox Methods
 		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
@@ -267,66 +286,6 @@ namespace FastOrdering.View
 			}
 		}
 
-		private void Home_Click(object sender, RoutedEventArgs e)
-		{
-			Frame.Navigate(typeof(ReceptionView));
-		}
-
-		private void Notification_Click(object sender, RoutedEventArgs e)
-		{
-			Frame.Navigate(typeof(NotificationsView));
-		}
-
-		private void History_Click(object sender, RoutedEventArgs e)
-		{
-			Frame.Navigate(typeof(OrdersView));
-		}
-
-		private void About_Click(object sender, RoutedEventArgs e)
-		{
-			Frame.Navigate(typeof(AboutView));
-		}
-
-		private void LogOut_Click(object sender, RoutedEventArgs e)
-		{
-		}
-
-		private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-		{
-			var toggleSwitch = sender as ToggleSwitch;
-			var g = toggleSwitch.Parent as StackPanel;
-			ListView lv = null;
-
-			foreach (var elem in g.Children)
-			{
-				lv = elem as ListView;
-				if (lv != null)
-					break;
-			}
-
-			ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
-			foreach (Dish dish in Dish.dishes)
-			{
-				if (dish.Categories.Contains(g.Tag.ToString()))
-				{
-					MyDictionary<Dish> newDish = new MyDictionary<Dish>();
-					newDish.Key = dish;
-					newDish.Value = 0;
-					dishes.Add(newDish);
-				}
-			}
-			categoriesDishes.Add(new KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>(dishes, g.Tag.ToString()));
-			lv.ItemsSource = dishes;
-
-			if (toggleSwitch != null && lv != null)
-			{
-				if (toggleSwitch.IsOn == true)
-					lv.Visibility = Visibility.Visible;
-				else
-					lv.Visibility = Visibility.Collapsed;
-			}
-		}
-
 		private void TextBox_Alacarte(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
@@ -375,6 +334,43 @@ namespace FastOrdering.View
 				}
 			}
 		}
+		#endregion
 
+		#region AppBar Buttons Methods
+		private void BackToOrder(object sender, RoutedEventArgs e)
+		{
+			selectedCompo = null;
+			menuList.Visibility = Visibility.Visible;
+			menuCompo.Visibility = Visibility.Collapsed;
+			BackToOrderButton.Visibility = Visibility.Collapsed;
+			categoriesDishes.Clear();
+		}
+
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(ReceptionView));
+		}
+
+		private void Notification_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(NotificationsView));
+		}
+
+		private void History_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(OrdersView));
+		}
+
+		private void About_Click(object sender, RoutedEventArgs e)
+		{
+			Frame.Navigate(typeof(AboutView));
+		}
+
+		private void LogOut_Click(object sender, RoutedEventArgs e)
+		{
+			Socket.Disconnect();
+			Frame.Navigate(typeof(LoginView));
+		}
+		#endregion
 	}
 }

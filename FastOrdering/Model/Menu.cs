@@ -1,84 +1,26 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FastOrdering.Model
 {
 	public class Menu
 	{
+		#region Attributes
 		public static ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
 		public static ObservableCollection<Dish> ALaCarte = new ObservableCollection<Dish>();
 		public static Menu alacarte;
 
-		[JsonConstructor]
-		public Menu(string name, DateTime createdAt, DateTime updatedAt, string id)
-		{
-			this.name = name;
-			this.idMenu = id;
-			this.hasCompo = "Collapsed";
-			this.hasNoCompo = "Collapsed";
-		}
-
-		public Menu(string id, string name, string entryDish, string dishDessert)
-		{
-			this.idMenu = id;
-			this.name = name;
-			this.entryDish = entryDish;
-			this.dishDessert = dishDessert;
-			this.hasCompo = (entryDish == "Visible" || dishDessert == "Visible") ? "Visible" : "Collapsed";
-			this.hasNoCompo = (entryDish == "Visible" || dishDessert == "Visible") ? "Collapsed" : "Visible";
-			this.Entry = "Collapsed";
-			this.Dessert = "Collapsed";
-		}
-
-		public void FillContent()
-		{
-			foreach (MyDictionary<Dish> dish in dishes)
-			{
-				dish.Key.qty = dish.Value;
-				if (dish.Value > 0)
-					content.Add(dish.Key);
-			}
-		}
-
-		static public void OrderALaCarte()
-		{
-			foreach (Dish dish in Dish.dishes)
-			{
-				foreach (Composition compo in alacarte.Compositions)
-				{
-					foreach (Category cat in compo.Categories)
-					{
-						if (dish.Categories.Contains(cat.ID) && ALaCarte.Contains(dish) == false)
-							ALaCarte.Add(dish);
-					}
-				}
-			}
-		}
-
 		public ObservableCollection<Dish> content = new ObservableCollection<Dish>();
-		//private ObservableCollection<MyDictionary<Dish>> entries = new ObservableCollection<MyDictionary<Dish>>();
-		//[JsonIgnore]
-		//public ObservableCollection<MyDictionary<Dish>> Entries
-		//{
-		//	get { return entries; }
-		//}
+
 		private ObservableCollection<MyDictionary<Dish>> dishes = new ObservableCollection<MyDictionary<Dish>>();
 		[JsonIgnore]
 		public ObservableCollection<MyDictionary<Dish>> Dishes
 		{
 			get { return dishes; }
 		}
-		//private ObservableCollection<MyDictionary<Dish>> desserts = new ObservableCollection<MyDictionary<Dish>>();
-		//[JsonIgnore]
-		//public ObservableCollection<MyDictionary<Dish>> Desserts
-		//{
-		//	get { return desserts; }
-		//}
+
 		private string name;
 		[JsonIgnore]
 		public string Name
@@ -140,5 +82,54 @@ namespace FastOrdering.Model
 		{
 			get { return categories; }
 		}
+		#endregion
+
+		#region Methods
+		[JsonConstructor]
+		public Menu(string name, DateTime createdAt, DateTime updatedAt, string id)
+		{
+			this.name = name;
+			this.idMenu = id;
+			this.hasCompo = "Collapsed";
+			this.hasNoCompo = "Collapsed";
+		}
+
+		public Menu(string id, string name, string entryDish, string dishDessert)
+		{
+			this.idMenu = id;
+			this.name = name;
+			this.entryDish = entryDish;
+			this.dishDessert = dishDessert;
+			this.hasCompo = (entryDish == "Visible" || dishDessert == "Visible") ? "Visible" : "Collapsed";
+			this.hasNoCompo = (entryDish == "Visible" || dishDessert == "Visible") ? "Collapsed" : "Visible";
+			this.Entry = "Collapsed";
+			this.Dessert = "Collapsed";
+		}
+
+		public void FillContent()
+		{
+			foreach (MyDictionary<Dish> dish in dishes)
+			{
+				dish.Key.qty = dish.Value;
+				if (dish.Value > 0)
+					content.Add(dish.Key);
+			}
+		}
+
+		static public void OrderALaCarte()
+		{
+			foreach (Dish dish in Dish.dishes)
+			{
+				foreach (Composition compo in alacarte.Compositions)
+				{
+					foreach (Category cat in compo.Categories)
+					{
+						if (dish.Categories.Contains(cat.ID) && ALaCarte.Contains(dish) == false)
+							ALaCarte.Add(dish);
+					}
+				}
+			}
+		}
+		#endregion
 	}
 }

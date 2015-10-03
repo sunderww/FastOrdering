@@ -1,37 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Windows.UI.Xaml.Data;
 
 namespace FastOrdering.Misc
 {
-	public class RelayCommand : ICommand
-	{
-		private readonly Action actionAExecuter;
-
-		public RelayCommand(Action action)
-		{
-			actionAExecuter = action;
-		}
-
-		public bool CanExecute(object parameter)
-		{
-			return true;
-		}
-
-		public event EventHandler CanExecuteChanged;
-
-		public void Execute(object parameter)
-		{
-			actionAExecuter();
-		}
-	}
-
 	public class ViewModelBase : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;

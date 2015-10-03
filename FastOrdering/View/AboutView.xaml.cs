@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using FastOrdering.Misc;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -22,6 +12,7 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class AboutView : Page
 	{
+		#region Methods
 		public AboutView()
 		{
 			this.InitializeComponent();
@@ -36,15 +27,9 @@ namespace FastOrdering.View
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 		}
+		#endregion
 
-		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
-		//{
-		//	if (DrawerLayout.IsDrawerOpen)
-		//		DrawerLayout.CloseDrawer();
-		//	else
-		//		DrawerLayout.OpenDrawer();
-		//}
-
+		#region AppBar Buttons Methods
 		private void NewCommand_Click(object sender, RoutedEventArgs e)
 		{
 			Frame.Navigate(typeof(NewOrderView));
@@ -72,6 +57,9 @@ namespace FastOrdering.View
 
 		private void LogOut_Click(object sender, RoutedEventArgs e)
 		{
+			Socket.Disconnect();
+			Frame.Navigate(typeof(LoginView));
 		}
+		#endregion
 	}
 }

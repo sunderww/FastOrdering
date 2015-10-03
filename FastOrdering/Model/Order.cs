@@ -1,36 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FastOrdering.Model
 {
 	public class Order : INotifyPropertyChanged
 	{
+		#region Attributes
 		public static ObservableCollection<Order> orders = new ObservableCollection<Order>();
-
-		public Order(string id, int table_id, int dinerNumber, string date, DateTime time)
-		{
-			this.numTable = table_id;
-			this.pa = dinerNumber;
-			DateTime d;
-			if (DateTime.TryParseExact(date, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
-				this.date = new DateTime(d.Year, d.Month, d.Day, time.Hour, time.Minute, time.Second);
-			this.id = id;
-			this.globalComment = "";
-		}
-
-		public void PrepareOrder()
-		{
-			foreach (Menu menu in menus)
-			{
-				menu.FillContent();
-			}
-		}
 
 		[JsonIgnore]
 		public string numOrder { get { return this.id; } }
@@ -95,6 +73,28 @@ namespace FastOrdering.Model
 		{
 			get { return dishes; }
 		}
+		#endregion
+
+		#region Methods
+		public Order(string id, int table_id, int dinerNumber, string date, DateTime time)
+		{
+			this.numTable = table_id;
+			this.pa = dinerNumber;
+			DateTime d;
+			if (DateTime.TryParseExact(date, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
+				this.date = new DateTime(d.Year, d.Month, d.Day, time.Hour, time.Minute, time.Second);
+			this.id = id;
+			this.globalComment = "";
+		}
+
+		public void PrepareOrder()
+		{
+			foreach (Menu menu in menus)
+			{
+				menu.FillContent();
+			}
+		}
+		#endregion
 
 		#region INotifyPropertyChanged
 		public void NotifyPropertyChanged(string nomPropriete)

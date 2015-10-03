@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using FastOrdering.Misc;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using FastOrdering.Misc;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -23,12 +12,15 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class LoginView : Page
 	{
-		public Socket sock;
+		#region Attributes
+		public static Socket sock;
+		#endregion
 
+		#region Methods
 		public LoginView()
 		{
 			this.InitializeComponent();
-			ID.Text = "55f0a0ea3f5b415b2023ede8";
+			ID.Text = "$2a$10$iJadROc3r8A/ERPvgTWHxuGXuEBlPYZjWSjCyPPv6yS.pM7E.naCa";
 		}
 
 		/// <summary>
@@ -40,15 +32,22 @@ namespace FastOrdering.View
 		{
 		}
 
+		public bool ConnectUser(bool answer)
+		{
+			if (answer)
+				Frame.Navigate(typeof(ReceptionView));
+			else
+				Socket.Disconnect();
+			return answer;
+		}
+		#endregion
+
+		#region AppBar Buttons Methods
 		private void AppBarButton_Click(object sender, RoutedEventArgs e)
 		{
 			sock = new Socket();
-			Socket.Authentication(ID.Text);
-			//sock.Connect();
-			//System.Diagnostics.Debug.WriteLine("emit");
-			//System.Diagnostics.Debug.WriteLine(sock.Emit("/elements"));
-			//sock.Disconnect();
-			Frame.Navigate(typeof(ReceptionView));
+			Socket.Authentication(ID.Text, ConnectUser);
 		}
+		#endregion
 	}
 }

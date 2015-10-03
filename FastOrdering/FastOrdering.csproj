@@ -82,9 +82,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Misc\MyMenu.xaml.cs">
-      <DependentUpon>MyMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Misc\Misc.cs" />
     <Compile Include="Misc\Socket.cs" />
     <Compile Include="Model\Category.cs" />
@@ -140,10 +137,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Misc\MyMenu.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

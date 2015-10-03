@@ -1,21 +1,9 @@
 ﻿using FastOrdering.Model;
 using FastOrdering.Misc;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Newtonsoft.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -26,6 +14,7 @@ namespace FastOrdering.View
 	/// </summary>
 	public sealed partial class NotificationsView : Page
 	{
+		#region Methods
 		public NotificationsView()
 		{
 			this.InitializeComponent();
@@ -51,15 +40,9 @@ namespace FastOrdering.View
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 		}
+		#endregion
 
-		//private void DrawerIcon_Tapped(object sender, TappedRoutedEventArgs e)
-		//{
-		//	if (DrawerLayout.IsDrawerOpen)
-		//		DrawerLayout.CloseDrawer();
-		//	else
-		//		DrawerLayout.OpenDrawer();
-		//}
-
+		#region GridManipulation
 		private void Grid_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 		}
@@ -86,7 +69,9 @@ namespace FastOrdering.View
 				NoNotif.Visibility = Visibility.Visible;
 			}
 		}
+		#endregion
 
+		#region AppBar Buttons Methods
 		private void DeleteAll_Click(object sender, RoutedEventArgs e)
 		{
 			Notification.notifications.Clear();
@@ -125,7 +110,9 @@ namespace FastOrdering.View
 
 		private void LogOut_Click(object sender, RoutedEventArgs e)
 		{
+			Socket.Disconnect();
+			Frame.Navigate(typeof(LoginView));
 		}
-
+		#endregion
 	}
 }

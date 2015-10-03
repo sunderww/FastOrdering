@@ -11,25 +11,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <misc:StringFormatConverter x:Name="StringFormat"/>
-        <Flyout x:Key="orderInfos">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Name="ordNum" FontSize="16" HorizontalAlignment="Center" />
-                <TextBlock Grid.Row="1" Name="tablePA" FontSize="16" />
-                <TextBlock Grid.Row="2" Name="time" FontSize="16" />
-                <TextBlock Grid.Row="3" Name="content" FontSize="16" />
-                <TextBlock Grid.Row="4" Name="menuId" FontSize="16" />
-                <Button Grid.Row="5" Name="modifyButton" HorizontalAlignment="Center"
-                        Tapped="ModifyButton_Tapped">Modifier</Button>
-            </Grid>
-        </Flyout>
     </Page.Resources>
 
     <Grid>
@@ -39,22 +20,14 @@
         </Grid.RowDefinitions>
         <!-- Title Bar -->
         <Grid x:Name="TitleBar" Background="{StaticResource PhoneAccentBrush}" Grid.Row ="0" Height="50">
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>-->
-
-            <!--<Image x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left" Tapped="DrawerIcon_Tapped"/>-->
             <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Commandes" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
         </Grid>
-        <!-- Drawer Layout -->
-        <!--<drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">-->
         <Grid Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
             <Border Name="history" Background="White" Opacity="0.9" CornerRadius="5" Margin="50">
                 <ListBox Name="OrdersListbox">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="280" Tapped="Grid_Tapped" Tag="{Binding numOrder}" FlyoutBase.AttachedFlyout="{StaticResource orderInfos}">
+                            <Grid Width="280" Tapped="Grid_Tapped" Tag="{Binding numOrder}">
                                 <Image Source="/Assets/Orders.png" Width="70" Height="70" HorizontalAlignment="Left" Margin="-15,-15,0,0"/>
                                 <TextBlock Text="{Binding Message, Converter={StaticResource StringFormat}, ConverterParameter='\{0}'}"
                                                Foreground="Black" VerticalAlignment="Top" FontSize="14" Margin="55,0,0,0" />
@@ -69,10 +42,6 @@
                            Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </Grid>
 
-        <!--<Grid>
-                <misc:MyMenu />
-            </Grid>
-        </drawerLayout:DrawerLayout>-->
     </Grid>
 
     <Page.BottomAppBar>

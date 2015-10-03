@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FastOrdering.Model
 {
 	public class Option
 	{
+		#region Attributes
 		public static ObservableCollection<Option> options = new ObservableCollection<Option>();
-
-		public Option(string id, Dictionary<string, string> values)
-		{
-			this.id = id;
-			this.values = values;
-		}
 
 		private string id;
 		public string ID
@@ -27,5 +18,14 @@ namespace FastOrdering.Model
 		{
 			get { return values; }
 		}
+		#endregion
+
+		#region Methods
+		public Option(string id, Dictionary<string, string> values)
+		{
+			this.id = id;
+			this.values = values;
+		}
+		#endregion
 	}
 }
