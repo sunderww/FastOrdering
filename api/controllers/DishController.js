@@ -15,7 +15,6 @@ module.exports = {
      * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
      */
     create: function (req, res) {
-	console.log("HELLO");
 		if (req.method=="POST") {
 			Dish.findOrCreate({
 				id: req.param("id"),
@@ -29,15 +28,11 @@ module.exports = {
 						message: err.ValidationError
 					    });
 				    }
-				    // else
-			// res.redirect(307, '/dish/create');
-
 		});
 	}
-
-		Dish.find( function(err, doc) {
-			return res.view({dishs:doc});
-   		});
+	Dish.find( function(err, doc) {
+		return res.view({dishs:doc});
+   	});
     },
 
 

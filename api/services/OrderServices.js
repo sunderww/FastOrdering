@@ -45,12 +45,12 @@ module.exports = {
 			OrderedDish.find({order_id: order_id})
 		])
 		.spread(function(order, ordered){
-			// var res = new Array();
-			// ordered.forEach(function(entry) {
+			var res = new Array();
+			ordered.forEach(function(entry) {
 				// entry.qty = entry.quantity;
 				// entry.id = entry.dish_id
-				// res.push({"menuId":entry.menu_id, "content": [entry]});
-			// });
+				res.push({"menuId":entry.menu_id, "content": [entry]});
+			});
 			ret = {
 				'numOrder' : order.id,
 				'numTable' : order.table_id,
@@ -58,7 +58,7 @@ module.exports = {
 				'date' : order.date,
 				'hour' : order.time,
 				'globalComment': order.comments,
-				'order' : ordered
+				'order' : res
 			};
 		}).catch(function(err){
 			cb(err);

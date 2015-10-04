@@ -39,7 +39,7 @@
        OrderServices.deleteOrder(id, function () {
         OrderServices.createOrder(json, function (result) {
 	    cb(result);
-         return socket.broadcast.emit('receive_order', result);
+         return socket.emit('receive_order', result);
         });
       });
      } else {
@@ -49,7 +49,7 @@
       console.log("id" + id);
       OrderServices.createOrder(json, function (result) {
 	  cb(result);
-        return socket.broadcast.emit('receive_order', result);
+        return socket.emit('receive_order', result);
         });
     }
   });
