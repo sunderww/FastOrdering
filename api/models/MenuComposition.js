@@ -7,7 +7,6 @@
 
 module.exports = {
   attributes: {
-      price: "integer",
       name: "string",
       menu_id: "string",
       categories_ids: "array"

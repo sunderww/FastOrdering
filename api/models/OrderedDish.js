@@ -29,7 +29,7 @@ module.exports = {
     * @type {String}
     * @require true
     */ 
-  	dish_id: {
+  	id: {
   		type: 'string',
   		required: true
   	},
@@ -41,7 +41,7 @@ module.exports = {
     * @type {Integer}
     * @require true
     */
-    quantity: {
+    qty: {
 	    type: "integer",
 	    required: true
     },

@@ -69,22 +69,22 @@ module.exports = {
         res.redirect(307, '/dishcategory/create');
     },
     update: function (req, res) {
-    if (req.method=="POST") {
-     console.log(req.param("id"));
-      DishCategory.update({id:req.param("id")},{
-        name:req.param("name")
-          }).exec(function(err,model) {
-            if (err) {
-          return res.json({
-            message: err.ValidationError
-              });
-            }
-      });
-      res.redirect(307, '/dishcategory/create');
+      if (req.method=="POST") {
+       console.log(req.param("id"));
+        DishCategory.update({id:req.param("id")},{
+          name:req.param("name")
+            }).exec(function(err,model) {
+              if (err) {
+            return res.json({
+              message: err.ValidationError
+                });
+              }
+        });
+        res.redirect(307, '/dishcategory/create');
+      }
+          DishCategory.findOne({id: req.param("id")} ,function(err, doc) {
+            return res.view({category:doc});
+        });      
     }
-        DishCategory.findOne({id: req.param("id")} ,function(err, doc) {
-          return res.view({category:doc});
-      });      
-  }
 };
 

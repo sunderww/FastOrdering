@@ -10,6 +10,8 @@ module.exports = {
       name: {
       	type: "String",
       	required: true
-      }
+      },
+      price: "integer",
+      
   }
 };

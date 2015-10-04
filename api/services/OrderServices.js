@@ -45,12 +45,12 @@ module.exports = {
 			OrderedDish.find({order_id: order_id})
 		])
 		.spread(function(order, ordered){
-			var res = new Array();
-			ordered.forEach(function(entry) {
-				entry.qty = entry.quantity;
-				entry.id = entry.dish_id
-				res.push({"menuId":entry.menu_id, "content": [entry]});
-			});
+			// var res = new Array();
+			// ordered.forEach(function(entry) {
+				// entry.qty = entry.quantity;
+				// entry.id = entry.dish_id
+				// res.push({"menuId":entry.menu_id, "content": [entry]});
+			// });
 			ret = {
 				'numOrder' : order.id,
 				'numTable' : order.table_id,
@@ -58,7 +58,7 @@ module.exports = {
 				'date' : order.date,
 				'hour' : order.time,
 				'globalComment': order.comments,
-				'order' : res
+				'order' : ordered
 			};
 		}).catch(function(err){
 			cb(err);
@@ -121,8 +121,8 @@ module.exports = {
 				for (var i = 0;json['order'][a].content[i]; i++) {
 					OrderedDish.create({
 						order_id:model.id,
-						dish_id:json['order'][a].content[i].id,
-						quantity:json['order'][a].content[i].qty,
+						id:json['order'][a].content[i].id,
+						qty:json['order'][a].content[i].qty,
 						comment:json['order'][a].content[i].comment,
 						menu_id:json['order'][a].menuId,
 						options:json['order'][a].content[i].options
