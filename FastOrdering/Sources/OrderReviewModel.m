@@ -94,6 +94,8 @@
 		//    cell = [[DishCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
+	cell.tag = kDishCellTag(indexPath.section, indexPath.row);
+	[cell setEditable:YES];
 	[cell setDish:dish.dish andTag:kDishCellTag(indexPath.section, indexPath.row - 1)];
 	[cell setQuantity:dish.quantity.integerValue];
 	
@@ -115,7 +117,14 @@
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
 	[responder resignFirstResponder];
 }
-#pragma mark - UITextField delegate
+#pragma mark - DishCell delegate
+
+- (void)editButtonClickedForDishCell:(DishCell *)cell {
+	NSUInteger section = kDishCellSectionForTag(cell.tag);
+	NSUInteger row = kDishCellRowForTag(cell.tag);
+	
+	DLog(@"Section : %lu ; row : %lu", section, row);
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	textField.text = @"";

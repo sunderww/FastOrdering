@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "SLExpandableTableView.h"
 #import "Order+Custom.h"
+#import "DishCell.h"
 
-@interface OrderReviewModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate> {
+@interface OrderReviewModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, DishCellDelegate> {
 	NSArray * sections;
 	NSArray * dishes;
 	

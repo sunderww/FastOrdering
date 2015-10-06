@@ -23,7 +23,7 @@
   }
 }
 
-- (void)setDelegate:(id<UITextFieldDelegate>)delegate {
+- (void)setDelegate:(id<DishCellDelegate>)delegate {
   _delegate = delegate;
   self.textField.delegate = delegate;
 }
@@ -36,6 +36,21 @@
 
 - (void)setQuantity:(NSInteger)quantity {
 	self.textField.text = [NSString stringWithFormat:@"%ld", (long)quantity];
+}
+
+- (void)setEditable:(BOOL)editable {
+	if (editButton.hidden != editable) return; // nothing to change
+	
+	editButton.hidden = !editable;
+	CGRect frame = mainLabel.frame;
+	float delta = editButton.frame.size.width * (editable ? 1 : -1);
+	frame.origin.x += delta;
+	frame.size.width -= delta;
+	mainLabel.frame = frame;
+}
+
+- (IBAction)edit {
+	[self.delegate editButtonClickedForDishCell:self];
 }
 
 @end

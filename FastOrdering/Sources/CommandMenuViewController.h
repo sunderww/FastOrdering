@@ -10,6 +10,7 @@
 #import "SLExpandableTableView.h"
 #import "MenuComposition.h"
 #import "OrderContent.h"
+#import "DishCell.h"
 
 @protocol CommandMenuDelegate <NSObject>
 
@@ -18,7 +19,7 @@
 
 @end
 
-@interface CommandMenuViewController : UIViewController <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate, UIScrollViewDelegate> {
+@interface CommandMenuViewController : UIViewController <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, DishCellDelegate, UIScrollViewDelegate> {
 	
 	IBOutlet SLExpandableTableView *  expandableTableView;
 	IBOutlet UIButton * orderButton;
