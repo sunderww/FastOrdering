@@ -1,5 +1,5 @@
 /**
- * OrderedDish
+ * OrderedOption
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
@@ -17,8 +17,9 @@ module.exports = {
     * @type {String}
     * @require true
     */   	
-  	order_id: {
+  	ordered_id: {
   		type: 'string',
+      // model: "orderedDish",
   		required: true
   	},
 
@@ -32,8 +33,8 @@ module.exports = {
   	id: {
   		type: 'string',
   		required: true,
-  	  primaryKey: true
-    },
+        primaryKey: true
+  	},
     
     /**
     * Nombre de plats commandés
@@ -43,33 +44,14 @@ module.exports = {
     * @require true
     */
     qty: {
-	    type: "integer",
+      type: "integer",
 	    required: true
     },
     
-    status: {
-      type: 'string',
-      enum: ["canceled", "ordered", "cooking", "toDeliver", "delivered"],
-      defaultsTo: "ordered"
-    }, 
-    options :{
-      collection: "orderedoption",
+    options : {
+      // type: "integer",
+      model: "Option"
     },
-    /**
-    * Id du menu
-    * 
-    * @property menu_id
-    * @type {Integer}
-    * @require true
-    */       
-    menu_id: {type: "integer", required: true},
 
-    /**
-    * Commentaire
-    * 
-    * @property comment
-    * @type {String}
-    */ 
-  	comment: 'string',
   }
 };

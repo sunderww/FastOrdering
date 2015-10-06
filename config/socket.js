@@ -38,8 +38,8 @@
 
        OrderServices.deleteOrder(id, function () {
         OrderServices.createOrder(json, function (result) {
-	    cb(result);
-         return socket.emit('receive_order', result);
+          socket.emit('receive_order', result);
+          return cb(result);
         });
       });
      } else {
@@ -48,8 +48,8 @@
       console.log(json);
       console.log("id" + id);
       OrderServices.createOrder(json, function (result) {
-	  cb(result);
-        return socket.emit('receive_order', result);
+        socket.emit('receive_order', result);
+        return cb(result);
         });
     }
   });

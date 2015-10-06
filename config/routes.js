@@ -74,8 +74,9 @@ module.exports.routes = {
     '/compos' : 'MenuCompositionController.read',
     '/alacarte' : 'MenuController.alacarte',
     '/cats' : 'DishCategoryController.read',
-    '/options': 'OptionController.read',
+    '/options': 'OptionCategoryController.read',
     '/send_order': 'DishController.create',
+    '/optioncategory' : 'OptionCategoryController.read_lucas'
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

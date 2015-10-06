@@ -43,6 +43,20 @@ module.exports = {
     }
   },
 
+  read_lucas: function(req, res) {
+     OptionCategory.find().populate("option").exec( function(err, doc) {
+          var result = new Array();
+          doc.forEach(function(entry){
+          var option_ids = new Array();
+            entry.option.forEach(function(e){
+              option_ids.push(e.id);
+            });
+            result.push({"option_ids":option_ids , "name": entry.name, "createdAt": entry.createdAt, "updatedAt":entry.updatedAt, "id":entry.id})
+          });
+          return res.json(result);
+      });
+  },
+
 
   /**
    * `OptionCategoryController.delete()`

@@ -43,7 +43,7 @@ module.exports = {
       });
     } else {
         Option.find( function(err, doc) {
-	return res.json({elements: doc});
+	      return res.json({elements: doc});
       });
     }
   },

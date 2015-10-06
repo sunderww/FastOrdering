@@ -126,7 +126,6 @@ module.exports = {
 						comment:json['order'][a].content[i].comment,
 						menu_id:json['order'][a].menuId,
 						options:json['order'][a].content[i].options
-
 					}).exec(function(err,model){
 						if (err)
 							return cb(err);
