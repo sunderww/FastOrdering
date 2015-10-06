@@ -17,11 +17,11 @@ module.exports = {
     * @type {String}
     * @require true
     */   	
-  	ordered_id: {
-  		type: 'string',
+  	// ordered_id: {
+  		// type: 'string',
       // model: "orderedDish",
-  		required: true
-  	},
+  		// required: true
+  	// },
 
     /**
     * Id du plat
@@ -48,9 +48,9 @@ module.exports = {
 	    required: true
     },
     
-    options : {
-      // type: "integer",
-      model: "Option"
+    option : {
+      type: "string",
+      // model: "Option"
     },
 
   }

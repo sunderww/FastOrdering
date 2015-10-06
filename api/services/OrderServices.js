@@ -119,16 +119,23 @@ module.exports = {
 		.spread(function(model){
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
-					OrderedDish.create({
-						order_id:model.id,
-						id:json['order'][a].content[i].id,
-						qty:json['order'][a].content[i].qty,
-						comment:json['order'][a].content[i].comment,
-						menu_id:json['order'][a].menuId,
-						options:json['order'][a].content[i].options
-					}).exec(function(err,model){
+					OrderedOption.create({
+						qty:json['order'][a].content[i].options['qty'],
+						option:json['order'][a].content[i].options['id']
+					}).exec(function(err, mod){
 						if (err)
 							return cb(err);
+						OrderedDish.create({
+							order_id:model.id,
+							id:json['order'][a].content[i].id,
+							qty:json['order'][a].content[i].qty,
+							comment:json['order'][a].content[i].comment,
+							menu_id:json['order'][a].menuId,
+							options:mod
+						}).exec(function(err,model){
+							if (err)
+								return cb(err);
+						});
 					});
 				}
 			}
