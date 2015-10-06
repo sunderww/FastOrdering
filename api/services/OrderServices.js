@@ -107,6 +107,7 @@ module.exports = {
 	},
 	createOrder: function(json, cb) {
 		console.log("createOrder")
+	    console.log(json);
 		var ret;
 		Promise.all([
 			Order.create({
