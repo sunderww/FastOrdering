@@ -15,8 +15,9 @@
 #import "LoaderView.h"
 #import "SocketHelper.h"
 #import "MainViewController.h"
+#import "EditDishViewController.h"
 
-@interface CommandViewController : UIViewController <OrderMenuDelegate, CommandMenuDelegate, SocketIODelegate> {
+@interface CommandViewController : UIViewController <OrderMenuDelegate, OrderReviewDelegate, CommandMenuDelegate, EditDishDelegate, SocketIODelegate, UIGestureRecognizerDelegate> {
 	IBOutlet UIButton *     menuButton;
 	IBOutlet UIButton *     alacarteButton;
 	IBOutlet UIButton *     reviewButton;
@@ -56,5 +57,6 @@
 @property (nonatomic, retain) MainViewController *	mainController;
 
 - (IBAction)buttonClicked:(UIButton *)sender;
+- (IBAction)endEditing;
 
 @end

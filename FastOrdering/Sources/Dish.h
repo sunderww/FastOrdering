@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DishCategory, OrderedDish;
+@class DishCategory, OptionCategory, OrderedDish;
 
 @interface Dish : NSManagedObject
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSSet *categories;
 @property (nonatomic, retain) NSSet *ordered;
+@property (nonatomic, retain) NSSet *optioncategories;
 @end
 
 @interface Dish (CoreDataGeneratedAccessors)
@@ -34,5 +35,10 @@
 - (void)removeOrderedObject:(OrderedDish *)value;
 - (void)addOrdered:(NSSet *)values;
 - (void)removeOrdered:(NSSet *)values;
+
+- (void)addOptioncategoriesObject:(OptionCategory *)value;
+- (void)removeOptioncategoriesObject:(OptionCategory *)value;
+- (void)addOptioncategories:(NSSet *)values;
+- (void)removeOptioncategories:(NSSet *)values;
 
 @end

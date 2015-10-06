@@ -16,6 +16,7 @@
 @dynamic serverId;
 @dynamic createdAt;
 @dynamic updatedAt;
+@dynamic qty;
 @dynamic dish;
 @dynamic option;
 

@@ -7,6 +7,8 @@
 //
 
 #import "Option.h"
+#import "OptionCategory.h"
+#import "OrderedOption.h"
 
 
 @implementation Option

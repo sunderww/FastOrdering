@@ -1,47 +1,49 @@
 //
-//  OrderReviewModel.m
+//  EditDishViewController.m
 //  FastOrdering
 //
-//  Created by Sunder on 08/04/2015.
+//  Created by Sunder on 06/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
-#import "OrderReviewModel.h"
+#import "EditDishViewController.h"
 #import "ReviewExpandableCell.h"
-#import "OrderContent.h"
-#import "MenuComposition.h"
-#import "Menu.h"
-#import "OrderedDish.h"
-#import "Dish.h"
-#import "DishCell.h"
+#import "OptionCategory.h"
+#import "Option.h"
+#import "OptionCell.h"
+#import "OrderedOption.h"
 
-#define kDishCellTag(section, row)  ((((section) + 1) * 100) + (row) + 1)
-#define kDishCellSectionForTag(tag) (((tag) / 100) - 1)
-#define kDishCellRowForTag(tag)     (((tag) % 100) - 1)
+@interface EditDishViewController ()
 
-@implementation OrderReviewModel
+@end
 
-- (void)setOrder:(Order *)order {
-	_order = order;
-	[self reloadData];
+#define kOptionCellTag(section, row)	((((section) + 1) * 100) + (row) + 1)
+#define kOptionCellSectionForTag(tag)	(((tag) / 100) - 1)
+#define kOptionCellRowForTag(tag)		(((tag) % 100) - 1)
+
+@implementation EditDishViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+	commentLabel.text = NSLocalizedString(commentLabel.text, @"");
+	[validateButton setTitle:NSLocalizedString(@"validate", @"").uppercaseString forState:UIControlStateNormal];
+	[backButton setTitle:NSLocalizedString(@"back", @"").capitalizedString forState:UIControlStateNormal];
 }
 
-- (void)reloadData {
-	NSMutableArray * titles = [NSMutableArray new];
-	NSMutableArray * contents = [NSMutableArray new];
-	
-	for (OrderContent * content in self.order.orderContents) {
-		[titles addObject:[NSString stringWithFormat:@"%@ - %@", content.menuComposition.menu.name, content.menuComposition.name]];
-		[contents addObject:content.dishes.allObjects];
-	}
-//	if (self.order.dishes.count) {
-//		[titles addObject:@"A la carte"];
-//		[contents addObject:self.order.dishes.allObjects];
-//	}
-	
-	sections = titles;
-	dishes = contents;
-	[self.tableView reloadData];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - IBAction methods
+
+- (IBAction)validate {
+	[self.delegate popEditDishView];
+}
+
+- (IBAction)cancel {
+	[self.delegate popEditDishView];
 }
 
 #pragma mark - SLExpandableTableView delegate and datasource methods
@@ -55,7 +57,7 @@
 }
 
 - (UITableViewCell<UIExpandingTableViewCell> *)tableView:(SLExpandableTableView *)tableView expandingCellForSection:(NSInteger)section {
-	static NSString * CellIdentifier = @"ReviewTitleCell";
+	static NSString * CellIdentifier = @"EditDishTitleCell";
 	
 	ReviewExpandableCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
@@ -64,7 +66,7 @@
 		cell = [[ReviewExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
-	cell.text = sections[section];
+	cell.text = ((OptionCategory *)categories[section]).name;
 	return cell;
 }
 
@@ -75,35 +77,32 @@
 #pragma mark - UITableView delegate and datasource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return sections.count;
+	return categories.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return ((NSArray *)dishes[section]).count + 1;
+	return ((NSArray *)options[section]).count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString * CellIdentifier = @"ReviewCell";
-	OrderedDish * dish = dishes[indexPath.section][indexPath.row - 1];
+	static NSString * CellIdentifier = @"OptionCell";
+	OrderedOption * option = options[indexPath.section][indexPath.row - 1];
 	
-	DishCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	OptionCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
 	if (!cell) {
-		cell = [[NSBundle mainBundle] loadNibNamed:@"DishCell" owner:self options:nil][0];
-		cell.delegate = self;
+		cell = [[NSBundle mainBundle] loadNibNamed:@"OptionCell" owner:self options:nil][0];
 		//    cell = [[DishCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
-	cell.tag = kDishCellTag(indexPath.section, indexPath.row);
-	[cell setEditable:YES];
-	[cell setDish:dish.dish andTag:kDishCellTag(indexPath.section, indexPath.row - 1)];
-	[cell setQuantity:dish.quantity.integerValue];
+	[cell setOption:option.option andTag:kOptionCellTag(indexPath.section, indexPath.row - 1)];
+	[cell setQuantity:option.qty.integerValue];
 	
 	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	DishCell * cell = (DishCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+	OptionCell * cell = (OptionCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
 	[cell.textField becomeFirstResponder];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -118,15 +117,7 @@
 	[responder resignFirstResponder];
 }
 
-#pragma mark - DishCell delegate
-
-- (void)editButtonClickedForDishCell:(DishCell *)cell {
-	NSUInteger section = kDishCellSectionForTag(cell.tag);
-	NSUInteger row = kDishCellRowForTag(cell.tag);
-
-	OrderedDish * dish = dishes[section][row - 1];
-	[self.delegate orderedDishClicked:dish];
-}
+#pragma mark - UITextField delegate methods
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	textField.text = @"";
@@ -137,10 +128,10 @@
 	if (!textField.text.length)
 		textField.text = @"0";
 	
-	NSUInteger row = kDishCellRowForTag(textField.tag);
-	NSUInteger section = kDishCellSectionForTag(textField.tag);
+	NSUInteger row = kOptionCellRowForTag(textField.tag);
+	NSUInteger section = kOptionCellSectionForTag(textField.tag);
 	
-	OrderedDish * dish = dishes[section][row];
+	OrderedDish * dish = options[section][row];
 	dish.quantity = @(textField.text.integerValue);
 }
 
@@ -149,13 +140,24 @@
 	if (!text.length)
 		text = @"0";
 	
-	NSUInteger row = kDishCellRowForTag(textField.tag);
-	NSUInteger section = kDishCellSectionForTag(textField.tag);
+	NSUInteger row = kOptionCellRowForTag(textField.tag);
+	NSUInteger section = kOptionCellSectionForTag(textField.tag);
 	
-	OrderedDish * dish = dishes[section][row];
+	OrderedDish * dish = options[section][row];
 	dish.quantity = @(text.integerValue);
-
+	
 	return YES;
 }
+
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

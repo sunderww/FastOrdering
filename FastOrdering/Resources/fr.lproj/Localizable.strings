@@ -41,3 +41,5 @@
 "LogOut"                        =   "Déconnexion";
 "LogIn"                         =   "Se connecter";
 "Loading"                       =   "Chargement";
+"back"							=	"Retour";
+"validate"						=	"valider";

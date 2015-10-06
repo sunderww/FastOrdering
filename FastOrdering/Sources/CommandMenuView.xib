@@ -17,6 +17,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" id="qR9-jm-tKL">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="512"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zg0-5z-Nga" customClass="SLExpandableTableView">
                     <rect key="frame" x="20" y="45" width="280" height="397"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -56,6 +60,7 @@
         </view>
     </objects>
     <resources>
+        <image name="background" width="800" height="577"/>
         <image name="green_button_default" width="13" height="13"/>
         <image name="green_button_pressed" width="13" height="13"/>
     </resources>

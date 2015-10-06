@@ -11,6 +11,14 @@
 #import "Order+Custom.h"
 #import "DishCell.h"
 
+
+@protocol OrderReviewDelegate <NSObject>
+
+@required
+- (void)orderedDishClicked:(OrderedDish *)dish;
+
+@end
+
 @interface OrderReviewModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, DishCellDelegate> {
 	NSArray * sections;
 	NSArray * dishes;
@@ -22,5 +30,6 @@
 
 @property (nonatomic, strong) Order * order;
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) id<OrderReviewDelegate> delegate;
 
 @end

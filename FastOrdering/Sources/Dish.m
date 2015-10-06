@@ -8,6 +8,7 @@
 
 #import "Dish.h"
 #import "DishCategory.h"
+#import "OptionCategory.h"
 #import "OrderedDish.h"
 
 
@@ -21,5 +22,6 @@
 @dynamic updatedAt;
 @dynamic categories;
 @dynamic ordered;
+@dynamic optioncategories;
 
 @end

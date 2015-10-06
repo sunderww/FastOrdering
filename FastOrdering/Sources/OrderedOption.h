@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSDate * updatedAt;
+@property (nonatomic, retain) NSNumber * qty;
 @property (nonatomic, retain) OrderedDish *dish;
 @property (nonatomic, retain) Option *option;
 

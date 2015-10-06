@@ -13,6 +13,7 @@
 #import "SocketHelper.h"
 #import "AppDelegate.h"
 #import "UNIRest.h"
+#import "EditDishViewController.h"
 
 // Uncomment the following line to not test if the fields are blank
 //#define kDoNotTestFields
@@ -37,7 +38,7 @@
 	carteModel = [[OrderALaCarteModel alloc] initWithOrder:self.order];
 	reviewModel = [OrderReviewModel new];
 	menuModel.delegate = self;
-//  reviewModel.delegate = self;
+	reviewModel.delegate = self;
 	reviewModel.order = self.order;
 	reviewModel.tableView = reviewTableView;
 	menuTableView.dataSource = menuModel;
@@ -79,15 +80,28 @@
 	// Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Menu and ALaCarte delegate methods
+#pragma mark - Helper methods
 
-- (void)menuCompositionClicked:(MenuComposition *)composition {
-	CommandMenuViewController * controller = [[CommandMenuViewController alloc] initWithNibName:@"CommandMenuView" bundle:nil];
+- (void)orderFailed {
+	loaderView.hidden = YES;
+	[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_ErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+}
+
+- (BOOL)testFields {
+	// Bypass the security for test purposes
+#ifdef kDoNotTestFields
+	return YES;
+#endif
 	
-	controller.composition = composition;
-	controller.delegate = self;
-	presentController = controller;
+	if (!numPAField.text.length || !tableNumberField.text.length) {
+		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_FieldErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+		return NO;
+	}
 	
+	return YES;
+}
+
+- (void)showPresentController {
 	CGRect frame = presentController.view.frame;
 	frame.origin.x += frame.size.width;
 	presentController.view.frame = frame;
@@ -100,8 +114,37 @@
 	}];
 }
 
-- (void)dishClicked:(Dish *)dish {
+- (void)popPresentController {
+	[UIView animateWithDuration:0.5 animations:^{
+		CGRect frame = presentController.view.frame;
+		frame.origin.x += frame.size.width;
+		presentController.view.frame = frame;
+	} completion:^(BOOL finished) {
+		[presentController.view removeFromSuperview];
+		presentController = nil;
+	}];
+}
+
+#pragma mark - Menu and Review delegate methods
+
+- (void)menuCompositionClicked:(MenuComposition *)composition {
+	CommandMenuViewController * controller = [[CommandMenuViewController alloc] initWithNibName:@"CommandMenuView" bundle:nil];
 	
+	controller.composition = composition;
+	controller.delegate = self;
+
+	presentController = controller;
+	[self showPresentController];
+}
+
+- (void)orderedDishClicked:(OrderedDish *)dish {
+	EditDishViewController * controller = [[EditDishViewController alloc] initWithNibName:@"EditDishView" bundle:nil];
+
+	controller.dish = dish;
+	controller.delegate = self;
+	
+	presentController = controller;
+	[self showPresentController];
 }
 
 #pragma mark - CommandMenuView delegate methods
@@ -125,36 +168,20 @@
 }
 
 - (void)popCommandMenuView {
-	[UIView animateWithDuration:0.5 animations:^{
-		CGRect frame = presentController.view.frame;
-		frame.origin.x += frame.size.width;
-		presentController.view.frame = frame;
-	} completion:^(BOOL finished) {
-		[presentController.view removeFromSuperview];
-		presentController = nil;
-	}];
+	[self popPresentController];
 }
 
-- (void)orderFailed {
-	loaderView.hidden = YES;
-	[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_ErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-}
+#pragma mark - EditDishView delegate methods
 
-- (BOOL)testFields {
-	// Bypass the security for test purposes
-#ifdef kDoNotTestFields
-	return YES;
-#endif
-
-	if (!numPAField.text.length || !tableNumberField.text.length) {
-		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_FieldErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-		return NO;
-	}
-	
-	return YES;
+- (void)popEditDishView {
+	[self popPresentController];
 }
 
 #pragma mark - IBAction methods
+
+- (IBAction)endEditing {
+	[self.view endEditing:YES];
+}
 
 - (IBAction)buttonClicked:(UIButton *)sender {
 	for (UIView * v in clickedViews)
@@ -234,6 +261,13 @@
 - (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
 	[timer invalidate];
 	[self orderFailed];
+}
+
+#pragma mark - UIGestureRecognizer delegate methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+	[self endEditing];
+	return ![touch.view isDescendantOfView:reviewModel.tableView];
 }
 
 /*

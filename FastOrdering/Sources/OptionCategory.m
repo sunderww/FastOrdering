@@ -7,6 +7,7 @@
 //
 
 #import "OptionCategory.h"
+#import "Dish.h"
 #import "Option.h"
 
 
@@ -17,5 +18,6 @@
 @dynamic updatedAt;
 @dynamic name;
 @dynamic option;
+@dynamic dishes;
 
 @end

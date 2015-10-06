@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Option;
+@class Dish, Option;
 
 @interface OptionCategory : NSManagedObject
 
@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *option;
+@property (nonatomic, retain) Dish *dishes;
 @end
 
 @interface OptionCategory (CoreDataGeneratedAccessors)
