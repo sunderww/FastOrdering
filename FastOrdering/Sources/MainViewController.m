@@ -136,7 +136,7 @@
 #ifdef SKIP_SYNC
 	NSArray * classes = @[];
 #else
-	NSArray * classes = @[@"DishCategory", @"Dish", @"Order", @"OrderedDish", @"Plan", @"Table", @"Menu", @"MenuComposition"];
+	NSArray * classes = @[@"Option", @"OptionCategory", @"DishCategory", @"Dish", @"Order", @"OrderedDish", @"OrderedOption", @"Plan", @"Table", @"Menu", @"MenuComposition"];
 #endif
     syncer.delegate = self;
     for (NSString * class in classes) {

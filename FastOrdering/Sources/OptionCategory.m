@@ -1,21 +1,21 @@
 //
-//  Plan.m
+//  OptionCategory.m
 //  FastOrdering
 //
 //  Created by Sunder on 06/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
-#import "Plan.h"
-#import "Table.h"
+#import "OptionCategory.h"
+#import "Option.h"
 
 
-@implementation Plan
+@implementation OptionCategory
 
-@dynamic createdAt;
 @dynamic serverId;
-@dynamic sizeString;
+@dynamic createdAt;
 @dynamic updatedAt;
-@dynamic tables;
+@dynamic name;
+@dynamic option;
 
 @end
