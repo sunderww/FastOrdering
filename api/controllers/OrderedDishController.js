@@ -77,5 +77,24 @@ module.exports = {
         return res.send(doc);
       });
     } 
-  }
+  },
+
+  /**
+  * Permet de recupérer tous les plats ou un plat spécifique si un id est présent
+  *
+  * @method read
+  * @param {String} id id du plat(optionnel)
+  * @return {JSON} Retourne les résultat présents en base de données (0 ou 1 ou plusieurs plats)
+  */
+  read_lucas: function (req, res) {
+      OrderedDish.find( function(err, doc) {
+        var res = array()
+        doc.forEach(function(entry){
+
+          return res.json(doc);
+        });
+  },
+
+
+
 };
