@@ -20,5 +20,11 @@ module.exports = {
       });
     }
   },
+    read_lucas: function (req, res) {
+    
+      OrderedOption.find( function(err, doc) {
+        return res.json(doc);
+      });
+  },
 };
 
