@@ -94,7 +94,6 @@ module.exports = {
           return res.json(doc);
         });
     });
-    }.
   },
 
 
