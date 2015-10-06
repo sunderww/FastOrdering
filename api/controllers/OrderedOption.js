@@ -1,5 +1,5 @@
 /**
- * OrderedOption
+ * @class OrderedOptionController
  *
  * @description :: Server-side logic for managing Options
  * @help        :: See http://links.sailsjs.org/docs/controllers
