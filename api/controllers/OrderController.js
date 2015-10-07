@@ -46,9 +46,9 @@ getOneOrder: function(req, res) {
 },
 
     delete: function(id) {
-	Order.destroy().exec(function(res, doc) {
-	    return res.ok("ok");
-	});
+    	Order.destroy().exec(function(res, doc) {
+    	    return res.ok("ok");
+    	});
     },
 
   create: function (req, res) {

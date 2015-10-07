@@ -9,49 +9,15 @@
 module.exports = {
 
   attributes: {
-    
-    /**
-    * Id de la commande
-    * 
-    * @property order_id
-    * @type {String}
-    * @require true
-    */   	
-  	// ordered_id: {
-  		// type: 'string',
-      // model: "orderedDish",
-  		// required: true
-  	// },
-
-    /**
-    * Id du plat
-    * 
-    * @property dish_id
-    * @type {String}
-    * @require true
-    */ 
-  	id: {
-  		type: 'string',
-  		required: true,
-        primaryKey: true
-  	},
-    
-    /**
-    * Nombre de plats commandés
-    * 
-    * @property quantity
-    * @type {Integer}
-    * @require true
-    */
+   
     qty: {
       type: "integer",
-	    required: true
+      required: true
     },
     
     option : {
-      type: "string",
-      // model: "Option"
-    },
-
+      model: "Option",
+      required: true
+    }
   }
 };

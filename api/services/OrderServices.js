@@ -105,6 +105,8 @@ module.exports = {
 			return cb("ok");
 		});
 	},
+
+
 	createOrder: function(json, cb) {
 		console.log("createOrder")
 		var ret;
@@ -116,27 +118,43 @@ module.exports = {
 				comments: json.globalComment
 			})
 			])
-		.spread(function(model){
+		.spread(function(){
+			var orderedoption = new Array();
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
-					OrderedOption.create({
-						qty:json['order'][a].content[i].options['qty'],
-						option:json['order'][a].content[i].options['id']
-					}).exec(function(err, mod){
-						if (err)
-							return cb(err);
+					if (typeof json['order'][a].content[i].options != 'undefined') {
+						OrderedOption.create({
+							qty:json['order'][a].content[i].options['qty'],
+							option:json['order'][a].content[i].options['id']
+						}).exec(function(err, mod){
+							if (err)
+								return cb(err);
+							orderedoption[a] = mod;
+						});
+					}
+				}
+			}
+		})
+		.spread(function(model,orderedoption){
+			for (var a = 0;json['order'][a]; a++) {
+				for (var i = 0;json['order'][a].content[i]; i++) {
+					if (typeof orderedoption[a] != 'undefined')
+						options = orderedoption[a];
+					else
+						options = [];
 						OrderedDish.create({
 							order_id:model.id,
 							id:json['order'][a].content[i].id,
 							qty:json['order'][a].content[i].qty,
+							menucomposition_id:json['order'][a].content[i].menucomposition_id,
+							categorieoption_id:json['order'][a].content[i].categorieoption_id,
 							comment:json['order'][a].content[i].comment,
 							menu_id:json['order'][a].menuId,
-							options:mod
+							options:options
 						}).exec(function(err,model){
 							if (err)
 								return cb(err);
 						});
-					});
 				}
 			}
 			ret = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};

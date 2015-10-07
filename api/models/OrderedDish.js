@@ -32,7 +32,6 @@ module.exports = {
   	id: {
   		type: 'string',
   		required: true,
-  	  primaryKey: true
     },
     
     /**
@@ -52,8 +51,11 @@ module.exports = {
       enum: ["canceled", "ordered", "cooking", "toDeliver", "delivered"],
       defaultsTo: "ordered"
     }, 
-    options :{
-      collection: "orderedoption",
+    option_ids :{
+      type:"array", 
+      defaultsTo: []
+      // collection: "OrderedOption",
+      // via: "option"
     },
     /**
     * Id du menu
@@ -61,8 +63,11 @@ module.exports = {
     * @property menu_id
     * @type {Integer}
     * @require true
-    */       
+    */
     menu_id: {type: "integer", required: true},
+    
+    menucomposition_id: {type: "integer", required: true},
+    categorieoption_id: {type: "integer", required: true},
 
     /**
     * Commentaire

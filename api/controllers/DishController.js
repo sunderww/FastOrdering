@@ -24,15 +24,17 @@ module.exports = {
 				optioncategories_ids: req.param("optioncategories_ids")
 			    }).exec(function(err,model) {
 				    if (err) {
-					return res.json({
+					res.json({
 						message: err.ValidationError
 					    });
 				    }
 		});
-	}
+	}else {
+
 	Dish.find( function(err, doc) {
 		return res.view({dishs:doc});
    	});
+	}
     },
 
 

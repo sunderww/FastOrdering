@@ -22,8 +22,8 @@ module.exports = {
 	console.log(req.param("order_id"));
     OrderedDish.create({
 
-        order_id:req.param("order_id"),
-	dish_id:req.param("dish"),
+    order_id:req.param("order_id"),
+	 dish_id:req.param("dish"),
 	quantity:req.param("qty"),
 	comment:req.param("comment"),
 	menu_id:req.param("menuId")
@@ -77,6 +77,12 @@ module.exports = {
         return res.send(doc);
       });
     } 
+  },
+
+  delete: function(id) {
+    OrderedDish.destroy().exec(function(res, doc) {
+      return res.ok("ok");
+    });
   },
 
   /**
