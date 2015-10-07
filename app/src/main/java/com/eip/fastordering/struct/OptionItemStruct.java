@@ -22,13 +22,17 @@ public class OptionItemStruct {
 	public OptionItemStruct(JSONObject optionCat) {
 		try {
 			_name = optionCat.getString("name");
+			System.out.println("Adding option cat=" + _name);
 			_id = optionCat.getString("id");
+			System.out.println("With id=" + _id);
 			_optionValues = new HashMap<>();
-			JSONArray optionValues = optionCat.getJSONArray("values");
+			JSONArray optionValues = optionCat.getJSONArray("option");
 			for (int i = 0; i < optionValues.length(); i++) {
 				JSONObject optionValue = optionValues.getJSONObject(i);
 				_optionValues.put(optionValue.getString("id"), optionValue.getString("name"));
+				System.out.println("Option " + i + ", name=" + optionValue.getString("name") + " id=" + optionValue.getString("id"));
 			}
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

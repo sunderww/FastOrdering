@@ -86,6 +86,7 @@ public class OrderFragment extends Fragment {
 	 * Create element list
 	 */
 	public static void fetchElements() {
+		get_mOptions();
 		JSONArray arr;
 		_mElements.clear();
 		try {
@@ -115,7 +116,7 @@ public class OrderFragment extends Fragment {
 	 * Create the menu list
 	 */
 	public static void fetchMenus() {
-		fetchElements();
+		get_mElements();
 
 		JSONArray arr;
 		_mMenus.clear();
@@ -174,6 +175,13 @@ public class OrderFragment extends Fragment {
 				}
 			}
 		}
+	}
+
+	public static List<ElementStruct> get_mElements() {
+		if (_mElements.isEmpty()) {
+			fetchElements();
+		}
+		return _mElements;
 	}
 
 	public static OptionsStruct get_mOptions() {

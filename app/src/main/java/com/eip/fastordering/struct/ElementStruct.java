@@ -33,10 +33,14 @@ public class ElementStruct {
 				_mIdsCat.add(jsonArr.getString(i));
 			}
 			//TODO Uncomment once done - Alexis
-//			jsonArr = elem.getJSONArray("options");
-//			for (int i = 0; i < jsonArr.length(); i++) {
-//				_mIdsOptions.add(jsonArr.getString(i));
-//			}
+			try {
+				jsonArr = elem.getJSONArray("options");
+				for (int i = 0; i < jsonArr.length(); i++) {
+					_mIdsOptions.add(jsonArr.getString(i));
+				}
+			} catch (JSONException e) {
+				System.out.println("No options for=" + _mName);
+			}
 
 		} catch (JSONException e) {
 			Log.d("ELEMENTSTRUCT", "EXCEPTION JSON:" + e.toString());

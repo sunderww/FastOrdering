@@ -27,6 +27,7 @@ public class OrderCardFragment extends Fragment {
 
 	private static List<String>                  _mListDataHeader = new ArrayList<>();
 	private static HashMap<String, List<String>> _mListDataNb     = new HashMap<>();
+	private static HashMap<String, List<String>> _mListDataOthers     = new HashMap<>();
 	private ExpandableListAdapter         _mListAdapter;
 	private ExpandableListView            _mExpListView;
 	private HashMap<String, List<String>> _mListDataChild;

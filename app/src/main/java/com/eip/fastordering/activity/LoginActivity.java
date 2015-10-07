@@ -29,7 +29,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends Activity {
@@ -168,17 +167,13 @@ public class LoginActivity extends Activity {
             @Override
             public void call(Object... args) {
                 Log.d("LOGINACTIVITY", "CONNECT");
-//                JSONObject obj = createObjectURL("/authentication", new HashMap<String, String>() {
-//                    {
-//                        put("user_key", "55cccc32f80d3658724d6f7e");
-//                    }
-//                });
                 JSONObject obj = new JSONObject();
                 try {
                     obj.put("user_key", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Log.d("LOGINACTIVITY", "LAUNCH AUTH");
 
                 _mSocket.emit("authentication", obj, new Ack() {
                     @Override
@@ -260,7 +255,7 @@ public class LoginActivity extends Activity {
                 try {
                     Log.d("LOGINACTIVITY", "OPTIONS=" + objects[0].toString());
 //					TODO Uncomment once done - Alexis
-                    StockMenu.instance().write("/options", new JSONObject(objects[0].toString()).toString());
+                    StockMenu.instance().write("/options", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
 //                    getSharedPreferences("DATACARD", 0).edit().putString("/options", new JSONObject(objects[0].toString()).toString()).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -344,7 +339,7 @@ public class LoginActivity extends Activity {
      * Fetch the categories data
      */
     private void fetchCats() {
-        JSONObject obj = createObjectURL("/dishcategory/read", null);
+        JSONObject obj = createObjectURL("/cats", null);
         Log.d("LOGINACTIVITY", "FETCH CATS");
 
         LoginActivity._mSocket.emit("get", obj, new Ack() {
