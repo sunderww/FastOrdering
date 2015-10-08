@@ -2,7 +2,7 @@
 //  Option.m
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 08/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -17,7 +17,7 @@
 @dynamic createdAt;
 @dynamic updatedAt;
 @dynamic name;
-@dynamic category;
+@dynamic categories;
 @dynamic ordered;
 
 @end

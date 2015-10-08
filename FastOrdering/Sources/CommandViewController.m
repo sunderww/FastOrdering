@@ -274,7 +274,7 @@
 	[helper.socket sendEvent:@"send_order" withData:self.order.toJSON andAcknowledge:^(id argsData) {
 		NSDictionary * dict = argsData;
 		
-		if (dict[@"error"]) {
+		if (dict[@"error"] || !dict.count) {
 			PPLog(@"%@", dict[@"error"]);
 			[timer fire];
 		} else {

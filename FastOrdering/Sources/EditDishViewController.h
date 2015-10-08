@@ -18,7 +18,7 @@
 
 @end
 
-@interface EditDishViewController : UIViewController <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate> {
+@interface EditDishViewController : UIViewController <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, UITextFieldDelegate, UITextViewDelegate> {
 	IBOutlet UILabel *		commentLabel;
 	IBOutlet UITextView *	commentView;
 	IBOutlet UIButton *		validateButton;
@@ -30,7 +30,9 @@
 	
 	NSArray * categories;
 	NSArray * options;
+	NSArray * allOptions;
 	
+	CGSize keyboardSize;
 	UITextField * responder;
 }
 

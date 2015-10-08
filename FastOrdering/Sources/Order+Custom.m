@@ -16,6 +16,8 @@
 #import "MenuModel.h"
 #import "AppDelegate.h"
 #import "NSManagedObject+create.h"
+#import "OrderedOption.h"
+#import "Option.h"
 
 @implementation Order (Custom)
 
@@ -85,7 +87,10 @@ NSObject *  dictSafeValue(NSObject *obj) {
 			dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
 			dishDict[@"qty"] = dictSafeValue(dish.quantity);
 			dishDict[@"comment"] = dictSafeValue(dish.comment);
-//			dishDict[@"options"] = @"";
+			dishDict[@"options"] = [NSMutableArray new];
+			for (OrderedOption * option in dish.options.allObjects)
+				[dishDict[@"options"] addObject:@{@"id": option.option.serverId, @"qty": option.qty}];
+
 			[menuDict[@"content"] addObject:dishDict];
 		}
 		[dict[@"order"] addObject:menuDict];

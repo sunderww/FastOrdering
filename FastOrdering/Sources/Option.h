@@ -2,7 +2,7 @@
 //  Option.h
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 08/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -17,11 +17,16 @@
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) OptionCategory *category;
+@property (nonatomic, retain) NSSet *categories;
 @property (nonatomic, retain) NSSet *ordered;
 @end
 
 @interface Option (CoreDataGeneratedAccessors)
+
+- (void)addCategoriesObject:(OptionCategory *)value;
+- (void)removeCategoriesObject:(OptionCategory *)value;
+- (void)addCategories:(NSSet *)values;
+- (void)removeCategories:(NSSet *)values;
 
 - (void)addOrderedObject:(OrderedOption *)value;
 - (void)removeOrderedObject:(OrderedOption *)value;

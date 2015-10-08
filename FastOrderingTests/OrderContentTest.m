@@ -42,7 +42,7 @@
 - (void)testSanitizeEmpty {
 	OrderContent * content = [OrderContent createInContext:self.moc];
 	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
-	[content sanitizeInContext:self.moc];
+	[content sanitizeInContext:self.moc]; // Test essentially that it doesn't crash
 	XCTAssertEqual(content.dishes.count, 0, @"OrderContent should not have dishes");
 }
 

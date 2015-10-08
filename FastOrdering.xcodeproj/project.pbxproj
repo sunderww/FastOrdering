@@ -104,9 +104,11 @@
 		84D699BC1BC412A900520AB1 /* OrderedDish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699BB1BC412A900520AB1 /* OrderedDish.m */; };
 		84D699BF1BC412A900520AB1 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699BE1BC412A900520AB1 /* Plan.m */; };
 		84D699C21BC412A900520AB1 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699C11BC412A900520AB1 /* Table.m */; };
-		84D699C51BC412A900520AB1 /* Option.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699C41BC412A900520AB1 /* Option.m */; };
 		84D699C81BC412A900520AB1 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699C71BC412A900520AB1 /* Notification.m */; };
-		84D699CB1BC412A900520AB1 /* OptionCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699CA1BC412A900520AB1 /* OptionCategory.m */; };
+		84D699CE1BC67F9900520AB1 /* OptionCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699CD1BC67F9900520AB1 /* OptionCategory.m */; };
+		84D699D11BC6822300520AB1 /* Option.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699D01BC6822300520AB1 /* Option.m */; };
+		84D699D41BC68E9800520AB1 /* OrderedDish+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699D31BC68E9800520AB1 /* OrderedDish+Custom.m */; };
+		84D699D81BC6B82C00520AB1 /* OrderedDishTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D699D71BC6B82C00520AB1 /* OrderedDishTest.m */; };
 		84E274541AE09BED00E5A32A /* OrderContent+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E274531AE09BED00E5A32A /* OrderContent+Custom.m */; };
 		84E274591AE09E3200E5A32A /* LoaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E274571AE09E3200E5A32A /* LoaderView.m */; };
 		84E2745A1AE09E3200E5A32A /* LoaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E274581AE09E3200E5A32A /* LoaderView.xib */; };
@@ -292,12 +294,15 @@
 		84D699BE1BC412A900520AB1 /* Plan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plan.m; sourceTree = "<group>"; };
 		84D699C01BC412A900520AB1 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
 		84D699C11BC412A900520AB1 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
-		84D699C31BC412A900520AB1 /* Option.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Option.h; sourceTree = "<group>"; };
-		84D699C41BC412A900520AB1 /* Option.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Option.m; sourceTree = "<group>"; };
 		84D699C61BC412A900520AB1 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
 		84D699C71BC412A900520AB1 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
-		84D699C91BC412A900520AB1 /* OptionCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionCategory.h; sourceTree = "<group>"; };
-		84D699CA1BC412A900520AB1 /* OptionCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionCategory.m; sourceTree = "<group>"; };
+		84D699CC1BC67F9900520AB1 /* OptionCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionCategory.h; sourceTree = "<group>"; };
+		84D699CD1BC67F9900520AB1 /* OptionCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionCategory.m; sourceTree = "<group>"; };
+		84D699CF1BC6822300520AB1 /* Option.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Option.h; sourceTree = "<group>"; };
+		84D699D01BC6822300520AB1 /* Option.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Option.m; sourceTree = "<group>"; };
+		84D699D21BC68E9800520AB1 /* OrderedDish+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OrderedDish+Custom.h"; sourceTree = "<group>"; };
+		84D699D31BC68E9800520AB1 /* OrderedDish+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OrderedDish+Custom.m"; sourceTree = "<group>"; };
+		84D699D71BC6B82C00520AB1 /* OrderedDishTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDishTest.m; sourceTree = "<group>"; };
 		84E274521AE09BED00E5A32A /* OrderContent+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OrderContent+Custom.h"; sourceTree = "<group>"; };
 		84E274531AE09BED00E5A32A /* OrderContent+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OrderContent+Custom.m"; sourceTree = "<group>"; };
 		84E274561AE09E3200E5A32A /* LoaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoaderView.h; sourceTree = "<group>"; };
@@ -338,12 +343,12 @@
 			isa = PBXGroup;
 			children = (
 				843C35681B3FBA48005D9959 /* Customs */,
-				84D699C91BC412A900520AB1 /* OptionCategory.h */,
-				84D699CA1BC412A900520AB1 /* OptionCategory.m */,
+				84D699CF1BC6822300520AB1 /* Option.h */,
+				84D699D01BC6822300520AB1 /* Option.m */,
+				84D699CC1BC67F9900520AB1 /* OptionCategory.h */,
+				84D699CD1BC67F9900520AB1 /* OptionCategory.m */,
 				84D699C61BC412A900520AB1 /* Notification.h */,
 				84D699C71BC412A900520AB1 /* Notification.m */,
-				84D699C31BC412A900520AB1 /* Option.h */,
-				84D699C41BC412A900520AB1 /* Option.m */,
 				84D699C01BC412A900520AB1 /* Table.h */,
 				84D699C11BC412A900520AB1 /* Table.m */,
 				84D699BD1BC412A900520AB1 /* Plan.h */,
@@ -410,6 +415,8 @@
 				84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */,
 				84E274521AE09BED00E5A32A /* OrderContent+Custom.h */,
 				84E274531AE09BED00E5A32A /* OrderContent+Custom.m */,
+				84D699D21BC68E9800520AB1 /* OrderedDish+Custom.h */,
+				84D699D31BC68E9800520AB1 /* OrderedDish+Custom.m */,
 			);
 			name = Customs;
 			sourceTree = "<group>";
@@ -649,6 +656,7 @@
 				843C35721B3FC20B005D9959 /* MenuModelTest.m */,
 				843C35741B3FCC3C005D9959 /* DishCategoryTest.m */,
 				843C35791B40C546005D9959 /* OrderContentTest.m */,
+				84D699D71BC6B82C00520AB1 /* OrderedDishTest.m */,
 			);
 			path = FastOrderingTests;
 			sourceTree = "<group>";
@@ -909,8 +917,7 @@
 				84D699BC1BC412A900520AB1 /* OrderedDish.m in Sources */,
 				844B06C41ABF88D800DCFBB3 /* DishCell.m in Sources */,
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
-				84D699C51BC412A900520AB1 /* Option.m in Sources */,
-				84D699CB1BC412A900520AB1 /* OptionCategory.m in Sources */,
+				84D699CE1BC67F9900520AB1 /* OptionCategory.m in Sources */,
 				84D699B61BC412A900520AB1 /* Order.m in Sources */,
 				845DE83C1B7FBFC700FF4509 /* SocketIOPacket.m in Sources */,
 				84D699BF1BC412A900520AB1 /* Plan.m in Sources */,
@@ -931,11 +938,13 @@
 				845DE8631B9B452400FF4509 /* UNIHTTPBinaryResponse.m in Sources */,
 				844B06A61ABBB29A00DCFBB3 /* OrderMenuModel.m in Sources */,
 				8403EDC41A51036E001421D3 /* UIColor+String.m in Sources */,
+				84D699D11BC6822300520AB1 /* Option.m in Sources */,
 				845DE8621B9B452400FF4509 /* UNISimpleRequest.m in Sources */,
 				844B06BC1ABF804800DCFBB3 /* CommandMenuViewController.m in Sources */,
 				84C291021AEDE12900B8193C /* HistoryViewController.m in Sources */,
 				845DE86B1B9B452500FF4509 /* UNIRest.m in Sources */,
 				845DE83A1B7FBFC700FF4509 /* SocketIO.m in Sources */,
+				84D699D41BC68E9800520AB1 /* OrderedDish+Custom.m in Sources */,
 				84D699AA1BC412A800520AB1 /* DishCategory.m in Sources */,
 				84D4B7B01AD22FBC00AF57F2 /* Order+Custom.m in Sources */,
 				84008C6D1A75FAB40012F873 /* SocketHelper.m in Sources */,
@@ -967,6 +976,7 @@
 			files = (
 				845701281B1C0FB400532ED5 /* OrderTests.m in Sources */,
 				84EF67231AA4001400702897 /* SyncTests.m in Sources */,
+				84D699D81BC6B82C00520AB1 /* OrderedDishTest.m in Sources */,
 				843C35731B3FC20B005D9959 /* MenuModelTest.m in Sources */,
 				843C35751B3FCC3C005D9959 /* DishCategoryTest.m in Sources */,
 				843C357A1B40C546005D9959 /* OrderContentTest.m in Sources */,

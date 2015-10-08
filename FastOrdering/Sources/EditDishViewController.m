@@ -12,6 +12,10 @@
 #import "Option.h"
 #import "OptionCell.h"
 #import "OrderedOption.h"
+#import "Dish.h"
+#import "NSManagedObject+create.h"
+#import "OrderedDish+Custom.h"
+#import "AppDelegate.h"
 
 @interface EditDishViewController ()
 
@@ -35,7 +39,10 @@
 											 selector:@selector(keyboardWillHide:)
 												 name:UIKeyboardWillHideNotification
 											   object:nil];
-
+	
+	[self reloadData];
+	
+	commentView.text = self.dish.comment;
 	commentLabel.text = NSLocalizedString(commentLabel.text, @"");
 	[validateButton setTitle:NSLocalizedString(@"validate", @"").uppercaseString forState:UIControlStateNormal];
 	[backButton setTitle:NSLocalizedString(@"back", @"").capitalizedString forState:UIControlStateNormal];
@@ -51,24 +58,39 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)reloadData {
+	NSMutableArray * tmp = [NSMutableArray new];
+	NSMutableArray * allOptionsTmp = [NSMutableArray new];
+
+	categories = self.dish.dish.optioncategories.allObjects;
+	for (OptionCategory * category in categories) {
+		NSMutableArray * orderedOptions = [NSMutableArray new];
+		for (Option * option in category.option.allObjects) {
+			OrderedOption * ordered = [self.dish orderedOptionWithOption:option];
+			if (!ordered) {
+				ordered = [OrderedOption create];
+				ordered.option = option;
+				// Don't set the OrderedDish yet (because we could not cancel)
+				ordered.qty = 0;
+			}
+			[orderedOptions addObject:ordered];
+			[allOptionsTmp addObject:ordered];
+		}
+		[tmp addObject:orderedOptions];
+	}
+	options = tmp;
+	allOptions = allOptionsTmp;
+	[expandableTableView reloadData];
+}
+
 #pragma mark - Keyboard methods
 
 - (void)keyboardWillShow:(NSNotification *)notification {
-	CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-	CGRect frame = commentSuperview.frame;
-	frame.origin.y -= keyboardSize.height;
-	commentSuperview.frame = frame;
-	expandableTableView.alpha = 0;
-	gesture.enabled = YES;
+	keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
-	CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-	CGRect frame = commentSuperview.frame;
-	frame.origin.y += keyboardSize.height;
-	commentSuperview.frame = frame;
-	expandableTableView.alpha = 1;
-	gesture.enabled = NO;
+	keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 }
 
 #pragma mark - IBAction methods
@@ -78,10 +100,19 @@
 }
 
 - (IBAction)validate {
+	for (OrderedOption * option in allOptions) {
+		option.dish = self.dish;
+	}
+	[self.dish sanitize];
+	self.dish.comment = commentView.text;
 	[self.delegate popEditDishView];
 }
 
 - (IBAction)cancel {
+	// Should try to cancel modifications in OrderedDishes
+	for (OrderedOption * option in allOptions) {
+		[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext deleteObject:option];
+	}
 	[self.delegate popEditDishView];
 }
 
@@ -101,7 +132,6 @@
 	ReviewExpandableCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
 	if (!cell) {
-		//        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
 		cell = [[ReviewExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
@@ -131,6 +161,7 @@
 	
 	if (!cell) {
 		cell = [[NSBundle mainBundle] loadNibNamed:@"OptionCell" owner:self options:nil][0];
+		cell.textField.delegate = self;
 		//    cell = [[DishCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
@@ -156,22 +187,48 @@
 	[responder resignFirstResponder];
 }
 
+#pragma mark - UITextView delegate methods
+
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+	[UIView animateWithDuration:0.3 animations:^{
+		CGRect frame = commentSuperview.frame;
+		frame.origin.y -= keyboardSize.height - 40;
+		commentSuperview.frame = frame;
+		expandableTableView.alpha = 0;
+		gesture.enabled = YES;
+	}];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+	[UIView animateWithDuration:0.3 animations:^{
+		CGRect frame = commentSuperview.frame;
+		frame.origin.y += keyboardSize.height - 40;
+		commentSuperview.frame = frame;
+		expandableTableView.alpha = 1;
+		gesture.enabled = NO;
+	}];
+}
+
+
 #pragma mark - UITextField delegate methods
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	textField.text = @"";
 	responder = textField;
+	gesture.enabled = YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 	if (!textField.text.length)
 		textField.text = @"0";
-	
+	gesture.enabled = NO;
+
 	NSUInteger row = kOptionCellRowForTag(textField.tag);
 	NSUInteger section = kOptionCellSectionForTag(textField.tag);
 	
-	OrderedDish * dish = options[section][row];
-	dish.quantity = @(textField.text.integerValue);
+	OrderedOption * ordered = options[section][row];
+	ordered.qty = @(textField.text.integerValue);
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -182,8 +239,8 @@
 	NSUInteger row = kOptionCellRowForTag(textField.tag);
 	NSUInteger section = kOptionCellSectionForTag(textField.tag);
 	
-	OrderedDish * dish = options[section][row];
-	dish.quantity = @(text.integerValue);
+	OrderedOption * ordered = options[section][row];
+	ordered.qty = @(text.integerValue);
 	
 	return YES;
 }

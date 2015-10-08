@@ -50,7 +50,7 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serverId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OptionCategory" inverseName="option" inverseEntity="OptionCategory" syncable="YES"/>
+        <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OptionCategory" inverseName="option" inverseEntity="OptionCategory" syncable="YES"/>
         <relationship name="ordered" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderedOption" inverseName="option" inverseEntity="OrderedOption" syncable="YES"/>
     </entity>
     <entity name="OptionCategory" representedClassName="OptionCategory" syncable="YES">
@@ -58,8 +58,8 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serverId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="dishes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dish" inverseName="optioncategories" inverseEntity="Dish" syncable="YES"/>
-        <relationship name="option" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Option" inverseName="category" inverseEntity="Option" syncable="YES"/>
+        <relationship name="dishes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Dish" inverseName="optioncategories" inverseEntity="Dish" syncable="YES"/>
+        <relationship name="option" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Option" inverseName="categories" inverseEntity="Option" syncable="YES"/>
     </entity>
     <entity name="Order" representedClassName="Order" syncable="YES">
         <attribute name="comments" optional="YES" attributeType="String" syncable="YES"/>
