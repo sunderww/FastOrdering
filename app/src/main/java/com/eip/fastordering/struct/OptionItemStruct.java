@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Mewen on 20-Jul-15.
@@ -13,7 +14,7 @@ public class OptionItemStruct {
 
 	private String                  _name         = "";
 	private String                  _id           = "";
-	private HashMap<String, String> _optionValues = null;
+	private Map<String, String> _optionValues = null;
 
 	/**
 	 * Constructor
@@ -46,7 +47,7 @@ public class OptionItemStruct {
 		return _id;
 	}
 
-	public HashMap<String, String> get_optionValues() {
+	public Map<String, String> get_optionValues() {
 		return _optionValues;
 	}
 }

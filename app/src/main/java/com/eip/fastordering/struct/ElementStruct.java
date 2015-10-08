@@ -15,7 +15,7 @@ public class ElementStruct {
 	private String _mId;
 	private double _mPrice;
 	private String _mName;
-	private List<String> _mIdsCat     = new ArrayList<String>();
+	private List<String> _mIdsCat     = new ArrayList<>();
 	private List<String> _mIdsOptions = new ArrayList<>();
 
 	/**

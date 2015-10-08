@@ -29,13 +29,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class OrderFragment extends Fragment {
 
 	private static final String                  ARG_SECTION_NUMBER = "section_number";
-	private static       List<ElementStruct>     _mElements         = new ArrayList<>();
+	private static Map<String, ElementStruct> _mElements         = new HashMap<>();
 	private static       List<MenuStruct>        _mMenus            = new ArrayList<>();
 	private static       List<CategoryStruct>    _mCats             = new ArrayList<>();
 	private static       List<CompositionStruct> _mCompos           = new ArrayList<>();
@@ -92,8 +94,14 @@ public class OrderFragment extends Fragment {
 		try {
 			arr = new JSONObject(StockMenu.instance().read("/elements")).getJSONArray("elements");
 //			arr = new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/elements", "toto")).getJSONArray("elements");
-			for (int i = 0; i < arr.length(); ++i)
-				_mElements.add(new ElementStruct(arr.getJSONObject(i)));
+			for (int i = 0; i < arr.length(); ++i) {
+				try {
+					JSONObject obj = arr.getJSONObject(i);
+					_mElements.put(obj.getString("id"), new ElementStruct(obj));
+				} catch (JSONException e) {
+
+				}
+			}
 		} catch (JSONException e) {
 			Log.d("ORDERFRAGMENT", "EXCEPTION JSON:" + e.toString());
 		}
@@ -135,7 +143,7 @@ public class OrderFragment extends Fragment {
 		}
 
 		//Add the dishes to the categories
-		for (ElementStruct item : _mElements) {
+		for (ElementStruct item : _mElements.values()) {
 			for (String idCat : item.get_mIdsCat()) {
 				for (CategoryStruct cat : _mCats) {
 					if (cat.get_mId().equals(idCat)) {
@@ -177,7 +185,7 @@ public class OrderFragment extends Fragment {
 		}
 	}
 
-	public static List<ElementStruct> get_mElements() {
+	public static Map<String, ElementStruct> get_mElements() {
 		if (_mElements.isEmpty()) {
 			fetchElements();
 		}
@@ -219,7 +227,7 @@ public class OrderFragment extends Fragment {
 	 * @return
 	 */
 	public static String getNameElementById(String id) {
-		for (ElementStruct elem : _mElements) {
+		for (ElementStruct elem : _mElements.values()) {
 			if (elem.get_mId().equals(id))
 				return elem.get_mName();
 		}

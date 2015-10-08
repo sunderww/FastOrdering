@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.eip.fastordering.R;
 import com.eip.fastordering.adapter.ExpandableListAdapter;
 import com.eip.fastordering.struct.CategoryStruct;
+import com.eip.fastordering.struct.DataDishStruct;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,129 +26,135 @@ import java.util.List;
  */
 public class OrderCardFragment extends Fragment {
 
-	private static List<String>                  _mListDataHeader = new ArrayList<>();
-	private static HashMap<String, List<String>> _mListDataNb     = new HashMap<>();
-	private static HashMap<String, List<String>> _mListDataOthers     = new HashMap<>();
-	private ExpandableListAdapter         _mListAdapter;
-	private ExpandableListView            _mExpListView;
-	private HashMap<String, List<String>> _mListDataChild;
-	private View                          _mRootView;
+    private static List<String> _mListDataHeader = new ArrayList<>();
+    private static HashMap<String, List<String>> _mListDataNb = new HashMap<>();
+    private static HashMap<String, List<DataDishStruct>> _mListDataOthers = new HashMap<>();
+    private ExpandableListAdapter _mListAdapter;
+    private ExpandableListView _mExpListView;
+    private HashMap<String, List<String>> _mListDataChild;
+    private View _mRootView;
 
-	/**
-	 * Constructor
-	 */
-	public OrderCardFragment() {
+    /**
+     * Constructor
+     */
+    public OrderCardFragment() {
 
-	}
+    }
 
-	public static OrderCardFragment newInstance() {
-		OrderCardFragment f = new OrderCardFragment();
-		Bundle            b = new Bundle();
-		f.setArguments(b);
-		return f;
-	}
+    public static OrderCardFragment newInstance() {
+        OrderCardFragment f = new OrderCardFragment();
+        Bundle b = new Bundle();
+        f.setArguments(b);
+        return f;
+    }
 
-	public static HashMap<String, List<String>> get_mListDataNb() {
-		return _mListDataNb;
-	}
+    public static HashMap<String, List<String>> get_mListDataNb() {
+        return _mListDataNb;
+    }
 
-	public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
-		_mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
-	}
+    public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
+        _mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	}
+    }
 
-	private void checkListEmpty() {
-		if (_mRootView != null) {
-			ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_compo_rectangle);
-			TextView text = (TextView) _mRootView.findViewById(R.id.order_compo_button_text);
-			if (_mListDataHeader.isEmpty()) {
-				button.setVisibility(View.GONE);
-				text.setVisibility(View.GONE);
-			} else {
-				button.setVisibility(View.VISIBLE);
-				text.setVisibility(View.VISIBLE);
-			}
-		}
-	}
+    private void checkListEmpty() {
+        if (_mRootView != null) {
+            ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_compo_rectangle);
+            TextView text = (TextView) _mRootView.findViewById(R.id.order_compo_button_text);
+            if (_mListDataHeader.isEmpty()) {
+                button.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
+            } else {
+                button.setVisibility(View.VISIBLE);
+                text.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		_mRootView = inflater.inflate(R.layout.fragment_order_card, container, false);
-		_mListDataHeader = new ArrayList<String>();
-		_mListDataChild = new HashMap<String, List<String>>();
-		_mListDataNb = new HashMap<String, List<String>>();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        _mRootView = inflater.inflate(R.layout.fragment_order_card, container, false);
+        _mListDataHeader = new ArrayList<>();
+        _mListDataChild = new HashMap<>();
+        _mListDataNb = new HashMap<>();
+        _mListDataOthers = new HashMap<>();
 
-		// get the listview
-		_mExpListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
+        // get the listview
+        _mExpListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
 
-		// preparing list data
-		prepareListData();
-		checkListEmpty();
+        // preparing list data
+        prepareListData();
+        checkListEmpty();
 
-		_mListAdapter = new ExpandableListAdapter(getActivity(), _mListDataHeader, _mListDataChild, true, _mListDataNb, getActivity(), 2);
+        _mListAdapter = new ExpandableListAdapter(getActivity(), _mListDataHeader, _mListDataChild, true, _mListDataNb, getActivity(), 2, _mListDataOthers);
 
-		// setting list adapter
-		_mExpListView.setAdapter(_mListAdapter);
-		_mExpListView.setGroupIndicator(null);
-		_mExpListView.setEmptyView(_mRootView.findViewById(R.id.order_card_none));
-		_mRootView.findViewById(R.id.order_card_layout).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!(v instanceof EditText)) {
-					InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-					inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-				}
-			}
-		});
+        // setting list adapter
+        _mExpListView.setAdapter(_mListAdapter);
+        _mExpListView.setGroupIndicator(null);
+        _mExpListView.setEmptyView(_mRootView.findViewById(R.id.order_card_none));
+        _mRootView.findViewById(R.id.order_card_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!(v instanceof EditText)) {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                }
+            }
+        });
 
-		ImageButton addButton = (ImageButton) _mRootView.findViewById(R.id.order_compo_rectangle);
-		addButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				int groupCount = _mListAdapter.getGroupCount();
-				for (int i = 0; i < groupCount; ++i) {
-					int childCount = _mListAdapter.getChildrenCount(i);
-					for (int j = 0; j < childCount; ++j) {
-						View view = _mListAdapter.getChildView(i, j, false, null, null);
-						if (view != null) {
-							TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
-							EditText nb = (EditText) view.findViewById(R.id.nbDish);
-							if (Integer.parseInt(nb.getText().toString()) > 0)
-								OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString());
-						}
-					}
-				}
-				for (int i = 0; i < _mListDataHeader.size(); ++i) {
-					for (int j = 0; j < _mListDataChild.get(_mListDataHeader.get(i)).size(); ++j) {
-						_mListDataNb.get(_mListDataHeader.get(i)).set(j, "0");
-						_mListAdapter.notifyDataSetChanged();
-					}
-				}
-			}
-		});
+        ImageButton addButton = (ImageButton) _mRootView.findViewById(R.id.order_compo_rectangle);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int groupCount = _mListAdapter.getGroupCount();
+                for (int i = 0; i < groupCount; ++i) {
+                    int childCount = _mListAdapter.getChildrenCount(i);
+                    for (int j = 0; j < childCount; ++j) {
+                        View view = _mListAdapter.getChildView(i, j, false, null, null);
+                        if (view != null) {
+                            TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
+                            EditText nb = (EditText) view.findViewById(R.id.nbDish);
+                            if (Integer.parseInt(nb.getText().toString()) > 0)
+                                OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString());
+                        }
+                    }
+                }
+                for (int i = 0; i < _mListDataHeader.size(); ++i) {
+                    for (int j = 0; j < _mListDataChild.get(_mListDataHeader.get(i)).size(); ++j) {
+                        _mListDataNb.get(_mListDataHeader.get(i)).set(j, "0");
+                        _mListAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
 
-		return _mRootView;
-	}
+        return _mRootView;
+    }
 
-	private void prepareListData() {
-		if (OrderFragment.get_mCard() == null) {
-			return;
-		}
-		for (CategoryStruct item : OrderFragment.get_mCard().get_mCategories()) {
-			_mListDataHeader.add(item.get_mCategoryName());
-			List<String> ids = new ArrayList<String>();
-			List<String> nb = new ArrayList<String>();
-			for (String id : item.get_mIds()) {
-				ids.add(id);
-				nb.add("0");
-			}
-			_mListDataChild.put(_mListDataHeader.get(_mListDataHeader.size() - 1), ids);
-			_mListDataNb.put(_mListDataHeader.get(_mListDataHeader.size() - 1), nb);
-		}
-	}
+    private void prepareListData() {
+        if (OrderFragment.get_mCard() == null) {
+            return;
+        }
+        for (CategoryStruct item : OrderFragment.get_mCard().get_mCategories()) {
+            _mListDataHeader.add(item.get_mCategoryName());
+            List<String> ids = new ArrayList<>();
+            List<String> nb = new ArrayList<>();
+            List<DataDishStruct> datas = new ArrayList<>();
+            for (String id : item.get_mIds()) {
+                ids.add(id);
+                nb.add("0");
+                OrderFragment.get_mElements();
+                System.out.println("Preparing options for item : " + id + " " + OrderFragment.getNameElementById(id));
+                datas.add(new DataDishStruct(OrderFragment.get_mElements().get(id)));
+            }
+            _mListDataChild.put(_mListDataHeader.get(_mListDataHeader.size() - 1), ids);
+            _mListDataNb.put(_mListDataHeader.get(_mListDataHeader.size() - 1), nb);
+            _mListDataOthers.put(_mListDataHeader.get(_mListDataHeader.size() - 1), datas);
+        }
+    }
 }

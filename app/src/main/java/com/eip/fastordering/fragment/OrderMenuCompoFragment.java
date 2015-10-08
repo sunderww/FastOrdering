@@ -99,7 +99,7 @@ public class OrderMenuCompoFragment extends Fragment {
 		prepareListData();
 		checkListEmpty();
 
-		listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), 1);
+		listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild, true, _mListDataNb, getActivity(), 1, null);
 
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
