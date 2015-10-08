@@ -2,11 +2,9 @@ package com.eip.fastordering.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -142,7 +140,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                 final ViewHolder holder = new ViewHolder();
                 holder.edtCode = (EditText) convertView.findViewById(R.id.nbDish);
                 holder.edtCode.setOnTouchListener(this);
+                holder.childPos = childPosition;
+                holder.groupPos = groupPosition;
                 convertView.setOnTouchListener(this);
+                convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        System.out.println("LONG CLICK GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+                        return false;
+                    }
+                });
                 convertView.setTag(holder);
 
                 TextView txt = (TextView) convertView.findViewById(R.id.lblListItemRadio);
@@ -170,7 +177,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             PosHolder pos = new PosHolder();
             pos.childPos = childPosition;
             pos.groupPos = groupPosition;
-//            txtListChild.setTag(pos);
             nb.setTag(pos);
 //            convertView.setTag(pos);
 
@@ -257,43 +263,50 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         return true;
     }
 
-    final Handler handler = new Handler();
-    Runnable mLongPressed = new Runnable() {
-        public void run() {
-            Log.i("", "Long press!");
-            System.out.println("GPOS=" + _groupPosition + " CPOS=" + _childPosition);
-        }
-    };
+//    final Handler handler = new Handler();
+//    Runnable mLongPressed = new Runnable() {
+//        public void run() {
+//            Log.i("", "Long press!");
+//            System.out.println("GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+//        }
+//    };
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-            handler.postDelayed(mLongPressed, 1000);
-        if ((event.getAction() == MotionEvent.ACTION_MOVE) || (event.getAction() == MotionEvent.ACTION_UP))
-            handler.removeCallbacks(mLongPressed);
+//        if (event.getAction() == MotionEvent.ACTION_DOWN)
+//            handler.postDelayed(mLongPressed, 1000);
+//        if ((event.getAction() == MotionEvent.ACTION_MOVE) || (event.getAction() == MotionEvent.ACTION_UP))
+//            handler.removeCallbacks(mLongPressed);
 
-        System.out.println("" + view.toString());
+//        System.out.println("" + view.toString());
         if (view instanceof EditText) {
-            System.out.println("IN EDITTEXT");
+//            System.out.println("IN EDITTEXT");
             EditText editText = (EditText) view;
             _groupPosition = ((PosHolder) editText.getTag()).groupPos;
             _childPosition = ((PosHolder) editText.getTag()).childPos;
+            System.out.println("1 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+
             editText.setSelectAllOnFocus(true);
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
-        }
-//        else if (view instanceof RelativeLayout) {
-//            System.out.println("Textview");
-//            PosHolder posHolder = (PosHolder)view.getTag();
-//            if (posHolder != null) {
-//                System.out.println("GPOS=" + posHolder.groupPos + " CPOS=" + posHolder.childPos);
-//            }
-//        }
-        else {
-            System.out.println("IN OTHERS");
+        } else {
+//            System.out.println("IN OTHERS");
+
+            //TODO Commented
             ViewHolder holder = (ViewHolder) view.getTag();
             holder.edtCode.setFocusable(false);
             holder.edtCode.setFocusableInTouchMode(false);
+            _groupPosition = holder.groupPos;
+            _childPosition = holder.childPos;
+
+//            PosHolder posHolder = (PosHolder) view.getTag();
+//            if (posHolder != null) {
+                System.out.println("2 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+//                _groupPosition = posHolder.groupPos;
+//                _childPosition = posHolder.childPos;
+//            }
+
+
             if (_mElement) {
                 InputMethodManager inputMethodManager = (InputMethodManager) _mFACtivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(_mFACtivity.getCurrentFocus().getWindowToken(), 0);
@@ -313,6 +326,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
 
     private class ViewHolder {
         EditText edtCode;
+        int childPos;
+        int groupPos;
     }
 
     private class PosHolder {
