@@ -25,10 +25,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWillShow:)
+												 name:UIKeyboardWillShowNotification
+											   object:nil];
+ 
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWillHide:)
+												 name:UIKeyboardWillHideNotification
+											   object:nil];
 
 	commentLabel.text = NSLocalizedString(commentLabel.text, @"");
 	[validateButton setTitle:NSLocalizedString(@"validate", @"").uppercaseString forState:UIControlStateNormal];
 	[backButton setTitle:NSLocalizedString(@"back", @"").capitalizedString forState:UIControlStateNormal];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self.view];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,7 +51,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Keyboard methods
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+	CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+	CGRect frame = commentSuperview.frame;
+	frame.origin.y -= keyboardSize.height;
+	commentSuperview.frame = frame;
+	expandableTableView.alpha = 0;
+	gesture.enabled = YES;
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+	CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+	CGRect frame = commentSuperview.frame;
+	frame.origin.y += keyboardSize.height;
+	commentSuperview.frame = frame;
+	expandableTableView.alpha = 1;
+	gesture.enabled = NO;
+}
+
 #pragma mark - IBAction methods
+
+- (IBAction)endEditing {
+	[self.view endEditing:YES];
+}
 
 - (IBAction)validate {
 	[self.delegate popEditDishView];

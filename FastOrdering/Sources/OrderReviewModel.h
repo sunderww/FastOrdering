@@ -12,7 +12,7 @@
 #import "DishCell.h"
 
 
-@protocol OrderReviewDelegate <NSObject>
+@protocol OrderReviewDelegate <UITextFieldDelegate>
 
 @required
 - (void)orderedDishClicked:(OrderedDish *)dish;

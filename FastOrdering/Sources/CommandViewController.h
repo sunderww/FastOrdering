@@ -17,7 +17,7 @@
 #import "MainViewController.h"
 #import "EditDishViewController.h"
 
-@interface CommandViewController : UIViewController <OrderMenuDelegate, OrderReviewDelegate, CommandMenuDelegate, EditDishDelegate, SocketIODelegate, UIGestureRecognizerDelegate> {
+@interface CommandViewController : UIViewController <OrderMenuDelegate, OrderReviewDelegate, CommandMenuDelegate, EditDishDelegate, SocketIODelegate, UITextViewDelegate, UITextFieldDelegate> {
 	IBOutlet UIButton *     menuButton;
 	IBOutlet UIButton *     alacarteButton;
 	IBOutlet UIButton *     reviewButton;
@@ -28,6 +28,7 @@
 	IBOutlet UITextField *	tableNumberField;
 	IBOutlet UILabel *		commentLabel;
 	IBOutlet UITextView *	commentTextView;
+	IBOutlet UIView *		commentView;
 	IBOutlet UILabel *		numPALabel;
 	IBOutlet UITextField *	numPAField;
 	IBOutlet UIButton *     orderButton;
@@ -39,9 +40,10 @@
 	OrderALaCarteModel *    carteModel;
 	OrderReviewModel *      reviewModel;
 	
-	IBOutlet SLExpandableTableView *  menuTableView;
-	IBOutlet SLExpandableTableView *  carteTableView;
-	IBOutlet SLExpandableTableView *  reviewTableView;
+	IBOutlet SLExpandableTableView * menuTableView;
+	IBOutlet SLExpandableTableView * carteTableView;
+	IBOutlet SLExpandableTableView * reviewTableView;
+	IBOutlet UIGestureRecognizer *	 gesture;
 	
 	IBOutletCollection(UIView) NSArray * clickedViews;
 	IBOutletCollection(UIView) NSArray * contentViews;
@@ -50,6 +52,7 @@
 	NSTimer *               timer;
 	BOOL					didOrder;
 	BOOL					forceReview;
+	CGSize					keyboardSize;
 }
 
 

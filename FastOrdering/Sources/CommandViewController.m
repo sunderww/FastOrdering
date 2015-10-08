@@ -61,6 +61,16 @@
 	tableNumberLabel.text = NSLocalizedString(tableNumberLabel.text, @"");
 	numPALabel.text = NSLocalizedString(numPALabel.text, @"");
 	commentLabel.text = NSLocalizedString(commentLabel.text, @"");
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWillShow:)
+												 name:UIKeyboardWillShowNotification
+											   object:nil];
+ 
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(keyboardWillHide:)
+												 name:UIKeyboardWillHideNotification
+											   object:nil];
 
 	[self buttonClicked:(forceReview ? reviewButton : menuButton)];
 }
@@ -101,7 +111,14 @@
 	return YES;
 }
 
-- (void)showPresentController {
+- (void)showController:(UIViewController *)controller {
+	if (presentController) {
+		[presentController.view removeFromSuperview];
+		presentController = nil;
+	}
+	
+	presentController = controller;
+
 	CGRect frame = presentController.view.frame;
 	frame.origin.x += frame.size.width;
 	presentController.view.frame = frame;
@@ -125,6 +142,46 @@
 	}];
 }
 
+#pragma mark - UITextView and UITextField delegate methods
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+	gesture.enabled = YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	gesture.enabled = NO;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+	[UIView animateWithDuration:0.3 animations:^{
+		CGRect frame = commentView.frame;
+		frame.origin.y -= keyboardSize.height - 40;
+		commentView.frame = frame;
+		reviewTableView.alpha = 0;
+		gesture.enabled = YES;
+	}];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+	[UIView animateWithDuration:0.3 animations:^{
+		CGRect frame = commentView.frame;
+		frame.origin.y += keyboardSize.height - 40;
+		commentView.frame = frame;
+		reviewTableView.alpha = 1;
+		gesture.enabled = NO;
+	}];
+}
+
+#pragma mark - Keyboard methods
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+	keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+	keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+}
+
 #pragma mark - Menu and Review delegate methods
 
 - (void)menuCompositionClicked:(MenuComposition *)composition {
@@ -132,9 +189,7 @@
 	
 	controller.composition = composition;
 	controller.delegate = self;
-
-	presentController = controller;
-	[self showPresentController];
+	[self showController:controller];
 }
 
 - (void)orderedDishClicked:(OrderedDish *)dish {
@@ -142,9 +197,7 @@
 
 	controller.dish = dish;
 	controller.delegate = self;
-	
-	presentController = controller;
-	[self showPresentController];
+	[self showController:controller];
 }
 
 #pragma mark - CommandMenuView delegate methods
@@ -261,13 +314,6 @@
 - (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
 	[timer invalidate];
 	[self orderFailed];
-}
-
-#pragma mark - UIGestureRecognizer delegate methods
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-	[self endEditing];
-	return ![touch.view isDescendantOfView:reviewModel.tableView];
 }
 
 /*

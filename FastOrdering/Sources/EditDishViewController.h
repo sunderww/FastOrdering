@@ -22,8 +22,11 @@
 	IBOutlet UILabel *		commentLabel;
 	IBOutlet UITextView *	commentView;
 	IBOutlet UIButton *		validateButton;
+	IBOutlet UIView *		commentSuperview;
 	IBOutlet UIButton *		backButton;
-	IBOutlet SLExpandableTableView *  expandableTableView;
+
+	IBOutlet SLExpandableTableView *	expandableTableView;
+	IBOutlet UITapGestureRecognizer *	gesture;
 	
 	NSArray * categories;
 	NSArray * options;
@@ -36,5 +39,6 @@
 
 - (IBAction)validate;
 - (IBAction)cancel;
+- (IBAction)endEditing;
 
 @end

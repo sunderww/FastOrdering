@@ -9,8 +9,10 @@
             <connections>
                 <outlet property="backButton" destination="xEg-Yu-hyJ" id="d5g-3W-lWL"/>
                 <outlet property="commentLabel" destination="6BV-dz-BgD" id="kpB-O5-vv7"/>
+                <outlet property="commentSuperview" destination="dpE-C6-q40" id="utl-Q9-c76"/>
                 <outlet property="commentView" destination="7Zo-pC-abj" id="8cs-s1-G1v"/>
                 <outlet property="expandableTableView" destination="bYH-q8-lcq" id="73M-qq-txH"/>
+                <outlet property="gesture" destination="Mh0-kr-feB" id="lBp-LH-aks"/>
                 <outlet property="validateButton" destination="ycK-0i-8Wz" id="DFm-dx-z7y"/>
                 <outlet property="view" destination="iN0-l3-epB" id="MCb-Ha-CPH"/>
             </connections>
@@ -23,6 +25,7 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="bottomRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" id="Duj-IU-sFi">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="512"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <gestureRecognizers/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xEg-Yu-hyJ">
                     <rect key="frame" x="8" y="8" width="46" height="30"/>
@@ -52,26 +55,41 @@
                         <action selector="validate" destination="-1" eventType="touchUpInside" id="gmL-Nh-Gae"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6BV-dz-BgD">
-                    <rect key="frame" x="26" y="355" width="170" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="7Zo-pC-abj">
-                    <rect key="frame" x="20" y="379" width="280" height="63"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
+                <view contentMode="scaleToFill" id="dpE-C6-q40" userLabel="CommentsView">
+                    <rect key="frame" x="0.0" y="355" width="320" height="87"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6BV-dz-BgD">
+                            <rect key="frame" x="26" y="0.0" width="170" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="7Zo-pC-abj">
+                            <rect key="frame" x="20" y="24" width="280" height="63"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="Mh0-kr-feB" appends="YES" id="dU1-Ra-S6d"/>
+            </connections>
             <point key="canvasLocation" x="290" y="218"/>
         </view>
+        <tapGestureRecognizer enabled="NO" id="Mh0-kr-feB">
+            <connections>
+                <action selector="endEditing" destination="-1" id="ndy-bn-sBO"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="background" width="800" height="577"/>

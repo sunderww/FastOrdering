@@ -129,8 +129,11 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-	textField.text = @"";
 	responder = textField;
+	textField.text = @"";
+
+	if ([self.delegate respondsToSelector:@selector(textFieldDidBeginEditing:)])
+		[self.delegate textFieldDidBeginEditing:textField];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -142,6 +145,9 @@
 	
 	OrderedDish * dish = dishes[section][row];
 	dish.quantity = @(textField.text.integerValue);
+
+	if ([self.delegate respondsToSelector:@selector(textFieldDidEndEditing:)])
+		[self.delegate textFieldDidEndEditing:textField];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
