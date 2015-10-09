@@ -95,6 +95,7 @@
 	
 	controller = [[CommandViewController alloc] initWithNibName:@"CommandView" bundle:nil];
 	((CommandViewController *)controller).order = order;
+	((CommandViewController *)controller).mainController = self;
 	titleLabel.text = NSLocalizedString(@"order", @"").capitalizedString;
 	
 	[self postChange];

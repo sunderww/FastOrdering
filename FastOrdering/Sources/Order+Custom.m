@@ -96,16 +96,6 @@ NSObject *  dictSafeValue(NSObject *obj) {
 		[dict[@"order"] addObject:menuDict];
 	}
 	
-	for (OrderedDish * dish in self.dishes) {
-		NSMutableDictionary * dishDict = [NSMutableDictionary new];
-		
-		dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
-		dishDict[@"qty"] = dictSafeValue(dish.quantity);
-		dishDict[@"comment"] = dictSafeValue(dish.comment);
-//		dishDict[@"options"] = @"";
-		[dict[@"order"] addObject:dishDict];
-	}
-	
 	return dict;
 }
 

@@ -26,6 +26,7 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	[SocketHelper.sharedHelper pushDelegate:self];
 	
 	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
 	
@@ -80,6 +81,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	
+	[SocketHelper.sharedHelper popDelegate:self];
 	[presentController.view removeFromSuperview];
 	presentController = nil;
 
@@ -280,7 +282,6 @@
 	DPPLog(@"Will send JSON :\n%@\n\n", self.order.toJSONString);
 
 	loaderView.hidden = NO;
-	[helper pushDelegate:self];
 	[helper.socket sendEvent:@"send_order" withData:self.order.toJSON andAcknowledge:^(id argsData) {
 		NSDictionary * dict = argsData;
 		
