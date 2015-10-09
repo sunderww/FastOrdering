@@ -71,6 +71,7 @@ module.exports = {
         var values = req.params.all();
         
         values.role = UserRole.manager; // Create an Manager
+        delete values.restaurant;
         
         User.create(values).exec(function userCreated(err, user) {
             if (err) {
@@ -80,7 +81,6 @@ module.exports = {
                 }
                 return res.redirect('/register');
             }
-            
             // Should I do that in afterCreate ??           // Not sure if user should be add DOC UNCLEAR
             Restaurant.create({name: req.param('restaurant'), users: user.id}).exec(function restaurantCreated(err, restaurant){
                 if (err) {

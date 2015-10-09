@@ -28,7 +28,7 @@ module.exports = {
         User.findOne({email: req.param('email')}).exec(function findOneEmail(err, user) {
             if (err) {
                 console.error(err);
-                return res.serveError(err); // TODO : I don't know if it is the best way ??
+                return res.serverError(err); // TODO : I don't know if it is the best way ??
             }
            
             // If there is NO user
@@ -43,7 +43,7 @@ module.exports = {
             sails.bcrypt.compare(req.param('password'), user.password, function (err, valid){
                 if (err) {
                     console.error(err);
-                    return res.serveError(err);
+                    return res.serverError(err);
                 }
                 
                 // If password DO NOT match
