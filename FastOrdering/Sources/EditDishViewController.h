@@ -23,6 +23,7 @@
 	IBOutlet UITextView *	commentView;
 	IBOutlet UIButton *		validateButton;
 	IBOutlet UIView *		commentSuperview;
+	IBOutlet UIView *		commentPlaceholder;
 	IBOutlet UIButton *		backButton;
 
 	IBOutlet SLExpandableTableView *	expandableTableView;
@@ -34,6 +35,7 @@
 	
 	CGSize keyboardSize;
 	UITextField * responder;
+	BOOL saved;
 }
 
 @property (nonatomic, retain) OrderedDish *			dish;

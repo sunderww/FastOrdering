@@ -30,6 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(keyboardWillShow:)
 												 name:UIKeyboardWillShowNotification
@@ -51,6 +53,12 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[[NSNotificationCenter defaultCenter] removeObserver:self.view];
+	
+	NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+	[context.undoManager endUndoGrouping];
+	if (!saved) {
+		[context.undoManager undoNestedGroup];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,6 +89,11 @@
 	options = tmp;
 	allOptions = allOptionsTmp;
 	[expandableTableView reloadData];
+	
+	if (!allOptions.count) {
+		commentSuperview.frame = commentPlaceholder.frame;
+		expandableTableView.hidden = YES;
+	}
 }
 
 #pragma mark - Keyboard methods
@@ -100,6 +113,8 @@
 }
 
 - (IBAction)validate {
+	saved = YES;
+
 	for (OrderedOption * option in allOptions) {
 		option.dish = self.dish;
 	}
@@ -109,10 +124,6 @@
 }
 
 - (IBAction)cancel {
-	// Should try to cancel modifications in OrderedDishes
-	for (OrderedOption * option in allOptions) {
-		[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext deleteObject:option];
-	}
 	[self.delegate popEditDishView];
 }
 
@@ -191,22 +202,26 @@
 
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+	gesture.enabled = YES;
+	if (!allOptions.count) return ; // This means the text view is already in the middle of the page
+
 	[UIView animateWithDuration:0.3 animations:^{
 		CGRect frame = commentSuperview.frame;
 		frame.origin.y -= keyboardSize.height - 40;
 		commentSuperview.frame = frame;
 		expandableTableView.alpha = 0;
-		gesture.enabled = YES;
 	}];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
+	gesture.enabled = NO;
+	if (!allOptions.count) return ; // This means the text view is already in the middle of the page
+
 	[UIView animateWithDuration:0.3 animations:^{
 		CGRect frame = commentSuperview.frame;
 		frame.origin.y += keyboardSize.height - 40;
 		commentSuperview.frame = frame;
 		expandableTableView.alpha = 1;
-		gesture.enabled = NO;
 	}];
 }
 

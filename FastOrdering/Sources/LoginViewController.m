@@ -12,13 +12,13 @@
 
 #if DEBUG
 // Uncomment the following line to directly skip the LoginView
-# define kSkipLoginView
+//# define kSkipLoginView
 
 // Uncomment the following line to not check the server validation
 //# define kLoginDoNotValidate
 #endif
 
-// The key of the JSON response send by the server : { valid: true }
+// The key of the JSON response send by the server : { answer: true }
 #define kLoginResponseKey	@"answer"
 
 @interface LoginViewController ()

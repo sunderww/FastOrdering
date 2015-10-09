@@ -27,6 +27,8 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
+	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
+	
 	if (self.order) {
 		forceReview = YES;
 	} else {
@@ -77,12 +79,20 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+	
+	[presentController.view removeFromSuperview];
+	presentController = nil;
 
 	AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
 	if (!didOrder && !forceReview)
 		[delegate.managedObjectContext deleteObject:self.order];
 
-	[delegate saveContext];
+	[delegate.managedObjectContext.undoManager endUndoGrouping];
+	if (didOrder) {
+		[delegate saveContext];
+	} else {
+		[delegate.managedObjectContext undo];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
