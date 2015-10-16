@@ -11,8 +11,7 @@
 #import "MenuComposition.h"
 #import "Dish.h"
 #import "Menu.h"
-#import "OrderContent+Custom.h"
-#import "OrderedDish.h"
+#import "OrderedDish+Custom.h"
 #import "MenuModel.h"
 #import "AppDelegate.h"
 #import "NSManagedObject+create.h"
@@ -27,43 +26,43 @@ NSObject *  dictSafeValue(NSObject *obj) {
 
 - (NSDictionary *)toJSONTest {
 	NSMutableDictionary * dict = [NSMutableDictionary new];
-	
-	dict[@"numTable"] = dictSafeValue(self.numTable);
-	dict[@"numPA"] = dictSafeValue(self.dinerNumber);
-	dict[@"globalComment"] = dictSafeValue(self.comments);
-	NSMutableArray * order = [NSMutableArray new];
-	
-	for (OrderContent * orderContent in self.orderContents) {
-		NSMutableDictionary * menuDict = [NSMutableDictionary new];
-		
-		menuDict[@"menuId"] = dictSafeValue(orderContent.menuComposition.menu.serverId);
-		menuDict[@"content"] = [NSMutableOrderedSet new];
-		NSMutableArray * content = [NSMutableArray new];
-		
-		for (OrderedDish * dish in orderContent.dishes) {
-			NSMutableDictionary * dishDict = [NSMutableDictionary new];
-			
-			dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
-			dishDict[@"qty"] = dictSafeValue(dish.quantity);
-			dishDict[@"comment"] = dictSafeValue(dish.comment);
-//			dishDict[@"options"] = @"";
-			[content addObject:dishDict];
-		}
-		menuDict[@"content"] = [NSCountedSet setWithArray:content];
-		[order addObject:menuDict];
-	}
-	
-	for (OrderedDish * dish in self.dishes) {
-		NSMutableDictionary * dishDict = [NSMutableDictionary new];
-		
-		dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
-		dishDict[@"qty"] = dictSafeValue(dish.quantity);
-		dishDict[@"comment"] = dictSafeValue(dish.comment);
-//		dishDict[@"options"] = @"";
-		[order addObject:dishDict];
-	}
-
-	dict[@"order"] = [NSCountedSet setWithArray:order];
+//
+//	dict[@"numTable"] = dictSafeValue(self.numTable);
+//	dict[@"numPA"] = dictSafeValue(self.dinerNumber);
+//	dict[@"globalComment"] = dictSafeValue(self.comments);
+//	NSMutableArray * order = [NSMutableArray new];
+//	
+//	for (OrderContent * orderContent in self.orderContents) {
+//		NSMutableDictionary * menuDict = [NSMutableDictionary new];
+//		
+//		menuDict[@"menuId"] = dictSafeValue(orderContent.menuComposition.menu.serverId);
+//		menuDict[@"content"] = [NSMutableOrderedSet new];
+//		NSMutableArray * content = [NSMutableArray new];
+//		
+//		for (OrderedDish * dish in orderContent.dishes) {
+//			NSMutableDictionary * dishDict = [NSMutableDictionary new];
+//			
+//			dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
+//			dishDict[@"qty"] = dictSafeValue(dish.quantity);
+//			dishDict[@"comment"] = dictSafeValue(dish.comment);
+////			dishDict[@"options"] = @"";
+//			[content addObject:dishDict];
+//		}
+//		menuDict[@"content"] = [NSCountedSet setWithArray:content];
+//		[order addObject:menuDict];
+//	}
+//	
+//	for (OrderedDish * dish in self.dishes) {
+//		NSMutableDictionary * dishDict = [NSMutableDictionary new];
+//		
+//		dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
+//		dishDict[@"qty"] = dictSafeValue(dish.quantity);
+//		dishDict[@"comment"] = dictSafeValue(dish.comment);
+////		dishDict[@"options"] = @"";
+//		[order addObject:dishDict];
+//	}
+//
+//	dict[@"order"] = [NSCountedSet setWithArray:order];
 	return dict;
 }
 
@@ -75,13 +74,13 @@ NSObject *  dictSafeValue(NSObject *obj) {
 	dict[@"globalComment"] = dictSafeValue(self.comments);
 	dict[@"order"] = [NSMutableArray new];
 	
-	for (OrderContent * orderContent in self.orderContents) {
+	for (NSArray * dishes in self.dishesGroupedByMenu) {
 		NSMutableDictionary * menuDict = [NSMutableDictionary new];
 		
-		menuDict[@"menuId"] = dictSafeValue(orderContent.menuComposition.menu.serverId);
+		menuDict[@"menuId"] = dictSafeValue(((OrderedDish *)dishes.firstObject).menu.serverId);
 		menuDict[@"content"] = [NSMutableArray new];
 		
-		for (OrderedDish * dish in orderContent.dishes) {
+		for (OrderedDish * dish in dishes) {
 			NSMutableDictionary * dishDict = [NSMutableDictionary new];
 			
 			dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
@@ -109,11 +108,13 @@ NSObject *  dictSafeValue(NSObject *obj) {
 }
 
 - (void)sanitizeInContext:(NSManagedObjectContext *)context {
-	for (OrderContent * content in [NSSet setWithSet:self.orderContents]) {
-		[content sanitizeInContext:context];
-		if (content.isEmpty) {
-			content.order = nil;
-			[context deleteObject:content];
+	for (OrderedDish * dish in [NSSet setWithSet:self.dishes]) {
+		[dish sanitizeInContext:context];
+		if (dish.quantity.integerValue == 0) {
+			dish.order = nil;
+			dish.menu = nil;
+			dish.dish = nil;
+			[context deleteObject:dish];
 		}
 	}
 }
@@ -122,55 +123,39 @@ NSObject *  dictSafeValue(NSObject *obj) {
 	return [self sanitizeInContext:((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext];
 }
 
-- (NSArray *)alacarteContents {
+- (NSArray *)dishesGroupedByMenu {
 	NSMutableArray * contents = [NSMutableArray new];
 	
-	for (OrderContent * content in self.orderContents) {
-		if ([content.menuComposition.menu.name isEqualToString:kMenuALaCarteName]) {
-			[contents addObject:content];
-		}
-	}
+//	for (OrderContent * content in self.orderContents) {
+//		if ([content.menuComposition.menu.name isEqualToString:kMenuALaCarteName]) {
+//			[contents addObject:content];
+//		}
+//	}
 	
 	return contents;
 }
 
-- (NSArray *)createALaCarteContentsInContext:(NSManagedObjectContext *)context {
-	// Has to use existing orderContents first than create it if it doesn't exist
-	NSMutableArray * contents = self.alacarteContents.mutableCopy;
-	Menu * menu = [[MenuModel new] alacarte];
+- (NSArray *)alacarteDishesInContext:(NSManagedObjectContext *)context {
+	NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:@"OrderedDish"];
+	NSArray * results;
+	NSError * error;
 	
-	for (MenuComposition * composition in menu.compositions) {
-		BOOL found = NO;
-		for (OrderContent * content in contents) {
-			if ([content.menuComposition.serverId isEqualToString:composition.serverId]) {
-				found = YES;
-				break;
-			}
-		}
-		
-		if (!found) {
-			OrderContent * content = [OrderContent createInContext:context];
-			content.menuComposition = composition;
-			content.order = self;
-			[contents addObject:content];
-		}
-	}
-	
-	return contents;
+	request.predicate = [NSPredicate predicateWithFormat:@"menu.name = %@ AND order.serverId = %@", kMenuALaCarteName, self.serverId];
+	results = [context executeFetchRequest:request error:&error];
+	if (error)
+		PPLog(@"%@", error);
+	return results;
 }
 
-- (NSArray *)createALaCarteContents {
-	return [self createALaCarteContentsInContext:((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext];
+- (NSArray *)alacarteDishes {
+	return [self alacarteDishesInContext:((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext];
 }
 
 - (OrderedDish *)orderedDishWithDish:(Dish *)dish andComposition:(MenuComposition *)composition {
-	for (OrderContent * content in self.orderContents) {
-		if ([content.menuComposition.serverId isEqualToString:composition.serverId]) {
-			for (OrderedDish * ordered in content.dishes) {
-				if ([ordered.dish.serverId isEqualToString:dish.serverId])
-					return ordered;
-			}
-		}
+	for (OrderedDish * ordered in self.dishes) {
+		if ([ordered.dish.serverId isEqualToString:dish.serverId] &&
+			[ordered.menu.serverId isEqualToString:composition.menu.serverId])
+			return ordered;
 	}
 	
 	return nil;

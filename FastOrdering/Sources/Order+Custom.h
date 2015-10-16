@@ -19,10 +19,9 @@
 
 - (void)sanitizeInContext:(NSManagedObjectContext *)context;
 - (void)sanitize;
-- (NSArray *)alacarteContents;
 
-// this method use existing alacarte orderContents first and create them if they don't exist
-- (NSArray *)createALaCarteContents;
+- (NSArray *)dishesGroupedByMenu;
+- (NSArray *)alacarteDishes;
 - (OrderedDish *)orderedDishWithDish:(Dish *)dish andComposition:(MenuComposition *)composition;
 
 @end

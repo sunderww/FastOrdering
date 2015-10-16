@@ -15,7 +15,6 @@
 #import "MenuComposition.h"
 #import "NSManagedObject+create.h"
 #import "Order+Custom.h"
-#import "OrderContent.h"
 #import "OrderedDish.h"
 
 #define kDishCellTag(section, row)  ((((section) + 1) * 100) + (row) + 1)
@@ -37,7 +36,8 @@
 	NSMutableArray * tmpDishes = [NSMutableArray new];
 	NSMutableArray * comps = [NSMutableArray new];
 	
-	orderContents = self.order.createALaCarteContents;
+	Menu * carte = [MenuModel new].alacarte;
+	orderContents = self.order.alacarteDishes;
 	for (OrderContent * content in orderContents) {
 		DishCategory * category = content.menuComposition.categories.allObjects.firstObject;
 		[tmpDishes addObject:category.availableDishes];

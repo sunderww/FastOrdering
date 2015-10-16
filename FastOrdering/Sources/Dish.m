@@ -2,7 +2,7 @@
 //  Dish.m
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 10/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -21,7 +21,7 @@
 @dynamic serverId;
 @dynamic updatedAt;
 @dynamic categories;
-@dynamic ordered;
 @dynamic optioncategories;
+@dynamic ordered;
 
 @end

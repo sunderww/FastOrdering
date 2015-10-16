@@ -2,14 +2,14 @@
 //  Order.h
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 10/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class OrderContent, OrderedDish, Table;
+@class OrderedDish, Table;
 
 @interface Order : NSManagedObject
 
@@ -33,8 +33,8 @@
 - (void)addDishes:(NSSet *)values;
 - (void)removeDishes:(NSSet *)values;
 
-- (void)addOrderContentsObject:(OrderContent *)value;
-- (void)removeOrderContentsObject:(OrderContent *)value;
+- (void)addOrderContentsObject:(NSManagedObject *)value;
+- (void)removeOrderContentsObject:(NSManagedObject *)value;
 - (void)addOrderContents:(NSSet *)values;
 - (void)removeOrderContents:(NSSet *)values;
 

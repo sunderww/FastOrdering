@@ -2,14 +2,14 @@
 //  MenuComposition.h
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 10/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DishCategory, Menu, OrderContent;
+@class DishCategory, Menu;
 
 @interface MenuComposition : NSManagedObject
 
@@ -30,8 +30,8 @@
 - (void)addCategories:(NSSet *)values;
 - (void)removeCategories:(NSSet *)values;
 
-- (void)addOrderedObject:(OrderContent *)value;
-- (void)removeOrderedObject:(OrderContent *)value;
+- (void)addOrderedObject:(NSManagedObject *)value;
+- (void)removeOrderedObject:(NSManagedObject *)value;
 - (void)addOrdered:(NSSet *)values;
 - (void)removeOrdered:(NSSet *)values;
 
