@@ -7,7 +7,7 @@
 */
 
 /* Main page */
-"Main Page"                     =   "Acceuil";
+"Main Page"                     =   "Accueil";
 "Last Orders"                   =   "Dernières commandes";
 "Last Notifications"            =   "Dernières notifications";
 "No order"                      =   "Aucune commande";
@@ -33,7 +33,7 @@
 "add"							=	"ajouter";
 "error"                         =   "erreur";
 "order"                         =   "commander";
-"menu"                          =   "acceuil";
+"menu"                          =   "accueil";
 "notification"                  =   "notification";
 "notifications"                 =   "notifications";
 "history"                       =   "historique";

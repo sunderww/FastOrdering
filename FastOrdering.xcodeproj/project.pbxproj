@@ -61,7 +61,6 @@
 		84BF7D9E1A8F4A2000EC912B /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BF7D9C1A8F4A2000EC912B /* NotificationCell.xib */; };
 		84BF7DA21A8F4A4000EC912B /* OrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF7DA01A8F4A4000EC912B /* OrderCell.m */; };
 		84BF7DA31A8F4A4000EC912B /* OrderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BF7DA11A8F4A4000EC912B /* OrderCell.xib */; };
-		84BF7DA81A90217700EC912B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84BF7DAA1A90217700EC912B /* Localizable.strings */; };
 		84C1A17619EDE8D100E64B40 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17519EDE8D100E64B40 /* Foundation.framework */; };
 		84C1A17819EDE8D100E64B40 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */; };
 		84C1A17A19EDE8D100E64B40 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C1A17919EDE8D100E64B40 /* UIKit.framework */; };
@@ -85,6 +84,8 @@
 		84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1D119EE3CE300E64B40 /* MenuView.xib */; };
 		84C290FF1AEDE11900B8193C /* HistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C290FE1AEDE11800B8193C /* HistoryView.xib */; };
 		84C291021AEDE12900B8193C /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C291011AEDE12900B8193C /* HistoryViewController.m */; };
+		84CA65A81BD17D67009DE1B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84CA65A31BD17D67009DE1B7 /* Localizable.strings */; };
+		84CA65A91BD17D67009DE1B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84CA65A61BD17D67009DE1B7 /* Localizable.strings */; };
 		84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */; };
 		84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA38E1AA6A9D800D3D502 /* CommandView.xib */; };
 		84D4B7B01AD22FBC00AF57F2 /* Order+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */; };
@@ -224,8 +225,6 @@
 		84BF7DA11A8F4A4000EC912B /* OrderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OrderCell.xib; sourceTree = "<group>"; };
 		84BF7DA41A90210100EC912B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84BF7DA51A90210100EC912B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		84BF7DA91A90217700EC912B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		84BF7DB01A90219B00EC912B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		84C1A17219EDE8D100E64B40 /* FastOrdering.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FastOrdering.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C1A17519EDE8D100E64B40 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84C1A17719EDE8D100E64B40 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -259,6 +258,8 @@
 		84C290FE1AEDE11800B8193C /* HistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HistoryView.xib; sourceTree = "<group>"; };
 		84C291001AEDE12900B8193C /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		84C291011AEDE12900B8193C /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		84CA65A41BD17D67009DE1B7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		84CA65A71BD17D67009DE1B7 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Localizable.strings; sourceTree = "<group>"; };
 		84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandViewController.h; sourceTree = "<group>"; };
 		84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandViewController.m; sourceTree = "<group>"; };
 		84CDA38E1AA6A9D800D3D502 /* CommandView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommandView.xib; sourceTree = "<group>"; };
@@ -673,7 +674,8 @@
 		84C1A1B019EDEE4500E64B40 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				84BF7DAA1A90217700EC912B /* Localizable.strings */,
+				84CA65A21BD17D67009DE1B7 /* en.lproj */,
+				84CA65A51BD17D67009DE1B7 /* fr.lproj */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -742,6 +744,22 @@
 				8403EDD41A568CC6001421D3 /* Managed Objects */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		84CA65A21BD17D67009DE1B7 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				84CA65A31BD17D67009DE1B7 /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		84CA65A51BD17D67009DE1B7 /* fr.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				84CA65A61BD17D67009DE1B7 /* Localizable.strings */,
+			);
+			path = fr.lproj;
 			sourceTree = "<group>";
 		};
 		84D699A41BC4033200520AB1 /* Expandable Cells */ = {
@@ -846,7 +864,6 @@
 			files = (
 				84BF7DA31A8F4A4000EC912B /* OrderCell.xib in Resources */,
 				84C1A18019EDE8D100E64B40 /* InfoPlist.strings in Resources */,
-				84BF7DA81A90217700EC912B /* Localizable.strings in Resources */,
 				84C1A1BE19EDF2E900E64B40 /* MainView.xib in Resources */,
 				84BF7D9E1A8F4A2000EC912B /* NotificationCell.xib in Resources */,
 				84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */,
@@ -858,8 +875,10 @@
 				844B06C51ABF88D800DCFBB3 /* DishCell.xib in Resources */,
 				84E2745A1AE09E3200E5A32A /* LoaderView.xib in Resources */,
 				84C1A1C319EDF39600E64B40 /* LoginView.xib in Resources */,
+				84CA65A81BD17D67009DE1B7 /* Localizable.strings in Resources */,
 				84C1A18819EDE8D100E64B40 /* Images.xcassets in Resources */,
 				84C290FF1AEDE11900B8193C /* HistoryView.xib in Resources */,
+				84CA65A91BD17D67009DE1B7 /* Localizable.strings in Resources */,
 				844B06BD1ABF804800DCFBB3 /* CommandMenuView.xib in Resources */,
 				84C1A1C819EE044800E64B40 /* NotificationView.xib in Resources */,
 			);
@@ -994,15 +1013,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		84BF7DAA1A90217700EC912B /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				84BF7DA91A90217700EC912B /* en */,
-				84BF7DB01A90219B00EC912B /* fr */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		84C1A17E19EDE8D100E64B40 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1019,6 +1029,22 @@
 				84BF7DA51A90210100EC912B /* fr */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		84CA65A31BD17D67009DE1B7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84CA65A41BD17D67009DE1B7 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		84CA65A61BD17D67009DE1B7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84CA65A71BD17D67009DE1B7 /* fr */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
