@@ -38,7 +38,7 @@ namespace FastOrdering.Misc
 		{
 			await GetMenus();
 			await GetCategories();
-			//GetOptions();
+			await GetOptions();
 			await GetDishes();
 			await GetCompos();
 			await GetLastOrders();
@@ -49,6 +49,13 @@ namespace FastOrdering.Misc
 		static public void Disconnect()
 		{
 			socket.Disconnect();
+			Menu.menus.Clear();
+			Menu.alacarte = null;
+			Category.categories.Clear();
+			Option.options.Clear();
+			Dish.dishes.Clear();
+			Composition.compositions.Clear();
+			Order.orders.Clear();
 		}
 		#endregion
 
@@ -113,7 +120,7 @@ namespace FastOrdering.Misc
 
 		private async Task GetLastOrders()
 		{
-			string str = await GetaString("order");
+			string str = await GetaString("orders");
 			if (str == null || str == "")
 				return;
 
@@ -137,7 +144,7 @@ namespace FastOrdering.Misc
 			socket.Emit("get_order", new AckImpl(async (data) =>
 			{
 				System.Diagnostics.Debug.WriteLine(data.ToString());
-				ord = ParseGetOrder(data.ToString());
+				ord = await ParseGetOrder(data.ToString());
 				await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 				{
 					showOrder(ord);
@@ -228,7 +235,7 @@ namespace FastOrdering.Misc
 
 		private async Task GetOptions()
 		{
-			string str = await GetaString("option");
+			string str = await GetaString("options");
 			if (str == null || str == "")
 				return;
 
@@ -236,20 +243,17 @@ namespace FastOrdering.Misc
 			foreach (Object option in output["elements"])
 			{
 				str = option.ToString();
-				dynamic optionOut = JsonConvert.DeserializeObject(str);
-				string id = (string)optionOut["id"];
-				Dictionary<string, string> values = new Dictionary<string, string>();
-				foreach (Object value in optionOut["values"])
+				Option.options.Add(JsonConvert.DeserializeObject<Option>(str));
+				dynamic subOption = JsonConvert.DeserializeObject(str);
+				foreach (Object subOp in subOption["option"])
 				{
-					str = value.ToString();
-					dynamic valueOut = JsonConvert.DeserializeObject(str);
-					values.Add((string)valueOut["name"], (string)valueOut["id"]);
+					str = subOp.ToString();
+					Option.options.Last().SubOptions.Add(JsonConvert.DeserializeObject<Option>(str));
 				}
-				Option.options.Add(new Option(id, values));
 			}
 		}
 
-		private Order ParseGetOrder(string str)
+		private async Task<Order> ParseGetOrder(string str)
 		{
 			dynamic output = JsonConvert.DeserializeObject(str);
 			string numOrder = (string)output["numOrder"];
@@ -293,17 +297,28 @@ namespace FastOrdering.Misc
 							dict.Value = (int)contentOut["qty"];
 							dict.Key = dish;
 							dict.Key.comment = (string)contentOut["comment"];
-							foreach (Object option in contentOut["options"])
+							//foreach (Object option in contentOut["options_ids"])
+							//{
+							//	str = option.ToString();
+							//	dynamic optionOut = JsonConvert.DeserializeObject(str);
+							//	foreach (Option op in dict.Key.options)
+							//	{
+							//		dict.Key.options.Add(op);
+							//	}
+							//}
+							foreach (string optionID in contentOut["options"])
 							{
-								str = option.ToString();
-								dynamic optionOut = JsonConvert.DeserializeObject(str);
-								foreach (Option op in dict.Key.options)
+								foreach (Option op in Option.options)
 								{
-									dict.Key.options.Add(op);
+									if (op.ID == optionID)
+										dict.Key.options.Add(op);
 								}
 							}
 							dict.Key.status = (string)contentOut["status"];
-							menu.Dishes.Add(dict);
+							await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+							{
+								menu.Dishes.Add(dict);
+							});
 							break;
 						}
 					}

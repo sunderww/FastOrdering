@@ -41,7 +41,6 @@
 
                                     <StackPanel Orientation="Horizontal" DataContext="{Binding Ord}">
                                         <TextBlock Grid.Row="0" Text="Commande" Foreground="Black" FontSize="20" />
-                                        <!--<TextBlock Grid.Row="0" Text="{Binding ID}" Foreground="Black" FontSize="20" />-->
                                     </StackPanel>
                                     <Grid Grid.Row="1" Margin="0,10,0,0" DataContext="{Binding Ord}">
                                         <Grid.ColumnDefinitions>
@@ -53,10 +52,10 @@
 
                                         <TextBlock Grid.Column="0" Text="Table #" Foreground="Black" FontSize="20" VerticalAlignment="Center" />
                                         <TextBox Grid.Column="1" FontSize="20" BorderBrush="Black" InputScope="Number"
-                                                 BorderThickness="1" Text="{Binding Table, Mode=TwoWay}" />
+                                                 BorderThickness="1" Text="{Binding Table, Mode=TwoWay}" GotFocus="TextBox_GotFocus" />
                                         <TextBlock Grid.Column="2" Text="Pax" Foreground="Black" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                         <TextBox Grid.Column="3" FontSize="20" BorderBrush="Black" InputScope="Number"
-                                                 BorderThickness="1" Text="{Binding numPA, Mode=TwoWay}" />
+                                                 BorderThickness="1" Text="{Binding numPA, Mode=TwoWay}" GotFocus="TextBox_GotFocus" />
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -156,7 +155,7 @@
                                                                                    VerticalAlignment="Center" Margin="15, 0, 0, 0"
                                                                                    TextWrapping="Wrap" />
                                                                         <TextBox Grid.Row="0" Grid.Column="1" InputScope="Number"
-                                                                                     LostFocus="TextBox_Alacarte" Text="0"
+                                                                                     LostFocus="TextBox_Alacarte" Text="0" GotFocus="TextBox_GotFocus"
                                                                                      DataContext="{Binding Key}" Tag="{Binding ID}" />
                                                                     </Grid>
                                                                 </DataTemplate>
@@ -271,13 +270,14 @@
                                                                             <Grid.ColumnDefinitions>
                                                                                 <ColumnDefinition Width="*" />
                                                                                 <ColumnDefinition Width="Auto" />
+                                                                                <ColumnDefinition Width="Auto" />
                                                                             </Grid.ColumnDefinitions>
                                                                             <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14"
                                                                                        DataContext="{Binding Key}" Text="{Binding Name}"
                                                                                        VerticalAlignment="Center" Margin="15, 0, 0, 0"
                                                                                        TextWrapping="Wrap" />
-                                                                            <TextBox Grid.Row="0" Grid.Column="1" InputScope="Number"
-                                                                                     LostFocus="TextBoxMenu_LostFocus" Text="0"
+                                                                            <TextBox Grid.Row="0" Grid.Column="2" InputScope="Number"
+                                                                                     LostFocus="TextBoxMenu_LostFocus" Text="0" GotFocus="TextBox_GotFocus"
                                                                                      DataContext="{Binding Key}" Tag="{Binding ID}" />
                                                                         </Grid>
                                                                     </DataTemplate>
@@ -301,12 +301,12 @@
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Home" Label="Reception" Click="Home_Click" />
+                <AppBarButton Icon="Home" Label="Accueil" Click="Home_Click" />
                 <AppBarButton x:Name="SendOrderButton" Icon="Send" Label="Envoyer" Click="SendOrder" />
                 <AppBarButton x:Name="BackToOrderButton" Icon="Back" Label="Ajouter" Click="BackToOrder" />
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Notification" Click="Notification_Click" />
+                <AppBarButton Label="Notifications" Click="Notification_Click" />
                 <AppBarButton Label="Historique" Click="History_Click" />
                 <AppBarButton Label="A propos" Click="About_Click" />
                 <AppBarButton Label="Déconnexion" Click="LogOut_Click" />

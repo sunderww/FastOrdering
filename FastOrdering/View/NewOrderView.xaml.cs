@@ -63,6 +63,12 @@ namespace FastOrdering.View
 			ord = e.Parameter as Order;
 		}
 
+		private void OnLeave()
+		{
+			foreach (Menu menu in Menu.menus)
+				menu.Dishes.Clear();
+		}
+
 		private void Control_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (sender is ListView)
@@ -75,6 +81,7 @@ namespace FastOrdering.View
 		{
 			Socket.SendOrder(ord);
 			Frame.Navigate(typeof(ReceptionView));
+			OnLeave();
 		}
 
 		private void Hub_SectionsInViewChanged(object sender, SectionsInViewChangedEventArgs e)
@@ -186,48 +193,55 @@ namespace FastOrdering.View
 		#endregion
 
 		#region TextBox Methods
-		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+		//private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+		//{
+		//	TextBox tb = sender as TextBox;
+		//	Menu menu = Menu.alacarte;
+		//	bool isAlreadyIn = false;
+
+		//	foreach (Menu m in ord.Menus)
+		//	{
+		//		if (m.IDMenu == menu.IDMenu)
+		//		{
+		//			menu = m;
+		//			isAlreadyIn = true;
+		//			break;
+		//		}
+		//	}
+
+		//	foreach (Dish dish in Dish.dishes)
+		//	{
+		//		if (tb.Tag.ToString() == dish.ID)
+		//		{
+		//			foreach (var d in menu.Dishes)
+		//			{
+		//				if (d.Key.ID == tb.Tag.ToString())
+		//				{
+		//					menu.Dishes.Remove(d);
+		//					break;
+		//				}
+		//			}
+		//			if (tb.Text.Replace(".", "") == "")
+		//				tb.Text = "0";
+		//			MyDictionary<Dish> newDish = new MyDictionary<Dish>();
+		//			newDish.Key = new Dish(dish.ID, 0, dish.Name);
+		//			newDish.Value = int.Parse(tb.Text);
+		//			if (newDish.Value > 0)
+		//				menu.Dishes.Add(newDish);
+		//			if (menu.Dishes.Count == 0)
+		//				ord.Menus.Remove(menu);
+		//			else if (!isAlreadyIn)
+		//				ord.Menus.Add(menu);
+		//			break;
+		//		}
+		//	}
+		//}
+
+		private void TextBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
-			Menu menu = Menu.alacarte;
-			bool isAlreadyIn = false;
 
-			foreach (Menu m in ord.Menus)
-			{
-				if (m.IDMenu == menu.IDMenu)
-				{
-					menu = m;
-					isAlreadyIn = true;
-					break;
-				}
-			}
-
-			foreach (Dish dish in Dish.dishes)
-			{
-				if (tb.Tag.ToString() == dish.ID)
-				{
-					foreach (var d in menu.Dishes)
-					{
-						if (d.Key.ID == tb.Tag.ToString())
-						{
-							menu.Dishes.Remove(d);
-							break;
-						}
-					}
-					if (tb.Text.Replace(".", "") == "")
-						tb.Text = "0";
-					MyDictionary<Dish> newDish = new MyDictionary<Dish>();
-					newDish.Key = new Dish(dish.ID, 0, dish.Name);
-					newDish.Value = int.Parse(tb.Text);
-					if (newDish.Value > 0)
-						menu.Dishes.Add(newDish);
-					if (menu.Dishes.Count == 0)
-						ord.Menus.Remove(menu);
-					else if (!isAlreadyIn)
-						ord.Menus.Add(menu);
-					break;
-				}
-			}
+			tb.SelectAll();
 		}
 
 		private void TextBoxMenu_LostFocus(object sender, RoutedEventArgs e)
@@ -349,27 +363,32 @@ namespace FastOrdering.View
 		private void Home_Click(object sender, RoutedEventArgs e)
 		{
 			Frame.Navigate(typeof(ReceptionView));
+			OnLeave();
 		}
 
 		private void Notification_Click(object sender, RoutedEventArgs e)
 		{
 			Frame.Navigate(typeof(NotificationsView));
+			OnLeave();
 		}
 
 		private void History_Click(object sender, RoutedEventArgs e)
 		{
 			Frame.Navigate(typeof(OrdersView));
+			OnLeave();
 		}
 
 		private void About_Click(object sender, RoutedEventArgs e)
 		{
 			Frame.Navigate(typeof(AboutView));
+			OnLeave();
 		}
 
 		private void LogOut_Click(object sender, RoutedEventArgs e)
 		{
 			Socket.Disconnect();
 			Frame.Navigate(typeof(LoginView));
+			OnLeave();
 		}
 		#endregion
 	}

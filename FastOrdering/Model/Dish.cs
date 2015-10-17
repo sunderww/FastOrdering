@@ -10,6 +10,9 @@ namespace FastOrdering.Model
 		#region Attributes
 		public static ObservableCollection<Dish> dishes = new ObservableCollection<Dish>();
 
+		// useless menucomposition_id
+		public string menucomposition_id = "";
+
 		public string id;
 		[JsonIgnore]
 		public string ID
@@ -49,11 +52,11 @@ namespace FastOrdering.Model
 			this.categories = categories_ids;
 			this.comment = "";
 			this.status = "";
-			foreach (Option op in Option.options)
-			{
-				if (options.Contains(op.ID))
-					this.options.Add(op);
-			}
+			//foreach (Option op in Option.options)
+			//{
+			//	if (options.Contains(op.ID))
+			//		this.options.Add(op);
+			//}
 		}
 
 		public Dish(string id, double price, string name)

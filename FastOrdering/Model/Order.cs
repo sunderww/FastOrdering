@@ -76,23 +76,34 @@ namespace FastOrdering.Model
 		#endregion
 
 		#region Methods
-		public Order(string id, int table_id, int dinerNumber, string date, DateTime time)
+		[JsonConstructor]
+		public Order(string numOrder, int numTable, int numPA, string date, DateTime hour)
 		{
-			this.numTable = table_id;
-			this.pa = dinerNumber;
+			this.numTable = numTable;
+			this.pa = numPA;
 			DateTime d;
 			if (DateTime.TryParseExact(date, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
-				this.date = new DateTime(d.Year, d.Month, d.Day, time.Hour, time.Minute, time.Second);
-			this.id = id;
+				this.date = new DateTime(d.Year, d.Month, d.Day, hour.Hour, hour.Minute, hour.Second);
+			//this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
+			this.id = numOrder;
 			this.globalComment = "";
 		}
+
+		//public Order(string id, int table_id, int dinerNumber, string date, DateTime time)
+		//{
+		//	this.numTable = table_id;
+		//	this.pa = dinerNumber;
+		//	DateTime d;
+		//	if (DateTime.TryParseExact(date, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
+		//		this.date = new DateTime(d.Year, d.Month, d.Day, time.Hour, time.Minute, time.Second);
+		//	this.id = id;
+		//	this.globalComment = "";
+		//}
 
 		public void PrepareOrder()
 		{
 			foreach (Menu menu in menus)
-			{
 				menu.FillContent();
-			}
 		}
 		#endregion
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace FastOrdering.Model
@@ -13,18 +14,23 @@ namespace FastOrdering.Model
 		{
 			get { return id; }
 		}
-		private Dictionary<string, string> values;
-		public Dictionary<string, string> Values
+		private string name;
+		public string Name
 		{
-			get { return values; }
+			get { return name; }
+		}
+		private ObservableCollection<Option> subOptions = new ObservableCollection<Option>();
+		public ObservableCollection<Option> SubOptions
+		{
+			get { return subOptions; }
 		}
 		#endregion
 
 		#region Methods
-		public Option(string id, Dictionary<string, string> values)
+		public Option(string name, string id)
 		{
 			this.id = id;
-			this.values = values;
+			this.name = name;
 		}
 		#endregion
 	}

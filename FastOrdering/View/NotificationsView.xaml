@@ -65,12 +65,12 @@
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Home" Label="Reception" Click="Home_Click" />
+                <AppBarButton Icon="Home" Label="Accueil" Click="Home_Click" />
                 <AppBarButton Icon="Delete" Label="Tout effacer" Click="DeleteAll_Click" />
                 <AppBarButton Icon="Add" Label="Commander" Click="NewCommand_Click" />
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Notification" Click="Notification_Click" />
+                <AppBarButton Label="Notifications" Click="Notification_Click" />
                 <AppBarButton Label="Historique" Click="History_Click" />
                 <AppBarButton Label="A propos" Click="About_Click" />
                 <AppBarButton Label="Déconnexion" Click="LogOut_Click" />
