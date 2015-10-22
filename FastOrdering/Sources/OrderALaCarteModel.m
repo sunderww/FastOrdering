@@ -34,30 +34,32 @@
 
 - (void)reloadData {
 	NSMutableArray * tmpDishes = [NSMutableArray new];
-	NSMutableArray * comps = [NSMutableArray new];
 	
-	Menu * carte = [MenuModel new].alacarte;
-	orderContents = self.order.alacarteDishes;
-	for (OrderContent * content in orderContents) {
-		DishCategory * category = content.menuComposition.categories.allObjects.firstObject;
-		[tmpDishes addObject:category.availableDishes];
-		[comps addObject:content.menuComposition];
+	carteMenu = [MenuModel new].alacarte;
+	dishes = self.order.alacarteDishes;
+	compositions = carteMenu.compositions.allObjects;
+
+	for (MenuComposition * comp in compositions) {
+		DishCategory * category = comp.categories.allObjects.firstObject;
+		NSMutableArray * categoryDishes = [NSMutableArray new];
 		
 		for (Dish * dish in category.availableDishes) {
-			OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:content.menuComposition];
+			OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:comp];
 			
 			if (!ordered) {
 				ordered = [OrderedDish create];
 				ordered.dish = dish;
 				ordered.quantity = @0;
 				ordered.comment = @"";
-				[content addDishesObject:ordered];
+				ordered.menu = carteMenu;
+				ordered.order = self.order;
 			}
+			[categoryDishes addObject:ordered];
 		}
+		[tmpDishes addObject:categoryDishes];
 	}
 	
 	dishes = tmpDishes;
-	compositions = comps;
 }
 
 #pragma mark - SLExpandableTableView delegate and datasource methods
@@ -157,7 +159,7 @@
 		ordered = [OrderedDish create];
 		ordered.order = self.order;
 		ordered.dish = dish;
-		ordered.content = orderContents[section];
+		ordered.menu = carteMenu;
 	}
 	
 	ordered.quantity = @(textField.text.integerValue);
@@ -179,7 +181,7 @@
 		ordered = [OrderedDish create];
 		ordered.order = self.order;
 		ordered.dish = dish;
-		ordered.content = orderContents[section];
+		ordered.menu = carteMenu;
 	}
 	
 	ordered.quantity = @(text.integerValue);

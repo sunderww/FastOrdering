@@ -11,11 +11,12 @@
 #import "Dish.h"
 #import "Order.h"
 #import "DishCell.h"
+#import "Menu.h"
 
 @interface OrderALaCarteModel : NSObject <SLExpandableTableViewDatasource, SLExpandableTableViewDelegate, DishCellDelegate, UIScrollViewDelegate> {
-	NSArray * compositions;
-	NSArray * dishes;
-	NSArray * orderContents;
+	NSArray * 	compositions;
+	NSArray *	dishes;
+	Menu *		carteMenu;
 
 	UITextField * responder;
 }

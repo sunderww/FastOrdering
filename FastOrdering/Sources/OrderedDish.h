@@ -2,7 +2,7 @@
 //  OrderedDish.h
 //  FastOrdering
 //
-//  Created by Sunder on 10/10/2015.
+//  Created by Sunder on 22/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -19,8 +19,8 @@
 @property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) Menu *menu;
 @property (nonatomic, retain) Dish *dish;
+@property (nonatomic, retain) Menu *menu;
 @property (nonatomic, retain) NSSet *options;
 @property (nonatomic, retain) Order *order;
 @end

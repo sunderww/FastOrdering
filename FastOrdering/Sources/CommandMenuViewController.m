@@ -52,9 +52,8 @@
 #pragma mark - Helper methods
 
 - (void)order {
-	OrderContent * content = [OrderContent create];
-	
-	content.menuComposition = self.composition;
+	NSMutableArray * orderedDishes = [NSMutableArray new];
+
 	for (NSUInteger i = 0 ; i < dishes.count ; ++i) {
 		for (NSUInteger j = 0 ; j < ((NSArray *)dishes[i]).count ; ++j) {
 			NSNumber * quantity = counts[i][j];
@@ -64,13 +63,13 @@
 				
 				dish.dish = dishes[i][j];
 				dish.quantity = quantity;
-				dish.comment = @"";
-				[content addDishesObject:dish];
+				dish.menu = self.composition.menu;
+				[orderedDishes addObject:dish];
 			}
 		}
 	}
 	
-	[self.delegate didCreateOrderContent:content];
+	[self.delegate didOrderDishes:orderedDishes];
 }
 
 #pragma mark - Actions

@@ -2,7 +2,7 @@
 //  OrderedDish.m
 //  FastOrdering
 //
-//  Created by Sunder on 10/10/2015.
+//  Created by Sunder on 22/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -21,8 +21,8 @@
 @dynamic serverId;
 @dynamic status;
 @dynamic updatedAt;
-@dynamic menu;
 @dynamic dish;
+@dynamic menu;
 @dynamic options;
 @dynamic order;
 

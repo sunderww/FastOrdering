@@ -9,12 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "SLExpandableTableView.h"
 #import "MenuComposition.h"
-#import "OrderContent.h"
 #import "DishCell.h"
 
 @protocol CommandMenuDelegate <NSObject>
 
-- (void)didCreateOrderContent:(OrderContent *)content;
+- (void)didOrderDishes:(NSArray *)dishes;
 - (void)popCommandMenuView;
 
 @end

@@ -2,7 +2,7 @@
 //  Order.h
 //  FastOrdering
 //
-//  Created by Sunder on 10/10/2015.
+//  Created by Sunder on 22/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -22,7 +22,6 @@
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSString * waiter_id;
 @property (nonatomic, retain) NSSet *dishes;
-@property (nonatomic, retain) NSSet *orderContents;
 @property (nonatomic, retain) Table *table;
 @end
 
@@ -32,10 +31,5 @@
 - (void)removeDishesObject:(OrderedDish *)value;
 - (void)addDishes:(NSSet *)values;
 - (void)removeDishes:(NSSet *)values;
-
-- (void)addOrderContentsObject:(NSManagedObject *)value;
-- (void)removeOrderContentsObject:(NSManagedObject *)value;
-- (void)addOrderContents:(NSSet *)values;
-- (void)removeOrderContents:(NSSet *)values;
 
 @end
