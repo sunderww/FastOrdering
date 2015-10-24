@@ -66,9 +66,8 @@ module.exports = {
     */
     menu_id: {type: "integer", required: true},
     
-    menucomposition_id: {type: "integer", required: true},
-    categorieoption_id: {type: "integer", required: true},
-
+    menucomposition_id: {type: "integer", required: false},
+    categorieoption_id: {type: "integer", required: false},
     /**
     * Commentaire
     * 

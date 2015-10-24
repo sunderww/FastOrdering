@@ -65,6 +65,8 @@ module.exports = {
 			doc.forEach(function(entry) {
 				entry.createdAt = new Date("1995-12-17T03:24:00");
 				entry.updatedAt = new Date("1995-12-17T03:24:00");
+			    entry.options = entry.optioncategories_ids;
+			    delete entry.optioncategories_ids;
 			});
 		    return res.json({elements: doc});
 			});

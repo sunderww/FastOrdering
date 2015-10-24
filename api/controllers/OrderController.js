@@ -165,11 +165,20 @@ json: function (req, res) {
       });
   },
 
-  getDetails: function(req, res){
-    OrderServices.getDetails(req,function(result){
-      return res.ok(result);
-    });
-  },
+
+    read_xavier: function(req, res) {
+	OrderServices.getLastOrders(5, function(result){
+	    return res.ok(result);
+	});
+    },
+
+    getDetails: function(req, res){
+	OrderServices.getDetails(req,function(result){
+	    console.log(result);
+	    return res.json(result);
+	});
+    },
 
 };
+
 

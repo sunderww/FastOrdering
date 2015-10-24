@@ -12,6 +12,5 @@ module.exports = {
       	required: true
       },
       price: "integer",
-      
   }
 };

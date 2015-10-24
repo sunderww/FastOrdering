@@ -167,26 +167,11 @@
                 $(".dish-zoom").html("");
                 var e;
             var idCommand = $(this).parent().attr("idCommand");
-            io.socket.get('/order/getDetails?id_command=' + idCommand, function (ordered, response) {
+                    io.socket.get('/order/getDetails?id_command=' + idCommand, function (dish, response2) {
 
-            // io.socket.get('/ordereddish/read?id=' + idCommand, function (ordered, response) {
-            //     e = 0;
-            //     for (var i = 0; ordered[i]; i++) {
-            //         var menu_id = ordered[i].menu_id;
-            //         // console.log(menu_id);
-            //         io.socket.get('/dish/read?id=' + ordered[i].dish_id, function (dish, response2, ordered) {
-            //             io.socket.get('/menu/read?id=' + ordered[i].menu_id, function (menu, response3) {
-            //             // var number = Math.floor((Math.random() * 100) + 1);
-            //             var ready = (ordered[e].status == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
-            //             var	res = '<div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form"><h3>Menu - ' + menu.elements.name  + '</h3>        <div style="height:30px"><span class="element-zoom" style="float:left;font-size:40px;">' + ordered[e].qty + '</span><span class="element-zoom" style="width:100px; float:left !important;">' + dish[0].name + '</span><span class="element-zoom">'+ordered[e].comment+'</span></div></br><div><span id="' + ordered[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div></div>';
-            //             // <hr class="short alt" style="width:400px;margin:0px;">
-                            console.log(ordered);
-                            $(".dish-zoom").append(ordered);
-            //             e++;
-            //             });
-            //         });
-            //     };
-            // });
+                            $(".dish-zoom").append(dish);
+
+            });
 	        // Inline Admin-Form example 
                 $.magnificPopup.open({
                     removalDelay: 500, //delay removal by X to allow out-animation,
