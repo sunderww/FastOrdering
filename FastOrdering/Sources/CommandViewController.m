@@ -214,21 +214,12 @@
 
 #pragma mark - CommandMenuView delegate methods
 
-- (void)didCreateOrderContent:(OrderContent *)content {
+- (void)didOrderDishes:(NSArray *)dishes {
 	AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
 
-	// Do not add an empty order content
-	// Now that [Order sanitize] exists, maybe it could be used
-	if (content.dishes.count > 0) {
-		[self.order addOrderContentsObject:content];
-	} else {
-		[delegate.managedObjectContext deleteObject:content];
-	}
-	
-	// Save the db
+	[self.order addDishes:[NSSet setWithArray:dishes]];
+
 	[delegate saveContext];
-	
-	// go to review page
 	[self buttonClicked:reviewButton];
 }
 

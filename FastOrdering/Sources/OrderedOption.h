@@ -2,7 +2,7 @@
 //  OrderedOption.h
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 22/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -13,10 +13,10 @@
 
 @interface OrderedOption : NSManagedObject
 
-@property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSNumber * qty;
+@property (nonatomic, retain) NSString * serverId;
+@property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) OrderedDish *dish;
 @property (nonatomic, retain) Option *option;
 

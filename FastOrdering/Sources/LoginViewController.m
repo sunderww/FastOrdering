@@ -90,6 +90,7 @@
 
 		// Check these lines with a working connection
 		if (loggedIn.boolValue) {
+			DLog(@"CORRECTLY LOGGED IN ON SERVER");
 			[self nextPage];
 		} else {
 			[self loginFailedWithWrongKey:@YES];

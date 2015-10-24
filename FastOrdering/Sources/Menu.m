@@ -2,12 +2,13 @@
 //  Menu.m
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 22/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
 #import "Menu.h"
 #import "MenuComposition.h"
+#import "OrderedDish.h"
 
 
 @implementation Menu
@@ -17,5 +18,6 @@
 @dynamic serverId;
 @dynamic updatedAt;
 @dynamic compositions;
+@dynamic orderedDishes;
 
 @end

@@ -2,7 +2,7 @@
 //  Dish.h
 //  FastOrdering
 //
-//  Created by Sunder on 06/10/2015.
+//  Created by Sunder on 22/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -20,8 +20,8 @@
 @property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSSet *categories;
-@property (nonatomic, retain) NSSet *ordered;
 @property (nonatomic, retain) NSSet *optioncategories;
+@property (nonatomic, retain) NSSet *ordered;
 @end
 
 @interface Dish (CoreDataGeneratedAccessors)
@@ -31,14 +31,14 @@
 - (void)addCategories:(NSSet *)values;
 - (void)removeCategories:(NSSet *)values;
 
-- (void)addOrderedObject:(OrderedDish *)value;
-- (void)removeOrderedObject:(OrderedDish *)value;
-- (void)addOrdered:(NSSet *)values;
-- (void)removeOrdered:(NSSet *)values;
-
 - (void)addOptioncategoriesObject:(OptionCategory *)value;
 - (void)removeOptioncategoriesObject:(OptionCategory *)value;
 - (void)addOptioncategories:(NSSet *)values;
 - (void)removeOptioncategories:(NSSet *)values;
+
+- (void)addOrderedObject:(OrderedDish *)value;
+- (void)removeOrderedObject:(OrderedDish *)value;
+- (void)addOrdered:(NSSet *)values;
+- (void)removeOrdered:(NSSet *)values;
 
 @end

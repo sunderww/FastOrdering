@@ -8,7 +8,6 @@
 
 #import "OrderReviewModel.h"
 #import "ReviewExpandableCell.h"
-#import "OrderContent.h"
 #import "MenuComposition.h"
 #import "Menu.h"
 #import "OrderedDish.h"
@@ -29,16 +28,12 @@
 - (void)reloadData {
 	NSMutableArray * titles = [NSMutableArray new];
 	NSMutableArray * contents = [NSMutableArray new];
-	
-	for (OrderContent * content in self.order.orderContents) {
-		[titles addObject:[NSString stringWithFormat:@"%@ - %@", content.menuComposition.menu.name, content.menuComposition.name]];
-		[contents addObject:content.dishes.allObjects];
+
+	for (NSArray * menuDishes in self.order.dishesGroupedByMenu) {
+		[titles addObject:((OrderedDish *)menuDishes.firstObject).menu.name];
+		[contents addObject:menuDishes];
 	}
-//	if (self.order.dishes.count) {
-//		[titles addObject:@"A la carte"];
-//		[contents addObject:self.order.dishes.allObjects];
-//	}
-	
+
 	sections = titles;
 	dishes = contents;
 	[self.tableView reloadData];
@@ -97,7 +92,7 @@
 	cell.tag = kDishCellTag(indexPath.section, indexPath.row);
 	[cell setEditable:YES];
 	[cell setDish:dish.dish andTag:kDishCellTag(indexPath.section, indexPath.row - 1)];
-	[cell setQuantity:dish.quantity.integerValue];
+	[cell setQuantity:dish.qty.integerValue];
 	
 	return cell;
 }
@@ -144,7 +139,7 @@
 	NSUInteger section = kDishCellSectionForTag(textField.tag);
 	
 	OrderedDish * dish = dishes[section][row];
-	dish.quantity = @(textField.text.integerValue);
+	dish.qty = @(textField.text.integerValue);
 
 	if ([self.delegate respondsToSelector:@selector(textFieldDidEndEditing:)])
 		[self.delegate textFieldDidEndEditing:textField];
@@ -159,7 +154,7 @@
 	NSUInteger section = kDishCellSectionForTag(textField.tag);
 	
 	OrderedDish * dish = dishes[section][row];
-	dish.quantity = @(text.integerValue);
+	dish.qty = @(text.integerValue);
 
 	return YES;
 }
