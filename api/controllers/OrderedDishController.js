@@ -94,11 +94,7 @@ module.exports = {
   */
   read_lucas: function (req, res) {
       OrderedDish.find( function(err, doc) {
-        var res = array()
-        doc.forEach(function(entry){
-
           return res.json(doc);
-        });
     });
   },
 };

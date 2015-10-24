@@ -63,9 +63,8 @@ module.exports = {
    */
   delete: function (req, res) {
         OptionCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
-           res.json({elements: doc});
+          return res.redirect('/optioncategory/create');
       });
-      res.redirect(307, '/optioncategory/create');
   },
 
 

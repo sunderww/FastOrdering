@@ -29,7 +29,7 @@ module.exports = {
     * @type {String}
     * @require true
     */ 
-  	id: {
+  	dish_id: {
   		type: 'string',
   		required: true,
     },
@@ -51,7 +51,7 @@ module.exports = {
       enum: ["canceled", "ordered", "cooking", "toDeliver", "delivered"],
       defaultsTo: "ordered"
     }, 
-    option_ids :{
+    options :{
       type:"array", 
       defaultsTo: []
       // collection: "OrderedOption",

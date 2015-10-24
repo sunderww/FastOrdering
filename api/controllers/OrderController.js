@@ -165,5 +165,11 @@ json: function (req, res) {
       });
   },
 
+  getDetails: function(req, res){
+    OrderServices.getDetails(req,function(result){
+      return res.ok(result);
+    });
+  },
+
 };
 

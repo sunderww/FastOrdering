@@ -11,25 +11,31 @@ module.exports = {
    */
    create: function (req, res) {
     if (req.method=="POST" && req.param("id") == undefined) {
-      OptionCategory.findOne({id:req.param("optioncategories_ids")}).populate("option").exec(function(err, doc){
-        if (!err) {
-          var OPTIONCATEGORY = doc.option;
-          Option.create({name:req.param("name"), option: doc.id}).exec(function (err3, doc2, doc) {
-            OPTIONCATEGORY.push(doc2.id);
-              OptionCategory.update({id:req.param("optioncategories_ids")}, {option:OPTIONCATEGORY}).exec(function(err2, doc3){
-                Option.find( function(err, doc) {
-                  return res.view({options:OPTIONCATEGORY});
-                }); 
-            });
-          });
+     OptionServices.create(req, function(options){
+          return res.view({options:options});
+        // });
+     });
+      // OptionCategory.findOne({id:req.param("optioncategories_ids")}).populate("option").exec(function(err, doc){
+      //   if (!err) {
+      //     var OPTIONCATEGORY = doc.option;
+      //     Option.create({name:req.param("name"), option: doc.id}).exec(function (err3, doc2, doc) {
+      //       OPTIONCATEGORY.push(doc2.id);
+      //         OptionCategory.update({id:req.param("optioncategories_ids")}, {option:OPTIONCATEGORY}).exec(function(err2, doc3){
+      //           Option.find( function(err, doc) {
+      //             return res.view({options:OPTIONCATEGORY});
+      //           }); 
+      //       });
+      //     });
 
-        }
-      });
+      //   }
+      // });
     }
-    else
+    else {
+
       Option.find( function(err, doc) {
           return res.view({options:doc});
         });
+    }
   },
 
 
@@ -54,9 +60,8 @@ module.exports = {
    */
   delete: function (req, res) {
     Option.destroy({id:req.param("id")}).exec(function(err, doc) {
-           res.json({elements: doc});
-      });
-      res.redirect(307, '/option/create');
+      return res.redirect('/option/create');
+    });
   },
 
 
@@ -82,7 +87,7 @@ module.exports = {
             }
 
       });
-      res.redirect(307, '/option/create/');
+      res.redirect('/option/create/');
     }
      
     Option.findOne({id: req.param("id")} ,function(err, doc) {

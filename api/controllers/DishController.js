@@ -74,7 +74,7 @@ module.exports = {
 		    Dish.destroy({id:req.param("id")}).exec(function(err, doc) {
 			     res.json({elements: doc});
 			});
-			res.redirect(307, '/dish/create');
+			res.redirect('/dish/create');
 	},
     update: function (req, res) {
 		var CATEGORIES;
@@ -98,10 +98,12 @@ module.exports = {
 					    });
 				    }
 			});
-			res.redirect(307, '/dish/create');
-		}
+			res.redirect('/dish/create');
+		} else {
+
 		    Dish.findOne({id: req.param("id")} ,function(err, doc) {
 			    return res.view({dish:doc, categories: CATEGORIES, optioncategories:OPTIONCATEGORIES});
 			});		   
+		}
 	}
 };

@@ -6,51 +6,30 @@
 
 var Promise = require('q');
 module.exports = {
-// {
-//     "numOrder": "1",
-//     "numTable": "7",
-//     "numPA": "2",
-//     "date": "01/01/2001",
-//     "hour": "12h12",
-//     "globalComment": "blablabla"
-//     "order": [
-//         {
-//             "menuId": "2",
-//             "content": [
-//                 {
-//                     "id": "id_dish",
-//                     "qty": "2",
-//                     "comment": "blabla",
-//                     "status": "0",
-// 		    "options": [
-//                         {
-//                             "id": "idsaignant",
-//                             "qty": "2"
-//                         },
-//                         {
-//                             "id": "id33cl",
-//                             "qty": "2"
-//                         }
-//                     ]
-// 		}
-//             ],
-//         }
-//     ]
-// }
+
+
 	getOneOrder: function(order_id, cb){
 		console.log("getOneOrder");
 		var ret = "Error: nothing";
 		Promise.all([
 			Order.findOne({id:order_id}),
 			OrderedDish.find({order_id: order_id})
-		])
+			])
 		.spread(function(order, ordered){
-			var res = new Array();
+			var res = new Object();
+			var order_content = new Array();
 			ordered.forEach(function(entry) {
-				// entry.qty = entry.quantity;
-				// entry.id = entry.dish_id
-				res.push({"menuId":entry.menu_id, "content": [entry]});
+				entry.qty = (entry.qty).toString();
+				entry.id = entry.dish_id;
+				delete entry.dish_id;
+				if (res[(entry.menu_id).toString()] == undefined)
+					res[(entry.menu_id).toString()] = new Array();
+				res[(entry.menu_id).toString()].push(entry);
 			});
+
+			for (var i in res){
+				order_content.push({"menuId":i, "content": res[i]});
+			}
 			ret = {
 				'numOrder' : order.id,
 				'numTable' : order.table_id,
@@ -142,9 +121,15 @@ module.exports = {
 						options = orderedoption[a];
 					else
 						options = [];
+						
+						OrderContent.create({
+							menuComposition_id: json['order'][a].content[i].menucomposition_id,
+							order_id: model.id
+						}).exec(function(err, orderconten){
 						OrderedDish.create({
+							orderContent_id: orderconten.id,
 							order_id:model.id,
-							id:json['order'][a].content[i].id,
+							dish_id:json['order'][a].content[i].id,
 							qty:json['order'][a].content[i].qty,
 							menucomposition_id:json['order'][a].content[i].menucomposition_id,
 							categorieoption_id:json['order'][a].content[i].categorieoption_id,
@@ -155,6 +140,8 @@ module.exports = {
 							if (err)
 								return cb(err);
 						});
+						});
+
 				}
 			}
 			ret = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};

@@ -57,34 +57,35 @@ module.exports = {
    		});
    	} else {
    		DishCategory.find( function(err, doc) {
-   		    return res.json({elements: doc});
-//   		    return res.ok(doc);
+ 		    return res.json({elements: doc});
    		});
    	}
   },
-    delete: function (req, res) {
-        DishCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
-           res.json({elements: doc});
+  delete: function (req, res) {
+      DishCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
+         res.json({elements: doc});
+    });
+      res.redirect(307, '/dishcategory/create');
+  },
+  update: function (req, res) {
+    if (req.method=="POST") {
+     console.log(req.param("id"));
+      DishCategory.update({id:req.param("id")},{
+        name:req.param("name")
+          }).exec(function(err,model) {
+            if (err) {
+          return res.json({
+            message: err.ValidationError
+              });
+            }
       });
-        res.redirect(307, '/dishcategory/create');
-    },
-    update: function (req, res) {
-      if (req.method=="POST") {
-       console.log(req.param("id"));
-        DishCategory.update({id:req.param("id")},{
-          name:req.param("name")
-            }).exec(function(err,model) {
-              if (err) {
-            return res.json({
-              message: err.ValidationError
-                });
-              }
-        });
-        res.redirect(307, '/dishcategory/create');
-      }
-          DishCategory.findOne({id: req.param("id")} ,function(err, doc) {
-            return res.view({category:doc});
-        });      
+      res.redirect('/dishcategory/create');
     }
+    else {
+      DishCategory.findOne({id: req.param("id")} ,function(err, doc) {
+          return res.view({category:doc});
+      });      
+      }
+  }
 };
 
