@@ -24,15 +24,17 @@ module.exports = {
 				optioncategories_ids: req.param("optioncategories_ids")
 			    }).exec(function(err,model) {
 				    if (err) {
-					return res.json({
+					res.json({
 						message: err.ValidationError
 					    });
 				    }
 		});
-	}
+	}else {
+
 	Dish.find( function(err, doc) {
 		return res.view({dishs:doc});
    	});
+	}
     },
 
 
@@ -63,6 +65,8 @@ module.exports = {
 			doc.forEach(function(entry) {
 				entry.createdAt = new Date("1995-12-17T03:24:00");
 				entry.updatedAt = new Date("1995-12-17T03:24:00");
+			    entry.options = entry.optioncategories_ids;
+			    delete entry.optioncategories_ids;
 			});
 		    return res.json({elements: doc});
 			});

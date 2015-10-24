@@ -29,10 +29,9 @@ module.exports = {
     * @type {String}
     * @require true
     */ 
-  	id: {
+  	dish_id: {
   		type: 'string',
   		required: true,
-  	  primaryKey: true
     },
     
     /**
@@ -53,7 +52,10 @@ module.exports = {
       defaultsTo: "ordered"
     }, 
     options :{
-      collection: "orderedoption",
+      type:"array", 
+      defaultsTo: []
+      // collection: "OrderedOption",
+      // via: "option"
     },
     /**
     * Id du menu
@@ -61,9 +63,11 @@ module.exports = {
     * @property menu_id
     * @type {Integer}
     * @require true
-    */       
+    */
     menu_id: {type: "integer", required: true},
-
+    
+    menucomposition_id: {type: "integer", required: false},
+    categorieoption_id: {type: "integer", required: false},
     /**
     * Commentaire
     * 

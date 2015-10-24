@@ -86,11 +86,13 @@ module.exports = {
             }
 
       });
-      res.redirect(307, '/optioncategory/create/');
+      res.redirect('/optioncategory/create/');
     }
+      else {
     OptionCategory.findOne({id: req.param("id")} ,function(err, doc) {
           return res.view({option:doc});
       }); 
+      }
   }
 };
 

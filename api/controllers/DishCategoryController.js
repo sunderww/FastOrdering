@@ -80,11 +80,13 @@ module.exports = {
                 });
               }
         });
-        res.redirect(307, '/dishcategory/create');
+        res.redirect('/dishcategory/create');
       }
+	else {
           DishCategory.findOne({id: req.param("id")} ,function(err, doc) {
             return res.view({category:doc});
-        });      
+        });   
+	}   
     }
 };
 

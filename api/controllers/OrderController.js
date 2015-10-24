@@ -46,9 +46,9 @@ getOneOrder: function(req, res) {
 },
 
     delete: function(id) {
-	Order.destroy().exec(function(res, doc) {
-	    return res.ok("ok");
-	});
+    	Order.destroy().exec(function(res, doc) {
+    	    return res.ok("ok");
+    	});
     },
 
   create: function (req, res) {
@@ -165,5 +165,20 @@ json: function (req, res) {
       });
   },
 
+    read_xavier: function(req, res) {
+	OrderServices.getLastOrders(5, function(result){
+	    return res.ok(result);
+	});
+    },
+
+    getDetails: function(req, res){
+	OrderServices.getDetails(req,function(result){
+	    console.log(result);
+	    return res.json(result);
+	});
+    },
+
+
 };
+
 

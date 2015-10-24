@@ -77,7 +77,9 @@ module.exports.routes = {
     '/options': 'OptionCategoryController.read',
     '/send_order': 'DishController.create',
     '/optioncategory' : 'OptionCategoryController.read_lucas',
-    '/orderedoption' : 'OrderedOptionController.read_lucas'
+    '/orderedoption' : 'OrderedOptionController.read_lucas',
+    '/orders' : 'OrderController.read_xavier',
+    '/ordereddish' : 'OrderedDishController.read_lucas',
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
