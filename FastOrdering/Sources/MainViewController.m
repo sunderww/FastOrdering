@@ -165,8 +165,11 @@
     NSError * error;
     
 	[timer invalidate];
-    if (![context save:&error])
-        PPLog(@"%@", error);
+	if ([context save:&error]) {
+		DLog(@"SYNC EXECUTED, CONTEXT SAVED");
+	} else {
+		PPLog(@"%@", error);
+	}
     DLog(@"END SYNC");
 	[self viewWillAppear:YES];
 	loaderView.hidden = YES;

@@ -84,7 +84,7 @@ NSObject *  dictSafeValue(NSObject *obj) {
 			NSMutableDictionary * dishDict = [NSMutableDictionary new];
 			
 			dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
-			dishDict[@"qty"] = dictSafeValue(dish.quantity);
+			dishDict[@"qty"] = dictSafeValue(dish.qty);
 			dishDict[@"comment"] = dictSafeValue(dish.comment);
 			dishDict[@"options"] = [NSMutableArray new];
 			for (OrderedOption * option in dish.options.allObjects)
@@ -110,7 +110,7 @@ NSObject *  dictSafeValue(NSObject *obj) {
 - (void)sanitizeInContext:(NSManagedObjectContext *)context {
 	for (OrderedDish * dish in [NSSet setWithSet:self.dishes]) {
 		[dish sanitizeInContext:context];
-		if (dish.quantity.integerValue == 0) {
+		if (dish.qty.integerValue == 0) {
 			dish.order = nil;
 			dish.menu = nil;
 			dish.dish = nil;
@@ -124,15 +124,16 @@ NSObject *  dictSafeValue(NSObject *obj) {
 }
 
 - (NSArray *)dishesGroupedByMenu {
-	NSMutableArray * contents = [NSMutableArray new];
+	NSMutableDictionary * menus = [NSMutableDictionary new];
+
+	for (OrderedDish * dish in self.dishes) {
+		if (!menus[dish.menu.serverId]) {
+			menus[dish.menu.serverId] = [NSMutableArray new];
+		}
+		[menus[dish.menu.serverId] addObject:dish];
+	}
 	
-//	for (OrderContent * content in self.orderContents) {
-//		if ([content.menuComposition.menu.name isEqualToString:kMenuALaCarteName]) {
-//			[contents addObject:content];
-//		}
-//	}
-	
-	return contents;
+	return menus.allValues;
 }
 
 - (NSArray *)alacarteDishesInContext:(NSManagedObjectContext *)context {

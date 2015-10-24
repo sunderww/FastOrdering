@@ -49,7 +49,7 @@
 			if (!ordered) {
 				ordered = [OrderedDish create];
 				ordered.dish = dish;
-				ordered.quantity = @0;
+				ordered.qty = @0;
 				ordered.comment = @"";
 				ordered.menu = carteMenu;
 				ordered.order = self.order;
@@ -102,10 +102,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString * CellIdentifier = @"DishCell";
-	Dish * dish = dishes[indexPath.section][indexPath.row - 1];
-	MenuComposition * composition = compositions[indexPath.section];
-	OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:composition];
-	
+
+	OrderedDish * dish = dishes[indexPath.section][indexPath.row - 1];
 	DishCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
 	if (!cell) {
@@ -113,8 +111,8 @@
 		cell.delegate = self;
 	}
 	
-	[cell setDish:dish andTag:kDishCellTag(indexPath.section, indexPath.row - 1)];
-	[cell setQuantity:ordered.quantity.integerValue];
+	[cell setDish:dish.dish andTag:kDishCellTag(indexPath.section, indexPath.row - 1)];
+	[cell setQuantity:dish.qty.integerValue];
 	return cell;
 }
 
@@ -151,18 +149,8 @@
 	NSUInteger row = kDishCellRowForTag(textField.tag);
 	NSUInteger section = kDishCellSectionForTag(textField.tag);
 	
-	Dish * dish = dishes[section][row];
-	MenuComposition * composition = compositions[section];
-	OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:composition];
-	
-	if (!ordered) {
-		ordered = [OrderedDish create];
-		ordered.order = self.order;
-		ordered.dish = dish;
-		ordered.menu = carteMenu;
-	}
-	
-	ordered.quantity = @(textField.text.integerValue);
+	OrderedDish * ordered = dishes[section][row];
+	ordered.qty = @(textField.text.integerValue);
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -173,18 +161,8 @@
 	NSUInteger row = kDishCellRowForTag(textField.tag);
 	NSUInteger section = kDishCellSectionForTag(textField.tag);
 	
-	Dish * dish = dishes[section][row];
-	MenuComposition * composition = compositions[section];
-	OrderedDish * ordered = [self.order orderedDishWithDish:dish andComposition:composition];
-	
-	if (!ordered) {
-		ordered = [OrderedDish create];
-		ordered.order = self.order;
-		ordered.dish = dish;
-		ordered.menu = carteMenu;
-	}
-	
-	ordered.quantity = @(text.integerValue);
+	OrderedDish * ordered = dishes[section][row];	
+	ordered.qty = @(text.integerValue);
 	return YES;
 }
 

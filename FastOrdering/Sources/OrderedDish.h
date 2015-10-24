@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) NSString * comment;
 @property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSNumber * quantity;
+@property (nonatomic, retain) NSNumber * qty;
 @property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSDate * updatedAt;

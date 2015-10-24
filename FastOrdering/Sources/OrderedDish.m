@@ -17,7 +17,7 @@
 
 @dynamic comment;
 @dynamic createdAt;
-@dynamic quantity;
+@dynamic qty;
 @dynamic serverId;
 @dynamic status;
 @dynamic updatedAt;

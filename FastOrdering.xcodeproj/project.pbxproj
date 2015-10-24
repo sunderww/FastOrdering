@@ -85,7 +85,6 @@
 		84C1A1D219EE3CE300E64B40 /* MenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C1A1D119EE3CE300E64B40 /* MenuView.xib */; };
 		84C290FF1AEDE11900B8193C /* HistoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C290FE1AEDE11800B8193C /* HistoryView.xib */; };
 		84C291021AEDE12900B8193C /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C291011AEDE12900B8193C /* HistoryViewController.m */; };
-		84CA65AC1BD901DF009DE1B7 /* OrderedDish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65AB1BD901DF009DE1B7 /* OrderedDish.m */; };
 		84CA65AF1BD901E0009DE1B7 /* Dish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65AE1BD901E0009DE1B7 /* Dish.m */; };
 		84CA65B21BD901E0009DE1B7 /* MenuComposition.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65B11BD901E0009DE1B7 /* MenuComposition.m */; };
 		84CA65B51BD901E0009DE1B7 /* OrderedOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65B41BD901E0009DE1B7 /* OrderedOption.m */; };
@@ -97,6 +96,7 @@
 		84CA65C71BD901E0009DE1B7 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65C61BD901E0009DE1B7 /* Plan.m */; };
 		84CA65CA1BD901E0009DE1B7 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65C91BD901E0009DE1B7 /* Table.m */; };
 		84CA65CD1BD901E0009DE1B7 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65CC1BD901E0009DE1B7 /* Notification.m */; };
+		84CA65D01BD918BE009DE1B7 /* OrderedDish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65CF1BD918BE009DE1B7 /* OrderedDish.m */; };
 		84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */; };
 		84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA38E1AA6A9D800D3D502 /* CommandView.xib */; };
 		84D4B7B01AD22FBC00AF57F2 /* Order+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */; };
@@ -257,8 +257,6 @@
 		84C290FE1AEDE11800B8193C /* HistoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HistoryView.xib; sourceTree = "<group>"; };
 		84C291001AEDE12900B8193C /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		84C291011AEDE12900B8193C /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
-		84CA65AA1BD901DF009DE1B7 /* OrderedDish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDish.h; sourceTree = "<group>"; };
-		84CA65AB1BD901DF009DE1B7 /* OrderedDish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDish.m; sourceTree = "<group>"; };
 		84CA65AD1BD901E0009DE1B7 /* Dish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dish.h; sourceTree = "<group>"; };
 		84CA65AE1BD901E0009DE1B7 /* Dish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dish.m; sourceTree = "<group>"; };
 		84CA65B01BD901E0009DE1B7 /* MenuComposition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuComposition.h; sourceTree = "<group>"; };
@@ -281,6 +279,8 @@
 		84CA65C91BD901E0009DE1B7 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
 		84CA65CB1BD901E0009DE1B7 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
 		84CA65CC1BD901E0009DE1B7 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
+		84CA65CE1BD918BE009DE1B7 /* OrderedDish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDish.h; sourceTree = "<group>"; };
+		84CA65CF1BD918BE009DE1B7 /* OrderedDish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDish.m; sourceTree = "<group>"; };
 		84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandViewController.h; sourceTree = "<group>"; };
 		84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandViewController.m; sourceTree = "<group>"; };
 		84CDA38E1AA6A9D800D3D502 /* CommandView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommandView.xib; sourceTree = "<group>"; };
@@ -337,6 +337,8 @@
 			isa = PBXGroup;
 			children = (
 				843C35681B3FBA48005D9959 /* Customs */,
+				84CA65CE1BD918BE009DE1B7 /* OrderedDish.h */,
+				84CA65CF1BD918BE009DE1B7 /* OrderedDish.m */,
 				84CA65CB1BD901E0009DE1B7 /* Notification.h */,
 				84CA65CC1BD901E0009DE1B7 /* Notification.m */,
 				84CA65C81BD901E0009DE1B7 /* Table.h */,
@@ -359,8 +361,6 @@
 				84CA65B11BD901E0009DE1B7 /* MenuComposition.m */,
 				84CA65AD1BD901E0009DE1B7 /* Dish.h */,
 				84CA65AE1BD901E0009DE1B7 /* Dish.m */,
-				84CA65AA1BD901DF009DE1B7 /* OrderedDish.h */,
-				84CA65AB1BD901DF009DE1B7 /* OrderedDish.m */,
 			);
 			name = "Managed Objects";
 			sourceTree = "<group>";
@@ -907,6 +907,7 @@
 				844B06C41ABF88D800DCFBB3 /* DishCell.m in Sources */,
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
 				845DE83C1B7FBFC700FF4509 /* SocketIOPacket.m in Sources */,
+				84CA65D01BD918BE009DE1B7 /* OrderedDish.m in Sources */,
 				84CA65B81BD901E0009DE1B7 /* Order.m in Sources */,
 				84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */,
 				84CA65C41BD901E0009DE1B7 /* DishCategory.m in Sources */,
@@ -927,7 +928,6 @@
 				845DE8681B9B452400FF4509 /* UNIHTTPClientHelper.m in Sources */,
 				845DE8631B9B452400FF4509 /* UNIHTTPBinaryResponse.m in Sources */,
 				844B06A61ABBB29A00DCFBB3 /* OrderMenuModel.m in Sources */,
-				84CA65AC1BD901DF009DE1B7 /* OrderedDish.m in Sources */,
 				8403EDC41A51036E001421D3 /* UIColor+String.m in Sources */,
 				845DE8621B9B452400FF4509 /* UNISimpleRequest.m in Sources */,
 				844B06BC1ABF804800DCFBB3 /* CommandMenuViewController.m in Sources */,

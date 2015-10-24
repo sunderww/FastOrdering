@@ -62,7 +62,7 @@
 				OrderedDish * dish = [OrderedDish create];
 				
 				dish.dish = dishes[i][j];
-				dish.quantity = quantity;
+				dish.qty = quantity;
 				dish.menu = self.composition.menu;
 				[orderedDishes addObject:dish];
 			}
