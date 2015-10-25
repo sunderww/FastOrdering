@@ -52,7 +52,7 @@
 	reviewTableView.dataSource = reviewModel;
 	
 	numPAField.text = self.order.dinerNumber.integerValue ? self.order.dinerNumber.stringValue : nil;
-	tableNumberField.text = self.order.numTable ? self.order.numTable : nil;
+	tableNumberField.text = self.order.table_id ? self.order.table_id : nil;
 	commentTextView.text = self.order.comments;
 	
 	[menuButton setTitle:NSLocalizedString(@"Menus", @"").uppercaseString forState:UIControlStateNormal];
@@ -261,7 +261,7 @@
 
 	SocketHelper * helper = [SocketHelper sharedHelper];
 	[self.order sanitize];
-	self.order.numTable = tableNumberField.text;
+	self.order.table_id = tableNumberField.text;
 	self.order.dinerNumber = @(numPAField.text.integerValue);
 	self.order.comments = commentTextView.text;
 

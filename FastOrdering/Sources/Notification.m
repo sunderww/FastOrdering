@@ -2,7 +2,7 @@
 //  Notification.m
 //  FastOrdering
 //
-//  Created by Sunder on 22/10/2015.
+//  Created by Sunder on 25/10/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -11,8 +11,10 @@
 
 @implementation Notification
 
-@dynamic contentString;
+@dynamic msg;
 @dynamic date;
+@dynamic time;
 @dynamic updatedAt;
+@dynamic numTable;
 
 @end

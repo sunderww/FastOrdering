@@ -89,15 +89,15 @@
 		84CA65AF1BD901E0009DE1B7 /* Dish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65AE1BD901E0009DE1B7 /* Dish.m */; };
 		84CA65B21BD901E0009DE1B7 /* MenuComposition.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65B11BD901E0009DE1B7 /* MenuComposition.m */; };
 		84CA65B51BD901E0009DE1B7 /* OrderedOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65B41BD901E0009DE1B7 /* OrderedOption.m */; };
-		84CA65B81BD901E0009DE1B7 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65B71BD901E0009DE1B7 /* Order.m */; };
 		84CA65BB1BD901E0009DE1B7 /* Menu.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65BA1BD901E0009DE1B7 /* Menu.m */; };
 		84CA65BE1BD901E0009DE1B7 /* OptionCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65BD1BD901E0009DE1B7 /* OptionCategory.m */; };
 		84CA65C11BD901E0009DE1B7 /* Option.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65C01BD901E0009DE1B7 /* Option.m */; };
 		84CA65C41BD901E0009DE1B7 /* DishCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65C31BD901E0009DE1B7 /* DishCategory.m */; };
 		84CA65C71BD901E0009DE1B7 /* Plan.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65C61BD901E0009DE1B7 /* Plan.m */; };
 		84CA65CA1BD901E0009DE1B7 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65C91BD901E0009DE1B7 /* Table.m */; };
-		84CA65CD1BD901E0009DE1B7 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65CC1BD901E0009DE1B7 /* Notification.m */; };
 		84CA65D01BD918BE009DE1B7 /* OrderedDish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65CF1BD918BE009DE1B7 /* OrderedDish.m */; };
+		84CA65D31BDCE575009DE1B7 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65D21BDCE575009DE1B7 /* Notification.m */; };
+		84CA65D91BDCE679009DE1B7 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65D81BDCE679009DE1B7 /* Order.m */; };
 		84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */; };
 		84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA38E1AA6A9D800D3D502 /* CommandView.xib */; };
 		84D4B7B01AD22FBC00AF57F2 /* Order+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */; };
@@ -264,8 +264,6 @@
 		84CA65B11BD901E0009DE1B7 /* MenuComposition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuComposition.m; sourceTree = "<group>"; };
 		84CA65B31BD901E0009DE1B7 /* OrderedOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedOption.h; sourceTree = "<group>"; };
 		84CA65B41BD901E0009DE1B7 /* OrderedOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedOption.m; sourceTree = "<group>"; };
-		84CA65B61BD901E0009DE1B7 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
-		84CA65B71BD901E0009DE1B7 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		84CA65B91BD901E0009DE1B7 /* Menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 		84CA65BA1BD901E0009DE1B7 /* Menu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Menu.m; sourceTree = "<group>"; };
 		84CA65BC1BD901E0009DE1B7 /* OptionCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionCategory.h; sourceTree = "<group>"; };
@@ -278,10 +276,12 @@
 		84CA65C61BD901E0009DE1B7 /* Plan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plan.m; sourceTree = "<group>"; };
 		84CA65C81BD901E0009DE1B7 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
 		84CA65C91BD901E0009DE1B7 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
-		84CA65CB1BD901E0009DE1B7 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
-		84CA65CC1BD901E0009DE1B7 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		84CA65CE1BD918BE009DE1B7 /* OrderedDish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedDish.h; sourceTree = "<group>"; };
 		84CA65CF1BD918BE009DE1B7 /* OrderedDish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDish.m; sourceTree = "<group>"; };
+		84CA65D11BDCE575009DE1B7 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
+		84CA65D21BDCE575009DE1B7 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
+		84CA65D71BDCE679009DE1B7 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		84CA65D81BDCE679009DE1B7 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandViewController.h; sourceTree = "<group>"; };
 		84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandViewController.m; sourceTree = "<group>"; };
 		84CDA38E1AA6A9D800D3D502 /* CommandView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommandView.xib; sourceTree = "<group>"; };
@@ -338,10 +338,12 @@
 			isa = PBXGroup;
 			children = (
 				843C35681B3FBA48005D9959 /* Customs */,
+				84CA65D71BDCE679009DE1B7 /* Order.h */,
+				84CA65D81BDCE679009DE1B7 /* Order.m */,
+				84CA65D11BDCE575009DE1B7 /* Notification.h */,
+				84CA65D21BDCE575009DE1B7 /* Notification.m */,
 				84CA65CE1BD918BE009DE1B7 /* OrderedDish.h */,
 				84CA65CF1BD918BE009DE1B7 /* OrderedDish.m */,
-				84CA65CB1BD901E0009DE1B7 /* Notification.h */,
-				84CA65CC1BD901E0009DE1B7 /* Notification.m */,
 				84CA65C81BD901E0009DE1B7 /* Table.h */,
 				84CA65C91BD901E0009DE1B7 /* Table.m */,
 				84CA65C51BD901E0009DE1B7 /* Plan.h */,
@@ -354,8 +356,6 @@
 				84CA65BD1BD901E0009DE1B7 /* OptionCategory.m */,
 				84CA65B91BD901E0009DE1B7 /* Menu.h */,
 				84CA65BA1BD901E0009DE1B7 /* Menu.m */,
-				84CA65B61BD901E0009DE1B7 /* Order.h */,
-				84CA65B71BD901E0009DE1B7 /* Order.m */,
 				84CA65B31BD901E0009DE1B7 /* OrderedOption.h */,
 				84CA65B41BD901E0009DE1B7 /* OrderedOption.m */,
 				84CA65B01BD901E0009DE1B7 /* MenuComposition.h */,
@@ -911,7 +911,6 @@
 				843C356B1B3FBBC7005D9959 /* MenuModel.m in Sources */,
 				84B1EA421A57681100985E57 /* NSString+TrimmingAdditions.m in Sources */,
 				84BF7DA21A8F4A4000EC912B /* OrderCell.m in Sources */,
-				84CA65CD1BD901E0009DE1B7 /* Notification.m in Sources */,
 				845DE8601B9B452400FF4509 /* UNIBaseRequest.m in Sources */,
 				845DE86A1B9B452400FF4509 /* UNIHTTPRequestWithBody.m in Sources */,
 				84CA65BB1BD901E0009DE1B7 /* Menu.m in Sources */,
@@ -927,7 +926,6 @@
 				84C1A18619EDE8D100E64B40 /* AppDelegate.m in Sources */,
 				845DE83C1B7FBFC700FF4509 /* SocketIOPacket.m in Sources */,
 				84CA65D01BD918BE009DE1B7 /* OrderedDish.m in Sources */,
-				84CA65B81BD901E0009DE1B7 /* Order.m in Sources */,
 				84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */,
 				84CA65C41BD901E0009DE1B7 /* DishCategory.m in Sources */,
 				84C1A18219EDE8D100E64B40 /* main.m in Sources */,
@@ -935,10 +933,12 @@
 				84B1EA501A5A033F00985E57 /* Dish+Custom.m in Sources */,
 				84E274591AE09E3200E5A32A /* LoaderView.m in Sources */,
 				844B06B31ABBB76400DCFBB3 /* SLExpandableTableView.m in Sources */,
+				84CA65D31BDCE575009DE1B7 /* Notification.m in Sources */,
 				84B1EA4D1A5A014400985E57 /* DishCategory+Custom.m in Sources */,
 				84C1A1B819EDEE8400E64B40 /* LoginViewController.m in Sources */,
 				845DE8641B9B452400FF4509 /* UNIHTTPJsonResponse.m in Sources */,
 				844B06A91ABBB2B000DCFBB3 /* OrderALaCarteModel.m in Sources */,
+				84CA65D91BDCE679009DE1B7 /* Order.m in Sources */,
 				84CA65AF1BD901E0009DE1B7 /* Dish.m in Sources */,
 				845DE8611B9B452400FF4509 /* UNIBodyRequest.m in Sources */,
 				845DE8671B9B452400FF4509 /* UNIJsonNode.m in Sources */,

@@ -97,6 +97,45 @@
 
 #pragma mark - Helper methods
 
+- (id)correctValueForKey:(NSString *)key attributes:(NSDictionary *)attributes andValue:(id)value {
+	switch ([attributes[key] attributeType]) {
+		case NSInteger16AttributeType:
+		case NSInteger32AttributeType:
+		case NSInteger64AttributeType:
+		case NSDecimalAttributeType:
+		case NSDoubleAttributeType:
+		case NSFloatAttributeType:
+		case NSBooleanAttributeType:
+			if ([[value class] isSubclassOfClass:[NSString class]]) {
+				NSNumberFormatter * f = [NSNumberFormatter new];
+				
+				f.numberStyle = NSNumberFormatterDecimalStyle;
+				value = [f numberFromString:value];
+			}
+			break;
+			
+		case NSStringAttributeType:
+			if ([[value class] isSubclassOfClass:[NSNumber class]])
+				value = [value stringValue];
+			break;
+			
+		case NSDateAttributeType:
+			if ([[value class] isSubclassOfClass:[NSString class]]) {
+				NSDateFormatter * f = [NSDateFormatter new];
+				
+				f.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+				f.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+				value = [f dateFromString:value];
+			}
+			break;
+			
+		default:
+			break;
+	}
+	
+	return value;
+}
+
 - (void)syncManagedObject:(NSManagedObject *)obj ofClass:(NSString *)className withDictionnary:(NSDictionary *)elem {
 	NSDictionary * attributes = obj.entity.attributesByName;
 	NSDictionary * relationships = obj.entity.relationshipsByName;
@@ -109,15 +148,17 @@
 			NSString * name = [key stringByReplacingOccurrencesOfString:@"_id" withString:@""];
 			NSRelationshipDescription * rel = relationships[name];
 			
-			if (!rel) continue;
-			
-			NSManagedObject * relation = [self objectOfClass:rel.destinationEntity.managedObjectClassName withId:value];
-			if (rel.isToMany)
-				name = [NSString stringWithFormat:@"add%@Object:", [name capitalizedString]];
-			else
-				name = [NSString stringWithFormat:@"set%@:", [name capitalizedString]];
-			SEL selector = NSSelectorFromString(name);
-			((void (*)(id, SEL, id))[obj methodForSelector:selector])(obj, selector, relation);
+			if (rel) {
+				NSManagedObject * relation = [self objectOfClass:rel.destinationEntity.managedObjectClassName withId:value];
+				if (rel.isToMany)
+					name = [NSString stringWithFormat:@"add%@Object:", [name capitalizedString]];
+				else
+					name = [NSString stringWithFormat:@"set%@:", [name capitalizedString]];
+				SEL selector = NSSelectorFromString(name);
+				((void (*)(id, SEL, id))[obj methodForSelector:selector])(obj, selector, relation);
+			} else {
+				value = [self correctValueForKey:key attributes:attributes andValue:value];
+			}
 		} else if ([key hasSuffix:kParsingRelationManySuffix]) {
 			NSString * name = [key stringByReplacingOccurrencesOfString:@"_ids" withString:@""];
 			NSRelationshipDescription * rel = relationships[name];
@@ -139,47 +180,14 @@
 			}
 		} else if (value && value != [NSNull null] &&
 				   [attributes.allKeys containsObject:key]) {
-			switch ([attributes[key] attributeType]) {
-				case NSInteger16AttributeType:
-				case NSInteger32AttributeType:
-				case NSInteger64AttributeType:
-				case NSDecimalAttributeType:
-				case NSDoubleAttributeType:
-				case NSFloatAttributeType:
-				case NSBooleanAttributeType:
-					if ([[value class] isSubclassOfClass:[NSString class]]) {
-						NSNumberFormatter * f = [NSNumberFormatter new];
-						
-						f.numberStyle = NSNumberFormatterDecimalStyle;
-						value = [f numberFromString:value];
-					}
-					break;
-					
-				case NSStringAttributeType:
-					if ([[value class] isSubclassOfClass:[NSNumber class]])
-						value = [value stringValue];
-					break;
-					
-				case NSDateAttributeType:
-					if ([[value class] isSubclassOfClass:[NSString class]]) {
-						NSDateFormatter * f = [NSDateFormatter new];
-						
-						f.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-						f.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
-						value = [f dateFromString:value];
-					}
-					break;
-					
-				default:
-					break;
-			}
-			
-			NSString * class = [attributes[key] attributeValueClassName];
-			if ([[value class] isSubclassOfClass:NSClassFromString(class)])
-				[obj setValue:value forKey:key];
-			else
-				PPLog(@"%@ != %@ (%@)", class, [value class], value);
+			value = [self correctValueForKey:key attributes:attributes andValue:value];
 		}
+		
+		NSString * class = [attributes[key] attributeValueClassName];
+		if ([[value class] isSubclassOfClass:NSClassFromString(class)])
+			[obj setValue:value forKey:key];
+		else
+			PPLog(@"%@ != %@ (%@)", class, [value class], value);
 	}
 }
 

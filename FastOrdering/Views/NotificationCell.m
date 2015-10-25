@@ -24,7 +24,7 @@
     NSDateFormatter * f = [NSDateFormatter new];
     
     f.dateFormat = @"Le dd/MM/yy à HH:mm";
-    mainLabel.text = [NSString stringWithFormat:@"Table #XX : #%@", notif.contentString];
+    mainLabel.text = [NSString stringWithFormat:@"Table #XX : #%@", notif.msg];
     descLabel.text = [f stringFromDate:notif.date];
 }
 
