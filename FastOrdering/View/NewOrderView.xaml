@@ -10,6 +10,49 @@
     xmlns:drawerLayout="using:DrawerLayout"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <Flyout x:Key="optionsPopup" x:Name="optionsPopup">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <GridView x:Name="OptionsList" Grid.Row="0" Margin="20">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <GridView Header="{Binding Name}" ItemsSource="{Binding SubOptions}"
+                                      FontSize="20">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="10, 0, 0, 0" Width="100">
+                                            <TextBlock Text="{Binding Name}" FontSize="15" />
+                                            <TextBox Text="{Binding Number, Mode=TwoWay}" Width="30"
+                                                     HorizontalAlignment="Left" InputScope="Number"
+                                                     GotFocus="TextBox_GotFocus" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+                <Button Grid.Row="1" HorizontalAlignment="Center" Tapped="AddOption">Fermer</Button>
+            </Grid>
+        </Flyout>
+
+        <Flyout x:Key="commentPopup" x:Name="commentPopup">
+            <Grid Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" x:Name="Comment" TextWrapping="Wrap" AcceptsReturn="True"
+                         Height="100" PlaceholderText="Commentaire..." />
+                <Button Grid.Row="1" HorizontalAlignment="Center" Tapped="AddComment">Valider</Button>
+            </Grid>
+        </Flyout>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -129,7 +172,7 @@
                                                 <DataTemplate>
                                                     <StackPanel Tag="{Binding ID}">
                                                         <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
-                                                                  Toggled="ToggleSwitch_Toggled">
+                                                                  Toggled="ToggleSwitch_Compo">
                                                             <ToggleSwitch.Header>
                                                                 <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" TextWrapping="Wrap" />
                                                             </ToggleSwitch.Header>
@@ -250,7 +293,7 @@
                                                     <DataTemplate>
                                                         <StackPanel Tag="{Binding ID}">
                                                             <ToggleSwitch OnContent="Cacher" OffContent="Afficher" Foreground="Black"
-                                                                  Toggled="ToggleSwitch_Toggled">
+                                                                  Toggled="ToggleSwitch_Compo">
                                                                 <ToggleSwitch.Header>
                                                                     <TextBlock Text="{Binding Name}" FontSize="20" Foreground="Black" TextWrapping="Wrap" />
                                                                 </ToggleSwitch.Header>
@@ -276,6 +319,11 @@
                                                                                        DataContext="{Binding Key}" Text="{Binding Name}"
                                                                                        VerticalAlignment="Center" Margin="15, 0, 0, 0"
                                                                                        TextWrapping="Wrap" />
+                                                                            <AppBarButton Grid.Row="0" Grid.Column="1" Icon="Setting"
+                                                                                          Style="{StaticResource AppBarButtonStyle1}"
+                                                                                          DataContext="{Binding Key}" Foreground="Black"
+                                                                                          FlyoutBase.AttachedFlyout="{StaticResource optionsPopup}"
+                                                                                          Loaded="OptionsButtonLoaded" Tapped="OptionsButtonTapped" />
                                                                             <TextBox Grid.Row="0" Grid.Column="2" InputScope="Number"
                                                                                      LostFocus="TextBoxMenu_LostFocus" Text="0" GotFocus="TextBox_GotFocus"
                                                                                      DataContext="{Binding Key}" Tag="{Binding ID}" />
@@ -303,6 +351,8 @@
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Home" Label="Accueil" Click="Home_Click" />
                 <AppBarButton x:Name="SendOrderButton" Icon="Send" Label="Envoyer" Click="SendOrder" />
+                <AppBarButton x:Name="CommentButton" Icon="Comment" Label="Commenter"
+                              FlyoutBase.AttachedFlyout="{StaticResource commentPopup}" Click="ShowComment" />
                 <AppBarButton x:Name="BackToOrderButton" Icon="Back" Label="Ajouter" Click="BackToOrder" />
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>

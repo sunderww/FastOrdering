@@ -112,7 +112,21 @@ namespace FastOrdering.Model
 			{
 				dish.Key.qty = dish.Value;
 				if (dish.Value > 0)
-					content.Add(dish.Key);
+				{
+					Collection<Option> options = new Collection<Option>();
+					Dish d = new Dish(dish.Key);
+					d.qty = dish.Value;
+					foreach (Option op in dish.Key.options)
+					{
+						foreach (Option subOp in op.SubOptions)
+							if (int.Parse(subOp.Number) > 0)
+								options.Add(subOp);
+						if (int.Parse(op.Number) > 0)
+							options.Add(op);
+					}
+					d.options = options;
+					content.Add(d);
+				}
 			}
 		}
 

@@ -10,9 +10,6 @@ namespace FastOrdering.Model
 		#region Attributes
 		public static ObservableCollection<Dish> dishes = new ObservableCollection<Dish>();
 
-		// useless menucomposition_id
-		public string menucomposition_id = "";
-
 		public string id;
 		[JsonIgnore]
 		public string ID
@@ -37,6 +34,8 @@ namespace FastOrdering.Model
 		public string comment;
 		public Collection<Option> options = new Collection<Option>();
 		[JsonIgnore]
+		public Windows.UI.Xaml.Visibility HasOptions;
+		[JsonIgnore]
 		public string status;
 		private bool available;
 		#endregion
@@ -52,11 +51,27 @@ namespace FastOrdering.Model
 			this.categories = categories_ids;
 			this.comment = "";
 			this.status = "";
-			//foreach (Option op in Option.options)
-			//{
-			//	if (options.Contains(op.ID))
-			//		this.options.Add(op);
-			//}
+			if (options != null)
+				foreach (Option op in Option.options)
+				{
+					if (options.Contains(op.ID))
+						this.options.Add(op);
+				}
+			this.HasOptions = this.options.Count() > 0 ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
+		}
+
+		public Dish(Dish dish)
+		{
+			this.id = dish.id;
+			this.name = dish.name;
+			this.price = dish.price;
+			this.available = dish.available;
+			this.categories = dish.categories;
+			this.comment = "";
+			this.status = "";
+			this.qty = dish.qty;
+			this.options = dish.options;
+			this.HasOptions = dish.HasOptions;
 		}
 
 		public Dish(string id, double price, string name)

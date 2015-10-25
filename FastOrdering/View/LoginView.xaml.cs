@@ -14,6 +14,7 @@ namespace FastOrdering.View
 	{
 		#region Attributes
 		public static Socket sock;
+		private bool connecting;
 		#endregion
 
 		#region Methods
@@ -21,6 +22,7 @@ namespace FastOrdering.View
 		{
 			this.InitializeComponent();
 			ID.Text = "$2a$10$iJadROc3r8A/ERPvgTWHxuGXuEBlPYZjWSjCyPPv6yS.pM7E.naCa";
+			connecting = false;
 		}
 
 		/// <summary>
@@ -38,6 +40,7 @@ namespace FastOrdering.View
 				Frame.Navigate(typeof(ReceptionView));
 			else
 				Socket.Disconnect();
+			connecting = false;
 			return answer;
 		}
 		#endregion
@@ -45,6 +48,9 @@ namespace FastOrdering.View
 		#region AppBar Buttons Methods
 		private void AppBarButton_Click(object sender, RoutedEventArgs e)
 		{
+			if (connecting)
+				return;
+			connecting = true;
 			sock = new Socket();
 			Socket.Authentication(ID.Text, ConnectUser);
 		}

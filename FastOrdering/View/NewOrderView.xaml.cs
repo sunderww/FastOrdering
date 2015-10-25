@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -15,7 +16,6 @@ namespace FastOrdering.View
 	public sealed partial class NewOrderView : Page
 	{
 		#region Attributes
-		private ObservableCollection<Menu> menus = new ObservableCollection<Menu>();
 		public ObservableCollection<Menu> Menus
 		{
 			get { return Menu.menus; }
@@ -67,6 +67,12 @@ namespace FastOrdering.View
 		{
 			foreach (Menu menu in Menu.menus)
 				menu.Dishes.Clear();
+			foreach (Option op in Option.options)
+			{
+				foreach (Option subOp in op.SubOptions)
+					subOp.Number = "0";
+				op.Number = "0";
+			}
 		}
 
 		private void Control_Loaded(object sender, RoutedEventArgs e)
@@ -75,13 +81,6 @@ namespace FastOrdering.View
 				menuList = sender as ListView;
 			else if (sender is Grid)
 				menuCompo = sender as Grid;
-		}
-
-		private void SendOrder(object sender, RoutedEventArgs e)
-		{
-			Socket.SendOrder(ord);
-			Frame.Navigate(typeof(ReceptionView));
-			OnLeave();
 		}
 
 		private void Hub_SectionsInViewChanged(object sender, SectionsInViewChangedEventArgs e)
@@ -130,6 +129,34 @@ namespace FastOrdering.View
 			}
 			BackToOrderButton.Visibility = Visibility.Visible;
 		}
+
+		private void OptionsButtonLoaded(object sender, RoutedEventArgs e)
+		{
+			AppBarButton abb = sender as AppBarButton;
+			Dish dish = abb.DataContext as Dish;
+			abb.Visibility = dish.HasOptions;
+		}
+
+		private void OptionsButtonTapped(object sender, TappedRoutedEventArgs e)
+		{
+			AppBarButton abb = sender as AppBarButton;
+			Dish dish = abb.DataContext as Dish;
+			OptionsList.DataContext = dish;
+			OptionsList.ItemsSource = dish.options;
+			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+		}
+
+		private void AddOption(object sender, TappedRoutedEventArgs e)
+		{
+			optionsPopup.Hide();
+		}
+
+		private void AddComment(object sender, TappedRoutedEventArgs e)
+		{
+			ord.GlobalComment = Comment.Text;
+			Comment.Text = "";
+			commentPopup.Hide();
+		}
 		#endregion
 
 		#region ToggleSwitch Methods
@@ -155,7 +182,7 @@ namespace FastOrdering.View
 			}
 		}
 
-		private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+		private void ToggleSwitch_Compo(object sender, RoutedEventArgs e)
 		{
 			var toggleSwitch = sender as ToggleSwitch;
 			var g = toggleSwitch.Parent as StackPanel;
@@ -174,12 +201,21 @@ namespace FastOrdering.View
 				if (dish.Categories.Contains(g.Tag.ToString()))
 				{
 					MyDictionary<Dish> newDish = new MyDictionary<Dish>();
-					newDish.Key = dish;
+					newDish.Key = new Dish(dish);
 					newDish.Value = 0;
 					dishes.Add(newDish);
 				}
 			}
-			categoriesDishes.Add(new KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>(dishes, g.Tag.ToString()));
+			KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string> cat = new KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string>(dishes, g.Tag.ToString());
+			foreach (KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string> c in categoriesDishes)
+			{
+				if (c.Value == cat.Value)
+				{
+					categoriesDishes.Remove(c);
+					break;
+				}
+			}
+			categoriesDishes.Add(cat);
 			lv.ItemsSource = dishes;
 
 			if (toggleSwitch != null && lv != null)
@@ -240,7 +276,6 @@ namespace FastOrdering.View
 		private void TextBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;
-
 			tb.SelectAll();
 		}
 
@@ -251,43 +286,37 @@ namespace FastOrdering.View
 			bool isAlreadyIn = false;
 
 			foreach (Menu m in ord.Menus)
-			{
 				if (m.IDMenu == MenuIDSelected)
 				{
 					menu = m;
 					isAlreadyIn = true;
 					break;
 				}
-			}
 			if (!isAlreadyIn)
 				foreach (Menu m in Menu.menus)
-				{
 					if (m.IDMenu == MenuIDSelected)
 					{
 						menu = m;
 						break;
 					}
-				}
 			if (menu == null)
 				return;
 
 			foreach (KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string> col in categoriesDishes)
 			{
 				foreach (MyDictionary<Dish> dish in col.Key)
-				{
 					if (dish.Key.ID == tb.Tag.ToString())
 					{
 						foreach (var d in menu.Dishes)
-						{
 							if (d.Key.ID == dish.Key.ID)
 							{
+								dish.Value = d.Value;
 								menu.Dishes.Remove(d);
 								break;
 							}
-						}
 						if (tb.Text.Replace(".", "") == "")
 							tb.Text = "0";
-						dish.Value = int.Parse(tb.Text);
+						dish.Value += int.Parse(tb.Text);
 						if (dish.Value > 0)
 							menu.Dishes.Add(dish);
 						if (menu.Dishes.Count == 0)
@@ -296,7 +325,6 @@ namespace FastOrdering.View
 							ord.Menus.Add(menu);
 						break;
 					}
-				}
 			}
 		}
 
@@ -307,33 +335,27 @@ namespace FastOrdering.View
 			bool isAlreadyIn = false;
 
 			foreach (Menu m in ord.Menus)
-			{
 				if (m.IDMenu == Menu.alacarte.IDMenu)
 				{
 					menu = m;
 					isAlreadyIn = true;
 					break;
 				}
-			}
 			if (!isAlreadyIn)
 				menu = Menu.alacarte;
 			if (menu == null)
 				return;
 
 			foreach (KeyValuePair<ObservableCollection<MyDictionary<Dish>>, string> col in categoriesDishes)
-			{
 				foreach (MyDictionary<Dish> dish in col.Key)
-				{
 					if (dish.Key.ID == tb.Tag.ToString())
 					{
 						foreach (var d in menu.Dishes)
-						{
 							if (d.Key.ID == dish.Key.ID)
 							{
 								menu.Dishes.Remove(d);
 								break;
 							}
-						}
 						if (tb.Text.Replace(".", "") == "")
 							tb.Text = "0";
 						dish.Value = int.Parse(tb.Text);
@@ -345,12 +367,17 @@ namespace FastOrdering.View
 							ord.Menus.Add(menu);
 						break;
 					}
-				}
-			}
 		}
 		#endregion
 
 		#region AppBar Buttons Methods
+		private void SendOrder(object sender, RoutedEventArgs e)
+		{
+			Socket.SendOrder(ord);
+			Frame.Navigate(typeof(ReceptionView));
+			OnLeave();
+		}
+
 		private void BackToOrder(object sender, RoutedEventArgs e)
 		{
 			selectedCompo = null;
@@ -358,6 +385,11 @@ namespace FastOrdering.View
 			menuCompo.Visibility = Visibility.Collapsed;
 			BackToOrderButton.Visibility = Visibility.Collapsed;
 			categoriesDishes.Clear();
+		}
+
+		private void ShowComment(object sender, RoutedEventArgs e)
+		{
+			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
 		}
 
 		private void Home_Click(object sender, RoutedEventArgs e)

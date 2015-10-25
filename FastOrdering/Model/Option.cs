@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -9,17 +10,31 @@ namespace FastOrdering.Model
 		#region Attributes
 		public static ObservableCollection<Option> options = new ObservableCollection<Option>();
 
-		private string id;
+		public string id;
+		[JsonIgnore]
 		public string ID
 		{
 			get { return id; }
 		}
 		private string name;
+		[JsonIgnore]
 		public string Name
 		{
 			get { return name; }
 		}
+		private string number;
+		[JsonIgnore]
+		public string Number
+		{
+			get { return number; }
+			set { number = value; }
+		}
+		public string qty
+		{
+			get { return number; }
+		}
 		private ObservableCollection<Option> subOptions = new ObservableCollection<Option>();
+		[JsonIgnore]
 		public ObservableCollection<Option> SubOptions
 		{
 			get { return subOptions; }
@@ -31,6 +46,7 @@ namespace FastOrdering.Model
 		{
 			this.id = id;
 			this.name = name;
+			this.Number = "0";
 		}
 		#endregion
 	}
