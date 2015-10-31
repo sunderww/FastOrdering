@@ -106,12 +106,14 @@ namespace FastOrdering.Misc
 			return str;
 		}
 
-		private void GetNotification(string str)
+		public void GetNotification(string str)
 		{
 			Notification notif = JsonConvert.DeserializeObject<Notification>(str);
 			Notification.notifications.Add(notif);
 			var toastNotifier = ToastNotificationManager.CreateToastNotifier();
 			var toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText01);
+			var toastElement = toastXml.SelectSingleNode("/toast");
+			(toastElement as XmlElement).SetAttribute("launch", "notification");
 			var toastText = toastXml.GetElementsByTagName("text");
 			(toastText[0] as XmlElement).InnerText = notif.Message;
 			var toast = new ToastNotification(toastXml);

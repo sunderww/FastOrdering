@@ -157,6 +157,17 @@ namespace FastOrdering.View
 			Comment.Text = "";
 			commentPopup.Hide();
 		}
+
+		private void Dish_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			StackPanel sp = sender as StackPanel;
+			Dish dish = sp.Tag as Dish;
+			if (dish.options.Count == 0)
+				return;
+			OptionsList.DataContext = dish;
+			OptionsList.ItemsSource = dish.options;
+			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+		}
 		#endregion
 
 		#region ToggleSwitch Methods

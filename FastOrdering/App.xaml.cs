@@ -90,6 +90,10 @@ namespace FastOrdering
 
 			// Ensure the current window is active
 			Window.Current.Activate();
+
+			if (!string.IsNullOrWhiteSpace(e.Arguments))
+				if (e.Arguments == "notification")
+					rootFrame.Navigate((typeof(NotificationsView)));
 		}
 
 		/// <summary>

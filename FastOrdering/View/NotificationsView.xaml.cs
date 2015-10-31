@@ -1,7 +1,8 @@
-﻿using FastOrdering.Model;
-using FastOrdering.Misc;
+﻿using FastOrdering.Misc;
+using FastOrdering.Model;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -30,6 +31,16 @@ namespace FastOrdering.View
 				BorderNotif.Visibility = Visibility.Visible;
 				NoNotif.Visibility = Visibility.Collapsed;
 			}
+		}
+
+		private void Notif_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			Grid g = sender as Grid;
+			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+
+			foreach (Notification notif in Notification.notifications)
+				if (notif.ID == int.Parse(g.Tag.ToString()))
+					notifText.Text = notif.Message;
 		}
 
 		/// <summary>

@@ -124,7 +124,8 @@
                                                         </ListView.ItemContainerStyle>
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
-                                                                <StackPanel Orientation="Horizontal">
+                                                                <StackPanel Orientation="Horizontal" Tapped="Dish_Tapped" Tag="{Binding Key}"
+                                                                            FlyoutBase.AttachedFlyout="{StaticResource optionsPopup}">
                                                                     <TextBlock Text="{Binding Value}" FontSize="16" TextWrapping="Wrap" />
                                                                     <TextBlock Text="x" FontSize="16" TextWrapping="Wrap" />
                                                                     <TextBlock DataContext="{Binding Key}" Text="{Binding Name}"
