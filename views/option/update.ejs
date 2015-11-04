@@ -54,15 +54,15 @@ d<body class="dashboard-page sb-l-o sb-r-c">
                                                 <div class="col-lg-8">
                                                     <select id="categories" name="optioncategories_ids" multiple="multiple">
                                              <% _.each(categories, function(category) { %>
-                                                 <% _.each(option.optioncategories_ids, function(category_id) { %>
                                                     <% select = "" %>
-
-                                                    <% if (category_id == category.id) { %>
+                                                 <% _.each(category.option, function(category_id) { %>
+                                                    <% if (category_id.id == option.id) { %>
                                                     <% select = "selected" %>
-                                             <%    } %>                                                        
+                                             <%    } %>
+                                                <% }) %>
 
                                                         <option <%= select %> value="<%= category.id %>"><%= category.name %></option>                                          
-                                                <% }) %>                                                        
+                                                                                                        
                                             <% }) %>                                                        
                                                     </select>
                                                 </div>

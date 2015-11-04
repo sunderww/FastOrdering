@@ -11,27 +11,13 @@ module.exports = {
    */
    create: function (req, res) {
     if (req.method=="POST" && req.param("id") == undefined) {
-     OptionServices.create(req, function(options){
-          return res.view({options:options});
-        // });
+     OptionServices.create(req, function(){
+        Option.find( function(err, doc) {
+          return res.view({options:doc});
+        });
      });
-      // OptionCategory.findOne({id:req.param("optioncategories_ids")}).populate("option").exec(function(err, doc){
-      //   if (!err) {
-      //     var OPTIONCATEGORY = doc.option;
-      //     Option.create({name:req.param("name"), option: doc.id}).exec(function (err3, doc2, doc) {
-      //       OPTIONCATEGORY.push(doc2.id);
-      //         OptionCategory.update({id:req.param("optioncategories_ids")}, {option:OPTIONCATEGORY}).exec(function(err2, doc3){
-      //           Option.find( function(err, doc) {
-      //             return res.view({options:OPTIONCATEGORY});
-      //           }); 
-      //       });
-      //     });
-
-      //   }
-      // });
     }
     else {
-
       Option.find( function(err, doc) {
           return res.view({options:doc});
         });
@@ -69,30 +55,16 @@ module.exports = {
    * `OptionController.update()`
    */
   update: function (req, res) {
-    var CATEGORIES;
-    OptionCategory.find(function(err, doc) {
-     CATEGORIES = doc;
-    });
-    if (req.method=="POST") {
-     
-      Option.update({id:req.param("id")},{
-        name:req.param("name"),
-        optioncategories_ids: req.param("optioncategories_ids")
-          }).
-      exec(function(err,model) {
-            if (err) {
-          return res.json({
-            message: err.ValidationError
-              });
-            }
-
-      });
-      res.redirect('/option/create/');
-    }
-     
-    Option.findOne({id: req.param("id")} ,function(err, doc) {
-          return res.view({option:doc, categories: CATEGORIES});
-      }); 
+      if (req.method=="POST") {
+          OptionServices.post_update(req, function(){
+            return res.redirect('/option/create');
+          });
+      }
+      else {
+        OptionServices.pre_update(req, function(options){
+          return res.view({option:options['option'], categories: options['options']});
+        });
+      }
   }
 };
 

@@ -11,17 +11,16 @@ module.exports = {
    * `OptionCategoryController.create()`
    */
   create: function (req, res) {
-    if (req.method=="POST" && req.param("id") == undefined) {
+    if (req.method=="POST" ) {
    	OptionCategory.create({
-   		name:req.param("name"),
-      // option: ["55c74a6f3b516d1b65af3571","55c39cde12ac3eb54d51a539"]
+   		name:req.param("name")
    		}).exec(function(err, model){
-     		if (err)
-     			return res.json({message: err.ValidationError});
-     		else
-     			return res.json({message: "GG"});
+     	   OptionCategory.find( function(err, doc) {
+          return res.view({optioncategories:doc});
+        });      
    	});
     }
+    else 
       OptionCategory.find( function(err, doc) {
           return res.view({optioncategories:doc});
         });      

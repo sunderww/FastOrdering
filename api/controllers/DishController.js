@@ -28,6 +28,11 @@ module.exports = {
 						message: err.ValidationError
 					    });
 				    }
+			else {
+				Dish.find( function(err, doc) {
+		return res.view({dishs:doc});
+   	});
+			}
 		});
 	}else {
 
@@ -74,9 +79,8 @@ module.exports = {
     },
     delete: function (req, res) {
 		    Dish.destroy({id:req.param("id")}).exec(function(err, doc) {
-			     res.json({elements: doc});
+				res.redirect('/dish/create');
 			});
-			res.redirect('/dish/create');
 	},
     update: function (req, res) {
 		var CATEGORIES;

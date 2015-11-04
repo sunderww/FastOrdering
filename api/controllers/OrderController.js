@@ -155,9 +155,12 @@ json: function (req, res) {
   },
 
   getToday: function(req, res) {
-      Order.find().where({"date": moment().format("DD/MM/YYYY")}).exec(function(err, doc) {
+       Order.find(function(err, doc) {
       return res.view({orders:doc});
       });
+      // Order.find().where({"date": moment().format("DD/MM/YYYY")}).exec(function(err, doc) {
+      // return res.view({orders:doc});
+      // });
   },
   gettodayy: function(req, res) {
       Order.find().where({"date": moment().format("DD/MM/YYYY")}).sort("createdAt DESC").exec(function(err, doc) {

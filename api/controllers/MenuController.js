@@ -19,7 +19,7 @@ module.exports = {
     if (req.method=="POST") {
       Menu.create({
         name:req.param("menu_name"),
-        // compo: req.param("compositions_ids"),
+        price: req.param('price'),
       }).exec(function(err,model){
         if (err) {
           return res.json({
@@ -27,34 +27,18 @@ module.exports = {
           });
         }
         else {
-      //     MenuComposition.create({
-      //       name:req.param("name"),
-      //       price:req.param("price"),
-      //       menu_id:model['id'],
-      //       categories_ids: req.param("categories_ids")
-      //     }).exec(function(err, model){
-      //     if (err) {
-      //         return res.json({
-      //             message: err.ValidationError
-      //         });
-      //     }
-      //     else {
-      //         return res.json({
-      //             message: req.param('name') + " has been created"
-      //   });
-      //  }
-      // });
+             Menu.find( function(err, doc) {
+          return res.view({menus:doc});
+        });
         }
       }); 
       }
-    //  if (req.param("id")) {
-    //   Menu.find({id:req.param("id")}, function(err, doc) {
-    //     return res.view({menu: doc});
-    //   });  
-    // }
-        Menu.find( function(err, doc) {
+      else {
+           Menu.find( function(err, doc) {
           return res.view({menus:doc});
         });
+      }
+     
   },
     
  /**
@@ -65,23 +49,12 @@ module.exports = {
   * @return {JSON} Retourne le résultat présent en base de données
   */
   update: function (req, res) {
-    var MENU;
-    var COMPOSITONS;
-    // if (req.method=="POST") {
-    //   for (var i = 0; i < req.param("compositions_ids").length; i++) {
-    //   };
-    // }
-    MenuComposition.find(function(err, doc) {
-      COMPOSITONS = doc;
-    });
-    if (req.param("id")) {
-      Menu.findOne({id:req.param("id")}, function(err, doc) {
-        MENU = doc;
-        MenuComposition.find({menu_id:req.param("id")}, function(err, doc) {
-          return res.view({menu:MENU, selected_compositions:doc, compositions:COMPOSITONS});
-        });
-      });  
-    }
+   MenuServices.update(req.param('id'), req, function(data){
+          if (data[1] == true)
+           return res.redirect('/menu/create');
+          else
+            return res.view(data[0]);
+   });
   },
  /**
   * Permet de recupérer un menu spécifique si un id est présent
@@ -115,9 +88,8 @@ module.exports = {
 
     delete: function(req, res) {
         Menu.destroy({id:req.param("id")}).exec(function(err, doc) {
-           res.json({elements: doc});
+        return res.redirect('/menu/create');
       });
-      res.redirect(307, '/menu/create');
     },
     
 

@@ -27,19 +27,19 @@ module.exports = {
      			});
      		}
      		else {
-     			// res.json({
-     			// 	message: req.param('name') + " has been created"
-     			// });  			
+    DishCategory.find( function(err, doc) {
+            return res.view({categories:doc});
+          });
      		}
 
      	});
     }
-    // else
-    // {
+    else
+    {
     DishCategory.find( function(err, doc) {
             return res.view({categories:doc});
           });
-    // }
+    }
   },
 
 
@@ -63,9 +63,8 @@ module.exports = {
   },
   delete: function (req, res) {
       DishCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
-         res.json({elements: doc});
+        res.redirect('/dishcategory/create');
     });
-      res.redirect(307, '/dishcategory/create');
   },
   update: function (req, res) {
     if (req.method=="POST") {

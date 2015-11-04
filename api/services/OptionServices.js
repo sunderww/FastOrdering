@@ -3,34 +3,55 @@ module.exports = {
 	
 	create: function(req, cb) {
 		console.log("createOption");
-		var ret;
 		Promise.all([
-			OptionCategory.findOne({id:req.param("optioncategories_ids")}).populate("option")
+			OptionCategory.findOne({id:req.param("optioncategories_ids")}),
+			Option.create({name:req.param("name")})
 		])
-		.spread(function(options){
-			 	console.log(0);
-
- 			Option.create({name:req.param("name"), option: options.id}).exec(function (err, mod) {
-            	console.log(1);
-          
-            });
-
-            OptionCategory.update({id:req.param("optioncategories_ids")}, 
-            		{option:options}).exec(function(err2, doc3){
-           		console.log(2);
-            });
-		})
-		.spread(function(){
-		 
+		.spread(function(options, option){
+          	options.option.add(option);
+            options.save();
 		})
 		.catch(function(err){
 			cb(err);
 		})
 		.done(function(){
-			 Option.find( function(err, doc) {
-		  	// ret = doc;
-			return cb(doc);
-	        });
-		});
-      }
+			return cb();
+      });
+	},
+
+	pre_update: function(req, cb){
+		var ret = new Array();
+		Promise.all([
+			OptionCategory.find().populate("option"),
+			Option.findOne({id: req.param("id")}),
+		])
+		.spread(function(options, option){
+    		ret = {'option': option, 'options': options};
+		})
+		.catch(function(err){
+			cb(err);
+		})
+		.done(function(){
+			return cb(ret);
+      	});
+	},
+
+	post_update: function(req, cb) {
+		Promise.all([
+			OptionCategory.findOne({id:req.param("optioncategories_ids")}),
+    		Option.destroy({id:req.param("id")})
+		])
+		.spread(function(options){
+			Option.create({id:req.param('id'), name:req.param('name')}).exec(function(err, option){
+				options.option.add(option);
+    			options.save();
+			});
+		})
+		.catch(function(err){
+			cb(err);
+		})
+		.done(function(){
+			return cb(null);
+      	});		
+	}
 }

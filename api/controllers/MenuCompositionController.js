@@ -19,7 +19,6 @@ module.exports = {
   create: function (req, res) {
     MenuComposition.create({
       name:req.param("name"),
-      price:req.param("price"),
       menu_id:req.param("menu_id"),
       categories_ids: req.param("categories_ids")
     }).exec(function(err, model){
