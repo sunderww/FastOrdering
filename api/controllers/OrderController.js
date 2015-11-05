@@ -176,10 +176,16 @@ json: function (req, res) {
     },
 
     getDetails: function(req, res){
-	OrderServices.getDetails(req,function(result){
-	    console.log(result);
-	    return res.json(result);
-	});
+      OrderedDish.find({order_id: req.param('id_command')}, function(err, ret){
+        console.log("orderrr");
+        return res.json(ret);
+      });
+    },
+    getDetailsOrder: function(req, res) {
+      OrderServices.getOneDetail(req,function(result){
+    	    console.log(result);
+    	    return res.json(result);
+    	});
     },
 
 };

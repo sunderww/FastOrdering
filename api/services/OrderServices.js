@@ -7,49 +7,91 @@
 var Promise = require('q');
 module.exports = {
 
-    getOneDetail: function(ordered, cb){
+    getOneDetail: function(req,cb){
 	var ret = "";
-	return Promise.all([
-	    Dish.findOne({id:ordered.dish_id}),
-	    Menu.findOne({id:ordered.menu_id})
+	Promise.all([
+	    Dish.findOne({id:req.param('dish_id')}),
+	    Menu.findOne({id:req.param('menu_id')}),
+	    Order.findOne({id:req.param('order_id')})
 	])
-            .spread(function(dish, menu){
-		console.log("GGGGGG");
-                            var ready = (ordered.status == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
-                            ret = '<div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form"><h3>Menu - ' + menu.elements.name  + '</h3>        <div style="height:30px"><span class="element-zoom" style="float:left;font-size:40px;">' + ordered[e].qty + '</span><span class="element-zoom" style="width:100px; float:left !important;">' + dish[0].name + '</span><span class="element-zoom">'+ordered[e].comment+'</span></div></br><div><span id="' + ordered[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div></div>';
+            .spread(function(dish, menu, order){
+			 var ready = (req.param('status') == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
+                            ret = '<div style="display:inline-block !important;width:500px;margin:0px;'
+                            + 'height:30px" class="admin-form"><h3>Menu - ' + menu.name  
+                            + '</h3><div style="height:30px"><span class="element-zoom" style="float:'
+                            + 'left;font-size:40px;">' + order.qty 
+                            + '</span><span class="element-zoom" style="width:100px;'
+                            + ' float:left !important;">' + dish.name
+                            + '</span><span class="element-zoom">'+order.comment
+                            + '</span></div></br><div><span id="' + order.id + '"><button  class="' 
+                            + ready 
+                            + ' ">Pret</button><button class="btn btn-primary question">'
+                            + 'Serveur</button></span></span></div><span></div></div>';
 	    })
 	    .catch(function(err){
 		cb(err);
+	    })
+	    .done(function(){
+	    	console.log(ret);
+			cb(ret);
 	    });
     },
 
+    getOrders: function(ret) {
+		var ret;
+		Promise.all([
+ 		OrderedDish.find({order_id: req.param('id_command')})
+ 		]).spread(function(ord){
+ 			ret = ord;
+ 		return ret;
+ 		});
+ 		return ret;
+    },
 
 
     getDetails: function(req, cb){
-        var ret = new Array();
+//         var ret = new Array();
+// return getOrders(req)
+// .then(er, getOneDetail() {
+// 	console.log(er);
+// })
+// .then(function (user) {
+//     // if we get here without an error,
+//     // the value returned here
+//     // or the exception thrown here
+//     // resolves the promise returned
+//     // by the first line
+// });
+// 	Promise.all([
+// 	    OrderedDish.find({order_id: req.param('id_command')})
+// 	])
+// // 	    .spread(function(ordered){
+// // 		for (var e = 0; ordered[e]; e++) {
+// // 		    ret[e] = OrderServices.getOneDetail(ordered[e]);
+// // 		};
+// // })
+// 	    .then(function(){
+// 		// cb(ret);
+// 		Dish.findOne({id:ordered.dish_id}).exec(function(err,mod){
+// 		console.log("toto");
 
-	Promise.all([
-	    OrderedDish.find({order_id: req.param('id_command')})
-	])
-	    .spread(function(ordered){
-		for (var e = 0; ordered[e]; e++) {
-		    ret[e] = OrderServices.getOneDetail(ordered[e]);
-		};
-})
-	    .spread(function(){
-		cb(ret);
-})
-.catch(function(err){
-    cb(err);
-})
-    .done(function(){
-	for(var i = 0;ret[i];i++) {
-	    ret[i]
-	};
-	console.log("SORTIE");
-	console.log(ret);
-//	return cb(ret);
-    });
+// 		});
+// })
+// 	    .then(function(){
+// 		console.log("toto1");
+
+// 	    })
+// .catch(function(err){
+//     cb(err);
+// })
+//     .done(function(){
+// 	// for(var i = 0;ret[i];i++) {
+// 	//     ret[i]
+// 	// };
+// 	console.log("SORTIE");
+// 	console.log(ret);
+// //	return cb(ret);
+//     });
 },
 
 	getOneOrder: function(order_id, cb){
