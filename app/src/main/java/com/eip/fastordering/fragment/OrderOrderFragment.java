@@ -98,19 +98,23 @@ public class OrderOrderFragment extends Fragment {
     }
 
     private static void checkListEmpty() {
-        if (_mRootView != null) {
-            ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_order_rectangle);
-            TextView text = (TextView) _mRootView.findViewById(R.id.order_order_button_text);
-            if (_mListAdapter.get_listDataHeader() != null) {
-                if (_mListAdapter.get_listDataHeader().isEmpty()) {
-                    button.setVisibility(View.GONE);
-                    text.setVisibility(View.GONE);
-                } else {
-                    button.setVisibility(View.VISIBLE);
-                    text.setVisibility(View.VISIBLE);
-                }
-            }
-        }
+		ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_order_rectangle);
+		TextView text = (TextView) _mRootView.findViewById(R.id.order_order_button_text);
+		button.setVisibility(View.VISIBLE);
+		text.setVisibility(View.VISIBLE);
+//        if (_mRootView != null) {
+//            ImageButton button = (ImageButton) _mRootView.findViewById(R.id.order_order_rectangle);
+//            TextView text = (TextView) _mRootView.findViewById(R.id.order_order_button_text);
+//            if (_mListAdapter.get_listDataHeader() != null) {
+//                if (_mListAdapter.get_listDataHeader().isEmpty()) {
+//                    button.setVisibility(View.GONE);
+//                    text.setVisibility(View.GONE);
+//                } else {
+//                    button.setVisibility(View.VISIBLE);
+//                    text.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }
     }
 
     static void addMenuToOrder(String menuId, HashMap<String, String> dishes) {
