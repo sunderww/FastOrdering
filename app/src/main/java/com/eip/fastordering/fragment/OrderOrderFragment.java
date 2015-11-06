@@ -291,7 +291,6 @@ public class OrderOrderFragment extends Fragment {
                         orderJSON.put("numOrder", _mDetails.get_mNumOrder());
                     }
 
-                    Log.d("COMMANDE READY", orderJSON.toString());
                     Toast.makeText(_mRootView.getContext(), R.string.order_send_success, Toast.LENGTH_SHORT).show();
 
 
@@ -327,6 +326,7 @@ public class OrderOrderFragment extends Fragment {
                     orderJSON.put("order", arrMenus);
                     //TODO END FORCED ORDER FOR ALEXIS
 
+                    Log.d("COMMANDE READY", orderJSON.toString());
 
                     LoginActivity._mSocket.emit("send_order", orderJSON, new Ack() {
                         @Override
