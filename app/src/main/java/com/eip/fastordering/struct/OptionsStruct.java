@@ -1,6 +1,9 @@
 package com.eip.fastordering.struct;
 
+import com.eip.fastordering.customs.StockMenu;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -12,13 +15,14 @@ import java.util.Map;
 public class OptionsStruct {
 
     private Map<String, OptionItemStruct> _listOptions;
+    private static OptionsStruct _instance = null;
 
     /**
      * Constructor
      *
      * @param optionsJson
      */
-    public OptionsStruct(JSONObject optionsJson) {
+    private OptionsStruct(JSONObject optionsJson) {
         JSONArray optionsArray;
         try {
             _listOptions = new HashMap<>();
@@ -30,6 +34,16 @@ public class OptionsStruct {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static OptionsStruct getInstance() {
+        if (_instance == null)
+            try {
+                _instance = new OptionsStruct(new JSONObject(StockMenu.instance().read("/options")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        return  _instance;
     }
 
     /**

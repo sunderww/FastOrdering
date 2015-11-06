@@ -41,8 +41,6 @@ public class DialogOrder {
 	 * @param fullOrder
 	 */
 	public DialogOrder(Activity activity, Fragment frag, JSONObject fullOrder) {
-		//super(activity);
-
 		_mContent = new ArrayList<>();
 		_mOrderDetailed = fullOrder;
 		_mActivity = (FragmentActivity) activity;

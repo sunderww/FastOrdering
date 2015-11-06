@@ -16,12 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eip.fastordering.R;
+import com.eip.fastordering.dialog.DialogOptions;
 import com.eip.fastordering.fragment.OrderCardFragment;
 import com.eip.fastordering.fragment.OrderFragment;
 import com.eip.fastordering.fragment.OrderMenuCompoFragment;
 import com.eip.fastordering.fragment.OrderOrderFragment;
 import com.eip.fastordering.struct.DataDishStruct;
 import com.eip.fastordering.struct.MenuStruct;
+import com.eip.fastordering.struct.OptionsStruct;
 
 import java.util.HashMap;
 import java.util.List;
@@ -147,7 +149,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                     @Override
                     public boolean onLongClick(View view) {
                         System.out.println("LONG CLICK GPOS=" + _groupPosition + " CPOS=" + _childPosition);
-                        System.out.println(((TextView)(getChildView(_groupPosition, _childPosition, false, null, null).findViewById(R.id.lblListItemRadio))).getTag().toString());
+                        String idDish = ((TextView) (getChildView(_groupPosition, _childPosition, false, null, null).findViewById(R.id.lblListItemRadio))).getTag().toString();
+                        System.out.println(idDish);
+                        List<String> listOptionsDish = OrderFragment.get_mElements().get(idDish).get_mIdsOptions();
+
+                        DialogOptions dialogOptions = null;
+
+                        if (listOptionsDish != null && !listOptionsDish.isEmpty()) {
+                            System.out.println("Current dish has options which are :");
+                            for (String optionCatID : listOptionsDish) {
+                                System.out.println("ID=" + optionCatID);
+                                System.out.println("Name=" + OptionsStruct.getInstance().getNameGroupOptionById(optionCatID));
+                                System.out.println("With options :");
+                                for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().values()) {
+                                    System.out.println(values);
+                                }
+                                dialogOptions = new DialogOptions(_mFACtivity, listOptionsDish);
+                            }
+                        } else {
+                            System.out.println("Dish has no options");
+                            dialogOptions = new DialogOptions(_mFACtivity, null);
+                        }
+                        dialogOptions.customView().show();
 
                         return false;
                     }

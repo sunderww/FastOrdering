@@ -77,7 +77,7 @@ public class OrderFragment extends Fragment {
 	 */
 	public static void fetchOptions() {
 		try {
-			_mOptions = new OptionsStruct(new JSONObject(StockMenu.instance().read("/options")));
+			_mOptions = OptionsStruct.getInstance();
 //			_mOptions = new OptionsStruct(new JSONObject(_mActivity.getSharedPreferences("DATACARD", 0).getString("/options", "toto")));
 		} catch (Exception e) {
 			e.printStackTrace();

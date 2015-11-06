@@ -86,4 +86,7 @@
     <string name="order_order_order_missing">Veuillez ajouter au moins un plat</string>
     <string name="order_added_success">Ajouté à la commande</string>
     <string name="order_send_success">Commande envoyée</string>
+    <string name="dialog_options_title">Options</string>
+    <string name="dialog_options_positive">Valider</string>
+    <string name="dialog_options_cancel">Annuler</string>
 </resources>
