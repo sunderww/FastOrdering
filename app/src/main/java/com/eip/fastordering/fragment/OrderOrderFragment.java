@@ -311,6 +311,7 @@ public class OrderOrderFragment extends Fragment {
 
                     menu = new JSONObject();
                     menu.put("menuId", "572abe8049bb4c97702057db");
+					menu.put("content", content);
 
                     arrMenus = new JSONArray();
                     arrMenus.put(menu);
