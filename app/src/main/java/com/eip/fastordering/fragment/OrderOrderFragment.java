@@ -234,16 +234,16 @@ public class OrderOrderFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (_mListAdapter.getGroupCount() <= 0) {
-                    Toast.makeText(getActivity(), R.string.order_order_order_missing, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (((EditText) _mRootView.findViewById(R.id.order_order_table_edit)).getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), R.string.order_order_table_missing, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (((EditText) _mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), R.string.order_order_pa_missing, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (_mListAdapter.getGroupCount() <= 0) {
+//                    Toast.makeText(getActivity(), R.string.order_order_order_missing, Toast.LENGTH_SHORT).show();
+//                    return;
+//                } else if (((EditText) _mRootView.findViewById(R.id.order_order_table_edit)).getText().toString().equals("")) {
+//                    Toast.makeText(getActivity(), R.string.order_order_table_missing, Toast.LENGTH_SHORT).show();
+//                    return;
+//                } else if (((EditText) _mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString().equals("")) {
+//                    Toast.makeText(getActivity(), R.string.order_order_pa_missing, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 
                 JSONObject orderJSON = new JSONObject();
                 JSONObject dish;
