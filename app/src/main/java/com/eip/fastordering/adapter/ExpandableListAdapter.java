@@ -140,17 +140,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                 final ViewHolder holder = new ViewHolder();
                 holder.edtCode = (EditText) convertView.findViewById(R.id.nbDish);
                 holder.edtCode.setOnTouchListener(this);
-                holder.childPos = childPosition;
-                holder.groupPos = groupPosition;
+                convertView.setTag(holder);
+
                 convertView.setOnTouchListener(this);
                 convertView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
                         System.out.println("LONG CLICK GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+                        System.out.println(((TextView)(getChildView(_groupPosition, _childPosition, false, null, null).findViewById(R.id.lblListItemRadio))).getTag().toString());
+
                         return false;
                     }
                 });
-                convertView.setTag(holder);
 
                 TextView txt = (TextView) convertView.findViewById(R.id.lblListItemRadio);
                 txt.setTag(_listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition));
@@ -178,8 +179,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             pos.childPos = childPosition;
             pos.groupPos = groupPosition;
             nb.setTag(pos);
-//            convertView.setTag(pos);
-
+            ((ViewHolder) convertView.getTag()).groupPos = groupPosition;
+            ((ViewHolder) convertView.getTag()).childPos = childPosition;
         }
         txtListChild.setText(childText);
 
@@ -263,24 +264,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         return true;
     }
 
-//    final Handler handler = new Handler();
-//    Runnable mLongPressed = new Runnable() {
-//        public void run() {
-//            Log.i("", "Long press!");
-//            System.out.println("GPOS=" + _groupPosition + " CPOS=" + _childPosition);
-//        }
-//    };
-
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-//        if (event.getAction() == MotionEvent.ACTION_DOWN)
-//            handler.postDelayed(mLongPressed, 1000);
-//        if ((event.getAction() == MotionEvent.ACTION_MOVE) || (event.getAction() == MotionEvent.ACTION_UP))
-//            handler.removeCallbacks(mLongPressed);
-
-//        System.out.println("" + view.toString());
         if (view instanceof EditText) {
-//            System.out.println("IN EDITTEXT");
+            System.out.println("===================");
             EditText editText = (EditText) view;
             _groupPosition = ((PosHolder) editText.getTag()).groupPos;
             _childPosition = ((PosHolder) editText.getTag()).childPos;
@@ -290,7 +277,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
         } else {
-//            System.out.println("IN OTHERS");
+            System.out.println("===================");
 
             //TODO Commented
             ViewHolder holder = (ViewHolder) view.getTag();
@@ -298,14 +285,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             holder.edtCode.setFocusableInTouchMode(false);
             _groupPosition = holder.groupPos;
             _childPosition = holder.childPos;
+            System.out.println("2 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
 
-//            PosHolder posHolder = (PosHolder) view.getTag();
-//            if (posHolder != null) {
-                System.out.println("2 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
-//                _groupPosition = posHolder.groupPos;
-//                _childPosition = posHolder.childPos;
-//            }
-
+            System.out.println(((TextView)(getChildView(_groupPosition, _childPosition, false, null, null).findViewById(R.id.lblListItemRadio))).getTag().toString());
 
             if (_mElement) {
                 InputMethodManager inputMethodManager = (InputMethodManager) _mFACtivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
