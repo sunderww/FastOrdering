@@ -263,7 +263,7 @@ public class OrderOrderFragment extends Fragment {
 
 								//TODO Add fields
 								dish.put("comment", "blabla");
-								dish.put("cuisson", "cramé");
+//								dish.put("cuisson", "cramé");
 
 								content.put(dish);
 							}
