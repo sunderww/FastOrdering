@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -171,7 +172,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                             dialogOptions = new DialogOptions(_mFACtivity, null);
                         }
                         dialogOptions.customView().show();
-
+                        dialogOptions.getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                        dialogOptions.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                         return false;
                     }
                 });
@@ -290,17 +292,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (view instanceof EditText) {
-            System.out.println("===================");
+//            System.out.println("===================");
             EditText editText = (EditText) view;
             _groupPosition = ((PosHolder) editText.getTag()).groupPos;
             _childPosition = ((PosHolder) editText.getTag()).childPos;
-            System.out.println("1 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+//            System.out.println("1 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
 
             editText.setSelectAllOnFocus(true);
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
         } else {
-            System.out.println("===================");
+//            System.out.println("===================");
 
             //TODO Commented
             ViewHolder holder = (ViewHolder) view.getTag();
@@ -308,9 +310,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             holder.edtCode.setFocusableInTouchMode(false);
             _groupPosition = holder.groupPos;
             _childPosition = holder.childPos;
-            System.out.println("2 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+//            System.out.println("2 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
 
-            System.out.println(((TextView)(getChildView(_groupPosition, _childPosition, false, null, null).findViewById(R.id.lblListItemRadio))).getTag().toString());
+//            System.out.println(((TextView)(getChildView(_groupPosition, _childPosition, false, null, null).findViewById(R.id.lblListItemRadio))).getTag().toString());
 
             if (_mElement) {
                 InputMethodManager inputMethodManager = (InputMethodManager) _mFACtivity.getSystemService(Activity.INPUT_METHOD_SERVICE);

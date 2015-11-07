@@ -185,6 +185,9 @@ public class LoginActivity extends Activity {
                             if (rep.getBoolean("answer")) {
                                 fetchAllMenu();
                             }
+                            else {
+                                Log.d("LOGIN ACTIVITY", "Connection denied");
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -212,7 +215,8 @@ public class LoginActivity extends Activity {
         }).on("receive_order", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                //TODO To check, maybe jobj "body" to delete
+                Log.d("RECEIVEORDER", "NOTIF ORDER");
+                Log.d("RECEIVEORDER", "NOTIF=" + (JSONObject) args[0]);
                 HistoryFragment.addOrderToList((JSONObject) args[0]);
             }
         }).on("notifications", new Emitter.Listener() {

@@ -22,6 +22,7 @@ public class DialogOptions {
     private FragmentActivity _mActivity;
     private List<String> _options;
     private SparseArray<Group> groups = new SparseArray<Group>();
+    private AlertDialog dialog;
 
     /**
      * Constructor
@@ -51,26 +52,21 @@ public class DialogOptions {
             }
         });
 
-        String todisplay = "";
-        String lineSep = System.getProperty("line.separator");
-
-        if (_options != null && !_options.isEmpty()) {
-//            for (String optionCatID : _options) {
-//                todisplay += OptionsStruct.getInstance().getNameGroupOptionById(optionCatID) + lineSep;
-//                for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().values()) {
-//                    todisplay += values + lineSep;
-//                }
-//            }
+        if (_options != null && !_options.isEmpty())
             createData(_options);
-        }
-//        ((TextView) view.findViewById(R.id.dialog_options)).setText(todisplay);
 
         ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.listView);
-        MyExpandableListAdapter adapter = new MyExpandableListAdapter(_mActivity, groups);
+
+        dialog = builder.create();
+
+        MyExpandableListAdapter adapter = new MyExpandableListAdapter(_mActivity, groups, dialog);
         listView.setAdapter(adapter);
 
+        return dialog;
+    }
 
-        return builder.create();
+    public AlertDialog getDialog() {
+        return dialog;
     }
 
     public void createData(List<String> _options) {

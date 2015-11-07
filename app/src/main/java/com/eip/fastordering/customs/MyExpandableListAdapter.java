@@ -5,15 +5,16 @@ package com.eip.fastordering.customs;
  */
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eip.fastordering.R;
 
@@ -22,11 +23,13 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private final SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Activity activity;
+    private AlertDialog dialog;
 
-    public MyExpandableListAdapter(Activity act, SparseArray<Group> groups) {
+    public MyExpandableListAdapter(Activity act, SparseArray<Group> groups, AlertDialog dialog) {
         activity = act;
         this.groups = groups;
         inflater = act.getLayoutInflater();
+        this.dialog = dialog;
     }
 
     @Override
@@ -43,18 +46,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final String children = (String) getChild(groupPosition, childPosition);
-        TextView text = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_radio, null);
         }
-        text = (TextView) convertView.findViewById(R.id.lblListItemRadio);
-        text.setText(children);
-        convertView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(activity, children, Toast.LENGTH_SHORT).show();
-            }
-        });
+        ((TextView) convertView.findViewById(R.id.lblListItemRadio)).setText(children);
         return convertView;
     }
 
@@ -97,6 +92,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         Group group = (Group) getGroup(groupPosition);
         ((CheckedTextView) convertView).setText(group.string);
         ((CheckedTextView) convertView).setChecked(isExpanded);
+
+        convertView.setOnTouchListener(new GroupTouchListener());
+
         return convertView;
     }
 
@@ -108,5 +106,14 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    private class GroupTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            InputMethodManager inputMethodManager = (InputMethodManager) dialog.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(dialog.getCurrentFocus().getWindowToken(), 0);
+            return false;
+        }
     }
 }
