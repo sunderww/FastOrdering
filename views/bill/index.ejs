@@ -1,0 +1,144 @@
+<body class="dashboard-page sb-l-o sb-r-c">
+    
+    <!-- Start: Main -->
+    <div id="main">
+        
+        <% include ../header.ejs %>
+        <% include ../sidebar.ejs %>
+        
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+            
+            
+            
+            <!-- Start: Topbar -->
+            <header id="topbar">
+                <div class="topbar-left">
+                    <ol class="breadcrumb">
+                        <li class="crumb-active">
+                            <a href="">Options</a>
+                        </li>
+                        <li class="crumb-icon">
+                            <a href="/dashboard">
+                                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+                        </li>
+                        <li class="crumb-link">
+                            <a href="dashboard">Accueil</a>
+                        </li>
+                        <li class="crumb-trail">Gérer les utilisateurs</li>
+                    </ol>
+                </div>
+                
+            </header>
+            <!-- End: Topbar -->
+            
+            
+            
+            <!-- Begin: Content -->
+            <section id="content" class="animated fadeIn">
+                <!-- Dashboard Tiles -->
+                
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-title">Utilisateur :</span>
+                        </div>
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Email :</td>
+                                <td>Clé :</td>
+                                <td>Rôle :</td>
+                                <td>Date de création :</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <% _.each(users, function(user) { %>
+                                <tr data-id="<%= user.id %>" data-model="user">
+                                    <td><%= user.email %></td>
+                                    <% if (user.key) { %>
+                                        <td><%= user.key.code %></td>
+                                        <% } else { %>
+                                            <td></td>
+                                            <% } %>
+                                            
+                                            <% if (user.role == 4) { %>
+                                                <td><span class="glyphicons glyphicons-crown"></span></td>
+                                            <% } else if (user.role == 2) { %>
+                                                <td><span class="glyphicons glyphicons-pot"></span></td>
+                                            <% } else if (user.role == 1) { %>
+                                                <td><span class="glyphicons glyphicons-cutlery"></span></td>
+                                            <% } %>
+                                            <td><%= user.createdAt %></td>
+                                            <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Editer</a></td>
+                                            <% if (user.role != 4) { %>
+                                                <td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Supprimer</a></td> 
+                                            <% } else { %>
+                                                <td></td>
+                                            <% } %>
+                                            </tr>
+                                            <% }) %>
+                                        </table>
+                                    </div>
+                                
+                                    <div class="panel">
+                                        <div class="panel-heading">
+                                            <span class="panel-title">Clés :</span>
+                                        </div>
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <td>Code :</td>
+                                                <td></td>
+                                            </tr>
+                                            <% _.each(keys, function(key) { %>
+                                                <tr data-id="<%= key.id %>" data-model="key">
+                                                    <td><%= key.code %></td>
+                                                    <td><a href="/key/<%= key.id %>/activate" class="btn btn-sm btn-success">Activer</a></td>
+                                                </tr>
+                                                <% }) %>
+                                            </table>
+                                            <div class="panel-menu">
+                                                <a href="/user/create_key" class="btn btn-sm btn-success">Ajouter une clé</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                
+                                <!-- End: Main -->
+                                
+                                <!-- BEGIN: PAGE SCRIPTS -->
+                                
+                                <!-- jQuery -->
+                                <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+                                <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+                                <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+                                
+                                <!-- Bootstrap -->
+                                <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+                                
+                                <!-- Theme Javascript -->
+                                <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+                                <script type="text/javascript" src="../assets/js/main.js"></script>
+                                <script type="text/javascript" src="../assets/js/demo.js"></script>
+                                
+                                
+                                <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+                                <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+                                
+                                <!-- Bootstrap -->
+                                <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+                                
+                                <!-- Page Plugins -->
+                                <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+                                
+                                <!-- Admin Forms Javascript -->
+                                <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
+                                <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
+                                <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
+                                <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
+                                <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
+                                
+                                <!-- Theme Javascript -->
+                                <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+                                <script type="text/javascript" src="../assets/js/main.js"></script>
+                                <script type="text/javascript" src="../assets/js/demo.js"></script>
