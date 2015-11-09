@@ -53,7 +53,7 @@ module.exports = {
   edit: function(req, res){
   	Booking.findOne(req.param('id'), function foundBooking(err, booking) {
   		if (err) 
-            return res.serveError(err);
+            return res.serverError(err);
   		if (!booking) 
             return res.notFound();
 
