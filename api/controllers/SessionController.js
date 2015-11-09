@@ -63,11 +63,11 @@ module.exports = {
         });
     },
     
-    'loginFromPhone' : function(req, res) {
+    'loginFromPhone' : function(json, res) {
 //	return ;
 	console.log("authentication");
 //	console.log(req.param['user_key'])//
-	console.log(req.param('user_key'));
+	console.log(json);
 	
 	console.log(sails.request.allParams);
 	return;

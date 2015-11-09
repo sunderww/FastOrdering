@@ -52,10 +52,9 @@ module.exports = {
       defaultsTo: "ordered"
     }, 
     options :{
-      type:"array", 
-      defaultsTo: []
-      // collection: "OrderedOption",
-      // via: "option"
+      collection: "OrderedOption",
+      required: false
+      // type: 'array'
     },
     /**
     * Id du menu
@@ -66,8 +65,6 @@ module.exports = {
     */
     menu_id: {type: "integer", required: true},
     
-    menucomposition_id: {type: "integer", required: false},
-    categorieoption_id: {type: "integer", required: false},
     /**
     * Commentaire
     * 
@@ -75,5 +72,14 @@ module.exports = {
     * @type {String}
     */ 
   	comment: 'string',
-  }
+  },
+  // enroll: function (id, cb) {
+
+  //   OrderedOption.findOne(options.id).exec(function (err, theUser) {
+  //     if (err) return cb(err);
+  //     if (!theUser) return cb(new Error('User not found.'));
+  //     theUser.enrolledIn.add(options.courses);
+  //     theUser.save(cb);
+  //   });
+  // }
 };

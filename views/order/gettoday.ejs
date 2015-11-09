@@ -171,7 +171,7 @@
                for (var i = 0; i < ordered.length; i++) {
                             console.log(ordered[i]);
                    
-                io.socket.get('/order/getDetailsOrder?order_id='+ ordered[i].order_id +'&menu_id=' + ordered[i].menu_id + '&'+'dish_id=' + ordered[i].dish_id, function (ret, response) {
+                io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order_id +'&menu_id=' + ordered[i].menu_id + '&'+'dish_id=' + ordered[i].dish_id, function (ret, response) {
                             console.log(response);
                             $(".dish-zoom").html(response.body);
                     });

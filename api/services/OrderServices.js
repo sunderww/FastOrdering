@@ -6,93 +6,45 @@
 
 var Promise = require('q');
 module.exports = {
+	ready: function(req, cb) {
 
+	},
     getOneDetail: function(req,cb){
-	var ret = "";
-	Promise.all([
-	    Dish.findOne({id:req.param('dish_id')}),
-	    Menu.findOne({id:req.param('menu_id')}),
-	    Order.findOne({id:req.param('order_id')})
-	])
-            .spread(function(dish, menu, order){
-			 var ready = (req.param('status') == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
-                            ret = '<div style="display:inline-block !important;width:500px;margin:0px;'
-                            + 'height:30px" class="admin-form"><h3>Menu - ' + menu.name  
-                            + '</h3><div style="height:30px"><span class="element-zoom" style="float:'
-                            + 'left;font-size:40px;">' + order.qty 
-                            + '</span><span class="element-zoom" style="width:100px;'
-                            + ' float:left !important;">' + dish.name
-                            + '</span><span class="element-zoom">'+order.comment
-                            + '</span></div></br><div><span id="' + order.id + '"><button  class="' 
-                            + ready 
-                            + ' ">Pret</button><button class="btn btn-primary question">'
-                            + 'Serveur</button></span></span></div><span></div></div>';
+		console.log("getOneDetail");
+		var ret = "";
+		Promise.all([
+		    OrderedOption.find().where({"ordered_dish":req.param('ordered_dish')}).populate('option'),
+		    Dish.findOne({id:req.param('dish_id')}),
+		    Menu.findOne({id:req.param('menu_id')}),
+		    Order.findOne({id:req.param('order_id')}),
+		    OrderedDish.findOne({id:req.param('ordered_dish')}),
+		])
+        .spread(function(opt, dish, menu, order, ordered_dish){
+        	var s_options = "</br>";
+        	opt.forEach(function(option){
+        		s_options = s_options + "</br>" + option.qty + " " + option.option.name;
+        	});
+
+		    var ready = (req.param('status') == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
+            ret = '<div style="display:inline-block !important;width:500px;margin:0px;'
+            + 'height:30px" class="admin-form"><h3>Menu - ' + menu.name  
+            + '</h3><div style="height:30px"><span class="element-zoom" style="float:'
+            + 'left;font-size:40px;">' + ordered_dish.qty 
+            + '</span><span class="element-zoom" style="width:100px;'
+            + ' float:left !important;">' + dish.name + " " + s_options + " "
+            + '</span><span class="element-zoom">'+ordered_dish.comment
+            + '</span></div></br><div><span id="' + order.id + '"><button  class="' 
+            + ready 
+            + ' ">Pret</button><button class="btn btn-primary question">'
+            + 'Serveur</button></span></span></div><span></div></div>';
 	    })
 	    .catch(function(err){
-		cb(err);
+			console.log(err);
 	    })
 	    .done(function(){
-	    	console.log(ret);
 			cb(ret);
 	    });
     },
-
-    getOrders: function(ret) {
-		var ret;
-		Promise.all([
- 		OrderedDish.find({order_id: req.param('id_command')})
- 		]).spread(function(ord){
- 			ret = ord;
- 		return ret;
- 		});
- 		return ret;
-    },
-
-
-    getDetails: function(req, cb){
-//         var ret = new Array();
-// return getOrders(req)
-// .then(er, getOneDetail() {
-// 	console.log(er);
-// })
-// .then(function (user) {
-//     // if we get here without an error,
-//     // the value returned here
-//     // or the exception thrown here
-//     // resolves the promise returned
-//     // by the first line
-// });
-// 	Promise.all([
-// 	    OrderedDish.find({order_id: req.param('id_command')})
-// 	])
-// // 	    .spread(function(ordered){
-// // 		for (var e = 0; ordered[e]; e++) {
-// // 		    ret[e] = OrderServices.getOneDetail(ordered[e]);
-// // 		};
-// // })
-// 	    .then(function(){
-// 		// cb(ret);
-// 		Dish.findOne({id:ordered.dish_id}).exec(function(err,mod){
-// 		console.log("toto");
-
-// 		});
-// })
-// 	    .then(function(){
-// 		console.log("toto1");
-
-// 	    })
-// .catch(function(err){
-//     cb(err);
-// })
-//     .done(function(){
-// 	// for(var i = 0;ret[i];i++) {
-// 	//     ret[i]
-// 	// };
-// 	console.log("SORTIE");
-// 	console.log(ret);
-// //	return cb(ret);
-//     });
-},
 
 	getOneOrder: function(order_id, cb){
 		console.log("getOneOrder");
@@ -167,66 +119,46 @@ module.exports = {
 		.catch(function(err){
 			cb(err);
 		})
-		.then(function(){
+		.done(function(){
 			return cb("ok");
 		});
 	},
 
-
 	createOrder: function(json, cb) {
 		console.log("createOrder")
-//	    console.log(json);
 		var ret;
 		Promise.all([
 			Order.create({
 				id:id,
 				table_id:json.numTable,
 				dinerNumber:json.numPA,
-				comments: json.globalComment
+				comments: json.globalComment,
+				waiter_id:sails.session.user
 			})
 			])
-/*		.spread(function(){
-			var orderedoption = new Array();
-			for (var a = 0;json['order'][a]; a++) {
-				for (var i = 0;json['order'][a].content[i]; i++) {
-
-					if (options in json['order'][a].content[i]) {
-						OrderedOption.create({
-							qty:json['order'][a].content[i].options['qty'],
-							option:json['order'][a].content[i].options['id']
-						}).exec(function(err, mod){
-							if (err)
-								return cb(err);
-							orderedoption[a] = mod;
-						});
-					}
-				}
-			}
-		})*/
 		.spread(function(model,orderedoption){
-		    console.log("toto");
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
-		//			if (typeof orderedoption[a] != 'undefined')
-		//				options = orderedoption[a];
-		//			else
-						options = [];
-						OrderedDish.create({
-							orderContent_id: orderconten.id,
-							order_id:model.id,
-						    dish_id:json['order'][a].content[i].id,
-						    qty:parseInt(json['order'][a].content[i].qty),
-//							menucomposition_id:json['order'][a].content[i].menucomposition_id,
-//							categorieoption_id:json['order'][a].content[i].categorieoption_id,
-							comment:json['order'][a].content[i].comment,
-							menu_id:json['order'][a].menuId,
-							options:options
-						}).exec(function(err,model){
-							if (err)
-								return cb(err);
+					current = json['order'][a].content[i];
+					Promise.all([
+					OrderedDish.create({
+						order_id:model.id,
+					    dish_id:current.id,
+					    qty:parseInt(current.qty),
+						comment:model.comment,
+						menu_id:json['order'][a].menuId
+					})
+					]).spread(function(ordered){
+						if (typeof current.options != 'undefined') {
+							for (var u = 0; u < current.options.length; u++) {
+								OrderServices.createOrderOption(current.options[u], ordered);
+							}
+						}
+					}).catch(function(err){
+						console.log(err);
+					}).done(function(){
 
-						});
-
+					});
 				}
 			}
 			ret = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};
@@ -236,5 +168,22 @@ module.exports = {
 		.done(function(){
 			return cb(ret);
 		});
+	}
+	,
+	createOrderOption: function(current, ordered) {
+		Promise.all([
+			Option.findOne({id:current.id}),
+			OrderedOption.create({qty:2, ordered_dish:ordered.id}),
+		])
+		.spread(function(option, optionordered){
+			optionordered.option = option;
+			optionordered.save();
+			ordered.options.add(optionordered);
+			ordered.save();
+		}).catch(function(err){
+			console.log(err);
+		})
+		.done(function(){
+		});		
 	}
 }

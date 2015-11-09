@@ -20,6 +20,14 @@ module.exports = {
       });
     }
   },
+
+ delete: function(id) {
+      OrderedOption.destroy({}).exec(function(res, doc) {
+          return res.ok("ok");
+      });
+
+    },
+
     read_lucas: function (req, res) {
     
       OrderedOption.find( function(err, doc) {

@@ -5,9 +5,9 @@ var app;
 
 describe('OrderController', function() {
     describe('#Order()', function() {
-	it('Order list', function (done) {
+	it('Kitchen', function (done) {
 	    request(sails.hooks.http.app)
-		.post('/order/read')
+		.post('/order/')
 		.send()
 		.expect(200)
 		.end(function (err, res) {

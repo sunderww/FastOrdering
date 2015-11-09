@@ -44,8 +44,8 @@ module.exports = {
       },
   	
       waiter_id: {
-        type: 'string'//, // the waiter is a user object
-  //		required: true
+        model: "user",
+  		  required: true
       },
       status: {
         type: 'string',
@@ -53,10 +53,17 @@ module.exports = {
         defaultsTo: "ordered"
       },       
       comments: {type:"string"},
+  },
 
-      // orderContent_id: {
-      //   type: 'string'//,
-      //   // required: true
-      // }
+  updateStatus: function(id) {
+    var status = OrderedDish.findOne({id: id}).then(function(ordered) {
+      var status = ordered.status == "toDeliver" ? "cooking" : "toDeliver";
+      OrderedDish.update({id: id}, {status:status}, function(err) {
+        if (err)
+          console.log("UpdateStatus Order --> " + err);
+      });
+      return status;
+    });
+    return status;
   }
 };

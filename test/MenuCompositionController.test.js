@@ -15,15 +15,15 @@ describe('MenuCompositionController', function() {
 		    done();
 		});
 	});
-	it('create an element', function (done) {
-            request(sails.hooks.http.app)
-              .post('/menucomposition/create')
-              .send({name:"dessert"})
-              .expect(200)
-              .end(function (err, res) {
-		  if(err) return done(err);
-                  done();
-            });
-	});
+	// it('create an element', function (done) {
+ //            request(sails.hooks.http.app)
+ //              .post('/menucomposition/create')
+ //              .send({name:"dessert"})
+ //              .expect(200)
+ //              .end(function (err, res) {
+	// 	  if(err) return done(err);
+ //                  done();
+ //            });
+	// });
     });
 });

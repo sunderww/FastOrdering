@@ -17,7 +17,9 @@ module.exports = {
   		type: 'integer',
   		defaultsTo: 0
   	},
-
+    socket_id: {
+      type: 'string'
+    },
   	email: {
   		type: 'email',
   		unique: true,
@@ -90,6 +92,7 @@ module.exports = {
         cb();
     },
     
+
     beforeCreate: function(values, cb) {
 
         var errors = this.checkPassword(values);

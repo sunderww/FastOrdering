@@ -36,15 +36,15 @@ describe('DishController', function() {
 		    done();
 		});
 	});
-	it('create an element', function (done) {
-            request(sails.hooks.http.app)
-                .post('/dish/create')
-                .send({name:"Glacee", price:7})
-                .expect(200)
-                .end(function (err, res) {
-		    if(err) return done(err);
-                    done();
-                });
-	});
+	// it('create an element', function (done) {
+ //            request(sails.hooks.http.app)
+ //                .post('/dish/create')
+ //                .send({name:"Glacee", price:7})
+ //                .expect(200)
+ //                .end(function (err, res) {
+	// 	    if(err) return done(err);
+ //                    done();
+ //                });
+	// });
     });
 });

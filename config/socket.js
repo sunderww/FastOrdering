@@ -38,16 +38,15 @@
 
        OrderServices.deleteOrder(id, function () {
         OrderServices.createOrder(json, function (result) {
-          socket.emit('receive_order', result);
+          sails.io.sockets.emit('receive_order', result);
           return cb(result);
         });
       });
      } else {
        console.log("send_order");
 
-      console.log(json);
-      console.log("id" + id);
       OrderServices.createOrder(json, function (result) {
+        console.log(result);
         socket.emit('receive_order', result);
         return cb(result);
         });
@@ -55,8 +54,9 @@
   });
 
       socket.on('authentication', function(json, cb){
-	  console.log(json);
-	  return cb({"answer" : true});
+       SessionServices.loginFromPhone(json, sails.sockets.id(socket), function(res){
+        return cb(res);
+       });
       });
 
     socket.on('get_order', function(json, cb){
@@ -193,25 +193,25 @@
   ***************************************************************************/
 
 // beforeConnect: true,
-     beforeConnect: function (reqObj, cb) {     
-           // Any data saved in `handshake` is available in subsequent       
-           //requests from this as `req.socket.handshake.*`                    
-	console.log("Hello");
-     Key.findOne().where({id: reqObj.headers.user_key}).exec(function(err, user) {
-       sails.session.user = user;
-       if (!user) {
-         console.log("bad");
-         socket.emit('authentication', {answer: false});
-         return cb(null, false);
-       }
-       console.log("good");
-       socket.emit('authentication', {answer: true});
-       return cb(null, true);
-     });                                                                       
-          // to allow the connection, call `cb(null, true)`                 
-          // to prevent the connection, call `cb(null, false)`              
-          // to report an error, call `cb(err)`                             
-   },
+ //     beforeConnect: function (reqObj, cb) {     
+ //           // Any data saved in `handshake` is available in subsequent       
+ //           //requests from this as `req.socket.handshake.*`                    
+	// console.log("Hello");
+ //     Key.findOne().where({id: reqObj.headers.user_key}).exec(function(err, user) {
+ //       sails.session.user = user;
+ //       if (!user) {
+ //         console.log("bad");
+ //         socket.emit('authentication', {answer: false});
+ //         return cb(null, false);
+ //       }
+ //       console.log("good");
+ //       socket.emit('authentication', {answer: true});
+ //       return cb(null, true);
+ //     });                                                                       
+ //          // to allow the connection, call `cb(null, true)`                 
+ //          // to prevent the connection, call `cb(null, false)`              
+ //          // to report an error, call `cb(err)`                             
+ //   },
 
   /***************************************************************************
   *                                                                          *
