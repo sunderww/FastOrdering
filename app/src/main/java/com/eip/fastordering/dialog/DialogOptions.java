@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.eip.fastordering.R;
 import com.eip.fastordering.customs.Group;
@@ -23,6 +25,7 @@ public class DialogOptions {
     private List<String> _options;
     private SparseArray<Group> groups = new SparseArray<Group>();
     private AlertDialog dialog;
+    private MyExpandableListAdapter listAdapter;
 
     /**
      * Constructor
@@ -44,6 +47,24 @@ public class DialogOptions {
         builder.setPositiveButton(R.string.dialog_options_positive, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                listAdapter.notifyDataSetChanged();
+                int groupCount = listAdapter.getGroupCount();
+                for (int i = 0; i < groupCount; ++i) {
+                    System.out.println("I=" + i);
+                    int childCount = listAdapter.getChildrenCount(i);
+                    for (int j = 0; j < childCount; ++j) {
+                        System.out.println("J=" + j);
+                        View view = listAdapter.getChildView(i, j, false, null, null);
+                        if (view != null) {
+                            TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
+                            System.out.println(txt.getText().toString());
+                            EditText nb = (EditText) view.findViewById(R.id.nbDish);
+                            System.out.println(Integer.parseInt(nb.getText().toString()));
+//                            if (Integer.parseInt(nb.getText().toString()) > 0)
+//                                OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString());
+                        }
+                    }
+                }
             }
         });
         builder.setNegativeButton(R.string.dialog_options_cancel, new DialogInterface.OnClickListener() {
@@ -59,18 +80,18 @@ public class DialogOptions {
 
         dialog = builder.create();
 
-        MyExpandableListAdapter adapter = new MyExpandableListAdapter(_mActivity, groups, dialog);
-        listView.setAdapter(adapter);
+        listAdapter = new MyExpandableListAdapter(_mActivity, groups, dialog);
+        listView.setAdapter(listAdapter);
 
-        for (int i = 0; i < groups.size(); i++) {
-            listView.expandGroup(i);
-        }
-        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            public boolean onGroupClick(ExpandableListView arg0, View itemView, int itemPosition, long itemId) {
-                listView.expandGroup(itemPosition);
-                return true;
-            }
-        });
+//        for (int i = 0; i < groups.size(); i++) {
+//            listView.expandGroup(i);
+//        }
+//        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+//            public boolean onGroupClick(ExpandableListView arg0, View itemView, int itemPosition, long itemId) {
+//                listView.expandGroup(itemPosition);
+//                return true;
+//            }
+//        });
 
         return dialog;
     }

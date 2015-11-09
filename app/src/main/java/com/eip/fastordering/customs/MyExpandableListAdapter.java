@@ -45,6 +45,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                System.out.println("Text changed for " + _groupPosition + " " + _childPosition + " AND IS " + s.toString());
                 setChildNb(_groupPosition, _childPosition, s.toString());
             }
 
@@ -56,7 +57,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
     }
 
     private void setChildNb(int groupPosition, int childPosition, String value) {
-        groups.get(groupPosition).values.add(childPosition, value);
+        groups.get(groupPosition).values.set(childPosition, value);
     }
 
     @Override
@@ -75,18 +76,35 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
         final String children = (String) getChild(groupPosition, childPosition);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_radio, null);
-        }
-        ((TextView) convertView.findViewById(R.id.lblListItemRadio)).setText(children);
 
+            ((TextView) convertView.findViewById(R.id.lblListItemRadio)).setText(children);
+            EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
+
+            PosHolder pos = new PosHolder();
+            pos.edtCode = nb;
+            pos.edtCode.setOnTouchListener(new ChildTouchListener());
+            pos.childPos = childPosition;
+            pos.groupPos = groupPosition;
+            convertView.setTag(pos);
+
+//        convertView.findViewById(R.id.nbDish).setTag(pos);
+            convertView.setOnTouchListener(new ChildTouchListener());
+
+            System.out.println("GETTING TEXT FOR " + groupPosition + " " + childPosition + " and is " + groups.get(groupPosition).values.get(childPosition));
+            nb.setText(groups.get(groupPosition).values.get(childPosition));
+            nb.addTextChangedListener(watcher);
+//        nb.setOnTouchListener(new ChildTouchListener());
+            nb.setTag(pos);
+        } else {
+            EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
+            nb.setText(groups.get(groupPosition).values.get(childPosition));
+        }
+
+        EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
         PosHolder pos = new PosHolder();
         pos.childPos = childPosition;
         pos.groupPos = groupPosition;
-        convertView.setTag(pos);
-        convertView.findViewById(R.id.nbDish).setTag(pos);
-
-        EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
-        nb.setText(groups.get(groupPosition).values.get(childPosition));
-        nb.addTextChangedListener(watcher);
+        nb.setTag(pos);
 
         return convertView;
     }
@@ -163,7 +181,19 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
         }
     }
 
+    private class ChildTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            PosHolder pos = (PosHolder) v.getTag();
+            _groupPosition = pos.groupPos;
+            _childPosition = pos.childPos;
+            System.out.println("SETTING POS AS=" + _groupPosition + " " + _childPosition);
+            return false;
+        }
+    }
+
     private class PosHolder {
+        EditText edtCode;
         int childPos;
         int groupPos;
     }
