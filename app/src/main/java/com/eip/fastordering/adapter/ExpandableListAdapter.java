@@ -296,7 +296,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             EditText editText = (EditText) view;
             _groupPosition = ((PosHolder) editText.getTag()).groupPos;
             _childPosition = ((PosHolder) editText.getTag()).childPos;
-//            System.out.println("1 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+            System.out.println("1 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
 
             editText.setSelectAllOnFocus(true);
             editText.setFocusable(true);
@@ -310,7 +310,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             holder.edtCode.setFocusableInTouchMode(false);
             _groupPosition = holder.groupPos;
             _childPosition = holder.childPos;
-//            System.out.println("2 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+            System.out.println("2 GPOS=" + _groupPosition + " CPOS=" + _childPosition);
 
 //            System.out.println(((TextView)(getChildView(_groupPosition, _childPosition, false, null, null).findViewById(R.id.lblListItemRadio))).getTag().toString());
 

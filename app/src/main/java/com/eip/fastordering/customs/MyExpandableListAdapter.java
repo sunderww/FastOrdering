@@ -6,6 +6,8 @@ package com.eip.fastordering.customs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,22 +16,47 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.eip.fastordering.R;
 
-public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+public class MyExpandableListAdapter extends BaseExpandableListAdapter implements View.OnTouchListener {
 
+    private static int _childPosition;
+    private static int _groupPosition;
     private final SparseArray<Group> groups;
     public LayoutInflater inflater;
     public Activity activity;
     private AlertDialog dialog;
+    private TextWatcher watcher;
 
     public MyExpandableListAdapter(Activity act, SparseArray<Group> groups, AlertDialog dialog) {
         activity = act;
         this.groups = groups;
         inflater = act.getLayoutInflater();
         this.dialog = dialog;
+
+        this.watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setChildNb(_groupPosition, _childPosition, s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+    }
+
+    private void setChildNb(int groupPosition, int childPosition, String value) {
+        groups.get(groupPosition).values.add(childPosition, value);
     }
 
     @Override
@@ -50,6 +77,17 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.list_radio, null);
         }
         ((TextView) convertView.findViewById(R.id.lblListItemRadio)).setText(children);
+
+        PosHolder pos = new PosHolder();
+        pos.childPos = childPosition;
+        pos.groupPos = groupPosition;
+        convertView.setTag(pos);
+        convertView.findViewById(R.id.nbDish).setTag(pos);
+
+        EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
+        nb.setText(groups.get(groupPosition).values.get(childPosition));
+        nb.addTextChangedListener(watcher);
+
         return convertView;
     }
 
@@ -99,6 +137,14 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        _groupPosition = ((PosHolder) view.getTag()).groupPos;
+        _childPosition = ((PosHolder) view.getTag()).childPos;
+        System.out.println("Touching options GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+        return false;
+    }
+
+    @Override
     public boolean hasStableIds() {
         return false;
     }
@@ -115,5 +161,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             inputMethodManager.hideSoftInputFromWindow(dialog.getCurrentFocus().getWindowToken(), 0);
             return false;
         }
+    }
+
+    private class PosHolder {
+        int childPos;
+        int groupPos;
     }
 }

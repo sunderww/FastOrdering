@@ -10,6 +10,7 @@ public class Group {
 
     public String string;
     public final List<String> children = new ArrayList<String>();
+    public final List<String> values = new ArrayList<String>();
 
     public Group(String string) {
         this.string = string;

@@ -55,12 +55,22 @@ public class DialogOptions {
         if (_options != null && !_options.isEmpty())
             createData(_options);
 
-        ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.listView);
+        final ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.listView);
 
         dialog = builder.create();
 
         MyExpandableListAdapter adapter = new MyExpandableListAdapter(_mActivity, groups, dialog);
         listView.setAdapter(adapter);
+
+        for (int i = 0; i < groups.size(); i++) {
+            listView.expandGroup(i);
+        }
+        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView arg0, View itemView, int itemPosition, long itemId) {
+                listView.expandGroup(itemPosition);
+                return true;
+            }
+        });
 
         return dialog;
     }
@@ -75,6 +85,7 @@ public class DialogOptions {
             Group group = new Group(OptionsStruct.getInstance().getNameGroupOptionById(optionCatID));
             for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().values()) {
                 group.children.add(values);
+                group.values.add("0");
             }
             groups.append(i++, group);
         }
