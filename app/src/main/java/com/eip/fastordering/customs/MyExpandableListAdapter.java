@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.eip.fastordering.R;
+import com.eip.fastordering.struct.OptionsStruct;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter implements View.OnTouchListener {
 
@@ -40,18 +41,15 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
         this.watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                System.out.println("Text changed for " + _groupPosition + " " + _childPosition + " AND IS " + s.toString());
                 setChildNb(_groupPosition, _childPosition, s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         };
     }
@@ -62,7 +60,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return groups.get(groupPosition).children.get(childPosition);
+        return OptionsStruct.getInstance().getNameOptionById(groups.get(groupPosition).children.get(childPosition));
+//        return groups.get(groupPosition).children.get(childPosition);
     }
 
     @Override
@@ -82,20 +81,15 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
 
             final PosHolder pos = new PosHolder();
             pos.edtCode = nb;
-//            pos.edtCode.setOnTouchListener(new ChildTouchListener());
             pos.edtCode.setOnTouchListener(this);
             pos.childPos = childPosition;
             pos.groupPos = groupPosition;
             convertView.setTag(pos);
-
-//            convertView.findViewById(R.id.nbDish).setTag(pos);
-//            convertView.setOnTouchListener(new ChildTouchListener());
             convertView.setOnTouchListener(this);
 
-            System.out.println("GETTING TEXT FOR " + groupPosition + " " + childPosition + " and is " + groups.get(groupPosition).values.get(childPosition));
+//            System.out.println("GETTING TEXT FOR " + groupPosition + " " + childPosition + " and is " + groups.get(groupPosition).values.get(childPosition));
             nb.setText(groups.get(groupPosition).values.get(childPosition));
             nb.addTextChangedListener(watcher);
-//        nb.setOnTouchListener(new ChildTouchListener());
             nb.setTag(pos);
         } else {
             EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
@@ -150,7 +144,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
             convertView = inflater.inflate(R.layout.listrow_group, null);
         }
         Group group = (Group) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(group.string);
+        ((CheckedTextView) convertView).setText(OptionsStruct.getInstance().getNameGroupOptionById(group.string));
         ((CheckedTextView) convertView).setChecked(isExpanded);
 
         convertView.setOnTouchListener(new GroupTouchListener());
@@ -170,7 +164,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
 
-            System.out.println("Touching options GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+//            System.out.println("Touching options GPOS=" + _groupPosition + " CPOS=" + _childPosition);
         } else {
             PosHolder holder = (PosHolder) view.getTag();
             holder.edtCode.setFocusable(false);
@@ -199,17 +193,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
         public boolean onTouch(View v, MotionEvent event) {
             InputMethodManager inputMethodManager = (InputMethodManager) dialog.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(dialog.getCurrentFocus().getWindowToken(), 0);
-            return false;
-        }
-    }
-
-    private class ChildTouchListener implements View.OnTouchListener {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            PosHolder pos = (PosHolder) v.getTag();
-            _groupPosition = pos.groupPos;
-            _childPosition = pos.childPos;
-            System.out.println("SETTING POS AS=" + _groupPosition + " " + _childPosition);
             return false;
         }
     }

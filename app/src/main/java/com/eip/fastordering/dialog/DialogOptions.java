@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.eip.fastordering.R;
 import com.eip.fastordering.customs.Group;
 import com.eip.fastordering.customs.MyExpandableListAdapter;
+import com.eip.fastordering.fragment.OrderCardFragment;
 import com.eip.fastordering.struct.OptionsStruct;
 
 import java.util.List;
@@ -26,16 +27,22 @@ public class DialogOptions {
     private SparseArray<Group> groups = new SparseArray<Group>();
     private AlertDialog dialog;
     private MyExpandableListAdapter listAdapter;
+    private final int gposdish;
+    private final int cposdish;
 
     /**
      * Constructor
      *
      * @param activity
      */
-    public DialogOptions(Activity activity, List<String> options) {
+    public DialogOptions(Activity activity, List<String> options, int gposdish, int cposdish) {
         _mActivity = (FragmentActivity) activity;
         _options = options;
         //TODO Not forget comment
+        this.gposdish = gposdish;
+        this.cposdish = cposdish;
+
+        //TODO Populate w/ options if from orderorderfragment or editing on card or whatever
     }
 
     public AlertDialog customView() {
@@ -49,19 +56,26 @@ public class DialogOptions {
             public void onClick(DialogInterface dialog, int which) {
                 listAdapter.notifyDataSetChanged();
                 int groupCount = listAdapter.getGroupCount();
+//                DataDishStruct optionsForDish = new DataDishStruct();
                 for (int i = 0; i < groupCount; ++i) {
-                    System.out.println("I=" + i);
+//                    System.out.println("I=" + i);
                     int childCount = listAdapter.getChildrenCount(i);
+//                    System.out.println(groups.get(i).string + " " + OptionsStruct.getInstance().getNameGroupOptionById(groups.get(i).string));
+//                    optionsForDish.addCategoryOption(groups.get(i).string);
                     for (int j = 0; j < childCount; ++j) {
-                        System.out.println("J=" + j);
+//                        System.out.println("J=" + j);
                         View view = listAdapter.getChildView(i, j, false, null, null);
                         if (view != null) {
                             TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
-                            System.out.println(txt.getText().toString());
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
+
+                            System.out.println(txt.getText().toString());
+                            System.out.println(groups.get(i).children.get(j) + " " + OptionsStruct.getInstance().getNameOptionById(groups.get(i).children.get(j)));
                             System.out.println(Integer.parseInt(nb.getText().toString()));
-//                            if (Integer.parseInt(nb.getText().toString()) > 0)
-//                                OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString());
+
+                            if (Integer.parseInt(nb.getText().toString()) > 0)
+                                OrderCardFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
+//                                optionsForDish.addOptionToCategory(groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
                         }
                     }
                 }
@@ -82,17 +96,6 @@ public class DialogOptions {
 
         listAdapter = new MyExpandableListAdapter(_mActivity, groups, dialog);
         listView.setAdapter(listAdapter);
-
-//        for (int i = 0; i < groups.size(); i++) {
-//            listView.expandGroup(i);
-//        }
-//        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            public boolean onGroupClick(ExpandableListView arg0, View itemView, int itemPosition, long itemId) {
-//                listView.expandGroup(itemPosition);
-//                return true;
-//            }
-//        });
-
         return dialog;
     }
 
@@ -103,8 +106,8 @@ public class DialogOptions {
     public void createData(List<String> _options) {
         int i = 0;
         for (String optionCatID : _options) {
-            Group group = new Group(OptionsStruct.getInstance().getNameGroupOptionById(optionCatID));
-            for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().values()) {
+            Group group = new Group(optionCatID);
+            for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().keySet()) {
                 group.children.add(values);
                 group.values.add("0");
             }

@@ -52,8 +52,17 @@ public class OrderCardFragment extends Fragment {
         return _mListDataNb;
     }
 
+    public static HashMap<String, List<DataDishStruct>> get_mListDataOthers() {
+        return _mListDataOthers;
+    }
+
     public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
         _mListDataNb.get(_mListDataHeader.get(groupPosition)).set(childPosition, value);
+    }
+
+    public static void set_idmListDataOther(int gpos, int cpos, String catopt, String opt, String value) {
+        DataDishStruct options = _mListDataOthers.get(_mListDataHeader.get(gpos)).get(cpos);
+        options.getmOptions().get(catopt).put(opt, value);
     }
 
     @Override
@@ -118,8 +127,18 @@ public class OrderCardFragment extends Fragment {
                         if (view != null) {
                             TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
+                            System.out.println("Checking out gpos=" + i + " cpos=" + j + " title=" + txt.getText().toString());
+                            DataDishStruct options = _mListDataOthers.get(_mListDataHeader.get(i)).get(j);
+//                            if (options != null) {
+//                                System.out.println("HAS OPTIONS SET AND WHICH ARE=");
+//                                for (String catoptions : options.getmOptions().keySet()) {
+//                                    for (Map.Entry<String, String> entry : options.getmOptions().get(catoptions).entrySet()) {
+//                                        System.out.println("KEY=" + entry.getKey() + " NAME=" + OptionsStruct.getInstance().getNameOptionById(entry.getKey()) + " VALUE=" + entry.getValue());
+//                                    }
+//                                }
+//                            }
                             if (Integer.parseInt(nb.getText().toString()) > 0)
-                                OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString());
+                                OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString(), options);
                         }
                     }
                 }

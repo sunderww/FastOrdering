@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.eip.fastordering.R;
 import com.eip.fastordering.activity.LoginActivity;
 import com.eip.fastordering.adapter.ExpandableListAdapter;
+import com.eip.fastordering.struct.DataDishStruct;
+import com.eip.fastordering.struct.OptionsStruct;
 import com.eip.fastordering.struct.OrderStruct;
 import com.github.nkzawa.socketio.client.Ack;
 
@@ -39,6 +41,7 @@ public class OrderOrderFragment extends Fragment {
 	private static ExpandableListAdapter         _mListAdapter;
 	private static List<String>                  _mListDataHeader;
 	private static HashMap<String, List<String>> _mListDataChild;
+	private static HashMap<String, List<DataDishStruct>> _mListDataOthers;
 	private static View                          _mRootView;
 	private static HashMap<String, List<String>> _mListDataNb;
 	private static OrderStruct                   _mDetails;
@@ -57,6 +60,7 @@ public class OrderOrderFragment extends Fragment {
 
 		_mListDataHeader = new ArrayList<String>();
 		_mListDataChild = new HashMap<String, List<String>>();
+		_mListDataOthers = new HashMap<>();
 		_mListDataNb = new HashMap<String, List<String>>();
 
 		if (order != null) {
@@ -155,12 +159,13 @@ public class OrderOrderFragment extends Fragment {
 		checkListEmpty();
 	}
 
-	static void addCardElementToOrder(String idCard, String idDish, String number) {
+	static void addCardElementToOrder(String idCard, String idDish, String number, DataDishStruct options) {
 		for (int i = 0; i < _mListAdapter.get_listDataHeader().size(); ++i) {
 			if (_mListAdapter.get_listDataHeader().get(i).equals(idCard)) {
 				//Verifie si plat deja present, si oui ajoute la qte
 				for (int j = 0; j < _mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(); ++j) {
 					if (_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).get(j).equals(idDish)) {
+						//TODO COMBINE OPTIONS
 						int one = Integer.parseInt(number);
 						int two = Integer.parseInt(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).get(j));
 						_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).set(j, ((Integer) (one + two)).toString());
@@ -174,6 +179,7 @@ public class OrderOrderFragment extends Fragment {
 				//Sinon ajoute dans les listes
 				_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).add(_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(), idDish);
 				_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).size(), number);
+				_mListDataOthers.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).size(), options);
 				_mListAdapter.notifyDataSetChanged();
 				Toast.makeText(_mRootView.getContext(), R.string.order_added_success, Toast.LENGTH_SHORT).show();
 				checkListEmpty();
@@ -182,9 +188,15 @@ public class OrderOrderFragment extends Fragment {
 		}
 		_mListAdapter.get_listDataHeader().add(OrderFragment.get_mCard().get_mId());
 		_mListAdapter.get_listDataChild().put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
+
 		_mListDataNb.put(OrderFragment.get_mCard().get_mId(), new ArrayList<String>());
+		_mListDataOthers.put(OrderFragment.get_mCard().get_mId(), new ArrayList<DataDishStruct>());
+
 		_mListAdapter.get_listDataChild().get(OrderFragment.get_mCard().get_mId()).add(0, idDish);
+
 		_mListDataNb.get(OrderFragment.get_mCard().get_mId()).add(0, number);
+		_mListDataOthers.get(OrderFragment.get_mCard().get_mId()).add(0, options);
+
 		_mListAdapter.notifyDataSetChanged();
 		Toast.makeText(_mRootView.getContext(), R.string.order_added_success, Toast.LENGTH_SHORT).show();
 		checkListEmpty();
@@ -265,6 +277,25 @@ public class OrderOrderFragment extends Fragment {
 								dish.put("comment", "blabla");
 //								dish.put("cuisson", "cramé");
 
+								//TODO Add options
+								JSONArray optArray = new JSONArray();
+								dish.put("options", optArray);
+								DataDishStruct options = _mListDataOthers.get(_mListAdapter.get_listDataHeader().get(i)).get(j);
+								if (options != null) {
+									System.out.println("HAS OPTIONS SET AND WHICH ARE=");
+									for (String catoptions : options.getmOptions().keySet()) {
+										for (Map.Entry<String, String> entry : options.getmOptions().get(catoptions).entrySet()) {
+											if (Integer.parseInt(entry.getValue()) > 0) {
+												JSONObject opt = new JSONObject();
+												opt.put("id", entry.getKey());
+												opt.put("qty", entry.getValue());
+												optArray.put(opt);
+											}
+											System.out.println("KEY=" + entry.getKey() + " NAME=" + OptionsStruct.getInstance().getNameOptionById(entry.getKey()) + " VALUE=" + entry.getValue());
+										}
+									}
+								}
+								dish.put("options", optArray);
 								content.put(dish);
 							}
 						}
@@ -304,6 +335,7 @@ public class OrderOrderFragment extends Fragment {
 				_mListAdapter.get_listDataHeader().clear();
 				_mListAdapter.get_listDataChild().clear();
 				_mListDataNb.clear();
+				_mListDataOthers.clear();
 
 				_mListAdapter.notifyDataSetChanged();
 				checkListEmpty();

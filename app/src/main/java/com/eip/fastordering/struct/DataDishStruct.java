@@ -35,8 +35,25 @@ public class DataDishStruct {
         }
     }
 
+    public DataDishStruct() {
+        mComment = "";
+        mOptions = new HashMap<>();
+    }
+
+    public void addCategoryOption(String idCategory) {
+        mOptions.put(idCategory, new HashMap<String, String>());
+    }
+
+    public void addOptionToCategory(String idCategory, String idOption, String value) {
+        mOptions.get(idCategory).put(idOption, value);
+    }
+
     public String getmComment() {
         return mComment;
+    }
+
+    public void setmComment(String mComment) {
+        this.mComment = mComment;
     }
 
     public Map<String, Map<String, String>> getmOptions() {
