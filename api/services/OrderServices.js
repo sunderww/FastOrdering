@@ -57,6 +57,7 @@ module.exports = {
 			var res = new Object();
 		    var order_content = new Array();
 			ordered.forEach(function(entry) {
+			 	entry.options = OrderedOption.find({ordered_id:entry.id}).then(function(opt){console.log(opt);return opt;});
 			    entry.qty = (entry.qty).toString();
 			    entry.id = entry.dish_id;
 			    delete entry.dish_id;
