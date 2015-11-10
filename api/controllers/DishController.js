@@ -16,7 +16,7 @@ module.exports = {
      */
     create: function (req, res) {
 		if (req.method=="POST") {
-			Dish.findOrCreate({
+			Dish.Create({
 				id: req.param("id"),
 				name:req.param("name"),
 				price:req.param("price"),
@@ -24,7 +24,8 @@ module.exports = {
 				optioncategories_ids: req.param("optioncategories_ids")
 			    }).exec(function(err,model) {
 				    if (err) {
-					res.json({
+				    	console.log(err.ValidationError);
+					return res.json({
 						message: err.ValidationError
 					    });
 				    }
@@ -44,10 +45,10 @@ module.exports = {
 
 
 
-    getSocketID: function(req, res) {
-	console.log("ttt");
-	return res.ok('My socket ID is: ');
-},
+//     getSocketID: function(req, res) {
+// 	console.log("ttt");
+// 	return res.ok('My socket ID is: ');
+// },
 
 
     /**
@@ -58,15 +59,12 @@ module.exports = {
      * @return {JSON} Retourne les résultat présents en base de données (0 ou 1 ou plusieurs plats)
      */
     read: function (req, res) {
-	console.log("JE SUIS DANS /ELEMENTS");
 	if (req.param("id")) {
 		    Dish.find({id: req.param("id")} ,function(err, doc) {
 			    return res.send(doc);
 			});
 		} else {
 		    Dish.find( function(err, doc) {
-			console.log("/ELEMENTS JUSTE AVANT DE RETURN");
-			console.log(new Date());
 			doc.forEach(function(entry) {
 				entry.createdAt = new Date("1995-12-17T03:24:00");
 				entry.updatedAt = new Date("1995-12-17T03:24:00");
@@ -78,9 +76,10 @@ module.exports = {
 		}
     },
     delete: function (req, res) {
-		    Dish.destroy({id:req.param("id")}).exec(function(err, doc) {
-				res.redirect('/dish/create');
-			});
+	  	console.log(req.param('id'));
+	    Dish.destroy({id:req.param("id")}).exec(function(err, doc) {
+			res.redirect('/dish/create');
+		});
 	},
     update: function (req, res) {
 		var CATEGORIES;
