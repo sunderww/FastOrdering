@@ -72,15 +72,25 @@ question: function(req, res) {
 ready: function(req, res) {
   if (req.param("id")) {
     console.log("Order ready");
-    OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
-        var dish = Dish.findOne({id:ordered.dish_id}).then(function(dish) {return dish.name});
-        var order = Order.findOne({id:ordered.order_id}).populate('waiter_id').then(function(user){return [user.table_id, user.waiter_id.socket_id]});
+    OrderedDish.findOne({order_id: req.param("id")}).then(function(ordered){
+
+        var dish = Dish.findOne({id:ordered.dish_id})
+	    .then(function(dish) {return dish.name});
+        var order = Order.findOne({id:ordered.order_id})
+	    .then(function(order){return order.waiter_id;});
+
+        var user = Order.findOne({id:ordered.order_id})
+	    .then(function(order){return order.waiter_id;})
+	    .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
+
+        var numTable = Order.findOne({id:ordered.order_id}).then(function(order){return order.table_id;});
         var status = Order.updateStatus(ordered.id);
-        return ["ordered", order[1], dish, status, order[0]];
+        return ["ordered", user, dish, status, numTable];
     }).spread(function(one, socket_id, dish, status, numTable){
-      var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + "est pret!", numTable:numTable}
-      sails.io.sockets.emit(socket_id, 'notifications', data);
-      return res.json({status:status});
+	
+      var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
+	sails.sockets.emit(socket_id, 'notifications', data);
+        return res.json({status:status});
     });
   }
   else
@@ -116,13 +126,17 @@ json: function (req, res) {
   },
 
   getToday: function(req, res) {
-    Order.find().where({"date": moment().format("DD/MM/YYYY")}).sort("createdAt DESC").exec(function(err, doc) {
+    Order.find()
+//.where({"date": moment().format("DD/MM/YYYY")})
+.sort("createdAt DESC").exec(function(err, doc) {
       return res.view({orders:doc});
      });
   },
 
   gettodayy: function(req, res) {
-    Order.find().where({"date": moment().format("DD/MM/YYYY")}).sort("createdAt DESC").exec(function(err, doc) {
+    Order.find()
+//.where({"date": moment().format("DD/MM/YYYY")})
+.sort("createdAt DESC").exec(function(err, doc) {
       return res.ok(doc);
     });
   },
