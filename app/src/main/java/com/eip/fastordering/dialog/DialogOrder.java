@@ -16,6 +16,7 @@ import com.eip.fastordering.R;
 import com.eip.fastordering.fragment.OrderFragment;
 import com.eip.fastordering.struct.ContentOrderStruct;
 import com.eip.fastordering.struct.ItemStruct;
+import com.eip.fastordering.struct.OptionsStruct;
 import com.eip.fastordering.struct.OrderStruct;
 
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class DialogOrder {
@@ -85,6 +87,13 @@ public class DialogOrder {
 			for (int j = 0; j < content.get_mItems().size(); ++j) {
 				ItemStruct item = content.get_mItems().get(j);
 				contenu += lineSep + '\t' + '\t' + _mActivity.getApplicationContext().getString(R.string.dialog_box_dish) + OrderFragment.getNameElementById(item.get_mId()) + " x" + item.get_mQty();
+				if (item.get_mOptions().size() > 0) {
+					contenu += " (options:";
+					for (Map.Entry<String, String> entry : item.get_mOptions().entrySet()) {
+						contenu += " " + OptionsStruct.getInstance().getNameOptionById(entry.getKey()) + " x" + entry.getValue();
+					}
+					contenu += ")";
+				}
 			}
 		}
 
