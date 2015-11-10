@@ -67,7 +67,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return 0;
+        return childPosition;
     }
 
     @Override
@@ -80,15 +80,17 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
             ((TextView) convertView.findViewById(R.id.lblListItemRadio)).setText(children);
             EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
 
-            PosHolder pos = new PosHolder();
+            final PosHolder pos = new PosHolder();
             pos.edtCode = nb;
-            pos.edtCode.setOnTouchListener(new ChildTouchListener());
+//            pos.edtCode.setOnTouchListener(new ChildTouchListener());
+            pos.edtCode.setOnTouchListener(this);
             pos.childPos = childPosition;
             pos.groupPos = groupPosition;
             convertView.setTag(pos);
 
-//        convertView.findViewById(R.id.nbDish).setTag(pos);
-            convertView.setOnTouchListener(new ChildTouchListener());
+//            convertView.findViewById(R.id.nbDish).setTag(pos);
+//            convertView.setOnTouchListener(new ChildTouchListener());
+            convertView.setOnTouchListener(this);
 
             System.out.println("GETTING TEXT FOR " + groupPosition + " " + childPosition + " and is " + groups.get(groupPosition).values.get(childPosition));
             nb.setText(groups.get(groupPosition).values.get(childPosition));
@@ -97,7 +99,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
             nb.setTag(pos);
         } else {
             EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
+            nb.removeTextChangedListener(watcher);
             nb.setText(groups.get(groupPosition).values.get(childPosition));
+            nb.addTextChangedListener(watcher);
         }
 
         EditText nb = (EditText) convertView.findViewById(R.id.nbDish);
@@ -156,9 +160,27 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        _groupPosition = ((PosHolder) view.getTag()).groupPos;
-        _childPosition = ((PosHolder) view.getTag()).childPos;
-        System.out.println("Touching options GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+        if (view instanceof EditText) {
+            EditText editText = (EditText) view;
+
+            _groupPosition = ((PosHolder) view.getTag()).groupPos;
+            _childPosition = ((PosHolder) view.getTag()).childPos;
+
+            editText.setSelectAllOnFocus(true);
+            editText.setFocusable(true);
+            editText.setFocusableInTouchMode(true);
+
+            System.out.println("Touching options GPOS=" + _groupPosition + " CPOS=" + _childPosition);
+        } else {
+            PosHolder holder = (PosHolder) view.getTag();
+            holder.edtCode.setFocusable(false);
+            holder.edtCode.setFocusableInTouchMode(false);
+            _groupPosition = holder.groupPos;
+            _childPosition = holder.childPos;
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(dialog.getCurrentFocus().getWindowToken(), 0);
+
+        }
         return false;
     }
 

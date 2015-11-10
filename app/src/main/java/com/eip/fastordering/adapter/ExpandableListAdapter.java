@@ -248,8 +248,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             headerTitle = _mFACtivity.getResources().getString(R.string.card);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null); // R.layout.list_group //android.R.layout.simple_expandable_list_item_1
 
             convertView.setOnTouchListener(new GroupTouchListener());
@@ -267,8 +266,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             image.setImageResource(R.drawable.ic_action_invisible);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
+        TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setText(headerTitle);
         lblListHeader.setTag(getGroup(groupPosition));
         return convertView;
