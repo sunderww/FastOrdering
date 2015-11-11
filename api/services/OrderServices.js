@@ -61,7 +61,7 @@ module.exports = {
 		 		var rr = new Array();
 			 	opt.forEach(function(o) {
 			 		if (o.ordered_dish == entry.id)
-			 			rr.push({id:o.id, qty:o.qty});
+			 			rr.push({id:o.option, qty:o.qty});
 			 	});
 		 		entry.option = rr;
 			    entry.qty = (entry.qty).toString();
@@ -180,7 +180,7 @@ module.exports = {
 	createOrderOption: function(current, ordered) {
 		Promise.all([
 			Option.findOne({id:current.id}),
-			OrderedOption.create({qty:2, ordered_dish:ordered.id}),
+			OrderedOption.create({qty:current.qty, ordered_dish:ordered.id}),
 		])
 		.spread(function(option, optionordered){
 			optionordered.option = option;
