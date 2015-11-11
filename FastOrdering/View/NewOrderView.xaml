@@ -16,6 +16,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <GridView x:Name="OptionsList" Grid.Row="0" Margin="20">
                     <GridView.ItemTemplate>
@@ -36,7 +37,9 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-                <Button Grid.Row="1" HorizontalAlignment="Center" Tapped="AddOption">Fermer</Button>
+                <TextBox Grid.Row="1" x:Name="DishComment" TextWrapping="Wrap" AcceptsReturn="True"
+                         Height="100" PlaceholderText="Commentaire..." Text="{Binding Comment, Mode=TwoWay}" />
+                <Button Grid.Row="2" HorizontalAlignment="Center" Tapped="AddOption">Fermer</Button>
             </Grid>
         </Flyout>
 
@@ -198,6 +201,11 @@
                                                                                    DataContext="{Binding Key}" Text="{Binding Name}"
                                                                                    VerticalAlignment="Center" Margin="15, 0, 0, 0"
                                                                                    TextWrapping="Wrap" />
+                                                                        <!--<AppBarButton Grid.Row="0" Grid.Column="1" Icon="Setting"
+                                                                                          Style="{StaticResource AppBarButtonStyle1}"
+                                                                                          DataContext="{Binding Key}" Foreground="Black"
+                                                                                          FlyoutBase.AttachedFlyout="{StaticResource optionsPopup}"
+                                                                                          Loaded="OptionsButtonLoaded" Tapped="OptionsButtonTapped" />-->
                                                                         <TextBox Grid.Row="0" Grid.Column="1" InputScope="Number"
                                                                                      LostFocus="TextBox_Alacarte" Text="0" GotFocus="TextBox_GotFocus"
                                                                                      DataContext="{Binding Key}" Tag="{Binding ID}" />
@@ -314,18 +322,17 @@
                                                                             <Grid.ColumnDefinitions>
                                                                                 <ColumnDefinition Width="*" />
                                                                                 <ColumnDefinition Width="Auto" />
-                                                                                <ColumnDefinition Width="Auto" />
                                                                             </Grid.ColumnDefinitions>
                                                                             <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14"
                                                                                        DataContext="{Binding Key}" Text="{Binding Name}"
                                                                                        VerticalAlignment="Center" Margin="15, 0, 0, 0"
                                                                                        TextWrapping="Wrap" />
-                                                                            <AppBarButton Grid.Row="0" Grid.Column="1" Icon="Setting"
+                                                                            <!--<AppBarButton Grid.Row="0" Grid.Column="1" Icon="Setting"
                                                                                           Style="{StaticResource AppBarButtonStyle1}"
                                                                                           DataContext="{Binding Key}" Foreground="Black"
                                                                                           FlyoutBase.AttachedFlyout="{StaticResource optionsPopup}"
-                                                                                          Loaded="OptionsButtonLoaded" Tapped="OptionsButtonTapped" />
-                                                                            <TextBox Grid.Row="0" Grid.Column="2" InputScope="Number"
+                                                                                          Loaded="OptionsButtonLoaded" Tapped="OptionsButtonTapped" />-->
+                                                                            <TextBox Grid.Row="0" Grid.Column="1" InputScope="Number"
                                                                                      LostFocus="TextBoxMenu_LostFocus" Text="0" GotFocus="TextBox_GotFocus"
                                                                                      DataContext="{Binding Key}" Tag="{Binding ID}" />
                                                                         </Grid>

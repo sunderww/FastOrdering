@@ -61,6 +61,8 @@ namespace FastOrdering.View
 			if (e.Parameter == null)
 				return;
 			ord = e.Parameter as Order;
+			if (ord.GlobalComment != null)
+				Comment.Text = ord.GlobalComment;
 		}
 
 		private void OnLeave()
@@ -166,6 +168,7 @@ namespace FastOrdering.View
 				return;
 			OptionsList.DataContext = dish;
 			OptionsList.ItemsSource = dish.options;
+			DishComment.DataContext = dish;
 			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
 		}
 		#endregion
@@ -240,50 +243,6 @@ namespace FastOrdering.View
 		#endregion
 
 		#region TextBox Methods
-		//private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-		//{
-		//	TextBox tb = sender as TextBox;
-		//	Menu menu = Menu.alacarte;
-		//	bool isAlreadyIn = false;
-
-		//	foreach (Menu m in ord.Menus)
-		//	{
-		//		if (m.IDMenu == menu.IDMenu)
-		//		{
-		//			menu = m;
-		//			isAlreadyIn = true;
-		//			break;
-		//		}
-		//	}
-
-		//	foreach (Dish dish in Dish.dishes)
-		//	{
-		//		if (tb.Tag.ToString() == dish.ID)
-		//		{
-		//			foreach (var d in menu.Dishes)
-		//			{
-		//				if (d.Key.ID == tb.Tag.ToString())
-		//				{
-		//					menu.Dishes.Remove(d);
-		//					break;
-		//				}
-		//			}
-		//			if (tb.Text.Replace(".", "") == "")
-		//				tb.Text = "0";
-		//			MyDictionary<Dish> newDish = new MyDictionary<Dish>();
-		//			newDish.Key = new Dish(dish.ID, 0, dish.Name);
-		//			newDish.Value = int.Parse(tb.Text);
-		//			if (newDish.Value > 0)
-		//				menu.Dishes.Add(newDish);
-		//			if (menu.Dishes.Count == 0)
-		//				ord.Menus.Remove(menu);
-		//			else if (!isAlreadyIn)
-		//				ord.Menus.Add(menu);
-		//			break;
-		//		}
-		//	}
-		//}
-
 		private void TextBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			TextBox tb = sender as TextBox;

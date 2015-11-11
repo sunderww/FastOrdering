@@ -213,11 +213,11 @@
                 <StackPanel VerticalAlignment="Center">
                     <TextBox x:Name="ID" Header="CLEF" PlaceholderText="Clef"
                              Style="{StaticResource Login_TextBoxStyle}" />
-                    <!--<PasswordBox Header="MOT DE PASSE" PlaceholderText="Mot de passe"
-                                 Style="{StaticResource Login_PasswordBoxStyle}" />-->
                 </StackPanel>
             </Border>
         </Grid>
+        
+        <ProgressRing x:Name="LoadingRing" Grid.RowSpan="2" IsActive="False" />
     </Grid>
 
     <Page.BottomAppBar>

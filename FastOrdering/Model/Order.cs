@@ -51,7 +51,8 @@ namespace FastOrdering.Model
 		public int numTable;
 		private int pa;
 		private DateTime date;
-		private string globalComment;
+		public string globalComment;
+		[JsonIgnore]
 		public string GlobalComment
 		{
 			get { return globalComment; }

@@ -42,11 +42,21 @@ namespace FastOrdering.Model
 		#endregion
 
 		#region Methods
+		[JsonConstructor]
 		public Option(string name, string id)
 		{
 			this.id = id;
 			this.name = name;
 			this.Number = "0";
+		}
+
+		public Option(Option op)
+		{
+			this.name = op.name;
+			this.id = op.id;
+			this.number = op.number;
+			foreach (Option o in op.subOptions)
+				this.subOptions.Add(new Option(o));
 		}
 		#endregion
 	}

@@ -41,6 +41,7 @@ namespace FastOrdering.View
 			else
 				Socket.Disconnect();
 			connecting = false;
+			LoadingRing.IsActive = false;
 			return answer;
 		}
 		#endregion
@@ -50,6 +51,7 @@ namespace FastOrdering.View
 		{
 			if (connecting)
 				return;
+			LoadingRing.IsActive = true;
 			connecting = true;
 			sock = new Socket();
 			Socket.Authentication(ID.Text, ConnectUser);

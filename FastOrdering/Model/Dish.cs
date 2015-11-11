@@ -32,6 +32,12 @@ namespace FastOrdering.Model
 		}
 		public int qty;
 		public string comment;
+		[JsonIgnore]
+		public string Comment
+		{
+			get { return comment; }
+			set { comment = value; }
+		}
 		public Collection<Option> options = new Collection<Option>();
 		[JsonIgnore]
 		public Windows.UI.Xaml.Visibility HasOptions;
@@ -53,10 +59,8 @@ namespace FastOrdering.Model
 			this.status = "";
 			if (options != null)
 				foreach (Option op in Option.options)
-				{
 					if (options.Contains(op.ID))
-						this.options.Add(op);
-				}
+						this.options.Add(new Option(op));
 			this.HasOptions = this.options.Count() > 0 ? Windows.UI.Xaml.Visibility.Visible : Windows.UI.Xaml.Visibility.Collapsed;
 		}
 
@@ -67,10 +71,11 @@ namespace FastOrdering.Model
 			this.price = dish.price;
 			this.available = dish.available;
 			this.categories = dish.categories;
-			this.comment = "";
-			this.status = "";
+			this.comment = dish.comment;
+			this.status = dish.comment;
 			this.qty = dish.qty;
-			this.options = dish.options;
+			foreach (Option o in dish.options)
+				this.options.Add(new Option(o));
 			this.HasOptions = dish.HasOptions;
 		}
 

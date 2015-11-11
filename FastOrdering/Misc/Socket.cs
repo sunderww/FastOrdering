@@ -26,10 +26,21 @@ namespace FastOrdering.Misc
 		{
 			GetData();
 			socket = Quobject.SocketIoClientDotNet.Client.IO.Socket(url);
-			socket.On("notifications", (object data) =>
+			socket.On("notifications", async (object data) =>
 			{
 				System.Diagnostics.Debug.WriteLine(data.ToString());
-				GetNotification(data.ToString());
+				await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+				{
+					GetNotification(data.ToString());
+				});
+			});
+			socket.On("receive_order", async (object data) =>
+			{
+				System.Diagnostics.Debug.WriteLine(data.ToString());
+				await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+				{
+					Order.orders.Add(JsonConvert.DeserializeObject<Order>(data.ToString()));
+				});
 			});
 			return;
 		}
@@ -67,8 +78,8 @@ namespace FastOrdering.Misc
 			System.Diagnostics.Debug.WriteLine(str);
 			socket.Emit("send_order", new AckImpl((data) =>
 			{
-				System.Diagnostics.Debug.WriteLine(data.ToString());
-				Order.orders.Add(JsonConvert.DeserializeObject<Order>(data.ToString()));
+				//System.Diagnostics.Debug.WriteLine(data.ToString());
+				//Order.orders.Add(JsonConvert.DeserializeObject<Order>(data.ToString()));
 			}), str);
 		}
 
@@ -299,21 +310,19 @@ namespace FastOrdering.Misc
 							dict.Value = (int)contentOut["qty"];
 							dict.Key = dish;
 							dict.Key.comment = (string)contentOut["comment"];
-							//foreach (Object option in contentOut["options_ids"])
-							//{
-							//	str = option.ToString();
-							//	dynamic optionOut = JsonConvert.DeserializeObject(str);
-							//	foreach (Option op in dict.Key.options)
-							//	{
-							//		dict.Key.options.Add(op);
-							//	}
-							//}
-							foreach (string optionID in contentOut["options"])
+							foreach (Object option in contentOut["option"])
 							{
-								foreach (Option op in Option.options)
+								string optionStr = option.ToString();
+								dynamic optionOut = JsonConvert.DeserializeObject(optionStr);
+								string optionID = (string)optionOut["id"];
+								string optionQty = (string)optionOut["qty"];
+								foreach (Option op in dict.Key.options)
 								{
 									if (op.ID == optionID)
-										dict.Key.options.Add(op);
+										op.Number = optionQty;
+									foreach (Option subOp in op.SubOptions)
+										if (subOp.ID == optionID)
+											subOp.Number = optionQty;
 								}
 							}
 							dict.Key.status = (string)contentOut["status"];
