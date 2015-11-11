@@ -33,7 +33,7 @@ public class ItemStruct {
 //			_mOptions = item.getString("options");
 			_mStatus = item.getString("status");
 			_mQty = item.getInt("qty");
-			JSONArray opt = item.getJSONArray("options");
+			JSONArray opt = item.getJSONArray("option");
 			for (int i = 0; i < opt.length(); i++) {
 				_mOptions.put(opt.getJSONObject(i).getString("id"), opt.getJSONObject(i).getString("qty"));
 			}

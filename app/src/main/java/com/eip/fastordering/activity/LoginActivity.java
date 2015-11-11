@@ -179,8 +179,8 @@ public class LoginActivity extends Activity {
                     @Override
                     public void call(Object... args) {
                         Log.d("LOGINACTIVITY", "SOCKETID ANSWER");
-                        Log.d("LOGINACTIVITY", "SOCKETID=" + args[0].toString());
                         try {
+                            Log.d("LOGINACTIVITY", "SOCKETID=" + args[0].toString());
                             JSONObject rep = new JSONObject(args[0].toString());
                             if (rep.getBoolean("answer")) {
                                 fetchAllMenu();
