@@ -56,8 +56,14 @@ question: function(req, res) {
   console.log("question");
   if (req.param("id")) {
     OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
-      var order = Order.findOne({id:ordered.order_id}).populate('waiter_id').then(function(user){return [user.table_id, user.waiter_id.socket_id]});
-      return [order[1], order[0]];
+        var order = Order.findOne({id:ordered.order_id})
+      .then(function(order){return order.waiter_id;});
+
+        var user = Order.findOne({id:ordered.order_id})
+      .then(function(order){return order.waiter_id;})
+      .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
+        var numTable = Order.findOne({id:ordered.order_id}).then(function(order){return order.table_id;});
+        return [user, numTable];
     }).spread(function(socket_id, numTable){
       var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:numTable}
       sails.io.sockets.emit(socket_id, 'notifications', data);
