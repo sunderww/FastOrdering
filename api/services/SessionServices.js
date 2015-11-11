@@ -15,6 +15,12 @@ module.exports = {
 			Key.findOne({code: json.user_key})
 		])
 		.spread(function(key){
+	        if (!key) {
+	            console.log("Access Denied");
+	        	ret = {"answer": false};
+	        	return;
+	        }
+
 	        User.findOne({key:key.id}).exec(function(err, user){
 		       User.update({id:user.id}, {socket_id:socket_id}).exec(function(){});
      	       sails.session.user = user;
