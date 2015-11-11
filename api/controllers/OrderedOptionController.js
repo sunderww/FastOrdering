@@ -31,6 +31,12 @@ module.exports = {
     read_lucas: function (req, res) {
     
       OrderedOption.find( function(err, doc) {
+        doc.forEach(function(ordered){
+          ordered.option_id = ordered.option;
+          ordered.orderedDish_id = ordered.ordered_dish;
+          delete ordered.option;
+          delete ordered.ordered_dish;
+        });
         return res.json(doc);
       });
   },

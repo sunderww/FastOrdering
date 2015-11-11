@@ -12,6 +12,7 @@ module.exports = {
     getOneDetail: function(req,cb){
 		console.log("getOneDetail");
 		var ret = "";
+		console.log()
 		Promise.all([
 		    OrderedOption.find().where({"ordered_dish":req.param('ordered_dish')}).populate('option'),
 		    Dish.findOne({id:req.param('dish_id')}),
@@ -152,7 +153,7 @@ module.exports = {
 						order_id:model.id,
 					    dish_id:current.id,
 					    qty:parseInt(current.qty),
-						comment:model.comment,
+						comment:current.comment,
 						menu_id:json['order'][a].menuId
 					})
 					]).spread(function(ordered){

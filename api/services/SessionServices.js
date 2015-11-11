@@ -21,7 +21,7 @@ module.exports = {
 	        })
             ret = (key == undefined || key.active == false) ? false : true;
             console.log("Access " + ((ret == false) ? "Denied" : "Granted" ));
-       		if (ret)
+       		if (ret == true)
 	     		console.log("Socket id --> "  + socket_id);
        		ret = {"answer":ret, "restaurant_id":key.restaurant};
         })

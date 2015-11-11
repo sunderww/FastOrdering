@@ -150,7 +150,6 @@
 
             setInterval(function(){
                   io.socket.get('/order/gettodayy/', function(req, res){
-                    console.log(res);
                     res = res.body;
                     var result = "";
                     for (var i = 0; i < res.length; i++) {
@@ -162,10 +161,8 @@
             }, 5000);
 
             // Form Skin Switcher
-              // $("html").on('click', 
             $('html').on('click',".panel-footer" ,function() {
                 $(".dish-zoom").html("");
-                var e;
             var idCommand = $(this).parent().attr("idCommand");
             io.socket.get('/order/getDetails?id_command=' + idCommand, function (ordered, response) {
                for (var i = 0; i < ordered.length; i++) {
@@ -173,7 +170,7 @@
                    
                 io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order_id +'&menu_id=' + ordered[i].menu_id + '&'+'dish_id=' + ordered[i].dish_id, function (ret, response) {
                             console.log(response);
-                            $(".dish-zoom").html(response.body);
+                            $(".dish-zoom").append(response.body);
                     });
                };
 	        // Inline Admin-Form example 
@@ -196,23 +193,17 @@
             $("html").on('click', ".ready" ,function(){
                 var id = $(this).parent().attr("id");
                 var me = $(this);
+                console.log(id);
                 io.socket.get('/order/ready?id=' + id, function (body, response) {
-                    console.log(response);
-                   me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger"
-                   );
-                   me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success" );
-                   // me.css("background-color", response.body.status == "toDeliver" ? "green" : "red");
-                    //me.css("border-color", response.body.status == "toDeliver" ? "green" : "red");
+                   me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger");
+                   me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success");
                 });
-
             });
             
             $("html").on('click', ".question" ,function(){
                 var id = $(this).parent().attr("id");
-                console.log(id);
                 io.socket.get('/order/question?id=' + id, function (body, response) {
                     alert("Il arrive ;)")
-                    // console.log(response);                    
                 });
             });
         });
