@@ -54,13 +54,6 @@ module.exports = {
     }
   },
 
-  /*toJSON: function() {
-    var obj = this.toObject();
-    delete obj.password;
-    delete obj._csrf;
-    return obj;
-  },*/
-
     checkPassword: function(values) {
         var errors = [];
         
@@ -94,7 +87,6 @@ module.exports = {
 
         var errors = this.checkPassword(values);
         
-        // TODO FIX THIS
         User.find({email: values.email}).exec(function findEmail(err, found) {
             console.log(found);
             if (found.length > 0) {  
