@@ -60,7 +60,7 @@ public class OrderOrderFragment extends Fragment {
 
 		_mListDataHeader = new ArrayList<String>();
 		_mListDataChild = new HashMap<String, List<String>>();
-		_mListDataOthers = new HashMap<>();
+		_mListDataOthers = new HashMap<String, List<DataDishStruct>>();
 		_mListDataNb = new HashMap<String, List<String>>();
 
 		if (order != null) {
@@ -179,7 +179,8 @@ public class OrderOrderFragment extends Fragment {
 				//Sinon ajoute dans les listes
 				_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).add(_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(), idDish);
 				_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).size(), number);
-				_mListDataOthers.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).size(), options);
+				_mListDataOthers.get(_mListAdapter.get_listDataHeader().get(i)).add(_mListDataOthers.get(_mListAdapter.get_listDataHeader().get(i)).size(), options);
+
 				_mListAdapter.notifyDataSetChanged();
 				Toast.makeText(_mRootView.getContext(), R.string.order_added_success, Toast.LENGTH_SHORT).show();
 				checkListEmpty();
