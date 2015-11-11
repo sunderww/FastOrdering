@@ -56,9 +56,6 @@ question: function(req, res) {
   console.log("question");
   if (req.param("id")) {
     OrderedDish.findOne({order_id: req.param("id")}).then(function(ordered){
-        var order = Order.findOne({id:ordered.order_id})
-      .then(function(order){return order.waiter_id;});
-
         var user = Order.findOne({id:ordered.order_id})
       .then(function(order){return order.waiter_id;})
       .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
@@ -66,7 +63,7 @@ question: function(req, res) {
         return [user, numTable];
     }).spread(function(socket_id, numTable){
       var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:numTable}
-      sails.io.sockets.emit(socket_id, 'notifications', data);
+      sails.sockets.emit(socket_id, 'notifications', data);
       return res.json({status:"ok"});
     });
   }
