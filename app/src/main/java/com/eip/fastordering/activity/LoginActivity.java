@@ -187,6 +187,14 @@ public class LoginActivity extends Activity {
                             }
                             else {
                                 Log.d("LOGIN ACTIVITY", "Connection denied");
+                                LoginActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast msg = Toast.makeText(LoginActivity.this, R.string.login_toast_error, Toast.LENGTH_LONG);
+                                        msg.show();
+                                    }
+                                });
+                                _mProgressDialog.dismiss();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -223,7 +231,7 @@ public class LoginActivity extends Activity {
             @Override
             public void call(Object... args) {
                 Log.d("NOTIF", "Notif recue");
-                NotificationsFragment.addNotificationToList((JSONObject) args[0]);
+                NotificationsFragment.addNotificationToList((JSONObject) args[0], LoginActivity.this);
             }
         }).on("update", new Emitter.Listener() {
             @Override
@@ -406,34 +414,6 @@ public class LoginActivity extends Activity {
                 }
             }
         });
-    }
-
-    /**
-     * Handle all different events needed
-     *
-     * @param event
-     * @param args
-     */
-    private void eventsToListen(String event, Object... args) {
-        switch (event) {
-            case "receive_order":
-                HistoryFragment.addOrderToList((JSONObject) args[0]);
-                break;
-            case "notifications":
-                NotificationsFragment.addNotificationToList((JSONObject) args[0]);
-                break;
-            case "update":
-                fetchAllMenu();
-                break;
-            case "question":
-                //TODO - Alexis
-                break;
-            case "order_ready":
-                //TODO - Alexis
-                break;
-            default:
-                break;
-        }
     }
 
     /**

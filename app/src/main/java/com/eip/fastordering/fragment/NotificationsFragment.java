@@ -51,20 +51,6 @@ public class NotificationsFragment extends Fragment {
 		_mFragment.setArguments(args);
 
 		_mItems.clear();
-
-		//TODO Delete after demo
-//        JSONObject notif = new JSONObject();
-//        try {
-//            notif.put("numTable", "11");
-//            notif.put("msg", "Entree pretes");
-//            notif.put("date", "12/12/12");
-//            notif.put("hour", "12:12");
-//        } catch (JSONException e) {
-//
-//        }
-//        addNotificationToList(notif);
-		//TODO End delete
-
 		return _mFragment;
 	}
 
@@ -82,12 +68,18 @@ public class NotificationsFragment extends Fragment {
 		}
 	}
 
-	static public void addNotificationToList(JSONObject notif) {
+	public static void addNotificationToList(JSONObject notif, Activity activity) {
 		if (_mItems.size() >= _mSizeList)
 			_mItems.remove(_mSizeList - 1);
 		_mItems.add(0, new NotifStruct(notif));
-		if (_mAdapter != null)
-			_mAdapter.notifyDataSetChanged();
+		if (_mAdapter != null) {
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					_mAdapter.notifyDataSetChanged();
+				}
+			});
+		}
 		checkListEmpty();
 		try {
 			createNotificationLauncher("Nouvelle notification", notif.getString("msg"));
