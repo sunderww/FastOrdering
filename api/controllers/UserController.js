@@ -94,7 +94,6 @@ module.exports = {
             }
             
             restaurantValue.users = user.id;
-            // Should I do that in afterCreate ??           // Not sure if user should be add DOC UNCLEAR
             Restaurant.create(restaurantValue).exec(function restaurantCreated(err, restaurant){
                 if (err) {
                     console.log(err);
@@ -111,7 +110,6 @@ module.exports = {
             });
             // Redirect and Login
             res.redirect('/login');
-            // res.json(user); 
             req.session.flash = {};
         });
     },
