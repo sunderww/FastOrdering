@@ -73,7 +73,6 @@ ready: function(req, res) {
   if (req.param("id")) {
     console.log("Order ready");
     OrderedDish.findOne({order_id: req.param("id")}).then(function(ordered){
-
         var dish = Dish.findOne({id:ordered.dish_id})
 	    .then(function(dish) {return dish.name});
         var order = Order.findOne({id:ordered.order_id})

@@ -51,18 +51,24 @@ module.exports = {
 		var ret = "Error: nothing";
 	       Promise.all([
 			Order.findOne({id:order_id}),
-			OrderedDish.find({order_id: order_id})
+			OrderedDish.find({order_id: order_id}),
+			OrderedOption.find()
 			])
-		.spread(function(order, ordered){
+		.spread(function(order, ordered, opt){
 			var res = new Object();
 		    var order_content = new Array();
 			ordered.forEach(function(entry) {
-			 	entry.options = OrderedOption.find({ordered_id:entry.id}).then(function(opt){console.log(opt);return opt;});
+		 		var rr = new Array();
+			 	opt.forEach(function(o) {
+			 		if (o.ordered_dish == entry.id)
+			 			rr.push({id:o.id, qty:o.qty});
+			 	});
+		 		entry.option = rr;
 			    entry.qty = (entry.qty).toString();
 			    entry.id = entry.dish_id;
 			    delete entry.dish_id;
 			    if (res[(entry.menu_id).toString()] == undefined)
-				res[(entry.menu_id).toString()] = new Array();
+					res[(entry.menu_id).toString()] = new Array();
 			    res[(entry.menu_id).toString()].push(entry);
 			});
 
