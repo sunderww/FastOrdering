@@ -16,7 +16,7 @@ module.exports = {
      */
     create: function (req, res) {
 		if (req.method=="POST") {
-			Dish.Create({
+			Dish.create({
 				id: req.param("id"),
 				name:req.param("name"),
 				price:req.param("price"),
