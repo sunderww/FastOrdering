@@ -77,21 +77,33 @@ module.exports.connections = {
   *                                                                          *
   *                                                                          *
   ***************************************************************************/
-  somePostgresqlServer: {
+  
+  postgresql: {
     adapter: 'sails-postgresql',
-    host: 'YOUR_POSTGRES_SERVER_HOSTNAME_OR_IP_ADDRESS',
-    user: 'YOUR_POSTGRES_USER',
-    password: 'YOUR_POSTGRES_PASSWORD',
-    database: 'YOUR_POSTGRES_DB'
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'FastOrdering',
+    port: 5432,
+    pool: false,
+    ssl: false
   },
-redis: {
-adapter: "sails-redis",
-host: 'localhost',
-port: 6379,
-user: null,
-password: null,
-database: "fast"
-},
+  
+  /***************************************************************************
+  *                                                                          *
+  * Redis                                                                    *
+  *                                                                          *
+  ***************************************************************************/
+  
+  redis: {
+    adapter: "sails-redis",
+    host: 'localhost',
+    port: 6379,
+    user: null,
+    password: null,
+    database: "fast"
+  },
+  
   /***************************************************************************
   *                                                                          *
   * More adapters: https://github.com/balderdashy/sails                      *
@@ -99,5 +111,5 @@ database: "fast"
   ***************************************************************************/
 
    charset   : 'utf8',
-    collation : 'utf8_general_ci'
+   collation : 'utf8_general_ci'
 };

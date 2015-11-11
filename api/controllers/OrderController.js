@@ -46,73 +46,56 @@ getOneOrder: function(req, res) {
 },
 
     delete: function(id) {
-    	Order.destroy().exec(function(res, doc) {
+    	Order.destroy({}).exec(function(res, doc) {
     	    return res.ok("ok");
     	});
+
     },
-
-  create: function (req, res) {
-	console.log("Create order");
-
-   Order.create({
-    table_id:"1",
-    dinerNumber:"2",
-    comments: "commande avec menu delice"
-  }).exec(function(err,model){
-      console.log(err);
-    OrderedDish.create({
-      order_id:model.id,
-      dish_id:"572f78d9937726dc7ab8f8f2",
-      quantity:1,
-      ready:false,
-      comment:"ok, chaud2",
-      menu_id:"572abe8049bb4c97702057db",
-    }).exec(function(err,model){
-      console.log(err);
-      return res.send(model);
-
-    });
-    OrderedDish.create({
-      order_id:model.id,
-      dish_id:"572f78d9937726dc7ab8f8f2",
-      quantity:1,
-      comment:"ok, chaud2",
-      menu_id:"572abe8049bb4c97702057db"
-    }).exec(function(err,model){
-      console.log(err);
-      return res.send(model);
-    });
-  });
-},
 
 question: function(req, res) {
   console.log("question");
-//  var friendId = sails.io.sockets.clients()[0].id;
-
-//console.log(friendId);
-        var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:"7"}
-    sails.io.sockets.emit('notifications', data);
-    return res.ok(data);
+  if (req.param("id")) {
+    OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
+        var user = Order.findOne({id:ordered.order_id})
+      .then(function(order){return order.waiter_id;})
+      .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
+        var numTable = Order.findOne({id:ordered.order_id}).then(function(order){return order.table_id;});
+        return [user, numTable];
+    }).spread(function(socket_id, numTable){
+      var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:numTable}
+      sails.sockets.emit(socket_id, 'notifications', data);
+      return res.json({status:"ok"});
+    });
+  }
+  else
+    return null;
 
 },
 
 ready: function(req, res) {
   if (req.param("id")) {
-    OrderedDish.findOne({id: req.param("id")}, function(err, doc) {
-        var status = doc.status == "toDeliver" ? "cooking" : "toDeliver";
-        OrderedDish.update({id: req.param("id")}, {status:status}, function(err, model) {
-        console.log("ready");
-        // var friendId = sails.io.sockets.clients()[0].id;
-        Dish.findOne({id: model[0].dish_id}).exec(function(err, doc) {
-          console.log(doc.name);
-          console.log(doc['name']);
-          var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + doc.name + "est pret!", numTable:"7"}
-          sails.io.sockets.emit('notifications', data);
-          return res.send(doc);
-        });
-      });
+    console.log("Order ready");
+    OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
+        var dish = Dish.findOne({id:ordered.dish_id})
+	    .then(function(dish) {return dish.name});
+        var order = Order.findOne({id:ordered.order_id})
+	    .then(function(order){return order.waiter_id;});
+
+        var user = Order.findOne({id:ordered.order_id})
+	    .then(function(order){return order.waiter_id;})
+	    .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
+
+        var numTable = Order.findOne({id:ordered.order_id}).then(function(order){return order.table_id;});
+        var status = Order.updateStatus(ordered.id);
+        return ["ordered", user, dish, status, numTable];
+    }).spread(function(one, socket_id, dish, status, numTable){
+        var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
+        sails.sockets.emit(socket_id, 'notifications', data);
+        return res.json({status:status});
     });
-  }    
+  }
+  else
+    return null; 
 },
 
 json: function (req, res) {
@@ -130,17 +113,6 @@ json: function (req, res) {
   * @param {String} id id de la commande(optionnel)
   * @return {JSON} Retourne les résultat présents en base de données (0 ou 1 ou plusieurs commandes)
   */
-  // read: function (req, res) {
-  //   if (req.param("id")) {
-  //     Order.find({id: req.param("id")}, function(err, doc) {
-  //       return res.send(doc);
-  //     });
-  //   } else {
-  //     OrderedDish.find( function(err, doc) {
-  //   	  return res.view({orders:doc});
-  //     });
-  //   } 
-  // },
   read: function (req, res) {
     if (req.param("id")) {
       Order.find({id: req.param("id")}, function(err, doc) {
@@ -155,31 +127,36 @@ json: function (req, res) {
   },
 
   getToday: function(req, res) {
-       Order.find(function(err, doc) {
+    Order.find()
+//.where({"date": moment().format("DD/MM/YYYY")})
+.sort("createdAt DESC").exec(function(err, doc) {
       return res.view({orders:doc});
-      });
-      // Order.find().where({"date": moment().format("DD/MM/YYYY")}).exec(function(err, doc) {
-      // return res.view({orders:doc});
-      // });
+     });
   },
+
   gettodayy: function(req, res) {
-      Order.find().where({"date": moment().format("DD/MM/YYYY")}).sort("createdAt DESC").exec(function(err, doc) {
+    Order.find()
+//.where({"date": moment().format("DD/MM/YYYY")})
+.sort("createdAt DESC").exec(function(err, doc) {
       return res.ok(doc);
-      });
+    });
   },
 
-
-    read_xavier: function(req, res) {
-	OrderServices.getLastOrders(5, function(result){
+  read_xavier: function(req, res) {
+	 OrderServices.getLastOrders(5, function(result){
 	    return res.ok(result);
 	});
     },
 
     getDetails: function(req, res){
-	OrderServices.getDetails(req,function(result){
-	    console.log(result);
-	    return res.json(result);
-	});
+      OrderedDish.find({order_id: req.param('id_command')}, function(err, ret){
+        return res.json(ret);
+      });
+    },
+    getDetailsOrder: function(req, res) {
+      OrderServices.getOneDetail(req,function(result){
+    	    return res.json(result);
+    	});
     },
 
 };

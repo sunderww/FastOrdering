@@ -150,7 +150,6 @@
 
             setInterval(function(){
                   io.socket.get('/order/gettodayy/', function(req, res){
-                    console.log(res);
                     res = res.body;
                     var result = "";
                     for (var i = 0; i < res.length; i++) {
@@ -162,31 +161,18 @@
             }, 5000);
 
             // Form Skin Switcher
-              // $("html").on('click', 
             $('html').on('click',".panel-footer" ,function() {
                 $(".dish-zoom").html("");
-                var e;
             var idCommand = $(this).parent().attr("idCommand");
             io.socket.get('/order/getDetails?id_command=' + idCommand, function (ordered, response) {
-
-            // io.socket.get('/ordereddish/read?id=' + idCommand, function (ordered, response) {
-            //     e = 0;
-            //     for (var i = 0; ordered[i]; i++) {
-            //         var menu_id = ordered[i].menu_id;
-            //         // console.log(menu_id);
-            //         io.socket.get('/dish/read?id=' + ordered[i].dish_id, function (dish, response2, ordered) {
-            //             io.socket.get('/menu/read?id=' + ordered[i].menu_id, function (menu, response3) {
-            //             // var number = Math.floor((Math.random() * 100) + 1);
-            //             var ready = (ordered[e].status == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
-            //             var	res = '<div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form"><h3>Menu - ' + menu.elements.name  + '</h3>        <div style="height:30px"><span class="element-zoom" style="float:left;font-size:40px;">' + ordered[e].qty + '</span><span class="element-zoom" style="width:100px; float:left !important;">' + dish[0].name + '</span><span class="element-zoom">'+ordered[e].comment+'</span></div></br><div><span id="' + ordered[e].id + '"><button  class="' + ready + ' ">Pret</button><button class="btn btn-primary question">Serveur</button></span></span></div><span></div></div>';
-            //             // <hr class="short alt" style="width:400px;margin:0px;">
-                            console.log(ordered);
-                            $(".dish-zoom").append(ordered);
-            //             e++;
-            //             });
-            //         });
-            //     };
-            // });
+               for (var i = 0; i < ordered.length; i++) {
+                            console.log(ordered[i]);
+                   
+                io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order_id +'&menu_id=' + ordered[i].menu_id + '&'+'dish_id=' + ordered[i].dish_id, function (ret, response) {
+                            console.log(response);
+                            $(".dish-zoom").append(response.body);
+                    });
+               };
 	        // Inline Admin-Form example 
                 $.magnificPopup.open({
                     removalDelay: 500, //delay removal by X to allow out-animation,
@@ -204,26 +190,32 @@
                 });
             });
 
-            $("html").on('click', ".ready" ,function(){
-                var id = $(this).parent().attr("id");
-                var me = $(this);
-                io.socket.get('/order/ready?id=' + id, function (body, response) {
-                    console.log(response);
-                   me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger"
-                   );
-                   me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success" );
-                   // me.css("background-color", response.body.status == "toDeliver" ? "green" : "red");
-                    //me.css("border-color", response.body.status == "toDeliver" ? "green" : "red");
-                });
+            var id_ready = false;
+            var id_question = false;
 
+            $("html").on('click', ".ready" ,function(){
+                if (id_ready)
+                    return ;
+                id_ready = true;
+                id_ready  = $(this).parent().attr("id");
+                var me = $(this);
+                console.log(id_ready);
+                io.socket.get('/order/ready?id=' + id_ready, function (body, response) {
+                   console.log(response);
+                   me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger");
+                   me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success");
+                    id_ready = false;
+                });
             });
-            
+
             $("html").on('click', ".question" ,function(){
-                var id = $(this).parent().attr("id");
-                console.log(id);
-                io.socket.get('/order/question?id=' + id, function (body, response) {
-                    alert("Il arrive ;)")
-                    // console.log(response);                    
+                  if (id_question)
+                    return ;
+                id_question = true;
+                id_question = $(this).parent().attr("id");
+                io.socket.get('/order/question?id=' + id_question, function (body, response) {
+                    alert("Il arrive ;)");
+                    id_question = false;
                 });
             });
         });

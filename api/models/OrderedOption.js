@@ -17,6 +17,10 @@ module.exports = {
     
     option : {
       model: "Option",
+      required: false
+    },
+    ordered_dish: {
+      type: "string",
       required: true
     }
   }
