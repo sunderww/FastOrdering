@@ -89,9 +89,8 @@ ready: function(req, res) {
         var status = Order.updateStatus(ordered.id);
         return ["ordered", user, dish, status, numTable];
     }).spread(function(one, socket_id, dish, status, numTable){
-	
-      var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
-	sails.sockets.emit(socket_id, 'notifications', data);
+        var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
+        sails.sockets.emit(socket_id, 'notifications', data);
         return res.json({status:status});
     });
   }

@@ -190,20 +190,31 @@
                 });
             });
 
+            var id_ready = false;
+            var id_question = false;
+
             $("html").on('click', ".ready" ,function(){
-                var id = $(this).parent().attr("id");
+                if (id_ready)
+                    return ;
+                id_ready = true;
+                id_ready  = $(this).parent().attr("id");
                 var me = $(this);
-                console.log(id);
-                io.socket.get('/order/ready?id=' + id, function (body, response) {
+                console.log(id_ready);
+                io.socket.get('/order/ready?id=' + id_ready, function (body, response) {
                    me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger");
                    me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success");
+                    id_ready = false
                 });
             });
-            
+
             $("html").on('click', ".question" ,function(){
-                var id = $(this).parent().attr("id");
-                io.socket.get('/order/question?id=' + id, function (body, response) {
-                    alert("Il arrive ;)")
+                  if (id_question)
+                    return ;
+                id_question = true;
+                id_question = $(this).parent().attr("id");
+                io.socket.get('/order/question?id=' + id_question, function (body, response) {
+                    alert("Il arrive ;)");
+                    id_question = false;
                 });
             });
         });

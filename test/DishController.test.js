@@ -66,13 +66,13 @@ it('Create a Dish', function (done) {
 	                  done(err);
 	            });
 		});
-		it('Delete a dish', function (done) {
-	            request(sails.hooks.http.app)
-	              .post('/dish/delete')
-	              .send({id:"572f78e6937726dc7abffff3"})
-	              .expect(302)
-	              .end(function (err, res) {
-	                  done(err);
-	            });
-		});
+		// it('Delete a dish', function (done) {
+	 //            request(sails.hooks.http.app)
+	 //              .post('/dish/delete')
+	 //              .send({id:"572f78e6937726dc7abffff3"})
+	 //              .expect(302)
+	 //              .end(function (err, res) {
+	 //                  done(err);
+	 //            });
+		// });
 });
