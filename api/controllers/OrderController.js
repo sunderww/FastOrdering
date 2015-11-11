@@ -55,7 +55,7 @@ getOneOrder: function(req, res) {
 question: function(req, res) {
   console.log("question");
   if (req.param("id")) {
-    OrderedDish.findOne({order_id: req.param("id")}).then(function(ordered){
+    OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
         var user = Order.findOne({id:ordered.order_id})
       .then(function(order){return order.waiter_id;})
       .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});

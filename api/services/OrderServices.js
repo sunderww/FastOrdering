@@ -34,7 +34,7 @@ module.exports = {
             + '</span><span class="element-zoom" style="width:100px;'
             + ' float:left !important;">' + dish.name + " " + s_options + " "
             + '</span><span class="element-zoom">'+ordered_dish.comment
-            + '</span></div></br><div><span id="' + order.id + '"><button  class="' 
+            + '</span></div></br><div><span id="' + ordered_dish.id + '"><button  class="' 
             + ready 
             + ' ">Pret</button><button class="btn btn-primary question">'
             + 'Serveur</button></span></span></div><span></div></div>';
