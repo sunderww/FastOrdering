@@ -201,6 +201,7 @@
                 var me = $(this);
                 console.log(id_ready);
                 io.socket.get('/order/ready?id=' + id_ready, function (body, response) {
+                   console.log(response);
                    me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger");
                    me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success");
                     id_ready = false;
