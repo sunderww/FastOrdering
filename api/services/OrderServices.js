@@ -6,9 +6,7 @@
 
 var Promise = require('q');
 module.exports = {
-	ready: function(req, cb) {
 
-	},
     getOneDetail: function(req,cb){
 		console.log("getOneDetail");
 		var ret = "";
@@ -27,17 +25,20 @@ module.exports = {
         	});
 
 		    var ready = (req.param('status') == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
-            ret = '<div style="display:inline-block !important;width:500px;margin:0px;'
-            + 'height:30px" class="admin-form"><h3>Menu - ' + menu.name  
-            + '</h3><div style="height:30px"><span class="element-zoom" style="float:'
-            + 'left;font-size:40px;">' + ordered_dish.qty 
-            + '</span><span class="element-zoom" style="width:100px;'
-            + ' float:left !important;">' + dish.name + " " + s_options + " "
-            + '</span><span class="element-zoom">'+ordered_dish.comment
-            + '</span></div></br><div><span id="' + ordered_dish.id + '"><button  class="' 
-            + ready 
-            + ' ">Pret</button><button class="btn btn-primary question">'
-            + 'Serveur</button></span></span></div><span></div></div>';
+           	ret = '<div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form">'
+            + '<h3>Menu - '+ menu.name + ' </h3>'
+            + '<div style="height:30px">'
+            + '<span class="element-zoom" style="float:left;font-size:40px;"> ' + ordered_dish.qty + '</span>'
+            + '<span class="element-zoom" style="width:100px;float:left !important;">' + dish.name + " " + s_options + '</span>'
+            + '<span class="element-zoom">'+ordered_dish.comment+'</span>'
+            + '</div>'
+            + '</br>'
+            + '<span id="' + ordered_dish.id + '">'
+            + '<button  class="' + ready + '">Pret</button>'
+            + '<button class="btn btn-primary question">Serveur</button>'
+            + '</span>'
+            + '</span>'
+        	+ '</div>';
 	    })
 	    .catch(function(err){
 			console.log(err);
