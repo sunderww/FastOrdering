@@ -45,17 +45,17 @@ module.exports = {
 		},
 		
 		print: function(req, res) {
-			
-			// Just pour regarder
-			// OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
-			// 	var dish = Dish.findOne({id:ordered.dish_id}).then(function(dish) {return dish.name});
-			// 	var socket_id = Order.findOne({id:ordered.order_id}).populate('waiter_id').then(function(user){return user.waiter_id.socket_id});
-			// 	var status = Order.updateStatus(ordered.id);
-			// 	return ["ordered", socket_id, dish, status];
-			// }).spread(function(one, socket_id, dish, status){
-			// 	var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + "est pret!", numTable:"7"}
-			// 	return res.json({status:status});
-			// });
+			OrderedDish.find({order_id: req.param("id")}).then(function(ordered){
+				var data = new Array();
+				ordered.forEach(function(s){
+					var dish = Dish.findOne({id:s.dish_id}).then(function(dish) {return dish.name})
+					var menu = Menu.findOne({id:s.menu_id}).then(function(menu) {return menu.name});
+					data.push({dish:dish, menu:menu, qty:s.qty});
+				});
+				return [data];
+			}).then(function(data){
+				console.log(data);
+			});
 		}
 };
 
