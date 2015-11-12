@@ -23,8 +23,8 @@
 - (void)setNotification:(Notification *)notif {
     NSDateFormatter * f = [NSDateFormatter new];
     
-    f.dateFormat = @"Le dd/MM/yy à HH:mm";
-    mainLabel.text = [NSString stringWithFormat:@"Table #XX : #%@", notif.msg];
+    f.dateFormat = @"'Le' dd/MM/yy à HH:mm";
+    mainLabel.text = [NSString stringWithFormat:@"Table #%@ : %@", notif.numTable, notif.msg];
     descLabel.text = [f stringFromDate:notif.date];
 }
 

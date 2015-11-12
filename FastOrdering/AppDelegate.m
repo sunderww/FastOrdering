@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "Notification+Custom.h"
+#import "NSManagedObject+create.h"
+#import "MainViewController.h"
 
 @implementation AppDelegate
 
@@ -28,10 +31,23 @@
 	[self dropDB];
 #endif
 #endif
+
+	// Delete all old notifications
+//	DLog(@"Deleting all notifications...");
+//	[self deleteAllObjects:@"Notification"];
 	
-	NSError * error;
-	NSLog(@"%@", [NSString stringWithContentsOfURL:[NSURL URLWithString:@"www.google.com"] encoding:NSUTF8StringEncoding error:&error]);
-	NSLog(@"%@", error);
+	// Register to notifications
+	[[SocketHelper sharedHelper] registerListener:self forEvent:@"notifications"];
+	if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+		[application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+	}
+	
+	// Handle the open-by-a-notification case
+	UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+	if (notification) {
+		[self application:[UIApplication sharedApplication] didReceiveLocalNotification:notification];
+	}
+
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	// Override point for customization after application launch.
 	self.window.backgroundColor = [UIColor whiteColor];
@@ -245,6 +261,58 @@
 - (NSURL *)applicationDocumentsDirectory
 {
 	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+#pragma mark - SocketEventListener methods
+
+- (void)socketReceivedEvent:(NSString *)name withPacket:(SocketIOPacket *)packet {
+	if (![name isEqualToString:@"notifications"]) return ;
+	
+	Notification * notification = [Notification create];
+	NSData * data = [packet.data dataUsingEncoding:NSUTF8StringEncoding];
+	NSArray * info = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+	if (info.count < 2) {
+		PPLog(@"Received notifications event without correct parameters : %@", info);
+		return ;
+	}
+	
+	NSDateFormatter * formatter = [NSDateFormatter new];
+	formatter.dateFormat = @"dd/MM/yy hh:mm";
+
+	NSDictionary * notificationDict = info[1];
+	NSString * date = [NSString stringWithFormat:@"%@ %@", notificationDict[@"date"], notificationDict[@"hour"]];
+	notification.date = [formatter dateFromString:date];
+	notification.updatedAt = [NSDate date];
+	notification.msg = notificationDict[@"msg"];
+	notification.numTable = notificationDict[@"numTable"];
+	
+	[self handleNotification:notification];
+}
+
+#pragma mark - Notification handling
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+	NSURL * url = [NSURL URLWithString:notification.userInfo[@"notificationId"]];
+	NSManagedObjectID * objectID = [self.persistentStoreCoordinator managedObjectIDForURIRepresentation:url];
+	Notification * notif = (Notification *)[self.managedObjectContext existingObjectWithID:objectID error:NULL];
+
+	
+	if (self.mainController.onMainPage) {
+		[self.mainController reloadData];
+	} else {
+		[[[UIAlertView alloc] initWithTitle:@"Notification" message:notif.msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+		[self.mainController reloadData];
+	}
+}
+
+- (void)handleNotification:(Notification *)notification {
+	UILocalNotification * local = [UILocalNotification new];
+
+	local.alertBody = notification.computedMessage;
+//	local.soundName = UILocalNotificationDefaultSoundName;
+	local.userInfo = @{ @"notificationId": notification.objectID.URIRepresentation.absoluteString };
+	
+	[[UIApplication sharedApplication] scheduleLocalNotification:local];
 }
 
 #pragma mark - Other methods

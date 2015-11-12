@@ -51,5 +51,7 @@
 
 - (void)goToOrder:(Order *)order;
 - (void)goBackToMainPage;
+- (void)reloadData;
+- (BOOL)onMainPage;
 
 @end

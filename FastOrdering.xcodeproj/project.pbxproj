@@ -98,6 +98,7 @@
 		84CA65D01BD918BE009DE1B7 /* OrderedDish.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65CF1BD918BE009DE1B7 /* OrderedDish.m */; };
 		84CA65D31BDCE575009DE1B7 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65D21BDCE575009DE1B7 /* Notification.m */; };
 		84CA65D91BDCE679009DE1B7 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65D81BDCE679009DE1B7 /* Order.m */; };
+		84CA65DC1BE26653009DE1B7 /* Notification+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CA65DB1BE26653009DE1B7 /* Notification+Custom.m */; };
 		84CDA38D1AA6A9C200D3D502 /* CommandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */; };
 		84CDA38F1AA6A9D800D3D502 /* CommandView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CDA38E1AA6A9D800D3D502 /* CommandView.xib */; };
 		84D4B7B01AD22FBC00AF57F2 /* Order+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */; };
@@ -282,6 +283,8 @@
 		84CA65D21BDCE575009DE1B7 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		84CA65D71BDCE679009DE1B7 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
 		84CA65D81BDCE679009DE1B7 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
+		84CA65DA1BE26653009DE1B7 /* Notification+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Notification+Custom.h"; sourceTree = "<group>"; };
+		84CA65DB1BE26653009DE1B7 /* Notification+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Notification+Custom.m"; sourceTree = "<group>"; };
 		84CDA38B1AA6A9C200D3D502 /* CommandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandViewController.h; sourceTree = "<group>"; };
 		84CDA38C1AA6A9C200D3D502 /* CommandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandViewController.m; sourceTree = "<group>"; };
 		84CDA38E1AA6A9D800D3D502 /* CommandView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommandView.xib; sourceTree = "<group>"; };
@@ -408,6 +411,8 @@
 				84D4B7AF1AD22FBC00AF57F2 /* Order+Custom.m */,
 				84D699D21BC68E9800520AB1 /* OrderedDish+Custom.h */,
 				84D699D31BC68E9800520AB1 /* OrderedDish+Custom.m */,
+				84CA65DA1BE26653009DE1B7 /* Notification+Custom.h */,
+				84CA65DB1BE26653009DE1B7 /* Notification+Custom.m */,
 			);
 			name = Customs;
 			sourceTree = "<group>";
@@ -974,6 +979,7 @@
 				844B06C01ABF81FA00DCFBB3 /* CategoryExpandableCell.m in Sources */,
 				84CA65B51BD901E0009DE1B7 /* OrderedOption.m in Sources */,
 				845DE83B1B7FBFC700FF4509 /* SocketIOJSONSerialization.m in Sources */,
+				84CA65DC1BE26653009DE1B7 /* Notification+Custom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

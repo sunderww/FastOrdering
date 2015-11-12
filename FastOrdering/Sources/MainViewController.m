@@ -44,6 +44,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	((AppDelegate *)UIApplication.sharedApplication.delegate).mainController = self;
 
 	timer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
     [self loadDatabase];
@@ -66,27 +68,31 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-    lastOrders = [Order last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
-    lastNotifications = [Notification last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
-
-    CGRect frame = lastOrdersTableView.frame;
-    frame.size.height = lastOrders.count * kTableViewCellHeight;
-    lastOrdersTableView.frame = frame;
-    frame = lastNotificationsTableView.frame;
-    frame.size.height = lastNotifications.count * kTableViewCellHeight;
-    lastNotificationsTableView.frame = frame;
-    
-    noOrderLabel.hidden = lastOrders.count > 0;
-    noNotificationLabel.hidden = lastNotifications.count > 0;
-
-    [lastOrdersTableView reloadData];
-    [lastNotificationsTableView reloadData];
+	[self reloadData];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)reloadData {
+	lastOrders = [Order last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+	lastNotifications = [Notification last:2 withDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]]];
+	
+	CGRect frame = lastOrdersTableView.frame;
+	frame.size.height = lastOrders.count * kTableViewCellHeight;
+	lastOrdersTableView.frame = frame;
+	frame = lastNotificationsTableView.frame;
+	frame.size.height = lastNotifications.count * kTableViewCellHeight;
+	lastNotificationsTableView.frame = frame;
+	
+	noOrderLabel.hidden = lastOrders.count > 0;
+	noNotificationLabel.hidden = lastNotifications.count > 0;
+	
+	[lastOrdersTableView reloadData];
+	[lastNotificationsTableView reloadData];
 }
 
 - (void)goToOrder:(Order *)order {
@@ -110,6 +116,10 @@
 	[self viewWillAppear:NO];
 	
 	[self postChange];
+}
+
+- (BOOL)onMainPage {
+	return !mainView.hidden;
 }
 
 #pragma mark - Helper methods

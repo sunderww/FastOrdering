@@ -142,7 +142,7 @@
 	
 	for (NSString * key in elem) {
 		id value = elem[key];
-		if (value == [NSNull null]) continue ;
+		if (value == [NSNull null] || [key isEqualToString:kParsingIdKey]) continue ;
 		
 		if ([key hasSuffix:kParsingRelationToOneSuffix]) {
 			NSString * name = [key stringByReplacingOccurrencesOfString:@"_id" withString:@""];
@@ -156,6 +156,7 @@
 					name = [NSString stringWithFormat:@"set%@:", [name capitalizedString]];
 				SEL selector = NSSelectorFromString(name);
 				((void (*)(id, SEL, id))[obj methodForSelector:selector])(obj, selector, relation);
+				continue;
 			} else {
 				value = [self correctValueForKey:key attributes:attributes andValue:value];
 			}
@@ -178,6 +179,7 @@
 				NSManagedObject * relation = [self objectOfClass:rel.destinationEntity.managedObjectClassName withId:serverId];
 				((void (*)(id, SEL, id))[obj methodForSelector:selector])(obj, selector, relation);
 			}
+			continue;
 		} else if (value && value != [NSNull null] &&
 				   [attributes.allKeys containsObject:key]) {
 			value = [self correctValueForKey:key attributes:attributes andValue:value];
@@ -187,7 +189,7 @@
 		if ([[value class] isSubclassOfClass:NSClassFromString(class)])
 			[obj setValue:value forKey:key];
 		else
-			PPLog(@"%@ != %@ (%@)", class, [value class], value);
+			PPLog(@"%@:%@ > %@ != %@ (%@)", className, key, class, [value class], value);
 	}
 }
 

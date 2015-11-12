@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SocketHelper.h"
 
 @import CoreData;
+
+@class Notification;
+@class MainViewController;
+
 
 #pragma mark - Server defines
 
@@ -30,16 +35,24 @@
 // uncomment this line to begin with an empty db
 //#define kShouldDropDB
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#define kServerKey	@"$2a$10$.2QyYw7eYH238c.Txjlp7uD1wSo9S/qqf4HGn0n7XOceXPHonNbca"
+
+
+#pragma mark - AppDelegate
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, SocketEventListener>
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong, nonatomic) MainViewController * mainController;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+
+- (void)handleNotification:(Notification *)notification;
 
 - (NSString *)appVersion;
 - (NSString *)build;

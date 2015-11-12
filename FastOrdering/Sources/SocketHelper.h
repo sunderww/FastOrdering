@@ -9,8 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "SocketIO+SailsIO.h"
 
+@class AppDelegate;
+
+@protocol SocketEventListener <NSObject>
+
+@required
+- (void)socketReceivedEvent:(NSString *)name withPacket:(SocketIOPacket *)packet;
+
+@end
+
 @interface SocketHelper : NSObject <SocketIODelegate> {
-  NSMutableArray *  delegates;
+	NSMutableArray *		delegates;
+	NSMutableDictionary *	eventListeners;
+	AppDelegate *			appDelegate;
 }
 
 + (instancetype)sharedHelper;
@@ -21,5 +32,7 @@
 
 - (void)pushDelegate:(id<SocketIODelegate>)delegate;
 - (void)popDelegate:(id<SocketIODelegate>)delegate;
+- (void)registerListener:(id<SocketEventListener>)listener forEvent:(NSString *)eventName;
+- (void)unregisterListener:(id<SocketEventListener>)listener forEvent:(NSString *)eventName;
 
 @end

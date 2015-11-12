@@ -9,13 +9,14 @@
 #import "LoginViewController.h"
 #import "MainViewController.h"
 #import "SocketHelper.h"
+#import "AppDelegate.h"
 
 #if DEBUG
 // Uncomment the following line to directly skip the LoginView
 //# define kSkipLoginView
 
 // Uncomment the following line to not check the server validation
-# define kLoginDoNotValidate
+//# define kLoginDoNotValidate
 #endif
 
 // The key of the JSON response send by the server : { answer: true }
@@ -41,6 +42,10 @@
     [super viewDidLoad];
 	[SocketHelper.sharedHelper pushDelegate:self];
     [loginButton setTitle:NSLocalizedString(@"LogIn", @"") forState:UIControlStateNormal];
+	
+#if DEBUG
+	keyField.text = kServerKey;
+#endif
 	
 #ifdef kSkipLoginView
 	[SocketHelper connectSocket];
