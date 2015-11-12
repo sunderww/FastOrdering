@@ -23,10 +23,11 @@ module.exports = {
       categories_ids: req.param("categories_ids")
     }).exec(function(err, model){
       if (err) {
+        console.log("MenuComposition creation failed");
         return res.json({message: err.ValidationError});
       }
-      else
-        return res.json({message: model.id});
+      console.log("DishCategory created with success");
+      return res.json({message: model.id});
     });
   },
 
@@ -60,6 +61,7 @@ module.exports = {
   delete: function (req, res) {
     if (req.param("id")) {
       MenuComposition.destroy({id:req.param("id")}, function(err, doc) {
+        console.log("Delete MenuComposition --> " + req.param('id'));
         return res.json({elements: doc});
       });  
     }

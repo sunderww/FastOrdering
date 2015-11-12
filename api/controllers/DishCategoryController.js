@@ -23,7 +23,7 @@ module.exports = {
      	}).exec(function(err,model){
      		if (err) {
           console.log("DishCategory creation failed");
-     			return res.json({message: err.ValidationError});
+          return res.json({message: err.ValidationError});
      		}
      		else {
           console.log("DishCategory created with success");
@@ -45,7 +45,7 @@ module.exports = {
   */
   read: function (req, res) {
    	if (req.param("id")) {
-   		DishCategory.find({id: req.param("id")}, function(err, doc) {
+   		DishCategory.findOne({id: req.param("id")}, function(err, doc) {
    			return res.send(doc);
    		});
    	} else {
@@ -66,7 +66,7 @@ module.exports = {
         name:req.param("name")
       }).exec(function(err,model) {
         if (err) {
-          console.log("Dish update failed");
+          console.log("Failed Dish update");
           return res.json({message: err.ValidationError});
         }
         else

@@ -22,15 +22,11 @@ module.exports = {
         price: req.param('price'),
       }).exec(function(err,model){
         if (err) {
-          return res.json({
-            message: err.ValidationError
-          });
+          console.log("Menu creation failed");
+          return res.json({message: err.ValidationError});
         }
-        else {
-             Menu.find( function(err, doc) {
-          return res.view({menus:doc});
-        });
-        }
+        console.log("Menu created with success");
+        Menu.find(function(err, doc) {return res.view({menus:doc});});
       }); 
       }
       else {
@@ -50,9 +46,12 @@ module.exports = {
   */
   update: function (req, res) {
    MenuServices.update(req.param('id'), req, function(data){
-          if (data[1] == true)
-           return res.redirect('/menu/create');
+          if (data[1] == true) {
+            console.log("Menu updated with success");
+            return res.redirect('/menu/create');
+          }
           else {
+            console.log("Failed Menu updated");
             return res.view(data[0]);
           }
    });
@@ -89,6 +88,7 @@ module.exports = {
 
     delete: function(req, res) {
         Menu.destroy({id:req.param("id")}).exec(function(err, doc) {
+          console.log("Delete Menu --> " + req.param('id'));
         return res.redirect('/menu/create');
       });
     },

@@ -15,6 +15,12 @@ module.exports = {
    	OptionCategory.create({
    		name:req.param("name")
    		}).exec(function(err, model){
+        if (err) {
+          console.log("OptionCategory creation failed");
+          return res.json({message: err.ValidationError});
+        }
+        console.log("OptionCategory created with success");
+
      	   OptionCategory.find( function(err, doc) {
           return res.view({optioncategories:doc});
         });      
@@ -62,6 +68,7 @@ module.exports = {
    */
   delete: function (req, res) {
         OptionCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
+          console.log("Delete OptionCategory --> " + req.param('id'));
           return res.redirect('/optioncategory/create');
       });
   },
@@ -72,25 +79,23 @@ module.exports = {
    */
   update: function (req, res) {
     if (req.method=="POST") {
-     
       OptionCategory.update({id:req.param("id")},{
         name:req.param("name"),
           }).
       exec(function(err,model) {
-            if (err) {
-          return res.json({
-            message: err.ValidationError
-              });
-            }
+        if (err) {
+          console.log("Failed OptionCategory update");
+          return res.json({message: err.ValidationError});
+        }
+        else
+          console.log("OptionCategory updated with success");
 
       });
       res.redirect('/optioncategory/create/');
     }
-      else {
-    OptionCategory.findOne({id: req.param("id")} ,function(err, doc) {
-          return res.view({option:doc});
-      }); 
-      }
+    else {
+        OptionCategory.findOne({id: req.param("id")} ,function(err, doc) {return res.view({option:doc});}); 
+    }
   }
 };
 

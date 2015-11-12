@@ -2,12 +2,13 @@ var Promise = require('q');
 module.exports = {
 	
 	create: function(req, cb) {
-		console.log("createOption");
 		Promise.all([
 			OptionCategory.findOne({id:req.param("optioncategories_ids")}),
 			Option.create({name:req.param("name")})
 		])
 		.spread(function(options, option){
+          	if (!option)
+
           	options.option.add(option);
             options.save();
 		})

@@ -3,7 +3,6 @@ module.exports = {
 	
 
 	update: function(id,req,  cb) {
-		console.log("Update Menu");
 		var data;
 		var ret = false;
 		Promise.all([

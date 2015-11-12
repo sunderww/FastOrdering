@@ -12,6 +12,12 @@ module.exports = {
    create: function (req, res) {
     if (req.method=="POST") {
      OptionServices.create(req, function(){
+        if (false) {
+          console.log("Option creation failed");
+          return res.json({message: err.ValidationError});
+        }
+        else
+          console.log("Option created with success");
         Option.find( function(err, options) {
           return res.view({options:options});
         });
@@ -46,6 +52,7 @@ module.exports = {
    */
   delete: function (req, res) {
     Option.destroy({id:req.param("id")}).exec(function(err, doc) {
+      console.log("Delete Option --> " + req.param('id'));
       return res.redirect('/option/create');
     });
   },
