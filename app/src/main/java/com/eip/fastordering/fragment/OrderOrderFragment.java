@@ -117,10 +117,18 @@ public class OrderOrderFragment extends Fragment {
 		}
 	}
 
-	static void addMenuToOrder(String menuId, HashMap<String, String> dishes) {
+	static void addMenuToOrder(String menuId, HashMap<String, String> dishes, Map<String, DataDishStruct> optionMap) {
 		List<String> listHeaderAdapter = _mListAdapter.get_listDataHeader();
 
 		int i = 0;
+
+//		System.out.println("=================================");
+//		for (Map.Entry<String, DataDishStruct> entry : optionMap.entrySet()) {
+//			System.out.println("KEY=" + entry.getKey());
+//
+//		}
+//		System.out.println("=================================");
+
 		for (String menu : listHeaderAdapter) {
 			if (menu.equals(menuId)) {
 				int j = 0;
@@ -131,6 +139,7 @@ public class OrderOrderFragment extends Fragment {
 							int one = Integer.parseInt(_mListDataNb.get(menu).get(j));
 							int two = Integer.parseInt(dish.getValue());
 							_mListDataNb.get(menu).set(j, ((Integer) (one + two)).toString());
+							//TODO Need to add options between themselves
 							found = true;
 							break;
 						}
@@ -138,6 +147,7 @@ public class OrderOrderFragment extends Fragment {
 					if (!found) {
 						_mListAdapter.get_listDataChild().get(menu).add(dish.getKey());
 						_mListDataNb.get(menu).add(dish.getValue());
+						_mListDataOthers.get(menu).add(optionMap.get(dish.getKey()));
 					}
 					++j;
 				}
@@ -151,9 +161,12 @@ public class OrderOrderFragment extends Fragment {
 		listHeaderAdapter.add(menuId);
 		_mListAdapter.get_listDataChild().put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
 		_mListDataNb.put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<String>());
+		_mListDataOthers.put(listHeaderAdapter.get(listHeaderAdapter.size() - 1), new ArrayList<DataDishStruct>());
+
 		for (Map.Entry<String, String> dish : dishes.entrySet()) {
 			_mListAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListAdapter.get_listDataChild().get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getKey());
 			_mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListDataNb.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), dish.getValue());
+			_mListDataOthers.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).add(_mListDataOthers.get(listHeaderAdapter.get(listHeaderAdapter.size() - 1)).size(), optionMap.get(dish.getKey()));
 		}
 		_mListAdapter.notifyDataSetChanged();
 		checkListEmpty();
@@ -165,7 +178,7 @@ public class OrderOrderFragment extends Fragment {
 				//Verifie si plat deja present, si oui ajoute la qte
 				for (int j = 0; j < _mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).size(); ++j) {
 					if (_mListAdapter.get_listDataChild().get(_mListAdapter.get_listDataHeader().get(i)).get(j).equals(idDish)) {
-						//TODO COMBINE OPTIONS
+						//TODO Need to add options between themselves
 						int one = Integer.parseInt(number);
 						int two = Integer.parseInt(_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).get(j));
 						_mListDataNb.get(_mListAdapter.get_listDataHeader().get(i)).set(j, ((Integer) (one + two)).toString());

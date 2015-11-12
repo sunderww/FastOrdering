@@ -165,11 +165,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                                 for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().values()) {
                                     System.out.println(values);
                                 }
-                                dialogOptions = new DialogOptions(_mFACtivity, listOptionsDish, _groupPosition, _childPosition);
+                                dialogOptions = new DialogOptions(_mFACtivity, listOptionsDish, _groupPosition, _childPosition, _mType);
                             }
                         } else {
                             System.out.println("Dish has no options");
-                            dialogOptions = new DialogOptions(_mFACtivity, null, _groupPosition, _childPosition);
+                            dialogOptions = new DialogOptions(_mFACtivity, null, _groupPosition, _childPosition, _mType);
                         }
                         dialogOptions.customView().show();
                         dialogOptions.getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);

@@ -15,6 +15,7 @@ import com.eip.fastordering.R;
 import com.eip.fastordering.customs.Group;
 import com.eip.fastordering.customs.MyExpandableListAdapter;
 import com.eip.fastordering.fragment.OrderCardFragment;
+import com.eip.fastordering.fragment.OrderMenuCompoFragment;
 import com.eip.fastordering.struct.OptionsStruct;
 
 import java.util.List;
@@ -29,18 +30,20 @@ public class DialogOptions {
     private MyExpandableListAdapter listAdapter;
     private final int gposdish;
     private final int cposdish;
+    private final int type;
 
     /**
      * Constructor
      *
      * @param activity
      */
-    public DialogOptions(Activity activity, List<String> options, int gposdish, int cposdish) {
+    public DialogOptions(Activity activity, List<String> options, int gposdish, int cposdish, int type) {
         _mActivity = (FragmentActivity) activity;
         _options = options;
         //TODO Not forget comment
         this.gposdish = gposdish;
         this.cposdish = cposdish;
+        this.type = type;
 
         //TODO Populate w/ options if from orderorderfragment or editing on card or whatever
     }
@@ -73,9 +76,13 @@ public class DialogOptions {
                             System.out.println(groups.get(i).children.get(j) + " " + OptionsStruct.getInstance().getNameOptionById(groups.get(i).children.get(j)));
                             System.out.println(Integer.parseInt(nb.getText().toString()));
 
-                            if (Integer.parseInt(nb.getText().toString()) > 0)
-                                OrderCardFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
+                            if (Integer.parseInt(nb.getText().toString()) > 0) {
+                                if (type == 1)
+                                    OrderMenuCompoFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
+                                else if (type == 2)
+                                    OrderCardFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
 //                                optionsForDish.addOptionToCategory(groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
+                            }
                         }
                     }
                 }

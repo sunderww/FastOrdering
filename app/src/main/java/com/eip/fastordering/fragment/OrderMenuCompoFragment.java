@@ -17,11 +17,14 @@ import com.eip.fastordering.R;
 import com.eip.fastordering.adapter.ExpandableListAdapter;
 import com.eip.fastordering.struct.CategoryStruct;
 import com.eip.fastordering.struct.CompositionStruct;
+import com.eip.fastordering.struct.DataDishStruct;
 import com.eip.fastordering.struct.MenuStruct;
+import com.eip.fastordering.struct.OptionsStruct;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mewen on 22-Jan-15.
@@ -30,6 +33,7 @@ public class OrderMenuCompoFragment extends Fragment {
 
 	private static List<String>                  listDataHeader = new ArrayList<>();
 	private static HashMap<String, List<String>> _mListDataNb   = new HashMap<>();
+	private static HashMap<String, List<DataDishStruct>> _mListDataOthers = new HashMap<>();
 	private ExpandableListAdapter         listAdapter;
 	private ExpandableListView            expListView;
 	private HashMap<String, List<String>> listDataChild;
@@ -59,6 +63,11 @@ public class OrderMenuCompoFragment extends Fragment {
 
 	public static void set_idmListDataNb(int groupPosition, int childPosition, String value) {
 		_mListDataNb.get(listDataHeader.get(groupPosition)).set(childPosition, value);
+	}
+
+	public static void set_idmListDataOther(int gpos, int cpos, String catopt, String opt, String value) {
+		DataDishStruct options = _mListDataOthers.get(listDataHeader.get(gpos)).get(cpos);
+		options.getmOptions().get(catopt).put(opt, value);
 	}
 
 	@Override
@@ -91,6 +100,7 @@ public class OrderMenuCompoFragment extends Fragment {
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 		_mListDataNb = new HashMap<String, List<String>>();
+		_mListDataOthers = new HashMap<String, List<DataDishStruct>>();
 
 
 		// get the listview
@@ -122,6 +132,7 @@ public class OrderMenuCompoFragment extends Fragment {
 				boolean                 valid      = false;
 				int                     groupCount = listAdapter.getGroupCount();
 				HashMap<String, String> dishes     = new HashMap<String, String>();
+				Map<String, DataDishStruct> optionMap     = new HashMap<>();
 				for (int i = 0; i < groupCount; ++i) {
 					int childCount = listAdapter.getChildrenCount(i);
 					for (int j = 0; j < childCount; ++j) {
@@ -132,13 +143,24 @@ public class OrderMenuCompoFragment extends Fragment {
 							Log.d("NB", "" + txt.getText() + " " + nb.getText());
 							if (Integer.parseInt(nb.getText().toString()) > 0) {
 								dishes.put(txt.getTag().toString(), nb.getText().toString());
+								optionMap.put(txt.getTag().toString(), _mListDataOthers.get(listDataHeader.get(i)).get(j));
+								System.out.println("SETTING TO ID=" + txt.getTag().toString() + " VALUES=" + nb.getText().toString() + " OPTIONS FOLLOWING");
 								valid = true;
 							}
+							DataDishStruct option = _mListDataOthers.get(listDataHeader.get(i)).get(j);
+                            if (option != null) {
+                                System.out.println("HAS OPTIONS SET AND WHICH ARE=");
+                                for (String catoptions : option.getmOptions().keySet()) {
+                                    for (Map.Entry<String, String> entry : option.getmOptions().get(catoptions).entrySet()) {
+                                        System.out.println("KEY=" + entry.getKey() + " NAME=" + OptionsStruct.getInstance().getNameOptionById(entry.getKey()) + " VALUE=" + entry.getValue());
+                                    }
+                                }
+                            }
 						}
 					}
 				}
 				if (valid)
-					OrderOrderFragment.addMenuToOrder(_mMenu, dishes);
+					OrderOrderFragment.addMenuToOrder(_mMenu, dishes, optionMap);
 				getFragmentManager().popBackStack();
 			}
 		});
@@ -155,12 +177,17 @@ public class OrderMenuCompoFragment extends Fragment {
 							listDataHeader.add(cat.get_mCategoryName());
 							List<String> dishes = new ArrayList<String>();
 							List<String> nb = new ArrayList<String>();
+							List<DataDishStruct> datas = new ArrayList<>();
 							for (String dish : cat.get_mIds()) {
 								dishes.add(dish);
 								nb.add("0");
+								OrderFragment.get_mElements();
+								System.out.println("Preparing options for item : " + dish + " " + OrderFragment.getNameElementById(dish));
+								datas.add(new DataDishStruct(OrderFragment.get_mElements().get(dish)));
 							}
 							listDataChild.put(listDataHeader.get(listDataHeader.size() - 1), dishes);
 							_mListDataNb.put(listDataHeader.get(listDataHeader.size() - 1), nb);
+							_mListDataOthers.put(listDataHeader.get(listDataHeader.size() - 1), datas);
 						}
 					}
 				}
