@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = "app/src/main/AndroidManifest.xml", emulateSdk = 18)
+@Config(manifest = "../app/src/main/AndroidManifest.xml", emulateSdk = 18)
 public class MainTest {
 
     @Test
