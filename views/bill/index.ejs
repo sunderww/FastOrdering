@@ -26,7 +26,7 @@
                         <li class="crumb-link">
                             <a href="dashboard">Accueil</a>
                         </li>
-                        <li class="crumb-trail">Gérer les utilisateurs</li>
+                        <li class="crumb-trail">Facturation</li>
                     </ol>
                 </div>
                 
@@ -46,20 +46,22 @@
                         </div>
                         <table class="table table-striped">
                             <tr>
-                                <td>Commade :</td>
-                                <td>Prix :</td>
-                                <td>Date de création :</td>
+                                <td>Table :</td>
+                                <td>Nb personnes :</td>
+                                <td>Heure création :</td>
                                 <td></td>
                                 <td></td>
                             </tr>
-                            <% _.each(bills, function(bill) { %>
-                            <tr data-id="<%= user.id %>" data-model="user">
-                                <td><%= bill.id %></td>
-                                <td><%= bill.createdAt %></td>
-                                <td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Imprimer</a></td>
-                                <td><a href="/user/destroy/<%= user.id %>" class="btn btn-sm btn-danger">Editer</a></td> 
+                            <% _.each(orders, function(order) { %>
+                            <tr data-id="<%= order.id %>" data-model="order">
+                                <td><%= order.table_id %></td>
+                                <td><%= order.dinerNumber %></td>
+                                <td><%= order.time %></td>
+                                <td><a href="/user/edit/<%= order.id %>" class="btn btn-sm btn-warning">Imprimer</a></td>
+                                <td><a href="/user/destroy/<%= order.id %>" class="btn btn-sm btn-danger">Editer</a></td> 
                                 <td></td>
                             </tr>
+                            <% }); %>
                         </table>
                     </div>
                 </div>
