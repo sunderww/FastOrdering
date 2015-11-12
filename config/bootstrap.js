@@ -17,8 +17,6 @@ module.exports.bootstrap = function(cb) {
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
  	cb();
     sails.io.on('connect', function (newlyConnectedSocket){
-//	console.log("Je viens de me connecter");
-
-	console.log(new Date());
+//	console.log(new Date());
  });
 };
