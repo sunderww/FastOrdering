@@ -10,6 +10,13 @@ module.exports = {
 
   attributes: {
   	
+    id: {
+      type: 'integer',
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true
+    },
+    
     name: {
       type: 'string'
     },
@@ -24,10 +31,6 @@ module.exports = {
 
     numShapes: {
       type: 'integer'
-    },
-
-    position: {
-      type: 'string'
     },
 
     tables: function(cb) {

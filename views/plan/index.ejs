@@ -40,39 +40,49 @@
                     <!-- Begin: Content -->
                     <section id="content" class="animated fadeIn">
 
+                        <body>
+
+                            <div style="top: 50px; text-align:0center">
+                            <h2>
+                            <input id="current_title" class="form-field" type="text" name="firstname" value="Titre"/>
+
                         <script type="text/javascript">
                             window.addEventListener("load", windowLoadHandler, false);
 
                             // Utils ( to move)
 
                             function post(path, params, method) {
-                                method = method || "post"; // Set method to post by default if not specified.
+                                method = method || "post";
 
-                                // The rest of this code assumes you are not using a library.
-                                // It can be made less wordy if you use one.
                                 var form = document.createElement("form");
                                 form.setAttribute("id", "cs_check");
                                 form.setAttribute("method", method);
                                 form.setAttribute("action", path);
 
-                                for(var key in params) {
+                                var hiddenField = document.createElement("input");
+                                hiddenField.setAttribute("type", "hidden");
+                                hiddenField.setAttribute("name", "json");
+                                hiddenField.setAttribute("value", params);
+                                form.appendChild(hiddenField);
+/*                                for(var key in params) {
                                     if(params.hasOwnProperty(key)) {
                                         var hiddenField = document.createElement("input");
                                         hiddenField.setAttribute("type", "hidden");
                                         hiddenField.setAttribute("name", key);
+
                                         hiddenField.setAttribute("value", params[key]);
                                         form.appendChild(hiddenField);
                                      }
-                                }
+                                }*/
                                 var csField = document.createElement("input");
                                 csField.setAttribute("type", "hidden");
                                 csField.setAttribute("name", "_csrf");
                                 csField.setAttribute("value", '<%= _csrf %>');
                                 form.appendChild(csField);
 
-                                for (var i = 0; i < form.length; i++) {
-                                    console.log(form[i].value);
-                                }
+/*                                for (var i = 0; i < form.length; i++) {
+                                    console.log("Value to send " + form[i].value);
+                                }*/
 
                                 document.body.appendChild(form);
                                 
@@ -109,56 +119,6 @@
 
                             window.onload = function(type){ 
 
-                                function add_board_select() {
-                                    var foo = document.getElementById("board_list");
-                                    foo.empty();
-
-                                    var nameList;
-                                    jQuery(document).ready(function() {
-
-                                        "use strict";
-                                        var result;
-                                        io.socket.get('/plan/find', function (body, response) {
-                                             console.log("gogo + " + body);
-                                             nameList = body;
-                                             for(var i = 0; i < nameList.length; i += 1) {
-                                                nameList[i] = nameList[i].name;
-                                             }
-
-                                        });
-                                    });
-
-                                    if (nameList.length > 0) {
-                                        for (var it=0;it<nameList.length;it += 1) {
-                                            var element = document.createElement("button");
-                                            element.type = type;
-                                            element.innerHTML = "Titre";
-                                            element.name = "same_test";
-                                            element.id = "board_" + (iteration);
-                                            element.className = "board_select";
-                                            foo.appendChild(element);
-                                        }
-                                    }
-                                    var element = document.createElement("button");
-                                    element.type = type;
-                                    element.innerHTML = "Titre";
-                                    element.name = "same_test";
-                                    element.id = "board_" + (iteration);
-                                    element.className = "board_select";
-                                    foo.appendChild(element);
-
-                                    element.onclick = function() {
-                                        alert("switch to " + element.innerHTML);
-                                        erase_reference();
-                                        var resultLength = result.length;
-                                        for (var i = 0; i < resultLength; i++) {
-                                            if (result[i].title.localeCompare(element.innerHTML) == 0) {
-                                                canvasApp(result[i]);
-                                            }
-                                        }
-                                    };                           
-                                }
-
                                 function update_buttons(type) {
                                     add_board_select(type);
                                     var resultLength = result.length;
@@ -167,22 +127,9 @@
                                     }
                                 }
 
-                                function new_board() {
-                                    if (save_reference() == -1) {
-                                        return ;
-                                    };
-                                    //console.log(canvasApp.current_id);
-                                    console.log(iteration);
-                                    update_buttons("lolo");
-                                    console.log( result[iteration - 1].title);
-                                    //document.getElementById('board_0').innerHTML = result[iteration - 1].title;
-                                    erase_reference();
-                                    canvasApp();
-                                }
 
-                                document.getElementById('new_board').onclick = function() {
-                                    new_board();
-                                }
+
+                                //add_board_select(type);
                             };
 
 
@@ -191,7 +138,8 @@
                                 var theCanvas = document.getElementById("canvasOne");
                                 var context = theCanvas.getContext("2d");
                                 var current_id = iteration;
-                                
+                                var start_title = document.getElementById("current_title").value;
+
                                 init(saved_instance);
                                 
                                 var currentShape;
@@ -215,8 +163,6 @@
                                 var easeAmount;  
 
                                 function init(saved_instance) {
-
-                                    document.getElementById('current_title').value = "Titre";
 
                                     erase_reference = erase_all;
                                     id_reference = current_id;
@@ -271,6 +217,30 @@
                                         shapes.push(tempShape);
                                     }
                                 }
+
+                                function remakeShapes(saved_shapes) {
+                                    var tempX;
+                                    var tempY;
+                                    var tempA;
+                                    var tempColor;
+                                    numShapes = saved_shapes.length;
+                                    for (i=0; i < numShapes; i++) {
+
+                                        tempX = theCanvas.width / stepX;
+                                        tempY = theCanvas.height / stepY;
+                                        
+                                        tempA = 0.3 + 0.5*Math.random();
+
+                                        //randomly select either a circle or a square
+                                        console.log(JSON.stringify(saved_shapes[i]));
+                                        tempShape = new SimpleSquareParticle(saved_shapes[i].posx, saved_shapes[i].posy, saved_shapes[i].name);
+                                        console
+                                        tempShape.color = "rgba(" + 0 + "," + 0+ "," + 0 + "," + 0.7+ ")";
+                                        tempShape.radiusX = (theCanvas.width / stepX) / 2;
+                                        tempShape.radiusY = (theCanvas.height / stepY) / 2;
+                                        shapes.push(tempShape);
+                                    }
+                                }
                                 
 
                                 function mouseDownListener(evt) {
@@ -279,7 +249,7 @@
                                     var bRect = theCanvas.getBoundingClientRect();
                                     mouseX = (evt.clientX - bRect.left)*(theCanvas.width/bRect.width);
                                     mouseY = (evt.clientY - bRect.top)*(theCanvas.height/bRect.height);
-                                    console.log(shapes);
+                                    //console.log(shapes);
 
                                     for (i=0; i < numShapes; i++) {
                                         if (shapes[i].hitTest(mouseX, mouseY)) {    
@@ -299,7 +269,7 @@
                                         
                                         targetX = mouseX - dragHoldX;
                                         targetY = mouseY - dragHoldY;
-                                        console.log(mouseX + " - " + mouseY);
+                                        //console.log(mouseX + " - " + mouseY);
                                         //start timer
                                         timer = setInterval(onTimerTick, 1000/30);
                                     }
@@ -324,8 +294,8 @@
                                         shapes[numShapes-1].y = targetY;
                                         clearInterval(timer);
                                     }
-                                    console.log(targetX);
-                                    console.log(targetY);
+                                    //console.log(targetX);
+                                    //console.log(targetY);
 
                                     drawScreen();
                                 }
@@ -376,6 +346,8 @@
                                     document.getElementsByName('queryN')[0].placeholder = currentShape.number;
                                     document.getElementById('myModalTServer').innerHTML = "Modifier serveur affécté à la table";
                                     document.getElementsByName('queryS')[0].placeholder = currentShape.server;
+                                    document.getElementById('myModalNDish').innerHTML = "Modifier nombre de couverts";
+                                    document.getElementsByName('queryD')[0].placeholder = currentShape.dish;
                                     $('#myModal').modal('show');
                                 }
 
@@ -437,7 +409,6 @@
                                         numShapes++;
                                         createdShapes++;
                                         tempShape.drawToContext(context);
-                                        console.log(document.getElementById('current_title').value);
                                 }
 
                                 document.getElementById('add_table').onclick = function() {
@@ -498,7 +469,7 @@
                                 function save_board() {
                                     var cShapes = numShapes;
                                     var title = document.getElementById('current_title').value;
-                                    var prepare = {"title":title, "dimX":stepX, "dimY":stepY, "numShapes":cShapes, "position":shapes };
+                                    var prepare = {"title":title, "dimX":stepX, "dimY":stepY, "numShapes":cShapes, "position":shapes};
 
                                     var resultLength = result.length;
                                     for (var i = 0; i < resultLength; i++) {
@@ -509,23 +480,96 @@
                                     }
                                     console.log('tryin to save');
                                     console.log(prepare);
+                                    var tbprepare = [];
+                                    for (var i = 0;i < numShapes;i++) {
+                                        tbprepare[i] = {"name":shapes[i].number,
+                                                            "plan":title,
+                                                            "waiters":shapes[i].server,
+                                                            "dishes":shapes[i].dish,
+                                                            "posx":shapes[i].x,
+                                                            "posy":shapes[i].y};
+                                        console.log('tryin to save table');
+                                    }
+                                    prepare["position"] = tbprepare;
+                                    prepare = JSON.stringify(prepare);
                                     post('/plan/create', prepare);
                                     result[current_id] = prepare;
                                 }
-
 
                                 document.getElementById('save_board').onclick = function() {
                                     save_board();
                                 }
 
-                              function flush_board() {
-                                    <%= Plan.destroy({}).exec(function(err, found) {}) %>   
+                                function update_board() {
+                                    var cShapes = numShapes;
+                                    var title = document.getElementById('current_title').value;
+                                    var prepare = {"old_title":start_title, "title":title, "dimX":stepX, "dimY":stepY, "numShapes":cShapes, "position":shapes};
+
+                                    var tbprepare = [];
+                                    for (var i = 0;i < numShapes;i++) {
+                                        tbprepare[i] = {    
+                                                            "name":shapes[i].number,
+                                                            "plan":title,
+                                                            "waiters":shapes[i].server,
+                                                            "dishes":shapes[i].dish,
+                                                            "posx":shapes[i].x,
+                                                            "posy":shapes[i].y};
+                                    }
+                                    prepare["position"] = tbprepare;
+                                    prepare = JSON.stringify(prepare);
+                                    post('/plan/update', prepare);
+                                    result[current_id] = prepare;
                                 }
 
-                                document.getElementById('flush_board').onclick = function() {
-                                    flush_board();
+                                document.getElementById('update_board').onclick = function() {
+                                    update_board();
                                 }
 
+/*                                function new_board() {
+                                    save_board();
+                                    update_buttons("generic_type");
+                                    erase_reference();
+                                    canvasApp();
+                                }
+
+                                document.getElementById('new_board').onclick = function() {
+                                    new_board();
+                                }*/
+
+                                function set_board(arg) {
+                                    var tablesModelView = [];
+                                    var tmp_pname = arg["title"]
+                                    alert("passage vers " + arg["title"]);
+                                    <% _.each(tables_collection, function(table) { %>
+                                        var tmp_table = {"name":"<%=table.name%>", "plan":"<%=table.plan%>", "waiters":"<%=table.waiters%>","dishes":"<%=table.dishes%>","posx":<%=table.posx%>,"posy": <%=table.posy%>};
+                                        var tmp_tname = tmp_table["plan"];
+                                        if (tmp_tname.localeCompare(tmp_pname) == 0) {
+                                            tablesModelView.push(tmp_table);
+                                        }
+                                    <% }) %>
+                                    //erase_all();
+                                    numShapes = arg["numShapes"];
+                                    stepX = arg["dimX"];
+                                    theCanvas.width = stepX * 50;
+                                    stepY = arg["dimY"];
+                                    theCanvas.height = stepY * 50;
+                                    createdShapes = numShapes;
+
+                                    shapes = [];
+                                    remakeShapes(tablesModelView);
+                                    drawScreen();
+                                    $('#current_title').attr('value',tmp_pname);
+                                    start_title = tmp_pname;
+                                }
+
+                                <% _.each(plans_collection, function(plan) { %>
+                                    console.log("making to <%= plan.name %>");
+                                    document.getElementById("board_<%= plan.name %>").onclick = function() {
+                                        console.log("making to <%= plan.name %>");
+                                        var planViewModel = {"title":"<%= plan.name %>", "dimX":"<%= plan.dimX %>", "dimY":"<%= plan.dimY %>", "numShapes":"<%= plan.numShapes %>"};
+                                        set_board(planViewModel);
+                                    }
+                                <% }) %>
                                 // Table menu buttons
 
                                 function erase_table() {
@@ -540,6 +584,7 @@
                                     erase_table();
                                 }
 
+
                                 function submitTNumForm() {
                                     currentShape.number = document.getElementsByName('queryN')[0].value;
                                     document.getElementsByName('queryN')[0].value = "";
@@ -551,8 +596,9 @@
                                     submitTNumForm();
                                 }
 
+
                                 function submitServForm() {
-                                    console.log(document.getElementsByName('queryS')[0].value);
+                                    //console.log(document.getElementsByName('queryS')[0].value);
                                     currentShape.server = document.getElementsByName('queryS')[0].value;
                                     document.getElementsByName('queryS')[0].value = "";
                                     $('#myModal').modal('toggle');
@@ -563,6 +609,16 @@
                                     submitServForm();
                                 }
 
+                                function submitNDishForm() {
+                                    currentShape.dish = document.getElementsByName('queryD')[0].value;
+                                    document.getElementsByName('queryD')[0].value = "";
+                                    $('#myModal').modal('toggle');
+                                    make_info(currentShape);
+                                }
+
+                                document.getElementById('sub_dish').onclick = function() {
+                                    submitNDishForm();
+                                }
                                 function erase_table() {
                                     var index = shapes.indexOf(currentShape);
                                     shapes[index].color = "rgba(255, 255, 255, 1)";
@@ -574,10 +630,8 @@
                                 //Draw
 
                                 function drawScreen() {
-                                    //bg
                                     context.fillStyle = "#ffffff";
                                     context.fillRect(0,0,theCanvas.width,theCanvas.height);
-                                    //console.log("you even draw");
                                     var x = theCanvas.width / stepX;
                                     var y = theCanvas.height / stepY;
                                     for (i = 0;i < stepX; i++) {
@@ -591,13 +645,13 @@
                                 }
 
                                 function erase_all() {
-                                    theCanvas.removeEventListener("dblclick", onClickListener, false);
-                                    theCanvas.removeEventListener("mouseup", mouseDownListener, false);
-                                    theCanvas.removeEventListener("mousedown", mouseDownListener, false);
-                                    window.removeEventListener("mousemove", mouseMoveListener, false);
-                                    clearInterval(timer);
-                                    //shapes = [];
                                     context.clearRect(0, 0, theCanvas.width, theCanvas.height);
+                                    numShapes = 0;
+                                    stepX = 0;
+                                    stepY = 0;
+                                    createdShapes = numShapes;
+
+                                    shapes = [];
                                 }
 
                                 $("#myformNum").submit(function(e) {
@@ -612,12 +666,19 @@
 
                         </script>
 
-                        <body>
 
-                            <div style="top: 50px; text-align:0center">
-                            <h2>
-                                <input id="current_title" class="form-field" type="text" name="firstname" placeholder="Titre"/>
-                                <div id="board_selector"><div id="board_list"><button id="board_0" class="board_select">Titre</button></div><button id="new_board" class="board_select" onClick="new_board()">+</button></div>
+                                
+                                <div id="board_selector">
+                                    <div id="board_list">
+                                        <button id="board_0" class="board_select">Titre</button>
+                                        <% _.each(plans_collection, function(plan) { %>
+                                            <button id="board_<%= plan.name %>" class="board_select"><%= plan.name %></button>
+                                        <% }) %>
+                                        <button id="save_board" class="board_select" onClick="save_board()">+</button>
+                                    </div>
+                                    
+                                </div>
+
                             </h2>
                             <canvas id="canvasOne" width="600" height="600" style="border:1px solid black">
                             Your browser does not support HTML5 canvas.
@@ -628,38 +689,8 @@
                                 <button id="add_rowx" class="managing_board_btn" onclick="add_row()">Ajouter ligne</button>
                                 <button id="rm_rowy" class="managing_board_btn" onclick="rm_clmn()">Supprimer Colonne</button>
                                 <button id="rm_rowx" class="managing_board_btn" onclick="rm_row()">Supprimer ligne</button>
-                                <button id="save_board" onclick="save_board()">Sauvegarder plan de salle</button>
-                                <button id="flush_board" onclick="flush()">Supprimer les plans</button>
-                                <% _.each(plans, function(plan) { %>
-                                <tr data-id="<%= plan.id %>" data-model="booking">
-                                    <td><%= plan.name %></td>
-                                </tr>
-                                <% }) %>
-                                <script type='text/javascript'>
-                                    var jojo;
-                                    jQuery(document).ready(function() {
-
-                                        "use strict";
-                                        <%- Plan.count(function (err, num) {
-                                                if(err) {
-                                                   return console.log(err)
-                                                }
-                                                console.log(num)
-                                        })%>
-
-
-                                        var result;
-                                        console.log("Tryin to find");
-                                        io.socket.get('/plan/find', function (body, response) {
-                                             console.log("body " + body);
-                                             jojo = body;
-                                             for(var i = 0; i < jojo.length; i += 1) {
-                                                jojo[i] = jojo[i].name;
-                                             }
-                                             console.log("body2 " + body);
-                                        });
-                                    });
-                                </script>
+                                <button id="update_board" onclick="update_board()">Sauvegarder plan de salle</button>
+                                <a href="/plan/destroyAll" class="btn btn-sm btn-danger">Supprimer les plans</a>
                             </div>
                             </div>
 
@@ -689,6 +720,12 @@
                 <input type='text' name='queryS' placeholder="">
                 <button type="button" id="sub_serv" onclick="submitServForm()">Confirmer</button>
                 <!-- <a href="javascript: submitServForm()">Submit</a> -->
+            </form></br>
+            <p id="myModalNDish"></p>
+            <form id="myformDish">
+                <input type='text' name='queryD' placeholder="">
+                <button type="button" id="sub_dish" onclick="submitNDishForm()">Confirmer</button>
+                <!-- <a href="javascript: submitTNumForm()">Submit</a> -->
             </form></br>
             </br>
           </div>

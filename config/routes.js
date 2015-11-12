@@ -49,6 +49,7 @@ module.exports.routes = {
 
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',
+    '/table/create' : 'TableController.create',
 
     '/manage_plan' : 'PlanController.index',
     '/compos' : 'MenuCompositionController.read',

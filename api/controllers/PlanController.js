@@ -18,12 +18,15 @@
 module.exports = {
 
     create: function (req, res) {
+    console.log(req.body);
+    var nreq = JSON.parse(req.param("json"));
+    console.log(nreq);
+    var shapes = nreq.position;
     Plan.create({
-      name:req.param("title"),
-      dimX:req.param("dimX"),
-      dimY:req.param("dimY"),
-      numShapes:req.param("numShapes"),
-      position:"not yet"
+      name:nreq.title,
+      dimX:nreq.dimX,
+      dimY:nreq.dimY,
+      numShapes:nreq.numShapes
     }).exec(function(err,model){
       if (err) {
         return res.json({
@@ -31,52 +34,152 @@ module.exports = {
         });
       }
       else {
+      	for (var i = 0;i < shapes.length; i++) {
+			Table.create({
+		      name:shapes[i].name,
+		      plan:shapes[i].plan,
+		      waiters:shapes[i].waiters,
+		      posx:shapes[i].posx,
+		      posy:shapes[i].posy
+		    }).exec(function(err,model){
+		      if (err) {
+		        return res.json({
+		          message: err.ValidationError
+		        });
+		      }
+		        console.log(req.param('name') + " (Table) has been updated");       
+		    });
+      	}
       	console.log(err);
-      	console.log(req.param("title") + "a été sauvegardé");
-        return res.redirect('/plan');       
+      	console.log(req.param("title") + " a été sauvegardé");
+        Plan.find( function(err, doc) {
+  			res.redirect('/plan');
+			Table.find(function foundTable(err,table) {
+  			if (err) return next(err);
+  			res.view({
+	  			plans_collection: doc,
+	  			tables_collection: table
+	  		});
+  		})
+  		});      
       }
-
     });
   },
+
+
 
   index: function (req, res) {
   		Plan.find(function foundPlan(err, plans) {
   		if (err) return next(err);
-
-  		res.view({
-  			plans: plans
-  		});
+  		Table.find(function foundTable(err,table) {
+  			if (err) return next(err);
+  			res.view({
+	  			plans_collection: plans,
+	  			tables_collection: table
+	  		});
+  		})
+  		
   	});
   },
 
   /**
    * `PlanController.destroy()`
    */
-  destroy: function (req, res) {
+  destroyAll: function (req, res) {
+  	Plan.destroy({}).exec(function deleteCB(err){
+	  console.log('Plan collection has been deleted');
+	});
+	Table.destroy({}).exec(function deleteCB(err){
+      console.log('Table collection has been deleted');
+    });
     return res.json({
-      todo: 'destroy() is not implemented yet!'
+      todo: 'plan collection flushed, all is lost'
     });
   },
 
   /**
    * `PlanController.update()`
    */
+
+
   update: function (req, res) {
-    return res.json({
-      todo: 'update() is not implemented yet!'
-    });
+    console.log(req.body);
+
+    var nreq = JSON.parse(req.param("json"));
+
+    console.log(nreq);
+
+    var shapes = nreq.position;
+    Plan.destroy({name:nreq.old_title}).exec(function deletePR(err) {
+    	if (err) {
+    		console.log(err);
+    	} else {
+			console.log('Plan ' + nreq.old_title + " have been cleansed");
+		    Plan.create({
+			    name:nreq.title,
+			    dimX:nreq.dimX,
+			    dimY:nreq.dimY,
+			    numShapes:nreq.numShapes
+		    }).exec(
+		    	function(err, found) {
+			       if (err) {
+			       	console.log(err);
+			        return res.json({
+			          message: err
+			        });
+		        } else {
+	       			Table.destroy({plan:nreq.old_title}).exec(function deleteTR(err){
+	       				if (err) {
+	       					console.log(err);
+	       				} else {
+	       					console.log('Tables of ' + nreq.old_title + " have been cleansed");
+				      		for (var i = 0;i < shapes.length; i++) {
+					      		console.log("Tables updating");
+								Table.create({
+								    name:shapes[i].name,
+								    plan:shapes[i].plan,
+								    waiters:shapes[i].waiters,
+								    posx:shapes[i].posx,
+								    posy:shapes[i].posy
+							    }).exec(function(err,model){
+							    	if (err) {
+								        return res.json({
+								        	message: "error"
+								        });
+							    	}
+							        console.log(req.param('name') + " (Table) has been created");       
+							    });
+				      		}
+				      	console.log(err);
+				      	console.log(req.param("title") + " a été sauvegardé");
+				        Plan.find( function(err, doc) {
+				  			res.redirect('/plan');
+							Table.find(function foundTable(err,table) {
+				  			if (err) return next(err);
+				  			res.view({
+					  			plans_collection: doc,
+					  			tables_collection: table
+					  		});
+				  		})
+				  		});
+	       				}
+					});
+	  		    } 
+		    });
+    	}
+	})
   },
 
   /**
    * `PlanController.read()`
    */
   read: function (req, res) {
-    if (req.param("id")) {
-      Table.find({id: req.param("id")}, function(err, doc) {
+    if (req.param("name")) {
+      Plan.find({name: req.param("name")}, function(err, doc) {
         return res.send(JSON.stringify(doc));
       });
     } else {
-      Table.find( function(err, doc) {
+      Plan.find( function(err, doc) {
         return res.send(JSON.stringify(doc));
       });
     }
@@ -89,13 +192,28 @@ module.exports = {
   },
 
   findOne: function(req, res) {
-  	if (req,param("title")) {
-  		Plan.find({name: req.param("title")}, function(err, doc) {
-  			return res.send(doc);
+  	console.log(req.body);
+  	if (req.param("json")) {
+  		Plan.find({name: req.param("json")}, function(err, doc) {
+  			res.redirect('/plan');
+			Table.find(function foundTable(err,table) {
+  			if (err) return next(err);
+  			res.view({
+	  			plans_collection: plans,
+	  			tables_collection: table
+	  		});
+  		})
   		});
   	} else {
-  		Table.find( function(err, doc) {
-  			return res.send(doc);
+  		Plan.find( function(err, doc) {
+  			res.redirect('/plan');
+			Table.find(function foundTable(err,table) {
+  			if (err) return next(err);
+  			res.view({
+	  			plans_collection: plans,
+	  			tables_collection: table
+	  		});
+  		})
   		});
   	}
   },

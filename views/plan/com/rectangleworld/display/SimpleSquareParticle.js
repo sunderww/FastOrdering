@@ -11,7 +11,8 @@ function SimpleSquareParticle(posX, posY, nbr) {
 		this.radiuX = 5;
 		this.radiuY = 5;
 		this.number = nbr + 1;
-		this.server = "Not assigned"
+		this.server = "Not assigned";
+		this.dish = 1;
 }
 
 //The function below returns a Boolean value representing whether the point with the coordinates supplied "hits" the particle.
