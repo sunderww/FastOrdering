@@ -2,7 +2,7 @@
 //  OrderedOption.m
 //  FastOrdering
 //
-//  Created by Sunder on 22/10/2015.
+//  Created by Sunder on 12/11/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -17,7 +17,7 @@
 @dynamic qty;
 @dynamic serverId;
 @dynamic updatedAt;
-@dynamic dish;
+@dynamic orderedDish;
 @dynamic option;
 
 @end

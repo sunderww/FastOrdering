@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="13F1066" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="13F1134" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Dish" representedClassName="Dish" syncable="YES">
         <attribute name="available" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -83,7 +83,7 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="dish" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dish" inverseName="ordered" inverseEntity="Dish" syncable="YES"/>
         <relationship name="menu" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Menu" inverseName="orderedDishes" inverseEntity="Menu" syncable="YES"/>
-        <relationship name="options" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderedOption" inverseName="dish" inverseEntity="OrderedOption" syncable="YES"/>
+        <relationship name="options" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderedOption" inverseName="orderedDish" inverseEntity="OrderedOption" syncable="YES"/>
         <relationship name="order" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Order" inverseName="dishes" inverseEntity="Order" syncable="YES"/>
     </entity>
     <entity name="OrderedOption" representedClassName="OrderedOption" syncable="YES">
@@ -91,8 +91,8 @@
         <attribute name="qty" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="serverId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="dish" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OrderedDish" inverseName="options" inverseEntity="OrderedDish" syncable="YES"/>
         <relationship name="option" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Option" inverseName="ordered" inverseEntity="Option" syncable="YES"/>
+        <relationship name="orderedDish" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OrderedDish" inverseName="options" inverseEntity="OrderedDish" syncable="YES"/>
     </entity>
     <entity name="Plan" representedClassName="Plan" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -118,7 +118,7 @@
         <element name="OptionCategory" positionX="0" positionY="153" width="128" height="133"/>
         <element name="Order" positionX="0" positionY="99" width="128" height="178"/>
         <element name="OrderedDish" positionX="-9" positionY="90" width="128" height="193"/>
-        <element name="OrderedOption" positionX="9" positionY="162" width="128" height="133"/>
+        <element name="OrderedOption" positionX="9" positionY="162" width="128" height="135"/>
         <element name="Plan" positionX="27" positionY="72" width="128" height="118"/>
         <element name="Table" positionX="-45" positionY="0" width="128" height="118"/>
     </elements>

@@ -2,7 +2,7 @@
 //  Order.m
 //  FastOrdering
 //
-//  Created by Sunder on 25/10/2015.
+//  Created by Sunder on 12/11/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -15,9 +15,9 @@
 @dynamic comments;
 @dynamic createdAt;
 @dynamic dinerNumber;
-@dynamic table_id;
 @dynamic price;
 @dynamic serverId;
+@dynamic table_id;
 @dynamic updatedAt;
 @dynamic waiter_id;
 @dynamic dishes;
