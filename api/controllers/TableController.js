@@ -1,6 +1,7 @@
 /**
  * TableController
  *
+ * @module      :: Controller
  * @description :: Server-side logic for managing Tables
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
@@ -11,39 +12,55 @@ module.exports = {
    * `TableController.create()`
    */
   create: function (req, res) {
+    console.log("Trying to save Table");
     Table.create({
       name:req.param("name"),
-      waiters:[req.param("waiters")]
+      waiters:req.param("waiters"),
+      dishes:req.param("dishes"),
+      posx:req.param("posx"),
+      posy:req.param("posy")
     }).exec(function(err,model){
       if (err) {
         return res.json({
           message: err.ValidationError
         });
       }
-      else {
-        return res.json({
-          message: req.param('name') + " has been created"
-        });       
-      }
-
+        console.log(req.param('name') + " (Table) has been created");       
     });
   },
+
+
 
   /**
    * `TableController.destroy()`
    */
-  destroy: function (req, res) {
-    return res.json({
-      todo: 'destroy() is not implemented yet!'
+/*  destroy: function (req, res) {
+    Table.destroy({}).exec(function deleteCB(err){
+      console.log('Table collection has been deleted');
     });
-  },
+    return res.json({
+      todo: 'table collection flushed'
+    });
+  },*/
 
   /**
    * `TableController.update()`
    */
   update: function (req, res) {
-    return res.json({
-      todo: 'update() is not implemented yet!'
+    console.log("Trying to update Table");
+    Table.update({
+      name:req.param("name"),
+      waiters:req.param("waiters"),
+      dishes:req.param("dishes"),
+      posx:req.param("posx"),
+      posy:req.param("posy")
+    }).exec(function(err,model){
+      if (err) {
+        return res.json({
+          message: err.ValidationError
+        });
+      }
+        console.log(req.param('name') + " (Table) has been updated");       
     });
   },
 
@@ -60,7 +77,18 @@ module.exports = {
         return res.send(doc);
       });
     }
+  },
+
+  findByPlan: function (req, res) {
+      Table.find({plan: req}, function(err, doc) {
+        return res.send(doc);
+      });
+  },
+
+  findAll: function (req, res) {
+    Table.find(function(err, doc) {
+      return res.json({elements: doc});
+    });
   }
 
 };
-

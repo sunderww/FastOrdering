@@ -12,28 +12,38 @@ module.exports = {
 
   	name: {
   		type: 'string',
-  		required: true
+      required: true
   	},
+
+    plan: {
+      type: 'string',
+      required: true
+    },
 
   	waiters: {
-  		type: 'array', // an array of ids
-  		defaultsTo: []
+  		type: 'string' // an array of ids
   	},
-      findByName: function(name) {
-      }
+
+    dishes: {
+      type: 'integer'
+    },
+
+    posx: {
+      type: 'integer',
+      required : true
+    },
+
+    posy: {
+      type: 'integer',
+      required : true
+    }
     // ,
 
-  	// plan_id: {
-  	// 	type: 'string',
-  	// 	required: true
-  	// },
-
-  	// pos: {
-  	// 	// type should be pos
-  	// 	// use pos.x and pos.y
-  	// 	type: 'json',
-  	// 	required: true
-  	// }
+	// plan_name: {
+	// 	type: 'string',
+	// 	required: true,
+  //  onetomany
+	// },
 
   }
 
