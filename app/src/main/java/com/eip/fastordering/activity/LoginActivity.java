@@ -170,6 +170,7 @@ public class LoginActivity extends Activity {
                 JSONObject obj = new JSONObject();
                 try {
                     obj.put("user_key", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
+//                    obj.put("user_key", "$2a$10$9cGnq1jrpqFtkoUOk.WpwuQqThmLBCb9UuXt0Kw4cbWuwMxmoLNyK");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
