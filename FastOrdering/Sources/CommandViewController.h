@@ -48,11 +48,12 @@
 	IBOutletCollection(UIView) NSArray * clickedViews;
 	IBOutletCollection(UIView) NSArray * contentViews;
 	
-	UIViewController *      presentController;
-	NSTimer *               timer;
-	BOOL					didOrder;
-	BOOL					forceReview;
-	CGSize					keyboardSize;
+	NSManagedObjectContext *		context;
+	UIViewController *				presentController;
+	NSTimer *						timer;
+	BOOL							didOrder;
+	BOOL							forceReview;
+	CGSize							keyboardSize;
 }
 
 

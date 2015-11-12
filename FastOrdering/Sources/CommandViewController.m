@@ -28,7 +28,7 @@
 	[super viewDidLoad];
 	[SocketHelper.sharedHelper pushDelegate:self];
 	
-	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
+	context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
 	
 	if (self.order) {
 		forceReview = YES;
@@ -85,15 +85,8 @@
 	[presentController.view removeFromSuperview];
 	presentController = nil;
 
-	AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
-	if (!didOrder && !forceReview)
-		[delegate.managedObjectContext deleteObject:self.order];
-
-	[delegate.managedObjectContext.undoManager endUndoGrouping];
 	if (didOrder) {
-		[delegate saveContext];
-	} else {
-		[delegate.managedObjectContext undo];
+		[self saveContext];
 	}
 }
 
@@ -219,7 +212,7 @@
 
 	[self.order addDishes:[NSSet setWithArray:dishes]];
 
-	[delegate saveContext];
+	[self saveContext];
 	[self buttonClicked:reviewButton];
 }
 
@@ -293,6 +286,17 @@
 
 	// find a way to get a callback
 	timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(orderFailed) userInfo:nil repeats:NO];
+}
+
+#pragma mark - CoreData MOC operations
+
+- (void)saveContext {
+	NSError * error;
+
+	[context save:&error];
+	if (error) {
+		PPLog(@"%@", error);
+	}
 }
 
 #pragma mark - SocketIO delegate methods
