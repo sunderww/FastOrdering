@@ -57,26 +57,9 @@ module.exports = {
                 // Everything is OK begin Authentification
                 req.session.user = user;
                 
-                console.log(user);
+                console.log("Connection User --> " + user.email);
                 res.redirect('/dashboard');
             });
-        });
-    },
-    
-    'loginFromPhone' : function(json, res) {
-//	return ;
-	console.log("authentication");
-//	console.log(req.param['user_key'])//
-	console.log(json);
-	
-	console.log(sails.request.allParams);
-	return;
-	Key.findOne().where({id: "req.headers.user_key"}).exec(function(err, user) {
-            sails.session.user = user;
-            if (!user) {
-                return res(null, false);
-            }
-            return res(null, true);
         });
     },
 

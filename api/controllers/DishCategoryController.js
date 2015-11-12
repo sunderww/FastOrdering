@@ -22,24 +22,17 @@ module.exports = {
   	    name:req.param("name"),
      	}).exec(function(err,model){
      		if (err) {
-     			return res.json({
-     				message: err.ValidationError
-     			});
+          console.log("DishCategory creation failed");
+     			return res.json({message: err.ValidationError});
      		}
      		else {
-    DishCategory.find( function(err, doc) {
-            return res.view({categories:doc});
-          });
+          console.log("DishCategory created with success");
+          DishCategory.find( function(err, doc) {return res.view({categories:doc});});
      		}
-
      	});
     }
     else
-    {
-    DishCategory.find( function(err, doc) {
-            return res.view({categories:doc});
-          });
-    }
+      DishCategory.find( function(err, doc) {return res.view({categories:doc});});
   },
 
 
@@ -62,29 +55,27 @@ module.exports = {
    	}
   },
   delete: function (req, res) {
-      DishCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
-        res.redirect('/dishcategory/create');
+    DishCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
+      console.log("Delete DishCategory --> " + req.param('id'));
+      res.redirect('/dishcategory/create');
     });
   },
   update: function (req, res) {
     if (req.method=="POST") {
-     console.log(req.param("id"));
       DishCategory.update({id:req.param("id")},{
         name:req.param("name")
-          }).exec(function(err,model) {
-            if (err) {
-          return res.json({
-            message: err.ValidationError
-              });
-            }
+      }).exec(function(err,model) {
+        if (err) {
+          console.log("Dish update failed");
+          return res.json({message: err.ValidationError});
+        }
+        else
+          console.log("Dish updated with success");
       });
       res.redirect('/dishcategory/create');
     }
-    else {
-      DishCategory.findOne({id: req.param("id")} ,function(err, doc) {
-          return res.view({category:doc});
-      });      
-      }
+    else
+      DishCategory.findOne({id: req.param("id")} ,function(err, doc) {return res.view({category:doc});});      
   }
 };
 

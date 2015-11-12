@@ -24,31 +24,18 @@ module.exports = {
 				optioncategories_ids: req.param("optioncategories_ids")
 			    }).exec(function(err,model) {
 				    if (err) {
-				    	console.log(err.ValidationError);
-					return res.json({
-						message: err.ValidationError
-					    });
+						console.log("Dish creation failed " + err.ValidationError);
+						return res.json(500, {message: err.ValidationError});
 				    }
-			else {
-				Dish.find( function(err, doc) {
-		return res.view({dishs:doc});
-   	});
-			}
-		});
-	}else {
-
-	Dish.find( function(err, doc) {
-		return res.view({dishs:doc});
-   	});
-	}
-    },
-
-
-
-//     getSocketID: function(req, res) {
-// 	console.log("ttt");
-// 	return res.ok('My socket ID is: ');
-// },
+					else {
+						console.log("Dish created with success");
+						Dish.find( function(err, doc) {return res.view({dishs:doc});});
+					}
+			});
+		}
+		else
+			Dish.find(function(err, doc) {return res.view({dishs:doc});});
+   },
 
 
     /**
@@ -76,8 +63,8 @@ module.exports = {
 		}
     },
     delete: function (req, res) {
-	  	console.log(req.param('id'));
 	    Dish.destroy({id:req.param("id")}).exec(function(err, doc) {
+		  	console.log("Delete dish --> " + req.param('id'));
 			res.redirect('/dish/create');
 		});
 	},
@@ -98,10 +85,11 @@ module.exports = {
 				optioncategories_ids: req.param("optioncategories_ids")
 			    }).exec(function(err,model) {
 				    if (err) {
-					return res.json({
-						message: err.ValidationError
-					    });
-				    }
+						console.log("Dish update failed");
+						return res.json({message: err.ValidationError});
+					}
+					else
+						console.log("Dish updated with success");
 			});
 			res.redirect('/dish/create');
 		} else {

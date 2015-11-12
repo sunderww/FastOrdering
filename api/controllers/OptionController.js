@@ -10,16 +10,16 @@ module.exports = {
    * `OptionController.create()`
    */
    create: function (req, res) {
-    if (req.method=="POST" && req.param("id") == undefined) {
+    if (req.method=="POST") {
      OptionServices.create(req, function(){
-        Option.find( function(err, doc) {
-          return res.view({options:doc});
+        Option.find( function(err, options) {
+          return res.view({options:options});
         });
      });
     }
     else {
-      Option.find( function(err, doc) {
-          return res.view({options:doc});
+      Option.find( function(err, options) {
+          return res.view({options:options});
         });
     }
   },

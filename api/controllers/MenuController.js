@@ -52,8 +52,9 @@ module.exports = {
    MenuServices.update(req.param('id'), req, function(data){
           if (data[1] == true)
            return res.redirect('/menu/create');
-          else
+          else {
             return res.view(data[0]);
+          }
    });
   },
  /**
