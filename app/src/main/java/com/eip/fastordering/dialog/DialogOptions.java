@@ -52,7 +52,7 @@ public class DialogOptions {
         AlertDialog.Builder builder = new AlertDialog.Builder(_mActivity);
 
         LayoutInflater inflater = _mActivity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_options, null);
+        final View view = inflater.inflate(R.layout.dialog_options, null);
         builder.setView(view);
         builder.setPositiveButton(R.string.dialog_options_positive, new DialogInterface.OnClickListener() {
             @Override
@@ -81,11 +81,15 @@ public class DialogOptions {
                                     OrderMenuCompoFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
                                 else if (type == 2)
                                     OrderCardFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
-//                                optionsForDish.addOptionToCategory(groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
                             }
                         }
                     }
                 }
+                EditText comment = (EditText) view.findViewById(R.id.dialog_order_com);
+                if (type == 1)
+                    OrderMenuCompoFragment.setComment(gposdish, cposdish, comment.getText().toString());
+                else if (type == 2)
+                    OrderCardFragment.setComment(gposdish, cposdish, comment.getText().toString());
             }
         });
         builder.setNegativeButton(R.string.dialog_options_cancel, new DialogInterface.OnClickListener() {

@@ -70,6 +70,11 @@ public class OrderMenuCompoFragment extends Fragment {
 		options.getmOptions().get(catopt).put(opt, value);
 	}
 
+	public static void setComment(int gpos, int cpos, String comment) {
+		DataDishStruct options = _mListDataOthers.get(listDataHeader.get(gpos)).get(cpos);
+		options.setmComment(comment);
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -288,7 +288,7 @@ public class OrderOrderFragment extends Fragment {
 								dish.put("qty", Integer.parseInt(nb.getText().toString()));
 
 								//TODO Add fields
-								dish.put("comment", "blabla");
+//								dish.put("comment", "blabla");
 //								dish.put("cuisson", "cramé");
 
 								//TODO Add options
@@ -309,6 +309,7 @@ public class OrderOrderFragment extends Fragment {
 										}
 									}
 								}
+								dish.put("comment", options.getmComment());
 								dish.put("options", optArray);
 								content.put(dish);
 							}
@@ -323,7 +324,7 @@ public class OrderOrderFragment extends Fragment {
 					orderJSON.put("numPA", ((EditText) _mRootView.findViewById(R.id.order_order_pa_edit)).getText().toString());
 
 					//TODO Add field
-					orderJSON.put("globalComment", "toto");
+					orderJSON.put("globalComment", ((EditText)_mRootView.findViewById(R.id.order_order_comcontent)).getText().toString());
 
 					orderJSON.put("order", arrMenus);
 
@@ -346,6 +347,7 @@ public class OrderOrderFragment extends Fragment {
 
 				((EditText) _mRootView.findViewById(R.id.order_order_table_edit)).setText("");
 				((EditText) _mRootView.findViewById(R.id.order_order_pa_edit)).setText("");
+				((EditText) _mRootView.findViewById(R.id.order_order_comcontent)).setText("");
 				_mListAdapter.get_listDataHeader().clear();
 				_mListAdapter.get_listDataChild().clear();
 				_mListDataNb.clear();

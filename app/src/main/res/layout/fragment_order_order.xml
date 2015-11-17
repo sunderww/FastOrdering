@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:background="@color/color_bg"
-        android:layout_below="@+id/order_order_table"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="60dp" />
+        android:layout_marginBottom="60dp"
+        android:layout_below="@+id/order_order_comcontent" />
 
     <ImageButton
         android:id="@+id/order_order_rectangle"
@@ -105,5 +104,32 @@
         android:selectAllOnFocus="true"
         android:imeOptions="actionDone"
         android:textColor="@color/color_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/dialog_option_comtitle"
+        android:id="@+id/order_order_comment"
+        android:layout_below="@+id/order_order_table_edit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffff" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/order_order_comcontent"
+        android:layout_below="@+id/order_order_comment"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#b9b9b9"
+        android:padding="10dp" />
 
 </RelativeLayout>

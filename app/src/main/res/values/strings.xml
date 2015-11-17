@@ -89,4 +89,5 @@
     <string name="dialog_options_title">Options</string>
     <string name="dialog_options_positive">Valider</string>
     <string name="dialog_options_cancel">Annuler</string>
+    <string name="dialog_option_comtitle">Commentaire</string>
 </resources>
