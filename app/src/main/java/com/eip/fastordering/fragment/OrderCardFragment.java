@@ -132,16 +132,8 @@ public class OrderCardFragment extends Fragment {
                         if (view != null) {
                             TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
                             EditText nb = (EditText) view.findViewById(R.id.nbDish);
-                            System.out.println("Checking out gpos=" + i + " cpos=" + j + " title=" + txt.getText().toString());
+//                            System.out.println("Checking out gpos=" + i + " cpos=" + j + " title=" + txt.getText().toString());
                             DataDishStruct options = _mListDataOthers.get(_mListDataHeader.get(i)).get(j);
-//                            if (options != null) {
-//                                System.out.println("HAS OPTIONS SET AND WHICH ARE=");
-//                                for (String catoptions : options.getmOptions().keySet()) {
-//                                    for (Map.Entry<String, String> entry : options.getmOptions().get(catoptions).entrySet()) {
-//                                        System.out.println("KEY=" + entry.getKey() + " NAME=" + OptionsStruct.getInstance().getNameOptionById(entry.getKey()) + " VALUE=" + entry.getValue());
-//                                    }
-//                                }
-//                            }
                             if (Integer.parseInt(nb.getText().toString()) > 0)
                                 OrderOrderFragment.addCardElementToOrder(OrderFragment.get_mCard().get_mId(), txt.getTag().toString(), nb.getText().toString(), options);
                         }

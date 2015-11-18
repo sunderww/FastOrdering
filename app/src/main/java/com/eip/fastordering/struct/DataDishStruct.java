@@ -40,6 +40,18 @@ public class DataDishStruct {
         mOptions = new HashMap<>();
     }
 
+    public DataDishStruct copy() {
+        DataDishStruct options = new DataDishStruct();
+        options.setmComment(getmComment());
+        for (Map.Entry<String, Map<String, String>> entry : getmOptions().entrySet()) {
+            options.getmOptions().put(entry.getKey(), new HashMap<String, String>());
+            for (Map.Entry<String, String> entry1 : entry.getValue().entrySet()) {
+                options.getmOptions().get(entry.getKey()).put(entry1.getKey(), entry1.getValue());
+            }
+        }
+        return options;
+    }
+
     public void addCategoryOption(String idCategory) {
         mOptions.put(idCategory, new HashMap<String, String>());
     }
@@ -58,5 +70,9 @@ public class DataDishStruct {
 
     public Map<String, Map<String, String>> getmOptions() {
         return mOptions;
+    }
+
+    public void setmOptions(Map<String, Map<String, String>> mOptions) {
+        this.mOptions = mOptions;
     }
 }
