@@ -269,7 +269,7 @@ public class OrderOrderFragment extends Fragment {
         _mExpListView = (ExpandableListView) _mRootView.findViewById(R.id.lvExp);
         _mExpListView.setEmptyView(_mRootView.findViewById(R.id.order_order_none_text));
 
-        _mListAdapter = new ExpandableListAdapter(getActivity(), _mListDataHeader, _mListDataChild, true, _mListDataNb, getActivity(), 3, null);
+        _mListAdapter = new ExpandableListAdapter(getActivity(), _mListDataHeader, _mListDataChild, true, _mListDataNb, getActivity(), 3, _mListDataOthers);
         checkListEmpty();
 
         // setting list adapter

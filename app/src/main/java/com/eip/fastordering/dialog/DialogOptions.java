@@ -16,6 +16,7 @@ import com.eip.fastordering.customs.Group;
 import com.eip.fastordering.customs.MyExpandableListAdapter;
 import com.eip.fastordering.fragment.OrderCardFragment;
 import com.eip.fastordering.fragment.OrderMenuCompoFragment;
+import com.eip.fastordering.struct.DataDishStruct;
 import com.eip.fastordering.struct.OptionsStruct;
 
 import java.util.List;
@@ -25,26 +26,28 @@ public class DialogOptions {
 
     private FragmentActivity _mActivity;
     private List<String> _options;
-    private SparseArray<Group> groups = new SparseArray<Group>();
+    private SparseArray<Group> groups;
     private AlertDialog dialog;
     private MyExpandableListAdapter listAdapter;
     private final int gposdish;
     private final int cposdish;
     private final int type;
+    private DataDishStruct structOptions;
 
     /**
      * Constructor
      *
      * @param activity
      */
-    public DialogOptions(Activity activity, List<String> options, int gposdish, int cposdish, int type) {
+    public DialogOptions(Activity activity, List<String> options, int gposdish, int cposdish, int type,
+                         DataDishStruct structOptions) {
         _mActivity = (FragmentActivity) activity;
         _options = options;
-        //TODO Not forget comment
         this.gposdish = gposdish;
         this.cposdish = cposdish;
         this.type = type;
-
+        this.groups = new SparseArray<>();
+        this.structOptions = structOptions;
         //TODO Populate w/ options if from orderorderfragment or editing on card or whatever
     }
 
@@ -59,14 +62,9 @@ public class DialogOptions {
             public void onClick(DialogInterface dialog, int which) {
                 listAdapter.notifyDataSetChanged();
                 int groupCount = listAdapter.getGroupCount();
-//                DataDishStruct optionsForDish = new DataDishStruct();
                 for (int i = 0; i < groupCount; ++i) {
-//                    System.out.println("I=" + i);
                     int childCount = listAdapter.getChildrenCount(i);
-//                    System.out.println(groups.get(i).string + " " + OptionsStruct.getInstance().getNameGroupOptionById(groups.get(i).string));
-//                    optionsForDish.addCategoryOption(groups.get(i).string);
                     for (int j = 0; j < childCount; ++j) {
-//                        System.out.println("J=" + j);
                         View view = listAdapter.getChildView(i, j, false, null, null);
                         if (view != null) {
                             TextView txt = (TextView) view.findViewById(R.id.lblListItemRadio);
@@ -120,10 +118,15 @@ public class DialogOptions {
             Group group = new Group(optionCatID);
             for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().keySet()) {
                 group.children.add(values);
-                group.values.add("0");
+                if (structOptions != null)
+                    group.values.add(structOptions.getmOptions().get(optionCatID).get(values));
+                else
+                    group.values.add("0");
             }
             groups.append(i++, group);
         }
+
+        //TODO set the nb of options with the given ones
     }
 
 }

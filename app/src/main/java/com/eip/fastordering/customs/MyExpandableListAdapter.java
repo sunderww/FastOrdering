@@ -87,7 +87,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter implement
             convertView.setTag(pos);
             convertView.setOnTouchListener(this);
 
-//            System.out.println("GETTING TEXT FOR " + groupPosition + " " + childPosition + " and is " + groups.get(groupPosition).values.get(childPosition));
             nb.setText(groups.get(groupPosition).values.get(childPosition));
             nb.addTextChangedListener(watcher);
             nb.setTag(pos);

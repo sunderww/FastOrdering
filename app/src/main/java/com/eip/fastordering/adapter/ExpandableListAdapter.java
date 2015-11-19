@@ -63,7 +63,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         this._listDataChild = listChildData;
         this._mElement = element;
         this._mType = type;
-        if (type == 2 && listOptions != null) {
+        if (listOptions != null) {
             _listOptions = listOptions;
         }
 
@@ -165,11 +165,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                                 for (String values : OptionsStruct.getInstance().getOptionsById(optionCatID).get_optionValues().values()) {
                                     System.out.println(values);
                                 }
-                                dialogOptions = new DialogOptions(_mFACtivity, listOptionsDish, _groupPosition, _childPosition, _mType);
                             }
+
+                            //TODO Test
+                            DataDishStruct options =_listOptions.get(_listDataHeader.get(_groupPosition)).get(_childPosition);
+                            //TODO End test
+
+                            dialogOptions = new DialogOptions(_mFACtivity, listOptionsDish, _groupPosition, _childPosition, _mType, options);
                         } else {
                             System.out.println("Dish has no options");
-                            dialogOptions = new DialogOptions(_mFACtivity, null, _groupPosition, _childPosition, _mType);
+                            dialogOptions = new DialogOptions(_mFACtivity, null, _groupPosition, _childPosition, _mType, null);
                         }
                         dialogOptions.customView().show();
                         dialogOptions.getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
