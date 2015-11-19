@@ -105,6 +105,17 @@ public class DialogOptions {
 
         listAdapter = new MyExpandableListAdapter(_mActivity, groups, dialog);
         listView.setAdapter(listAdapter);
+
+        for (int i = 0; i < groups.size(); i++) {
+            listView.expandGroup(i);
+        }
+        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            public boolean onGroupClick(ExpandableListView arg0, View itemView, int itemPosition, long itemId) {
+                listView.expandGroup(itemPosition);
+                return true;
+            }
+        });
+
         return dialog;
     }
 
