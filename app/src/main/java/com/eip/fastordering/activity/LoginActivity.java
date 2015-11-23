@@ -79,7 +79,10 @@ public class LoginActivity extends Activity {
         });
 
         //Set key "enter" to validate to connect
+//        StockMenu.instance().write("/pass", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
         EditText addCourseText = (EditText) findViewById(R.id.field_pass);
+        addCourseText.setText(StockMenu.instance().read("/pass"));
+
         addCourseText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -169,7 +172,8 @@ public class LoginActivity extends Activity {
                 Log.d("LOGINACTIVITY", "CONNECT");
                 JSONObject obj = new JSONObject();
                 try {
-                    obj.put("user_key", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
+                    obj.put("user_key", StockMenu.instance().read("/pass"));
+//                    obj.put("user_key", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
 //                    obj.put("user_key", "$2a$10$9cGnq1jrpqFtkoUOk.WpwuQqThmLBCb9UuXt0Kw4cbWuwMxmoLNyK");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -184,6 +188,8 @@ public class LoginActivity extends Activity {
                             Log.d("LOGINACTIVITY", "SOCKETID=" + args[0].toString());
                             JSONObject rep = new JSONObject(args[0].toString());
                             if (rep.getBoolean("answer")) {
+                                EditText addCourseText = (EditText) findViewById(R.id.field_pass);
+                                StockMenu.instance().write("/pass", addCourseText.getText().toString());
                                 fetchAllMenu();
                             }
                             else {
