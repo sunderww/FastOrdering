@@ -142,6 +142,7 @@ public class OrderCardFragment extends Fragment {
                 for (int i = 0; i < _mListDataHeader.size(); ++i) {
                     for (int j = 0; j < _mListDataChild.get(_mListDataHeader.get(i)).size(); ++j) {
                         _mListDataNb.get(_mListDataHeader.get(i)).set(j, "0");
+                        _mListDataOthers.get(_mListDataHeader.get(i)).set(j, new DataDishStruct(OrderFragment.get_mElements().get(_mListDataChild.get(_mListDataHeader.get(i)).get(j))));
                         _mListAdapter.notifyDataSetChanged();
                     }
                 }
