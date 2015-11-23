@@ -90,10 +90,28 @@ public class OrderOrderFragment extends Fragment {
                 JSONArray content = menu.getJSONArray("content");
                 _mListDataChild.put(_mListDataHeader.get(_mListDataHeader.size() - 1), new ArrayList<String>());
                 _mListDataNb.put(_mListDataHeader.get(_mListDataHeader.size() - 1), new ArrayList<String>());
+                _mListDataOthers.put(_mListDataHeader.get(_mListDataHeader.size() - 1), new ArrayList<DataDishStruct>());
                 for (int j = 0; j < content.length(); ++j) {
                     JSONObject dish = content.getJSONObject(j);
                     _mListDataChild.get(_mListDataHeader.get(_mListDataHeader.size() - 1)).add(_mListDataChild.get(_mListDataHeader.get(_mListDataHeader.size() - 1)).size(), dish.getString("id"));
                     _mListDataNb.get(_mListDataHeader.get(_mListDataHeader.size() - 1)).add(_mListDataNb.get(_mListDataHeader.get(_mListDataHeader.size() - 1)).size(), dish.getString("qty"));
+                    System.out.println("Creating options from already ordered");
+                    DataDishStruct options = new DataDishStruct(OrderFragment.get_mElements().get(dish.getString("id")));
+                    JSONArray optionsJson = dish.getJSONArray("option");
+                    for (int k = 0; k < optionsJson.length(); k++) {
+                        JSONObject optObj = optionsJson.getJSONObject(k);
+                        String id = optObj.getString("id");
+                        String qty = optObj.getString("qty");
+                        System.out.println("OPTIOND ID=" + id + " QTY=" + qty);
+                        for (Map.Entry<String, Map<String, String>> entry : options.getmOptions().entrySet()) {
+                            for (Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
+                                if (entry2.getKey().equals(id))
+                                    entry2.setValue(qty);
+                            }
+                        }
+                    }
+                    _mListDataOthers.get(_mListDataHeader.get(_mListDataHeader.size() - 1)).add(_mListDataOthers.get(_mListDataHeader.get(_mListDataHeader.size() - 1)).size(), options);
+
                 }
             }
         } catch (JSONException e) {
