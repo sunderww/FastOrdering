@@ -174,7 +174,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                             dialogOptions = new DialogOptions(_mFACtivity, listOptionsDish, _groupPosition, _childPosition, _mType, options);
                         } else {
                             System.out.println("Dish has no options");
-                            dialogOptions = new DialogOptions(_mFACtivity, null, _groupPosition, _childPosition, _mType, null);
+                            DataDishStruct options =_listOptions.get(_listDataHeader.get(_groupPosition)).get(_childPosition);
+                            dialogOptions = new DialogOptions(_mFACtivity, null, _groupPosition, _childPosition, _mType, options);
                         }
                         dialogOptions.customView().show();
                         dialogOptions.getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);

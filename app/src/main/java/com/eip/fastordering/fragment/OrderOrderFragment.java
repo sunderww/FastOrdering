@@ -117,6 +117,16 @@ public class OrderOrderFragment extends Fragment {
         }
     }
 
+    public static void set_idmListDataOther(int gpos, int cpos, String catopt, String opt, String value) {
+        DataDishStruct options = _mListDataOthers.get(_mListDataHeader.get(gpos)).get(cpos);
+        options.getmOptions().get(catopt).put(opt, value);
+    }
+
+    public static void setComment(int gpos, int cpos, String comment) {
+        DataDishStruct options = _mListDataOthers.get(_mListDataHeader.get(gpos)).get(cpos);
+        options.setmComment(comment);
+    }
+
     static void addMenuToOrder(String menuId, HashMap<String, String> dishes, Map<String, DataDishStruct> optionMap) {
         List<String> listHeaderAdapter = _mListAdapter.get_listDataHeader();
 
@@ -173,6 +183,7 @@ public class OrderOrderFragment extends Fragment {
     }
 
     static void addCardElementToOrder(String idCard, String idDish, String number, DataDishStruct options) {
+        System.out.println("HAVE TO ADD " + idCard + " " + idDish + " nb=" + number + " opt=" + options.getmComment());
         for (int i = 0; i < _mListAdapter.get_listDataHeader().size(); ++i) {
             if (_mListAdapter.get_listDataHeader().get(i).equals(idCard)) {
                 //Verifie si plat deja present, si oui ajoute la qte

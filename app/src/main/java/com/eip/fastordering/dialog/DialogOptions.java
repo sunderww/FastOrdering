@@ -16,6 +16,7 @@ import com.eip.fastordering.customs.Group;
 import com.eip.fastordering.customs.MyExpandableListAdapter;
 import com.eip.fastordering.fragment.OrderCardFragment;
 import com.eip.fastordering.fragment.OrderMenuCompoFragment;
+import com.eip.fastordering.fragment.OrderOrderFragment;
 import com.eip.fastordering.struct.DataDishStruct;
 import com.eip.fastordering.struct.OptionsStruct;
 
@@ -79,6 +80,9 @@ public class DialogOptions {
                                     OrderMenuCompoFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
                                 else if (type == 2)
                                     OrderCardFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
+                                else if (type == 3)
+                                    OrderOrderFragment.set_idmListDataOther(gposdish, cposdish, groups.get(i).string, groups.get(i).children.get(j), nb.getText().toString());
+
                             }
                         }
                     }
@@ -88,6 +92,8 @@ public class DialogOptions {
                     OrderMenuCompoFragment.setComment(gposdish, cposdish, comment.getText().toString());
                 else if (type == 2)
                     OrderCardFragment.setComment(gposdish, cposdish, comment.getText().toString());
+                else if (type == 3)
+                    OrderOrderFragment.setComment(gposdish, cposdish, comment.getText().toString());
             }
         });
         builder.setNegativeButton(R.string.dialog_options_cancel, new DialogInterface.OnClickListener() {
@@ -115,6 +121,11 @@ public class DialogOptions {
                 return true;
             }
         });
+
+        if (structOptions != null && structOptions.getmComment().length() > 0) {
+            System.out.println(structOptions.getmComment().length());
+            ((EditText)(view.findViewById(R.id.dialog_order_com))).setText(structOptions.getmComment());
+        }
 
         return dialog;
     }
