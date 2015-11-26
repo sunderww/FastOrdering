@@ -116,7 +116,7 @@
 	saved = YES;
 
 	for (OrderedOption * option in allOptions) {
-		option.dish = self.dish;
+		option.orderedDish = self.dish;
 	}
 	[self.dish sanitize];
 	self.dish.comment = commentView.text;

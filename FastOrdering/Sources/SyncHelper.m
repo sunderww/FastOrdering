@@ -150,10 +150,12 @@
 			
 			if (rel) {
 				NSManagedObject * relation = [self objectOfClass:rel.destinationEntity.managedObjectClassName withId:value];
-				if (rel.isToMany)
-					name = [NSString stringWithFormat:@"add%@Object:", [name capitalizedString]];
-				else
-					name = [NSString stringWithFormat:@"set%@:", [name capitalizedString]];
+				NSString *firstCapChar = [[name substringToIndex:1] capitalizedString];
+				NSString *cappedString = [name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:firstCapChar];
+				if (rel.isToMany) {
+					name = [NSString stringWithFormat:@"add%@Object:", cappedString];
+				} else
+					name = [NSString stringWithFormat:@"set%@:", cappedString];
 				SEL selector = NSSelectorFromString(name);
 				((void (*)(id, SEL, id))[obj methodForSelector:selector])(obj, selector, relation);
 				continue;
