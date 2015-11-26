@@ -16,6 +16,7 @@
 	IBOutlet LoaderView *	loader;
 	
 	BOOL					waitingResponse;
+	NSString *				restaurantId;
 }
 
 - (IBAction)login;

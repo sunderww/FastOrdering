@@ -23,14 +23,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	LoginViewController * controller;
-	
-#if DEBUG
-	[self printDB];
-	[self tryDropDB];
-#ifdef kShouldDropDB
-	[self dropDB];
-#endif
-#endif
 
 	// Delete all old notifications
 //	DLog(@"Deleting all notifications...");
@@ -175,6 +167,21 @@
 	PPLog(@"=========== END");
 }
 
+- (void)loadCoreData {
+	_managedObjectContext = nil;
+	_persistentStoreCoordinator = nil;
+	
+	[self managedObjectContext];
+	
+#if DEBUG
+	[self printDB];
+	[self tryDropDB];
+#ifdef kShouldDropDB
+	[self dropDB];
+#endif
+#endif
+}
+
 #endif
 
 #pragma mark - Core Data stack
@@ -215,8 +222,9 @@
 	if (_persistentStoreCoordinator != nil) {
 		return _persistentStoreCoordinator;
 	}
-	
-	NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"FastOrdering.sqlite"];
+
+	NSString * dbName = [NSString stringWithFormat:@"FastOrdering-%@.sqlite", self.restaurantId];
+	NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:dbName];
 	
 	NSError *error = nil;
 	_persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];

@@ -16,11 +16,12 @@
 //# define kSkipLoginView
 
 // Uncomment the following line to not check the server validation
-//# define kLoginDoNotValidate
+# define kLoginDoNotValidate
 #endif
 
-// The key of the JSON response send by the server : { answer: true }
-#define kLoginResponseKey	@"answer"
+// The key of the JSON response send by the server : { answer: true, restaurant_id: "a3b87..." }
+#define kLoginResponseKey		@"answer"
+#define kLoginRestaurantIdKey	@"restaurant_id"
 
 @interface LoginViewController ()
 
@@ -60,6 +61,12 @@
 }
 
 - (void)nextPage {
+	if (!restaurantId) restaurantId = @"skipped_login";
+	
+	AppDelegate * delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
+	delegate.restaurantId = restaurantId;
+	[delegate loadCoreData];
+
 	MainViewController * controller = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
 	[self.navigationController pushViewController:controller animated:YES];
 	loginButton.enabled = YES;
@@ -96,6 +103,7 @@
 		// Check these lines with a working connection
 		if (loggedIn.boolValue) {
 			DLog(@"CORRECTLY LOGGED IN ON SERVER");
+			restaurantId = [data valueForKey:kLoginRestaurantIdKey];
 			[self nextPage];
 		} else {
 			[self loginFailedWithWrongKey:@YES];
