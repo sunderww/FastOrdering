@@ -10,7 +10,6 @@ module.exports = {
     getOneDetail: function(req,cb){
 		console.log("getOneDetail");
 		var ret = "";
-		console.log()
 		Promise.all([
 		    OrderedOption.find().where({"ordered_dish":req.param('ordered_dish')}).populate('option'),
 		    Dish.findOne({id:req.param('dish_id')}),
@@ -55,7 +54,7 @@ module.exports = {
 		var ret = "Error: nothing";
 	       Promise.all([
 			Order.findOne({id:order_id}),
-			OrderedDish.find({order_id: order_id}),
+			OrderedDish.find({order: order_id}),
 			OrderedOption.find()
 			])
 		.spread(function(order, ordered, opt){
@@ -139,6 +138,28 @@ module.exports = {
 		});
 	},
 
+	createOrderedDish: function(order, current, currentt) {
+		OrderedDish.create({
+					   	order:order,
+					    qty:parseInt(current.qty),
+						comment:current.comment,
+					})
+					.exec(function(err,ordered){
+						 Dish.findOne({id:current.id}).then(function(dish){
+						 	ordered.dish = dish;
+						 	ordered.save();
+						 });
+						Menu.findOne({id:currentt.menuId}).then(function(menu){
+							ordered.menu = menu;
+						 	ordered.save();
+						});
+						if (typeof current.options != 'undefined') {
+							for (var u = 0; u < current.options.length; u++) {
+								OrderServices.createOrderOption(current.options[u], ordered);
+							}
+						}
+					});
+	},
 
 	createOrder: function(json, cb) {
 		console.log("createOrder")
@@ -154,28 +175,9 @@ module.exports = {
 		.then(function(order){
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
-					current = json['order'][a].content[i];
-					currentt = json['order'][a];
-					OrderedDish.create({
-					   	order:order,
-					    qty:parseInt(current.qty),
-						comment:current.comment,
-					})
-					.then(function(ordered){
-						 Dish.findOne({id:current.id}).then(function(dish){
-						 	ordered.dish = dish;
-						 	ordered.save();
-						 });
-						Menu.findOne({id:currentt.menuId}).then(function(menu){
-							ordered.menu = menu;
-						 	ordered.save();
-						});
-						if (typeof current.options != 'undefined') {
-							for (var u = 0; u < current.options.length; u++) {
-								OrderServices.createOrderOption(current.options[u], ordered);
-							}
-						}
-					});
+					var current = json['order'][a].content[i];
+					var currentt = json['order'][a];
+					OrderServices.createOrderedDish(order, current, currentt);
 				}
 			}
 			ret = {numOrder: order.id, numTable: json.numTable, numPA: json.numPA, date:order.date, hour:order.time};
