@@ -25,20 +25,22 @@ module.exports = {
         	});
 
 		    var ready = (req.param('status') == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
-           	ret = '<div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form">'
+           	ret = '<div style="display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
             + '<h3>Menu - '+ menu.name + ' </h3>'
-            + '<div style="height:30px">'
+            + '<div style="height:100px">'
             + '<span class="element-zoom" style="float:left;font-size:40px;"> ' + ordered_dish.qty + '</span>'
-            + '<span class="element-zoom" style="width:100px;float:left !important;">' + dish.name + " " + s_options + '</span>'
-            + '<span class="element-zoom">'+ordered_dish.comment+'</span>'
-            + '</div>'
-            + '</br>'
-            + '<span id="' + ordered_dish.id + '">'
+            + '<span class="element-zoom" style="padding-top:10px;width:200px;float:left !important;">' + dish.name + " " + s_options 
+      		+ '</br><div style="padding-top:10px;width:200px" id="' + ordered_dish.id + '">'
             + '<button  class="' + ready + '">Pret</button>'
             + '<button class="btn btn-primary question">Serveur</button>'
+            + '</div>'
             + '</span>'
+            + '<div style="padding-right:30%;padding-top:10px;" class="element-zoom">'+ordered_dish.comment+'</div>'
+            + '</div>'
+            + '</br>'
             + '</span>'
-        	+ '</div>';
+        	+ '</div>'
+        	;
 	    })
 	    .catch(function(err){
 			console.log(err);
@@ -67,8 +69,12 @@ module.exports = {
 			 	});
 		 		entry.option = rr;
 			    entry.qty = (entry.qty).toString();
-			    entry.id = entry.dish_id;
-			    delete entry.dish_id;
+			    entry.id = entry.dish;
+			    entry.menu_id = entry.menu;
+			    entry.order_id = entry.order;
+			    delete entry.dish;
+			    delete entry.menu;
+			    delete entry.order;
 			    if (res[(entry.menu_id).toString()] == undefined)
 					res[(entry.menu_id).toString()] = new Array();
 			    res[(entry.menu_id).toString()].push(entry);
@@ -99,7 +105,7 @@ module.exports = {
 		var ret = new Array();
 
 		Promise.all([
-			  Order.find().sort("createdAt DESC").limit(limit)
+			  Order.find().sort("createdAt ASC").limit(limit)
 		])
 		.spread(function(orders){
 			orders.forEach(function(order) {
@@ -133,52 +139,144 @@ module.exports = {
 		});
 	},
 
+
 	createOrder: function(json, cb) {
 		console.log("createOrder")
 		var ret;
-		Promise.all([
-			Order.create({
-				id:id,
-				table_id:json.numTable,
-				dinerNumber:json.numPA,
-				comments: json.globalComment,
-				waiter_id:sails.session.user
-			})
-			])
-		.spread(function(model,orderedoption){
+		
+		Order.create({
+			id:id,
+			table_id:json.numTable,
+			dinerNumber:json.numPA,
+			comments: json.globalComment,
+			waiter_id:sails.session.user
+		})
+		.then(function(order){
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
 					current = json['order'][a].content[i];
-					Promise.all([
+					currentt = json['order'][a];
 					OrderedDish.create({
-						order_id:model.id,
-					    dish_id:current.id,
+					   	order:order,
 					    qty:parseInt(current.qty),
 						comment:current.comment,
-						menu_id:json['order'][a].menuId
 					})
-					]).spread(function(ordered){
+					.then(function(ordered){
+						 Dish.findOne({id:current.id}).then(function(dish){
+						 	ordered.dish = dish;
+						 	ordered.save();
+						 });
+						Menu.findOne({id:currentt.menuId}).then(function(menu){
+							ordered.menu = menu;
+						 	ordered.save();
+						});
 						if (typeof current.options != 'undefined') {
 							for (var u = 0; u < current.options.length; u++) {
 								OrderServices.createOrderOption(current.options[u], ordered);
 							}
 						}
-					}).catch(function(err){
-						console.log(err);
-					}).done(function(){
-
 					});
 				}
 			}
-			ret = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};
-		}).catch(function(err){
-			return cb(err);
+			ret = {numOrder: order.id, numTable: json.numTable, numPA: json.numPA, date:order.date, hour:order.time};
 		})
 		.done(function(){
 			return cb(ret);
 		});
+
+
+		// Promise.all([
+		// 	Order.create({
+		// 		id:id,
+		// 		table_id:json.numTable,
+		// 		dinerNumber:json.numPA,
+		// 		comments: json.globalComment,
+		// 		waiter_id:sails.session.user
+		// 	})
+		// 	])
+		// .spread(function(model,orderedoption){
+		// 	for (var a = 0;json['order'][a]; a++) {
+		// 		for (var i = 0;json['order'][a].content[i]; i++) {
+		// 			current = json['order'][a].content[i];
+		// 			Promise.all([
+		// 			OrderedDish.create({
+		// 				order_id:model.id,
+		// 			    dish_id:current.id,
+		// 			    qty:parseInt(current.qty),
+		// 				comment:current.comment,
+		// 				menu_id:json['order'][a].menuId
+		// 			})
+		// 			]).spread(function(ordered){
+		// 				if (typeof current.options != 'undefined') {
+		// 					for (var u = 0; u < current.options.length; u++) {
+		// 						OrderServices.createOrderOption(current.options[u], ordered);
+		// 					}
+		// 				}
+		// 			}).catch(function(err){
+		// 				console.log(err);
+		// 			}).done(function(){
+
+		// 			});
+		// 		}
+		// 	}
+		// 	ret = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};
+		// }).catch(function(err){
+		// 	return cb(err);
+		// })
+		// .done(function(){
+		// 	return cb(ret);
+		// });
 	}
 	,
+
+
+
+	// createOrder: function(json, cb) {
+	// 	console.log("createOrder")
+	// 	var ret;
+	// 	Promise.all([
+	// 		Order.create({
+	// 			id:id,
+	// 			table_id:json.numTable,
+	// 			dinerNumber:json.numPA,
+	// 			comments: json.globalComment,
+	// 			waiter_id:sails.session.user
+	// 		})
+	// 		])
+	// 	.spread(function(model,orderedoption){
+	// 		for (var a = 0;json['order'][a]; a++) {
+	// 			for (var i = 0;json['order'][a].content[i]; i++) {
+	// 				current = json['order'][a].content[i];
+	// 				Promise.all([
+	// 				OrderedDish.create({
+	// 					order_id:model.id,
+	// 				    dish_id:current.id,
+	// 				    qty:parseInt(current.qty),
+	// 					comment:current.comment,
+	// 					menu_id:json['order'][a].menuId
+	// 				})
+	// 				]).spread(function(ordered){
+	// 					if (typeof current.options != 'undefined') {
+	// 						for (var u = 0; u < current.options.length; u++) {
+	// 							OrderServices.createOrderOption(current.options[u], ordered);
+	// 						}
+	// 					}
+	// 				}).catch(function(err){
+	// 					console.log(err);
+	// 				}).done(function(){
+
+	// 				});
+	// 			}
+	// 		}
+	// 		ret = {numOrder: model.id, numTable: json.numTable, numPA: json.numPA, date:model.date, hour:model.time};
+	// 	}).catch(function(err){
+	// 		return cb(err);
+	// 	})
+	// 	.done(function(){
+	// 		return cb(ret);
+	// 	});
+	// }
+	// ,
 	createOrderOption: function(current, ordered) {
 		Promise.all([
 			Option.findOne({id:current.id}),

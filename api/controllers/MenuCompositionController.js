@@ -20,7 +20,8 @@ module.exports = {
     MenuComposition.create({
       name:req.param("name"),
       menu_id:req.param("menu_id"),
-      categories_ids: req.param("categories_ids")
+      categories_ids: req.param("categories_ids"),
+      position: req.param('position')
     }).exec(function(err, model){
       if (err) {
         console.log("MenuComposition creation failed");

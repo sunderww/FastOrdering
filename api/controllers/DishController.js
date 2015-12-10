@@ -28,6 +28,7 @@ module.exports = {
 						return res.json(500, {message: err.ValidationError});
 				    }
 					else {
+						req.flash('Dish created with success');
 						console.log("Dish created with success");
 						Dish.find( function(err, doc) {return res.view({dishs:doc});});
 					}

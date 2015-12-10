@@ -35,7 +35,7 @@
                     <div class="col-md-12">
                         <div class="panel">
                             <div class="panel-heading">
-                                <span class="panel-title">Ajouter un plat</span>
+                                <span class="panel-title"> (<%- req.flash('message ') %>)Ajouter un plat</span>
                             </div>
                             <div class="panel-body">
                                 <form class="form-horizontal" role="form" action="/dish/create" method="POST">
@@ -53,10 +53,33 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="inputStandard" class="col-lg-3 control-label">Categories</label>
-                                                <div class="col-lg-8">
-                                                    <select id="categories" name="categories_ids" multiple="multiple">
+                                                <div class="col-lg-8">                     
+                                            <div class="col-md-6 pl40">
+                                                <div class="option-group field">
+                                                
+                                                    <label class="option block option-primary">
+                                                        <input name="languages" value="FR" type="checkbox">
+                                                        <span class="checkbox"></span> Fluent french            
+                                                    </label>
+                                              
+                                                    <label class="option block option-primary mt10">
+                                                        <input name="languages" value="EN" type="checkbox">
+                                                        <span class="checkbox"></span> Fluent english              
+                                                    </label>
+                                                    
+                                                    <label class="option block option-primary mt10">
+                                                        <input name="languages" value="CH" type="checkbox">
+                                                        <span class="checkbox"></span> Fluent chinese            
+                                                    </label>                                
+                                                    
+                                                </div>                        
+                                            </div><!-- end section -->
+                                            
+                                        
+
+<!--                                                     <select id="categories" name="categories_ids" multiple="multiple">
                                                     </select>
-                                                </div>
+ -->                                                </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputStandard" class="col-lg-3 control-label">OptionsCategories</label>
@@ -68,7 +91,7 @@
                                     <div class="form-group">
                                         <label for="inputStandard" class="col-lg-3 control-label"></label>
                                         <div class="col-lg-8">
-                                            <input type="submit" value="Ajouter" class="form-control">
+                                            <input type="submit" value="Ajouter" class="form-control btn-primary">
                                         </div>
                                     </div>
                                 </form>
@@ -79,7 +102,7 @@
                             <div class="panel panel-visible" id="spy6">
                                 <div class="panel-heading">
                                     <div class="panel-title hidden-xs">
-                                        <span class="glyphicon glyphicon-tasks"></span>Sortable Row Labels</div>
+                                        <span class="glyphicon glyphicon-tasks"></span>Liste des plats</div>
                                 </div>
                                 <div class="panel-body pn">
                                     <table class="table display" id="datatable7" cellspacing="0" width="100%">

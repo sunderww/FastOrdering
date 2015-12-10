@@ -30,7 +30,7 @@
             </header>
             <!-- End: Topbar -->
             <!-- Begin: Content -->
-        <div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form">
+     <!--    <div style="display:inline-block !important;width:500px;margin:0px;height:30px" class="admin-form">
             <h3>Menu - menu.name </h3>
             <div style="height:30px">
                 <span class="element-zoom" style="float:left;font-size:40px;"> 2</span>
@@ -43,7 +43,7 @@
                 <button class="btn btn-primary question">Serveur</button>
             </span>
             </span>
-        </div>
+        </div> -->
             
                  <section id="content" class="animated fadeIn">
                 <!-- Dashboard Tiles -->
@@ -73,10 +73,10 @@
 
                         <div style="width:1000px !important;margin:auto"class="row table-layout" id="modal-content">
 
-                <div id="modal-panel"  style="width:1000px!important;height:500px;margin:0px;padding:0px; margin:auto" class="popup-large bg-none mfp-with-anim mfp-hide">
+                <div id="modal-panel"  style="width:1000px!important;margin:0px;padding:0px; margin:auto" class="popup-large bg-none mfp-with-anim mfp-hide">
 
 
-                    <div style="width:1000px!important;height:500px; margin:0px;padding:0px;" class="panel">
+                    <div style="width:1000px!important;margin:0px;padding:0px;" class="panel">
                         <div class="panel-heading">
                             <span class="panel-icon"><i></i>
                             </span>
@@ -180,7 +180,7 @@
                for (var i = 0; i < ordered.length; i++) {
                             console.log(ordered[i]);
                    
-                io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order_id +'&menu_id=' + ordered[i].menu_id + '&'+'dish_id=' + ordered[i].dish_id, function (ret, response) {
+                io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order +'&menu_id=' + ordered[i].menu + '&'+'dish_id=' + ordered[i].dish, function (ret, response) {
                             console.log(response);
                             $(".dish-zoom").append(response.body);
                     });

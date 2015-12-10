@@ -83,15 +83,18 @@ ready: function(req, res) {
 
         var user = Order.findOne({id:ordered.order_id})
 	    .then(function(order){return order.waiter_id;})
-	    .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
+	    .then(function(waiter_id){return User.findOne({id:waiter_id}).then(function(user) {return user.socket_id});});
 
         var numTable = Order.findOne({id:ordered.order_id}).then(function(order){return order.table_id;});
         var status = Order.updateStatus(ordered.id);
-        return ["ordered", user, dish, status, numTable];
-    }).spread(function(one, socket_id, dish, status, numTable){
+        return ["ordered", user, dish, status, numTable, order.status];
+    }).spread(function(one, socket_id, dish, new_status, numTable, current_status){
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
-        sails.sockets.emit(socket_id, 'notifications', data);
-        return res.json({status:status});
+        if (current_status == "cooking")
+          sails.sockets.emit(socket_id, 'notifications', data);
+        else
+          new_status = current_status;
+        return res.json({status:new_status});
     });
   }
   else
@@ -119,8 +122,12 @@ json: function (req, res) {
         return res.send(doc);
       });
     } else {
-      Order.find(function(err, doc) {
-        return res.view({orders:doc});
+      Order.find(function(err, orders) {
+        // orders.forEach(function(entry){
+        //   entry.
+        // });
+
+        return res.view({orders:orders});
       });
     }
     
@@ -149,7 +156,7 @@ json: function (req, res) {
     },
 
     getDetails: function(req, res){
-      OrderedDish.find({order_id: req.param('id_command')}, function(err, ret){
+      OrderedDish.find({order: req.param('id_command')}, function(err, ret){
         return res.json(ret);
       });
     },

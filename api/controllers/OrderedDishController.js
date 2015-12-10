@@ -73,7 +73,7 @@ module.exports = {
         return res.send(doc);
       });
     } else {
-      OrderedDish.find( function(err, doc) {
+      OrderedDish.find().populate('order').populate('dish').exec(function(err, doc){
         return res.send(doc);
       });
     } 

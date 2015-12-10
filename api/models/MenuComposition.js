@@ -9,6 +9,7 @@ module.exports = {
   attributes: {
       name: "string",
       menu_id: "string",
-      categories_ids: "array"
+      categories_ids: "array",
+      position: 'integer'
     }
 };

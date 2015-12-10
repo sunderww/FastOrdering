@@ -17,9 +17,8 @@ module.exports = {
     * @type {String}
     * @require true
     */   	
-  	order_id: {
-  		type: 'string',
-  		required: true
+  	order: {
+  		model: 'order'
   	},
 
     /**
@@ -29,9 +28,8 @@ module.exports = {
     * @type {String}
     * @require true
     */ 
-  	dish_id: {
-  		type: 'string',
-  		required: true,
+  	dish: {
+  		model: 'dish'
     },
     
     /**
@@ -62,7 +60,7 @@ module.exports = {
     * @type {Integer}
     * @require true
     */
-    menu_id: {type: "integer", required: true},
+    menu: {model: "menu"},
     
     /**
     * Commentaire
