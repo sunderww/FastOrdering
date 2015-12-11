@@ -173,6 +173,7 @@ module.exports = {
 			waiter_id:sails.session.user
 		})
 		.then(function(order){
+			
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
 					var current = json['order'][a].content[i];
