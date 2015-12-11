@@ -44,7 +44,7 @@ module.exports = {
       },
   	
       waiter_id: {
-        model: "string"
+        type: "string"
   		  // required: true
       },
       status: {
