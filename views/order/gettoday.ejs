@@ -209,7 +209,7 @@
                 if (id_ready)
                     return ;
                 id_ready = true;
-                id_ready  = $(this).parent().attr("id");
+                id_ready = $(this).parent().attr("id");
                 var me = $(this);
                 console.log(id_ready);
                 io.socket.get('/order/ready?id=' + id_ready, function (body, response) {

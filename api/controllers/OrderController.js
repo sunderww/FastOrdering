@@ -59,7 +59,7 @@ question: function(req, res) {
         var user = Order.findOne({id:ordered.order_id})
       .then(function(order){return order.waiter_id;})
       .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
-        var numTable = Order.findOne({id:ordered.order_id}).then(function(order){return order.table_id;});
+        var numTable = Order.findOne({id:ordered.order}).then(function(order){return order.table_id;});
         return [user, numTable];
     }).spread(function(socket_id, numTable){
       var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:numTable}
@@ -73,19 +73,19 @@ question: function(req, res) {
 },
 
 ready: function(req, res) {
-  if (req.param("id")) {
     console.log("Order ready");
+  if (req.param("id")) {
     OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
         var dish = Dish.findOne({id:ordered.dish_id})
 	    .then(function(dish) {return dish.name});
-        var order = Order.findOne({id:ordered.order_id})
+        var order = Order.findOne({id:ordered.order})
 	    .then(function(order){return order.waiter_id;});
 
-        var user = Order.findOne({id:ordered.order_id})
+        var user = Order.findOne({id:ordered.order})
 	    .then(function(order){return order.waiter_id;})
 	    .then(function(waiter_id){return User.findOne({id:waiter_id}).then(function(user) {return user.socket_id});});
 
-        var numTable = Order.findOne({id:ordered.order_id}).then(function(order){return order.table_id;});
+        var numTable = Order.findOne({id:ordered.order}).then(function(order){return order.table_id;});
         var status = Order.updateStatus(ordered.id);
         return ["ordered", user, dish, status, numTable, order.status];
     }).spread(function(one, socket_id, dish, new_status, numTable, current_status){
