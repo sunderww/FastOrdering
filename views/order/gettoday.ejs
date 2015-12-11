@@ -205,7 +205,8 @@
             var id_ready = false;
             var id_question = false;
 
-            $("html").unbind().on('click', ".ready" ,function(){
+            $("html").on('click', ".ready" ,function(){
+                console.log("Hello ?");
                 if (id_ready)
                     return ;
                 id_ready = true;
