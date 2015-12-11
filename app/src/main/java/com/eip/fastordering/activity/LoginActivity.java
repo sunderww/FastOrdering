@@ -34,7 +34,7 @@ import java.util.Map;
 public class LoginActivity extends Activity {
 
     public static Socket _mSocket = null;
-    private final String _mIpServer = "http://163.5.84.184:4242";
+    public static final String _mIpServer = "http://163.5.84.184:4242";
     private ProgressDialog _mProgressDialog;
 
     /**
@@ -191,8 +191,7 @@ public class LoginActivity extends Activity {
                                 EditText addCourseText = (EditText) findViewById(R.id.field_pass);
                                 StockMenu.instance().write("/pass", addCourseText.getText().toString());
                                 fetchAllMenu();
-                            }
-                            else {
+                            } else {
                                 Log.d("LOGIN ACTIVITY", "Connection denied");
                                 LoginActivity.this.runOnUiThread(new Runnable() {
                                     @Override
@@ -421,33 +420,5 @@ public class LoginActivity extends Activity {
                 }
             }
         });
-    }
-
-    /**
-     * Manage things to do if authentification succeeds or not
-     *
-     * @param answer
-     */
-    private void handleAuthentification(JSONObject answer) {
-        try {
-            if (answer == null || !answer.getBoolean("answer")) {
-                //On error authentification
-                LoginActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast msg = Toast.makeText(LoginActivity.this, R.string.login_auth_fail, Toast.LENGTH_LONG);
-                        msg.show();
-                    }
-                });
-            } else {
-                //Fetch all the data
-                fetchAllMenu();
-
-                //TODO Uncomment once done - Alexis
-//                fetchLastOrders();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }
