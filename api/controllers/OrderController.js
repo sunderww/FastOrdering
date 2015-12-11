@@ -56,7 +56,7 @@ question: function(req, res) {
   console.log("question");
   if (req.param("id")) {
     OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
-        var user = Order.findOne({id:ordered.order_id})
+        var user = Order.findOne({id:ordered.order})
       .then(function(order){return order.waiter_id;})
       .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
         var numTable = Order.findOne({id:ordered.order}).then(function(order){return order.table_id;});
