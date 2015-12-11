@@ -183,6 +183,9 @@ module.exports = {
 			}
 			ret = {numOrder: order.id, numTable: json.numTable, numPA: json.numPA, date:order.date, hour:order.time};
 		})
+		.catch(function(err){
+			console.log(err);
+		})
 		.done(function(){
 			return cb(ret);
 		});
