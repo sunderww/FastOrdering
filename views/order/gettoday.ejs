@@ -153,16 +153,15 @@
             var id_question = false;
 
             $("html").on('click', ".readyy" ,function(){
-                console.log("Hello ?");
                 if (id_ready)
                     return ;
-                console.log("Hello2 ?");
                 id_ready = true;
                 id_ready = $(this).parent().attr("id");
                 var me = $(this);
                 console.log(id_ready);
                 io.socket.get('/order/ready?id=' + id_ready, function (body, response) {
                    console.log(response);
+                   console.log(body);
                    me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger");
                    me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success");
                     id_ready = false;

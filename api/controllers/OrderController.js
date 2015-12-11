@@ -93,6 +93,8 @@ ready: function(req, res) {
         var status = Order.updateStatus(ordered);
         return ["ordered", user, ordered.dish.name, status, ordered.order.table_id, ordered.status];
     }).spread(function(one, socket_id, dish, new_status, numTable, current_status){
+        console.log(new_status);
+        console.log(current_status);
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
         if (current_status == "cooking")
           sails.sockets.emit(socket_id, 'notifications', data);
