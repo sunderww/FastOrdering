@@ -55,15 +55,15 @@ module.exports = {
       comments: {type:"string"},
   },
 
-  updateStatus: function(id) {
-    var status = OrderedDish.findOne({id: id}).then(function(ordered) {
+  updateStatus: function(ordered) {
+    // var status = OrderedDish.findOne({id: id}).then(function(ordered) {
       var status = ordered.status == "toDeliver" ? "cooking" : "toDeliver";
-      OrderedDish.update({id: id}, {status:status}, function(err) {
+      OrderedDish.update({id: ordered.id}, {status:status}, function(err) {
         if (err)
           console.log("UpdateStatus Order --> " + err);
       });
       return status;
-    });
-    return status;
+    // });
+    // return status;
   }
 };

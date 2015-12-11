@@ -23,7 +23,7 @@ module.exports = {
         		s_options = s_options + "</br>" + option.qty + " " + option.option.name;
         	});
 
-		    var ready = (req.param('status') == "toDeliver") ? "ready btn btn-success" : "ready btn btn-danger";
+		    var ready = (ordered_dish.status == "toDeliver") ? "btn btn-success readyy" : "btn btn-danger readyy";
            	ret = '<div style="display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
             + '<h3>Menu - '+ menu.name + ' </h3>'
             + '<div style="height:100px">'

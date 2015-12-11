@@ -147,18 +147,53 @@
 
             // "use strict";
 
+
+
+            var id_ready = false;
+            var id_question = false;
+
+            $("html").on('click', ".readyy" ,function(){
+                console.log("Hello ?");
+                if (id_ready)
+                    return ;
+                console.log("Hello2 ?");
+                id_ready = true;
+                id_ready = $(this).parent().attr("id");
+                var me = $(this);
+                console.log(id_ready);
+                io.socket.get('/order/ready?id=' + id_ready, function (body, response) {
+                   console.log(response);
+                   me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger");
+                   me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success");
+                    id_ready = false;
+                });
+            });
+
+            $("html").on('click', ".question" ,function(){
+                  if (id_question)
+                    return ;
+                id_question = true;
+                id_question = $(this).parent().attr("id");
+                io.socket.get('/order/question?id=' + id_question, function (body, response) {
+                    alert("Il arrive ;)");
+                    id_question = false;
+                });
+            });
+
+
+
             // Init Theme Core     
             // Core.init();
 
             // Init Demo JS     
             // Demo.init();
-            function getMenu (id) {
+            // function getMenu (id) {
 
                 // io.socket.get('/menu/read?id=' + id, function (body, response) {
                     // console.log(response.body.elements.name);
                     // return response.body.elements.name;
                 // });
-            }
+            // }
 
             setInterval(function(){
                   io.socket.get('/order/gettodayy/', function(req, res){
@@ -200,37 +235,8 @@
                     },
                     midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
                 });
-            });
+             });
 
-            var id_ready = false;
-            var id_question = false;
-
-            $("html").on('click', ".ready" ,function(){
-                console.log("Hello ?");
-                if (id_ready)
-                    return ;
-                id_ready = true;
-                id_ready = $(this).parent().attr("id");
-                var me = $(this);
-                console.log(id_ready);
-                io.socket.get('/order/ready?id=' + id_ready, function (body, response) {
-                   console.log(response);
-                   me.removeClass(response.body.status == "toDeliver" ? "btn-success":"btn-danger");
-                   me.addClass(response.body.status == "toDeliver" ?  "btn-danger" : "btn-success");
-                    id_ready = false;
-                });
             });
-
-            $("html").unbind().on('click', ".question" ,function(){
-                  if (id_question)
-                    return ;
-                id_question = true;
-                id_question = $(this).parent().attr("id");
-                io.socket.get('/order/question?id=' + id_question, function (body, response) {
-                    alert("Il arrive ;)");
-                    id_question = false;
-                });
-            });
-        });
         });
     </script>

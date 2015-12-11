@@ -78,7 +78,7 @@ ready: function(req, res) {
     OrderedDish.findOne({id: req.param("id")})
     .populate('order')
     .populate('dish')
-    then(function(ordered){
+    .then(function(ordered){
      //    var dish = Dish.findOne({id:ordered.dish})
 	    // .then(function(dish) {return dish.name});
      //    var order = Order.findOne({id:ordered.order})
@@ -90,8 +90,8 @@ ready: function(req, res) {
         var user = User.findOne({id:ordered.order.waiter_id}).then(function(user) {return user.socket_id});
 
         // var numTable = Order.findOne({id:ordered.order}).then(function(order){return order.table_id;});
-        var status = Order.updateStatus(ordered.id);
-        return ["ordered", user, ordered.dish.name, status, ordered.order.table_id, ordered.order.status];
+        var status = Order.updateStatus(ordered);
+        return ["ordered", user, ordered.dish.name, status, ordered.order.table_id, ordered.status];
     }).spread(function(one, socket_id, dish, new_status, numTable, current_status){
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
         if (current_status == "cooking")
