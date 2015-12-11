@@ -79,7 +79,7 @@ ready: function(req, res) {
         var dish = Dish.findOne({id:ordered.dish})
 	    .then(function(dish) {return dish.name});
         var order = Order.findOne({id:ordered.order})
-	    .then(function(order){return order.waiter_id;});
+	    .then(function(order){return order;});
 
         var user = Order.findOne({id:ordered.order})
 	    .then(function(order){return order.waiter_id;})
