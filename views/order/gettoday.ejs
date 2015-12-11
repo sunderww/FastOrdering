@@ -205,7 +205,7 @@
             var id_ready = false;
             var id_question = false;
 
-            $("html").on('click', ".ready" ,function(){
+            $("html").unbind().on('click', ".ready" ,function(){
                 if (id_ready)
                     return ;
                 id_ready = true;
@@ -220,7 +220,7 @@
                 });
             });
 
-            $("html").on('click', ".question" ,function(){
+            $("html").unbind().on('click', ".question" ,function(){
                   if (id_question)
                     return ;
                 id_question = true;
