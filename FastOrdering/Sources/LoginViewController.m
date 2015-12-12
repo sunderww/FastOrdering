@@ -16,7 +16,7 @@
 //# define kSkipLoginView
 
 // Uncomment the following line to not check the server validation
-# define kLoginDoNotValidate
+//# define kLoginDoNotValidate
 #endif
 
 // The key of the JSON response send by the server : { answer: true, restaurant_id: "a3b87..." }
