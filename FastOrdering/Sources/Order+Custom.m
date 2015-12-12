@@ -26,43 +26,37 @@ NSObject *  dictSafeValue(NSObject *obj) {
 
 - (NSDictionary *)toJSONTest {
 	NSMutableDictionary * dict = [NSMutableDictionary new];
-//
-//	dict[@"numTable"] = dictSafeValue(self.numTable);
-//	dict[@"numPA"] = dictSafeValue(self.dinerNumber);
-//	dict[@"globalComment"] = dictSafeValue(self.comments);
-//	NSMutableArray * order = [NSMutableArray new];
-//	
-//	for (OrderContent * orderContent in self.orderContents) {
-//		NSMutableDictionary * menuDict = [NSMutableDictionary new];
-//		
-//		menuDict[@"menuId"] = dictSafeValue(orderContent.menuComposition.menu.serverId);
-//		menuDict[@"content"] = [NSMutableOrderedSet new];
-//		NSMutableArray * content = [NSMutableArray new];
-//		
-//		for (OrderedDish * dish in orderContent.dishes) {
-//			NSMutableDictionary * dishDict = [NSMutableDictionary new];
-//			
-//			dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
-//			dishDict[@"qty"] = dictSafeValue(dish.quantity);
-//			dishDict[@"comment"] = dictSafeValue(dish.comment);
-////			dishDict[@"options"] = @"";
-//			[content addObject:dishDict];
-//		}
-//		menuDict[@"content"] = [NSCountedSet setWithArray:content];
-//		[order addObject:menuDict];
-//	}
-//	
-//	for (OrderedDish * dish in self.dishes) {
-//		NSMutableDictionary * dishDict = [NSMutableDictionary new];
-//		
-//		dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
-//		dishDict[@"qty"] = dictSafeValue(dish.quantity);
-//		dishDict[@"comment"] = dictSafeValue(dish.comment);
-////		dishDict[@"options"] = @"";
-//		[order addObject:dishDict];
-//	}
-//
-//	dict[@"order"] = [NSCountedSet setWithArray:order];
+
+	dict[@"numTable"] = dictSafeValue(self.table_id);
+	dict[@"numPA"] = dictSafeValue(self.dinerNumber);
+	dict[@"globalComment"] = dictSafeValue(self.comments);
+	NSMutableArray * order = [NSMutableArray new];
+	
+	for (NSArray * dishes in self.dishesGroupedByMenu) {
+		NSMutableDictionary * menuDict = [NSMutableDictionary new];
+		
+		menuDict[@"menuId"] = dictSafeValue(((OrderedDish *)dishes.firstObject).menu.serverId);
+		menuDict[@"content"] = [NSMutableOrderedSet new];
+		NSMutableArray * content = [NSMutableArray new];
+		
+		for (OrderedDish * dish in dishes) {
+			NSMutableDictionary * dishDict = [NSMutableDictionary new];
+			
+			dishDict[@"id"] = dictSafeValue(dish.dish.serverId);
+			dishDict[@"qty"] = dictSafeValue(dish.qty);
+			dishDict[@"comment"] = dictSafeValue(dish.comment);
+			NSMutableArray * options = [NSMutableArray new];
+			for (OrderedOption * option in dish.options.allObjects)
+				[options addObject:@{@"id": option.option.serverId, @"qty": option.qty}];
+			
+			dishDict[@"options"] = [NSCountedSet setWithArray:options];
+			[content addObject:dishDict];
+		}
+		menuDict[@"content"] = [NSCountedSet setWithArray:content];
+		[order addObject:menuDict];
+	}
+
+	dict[@"order"] = [NSCountedSet setWithArray:order];
 	return dict;
 }
 

@@ -49,8 +49,11 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) MainViewController * mainController;
 
+@property (nonatomic, retain) NSString * restaurantId;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+- (void)loadCoreData;
 
 - (void)handleNotification:(Notification *)notification;
 
