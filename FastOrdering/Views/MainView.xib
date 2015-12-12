@@ -122,7 +122,6 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <color key="sectionIndexBackgroundColor" white="0.75151117700000003" alpha="0.80460438830000003" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="dataSource" destination="-1" id="sbA-bb-HHa"/>
                                         <outlet property="delegate" destination="-1" id="wyy-xp-iG1"/>
@@ -133,7 +132,6 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <color key="sectionIndexBackgroundColor" white="0.75151117700000003" alpha="0.80460438830000003" colorSpace="calibratedWhite"/>
                                     <connections>
                                         <outlet property="dataSource" destination="-1" id="3fO-VU-cGu"/>
                                         <outlet property="delegate" destination="-1" id="X2R-UM-GeD"/>
