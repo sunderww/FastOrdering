@@ -251,6 +251,7 @@
 }
 
 - (IBAction)logOut {
+	[SocketHelper disconnect];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
