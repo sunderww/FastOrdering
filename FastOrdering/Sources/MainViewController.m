@@ -102,6 +102,7 @@
 	controller = [[CommandViewController alloc] initWithNibName:@"CommandView" bundle:nil];
 	((CommandViewController *)controller).order = order;
 	((CommandViewController *)controller).mainController = self;
+//	((CommandViewController *)controller).navigationController = self.navigationController;
 	titleLabel.text = NSLocalizedString(@"order", @"").capitalizedString;
 	
 	[self postChange];
@@ -227,6 +228,7 @@
     if (sender == takeOrderButton || sender == orderButton) {
         controller = [[CommandViewController alloc] initWithNibName:@"CommandView" bundle:nil];
 		((CommandViewController *)controller).mainController = self;
+//		((CommandViewController *)controller).navigationController = self.navigationController;
         titleLabel.text = NSLocalizedString(@"order", @"").capitalizedString;
     } else if (sender == historyButton) {
         controller = [[HistoryViewController alloc] initWithNibName:@"HistoryView" bundle:nil];
