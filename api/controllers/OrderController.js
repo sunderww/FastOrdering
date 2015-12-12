@@ -98,8 +98,8 @@ ready: function(req, res) {
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
         if (current_status == "cooking")
           sails.sockets.emit(socket_id, 'notifications', data);
-        else
-          new_status = current_status;
+        // else
+          // new_status = current_status;
         return res.json({status:new_status});
     });
   }
