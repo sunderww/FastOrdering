@@ -28,7 +28,7 @@
 	[super viewDidLoad];
 	[SocketHelper.sharedHelper pushDelegate:self];
 	
-	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
+//	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
 	
 	if (self.order) {
 		forceReview = YES;
@@ -89,12 +89,13 @@
 	if (!didOrder && !forceReview)
 		[delegate.managedObjectContext deleteObject:self.order];
 
-	[delegate.managedObjectContext.undoManager endUndoGrouping];
+//	[delegate.managedObjectContext.undoManager endUndoGrouping];
 	if (didOrder) {
 		[delegate saveContext];
-	} else {
-		[delegate.managedObjectContext undo];
 	}
+//	} else {
+//		[delegate.managedObjectContext undo];
+//	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,7 +125,7 @@
 }
 
 - (void)showController:(UIViewController *)controller {
-	[self.navigationController pushViewController:controller animated:YES];
+	[self.mainController.navigationController pushViewController:controller animated:YES];
 //	if (presentController) {
 //		[presentController.view removeFromSuperview];
 //		presentController = nil;
@@ -145,7 +146,7 @@
 }
 
 - (void)popPresentController {
-	[self.navigationController popViewControllerAnimated:YES];
+	[self.mainController.navigationController popViewControllerAnimated:YES];
 //	[UIView animateWithDuration:0.5 animations:^{
 //		CGRect frame = presentController.view.frame;
 //		frame.origin.x += frame.size.width;
