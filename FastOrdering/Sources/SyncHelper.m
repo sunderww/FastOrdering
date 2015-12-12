@@ -91,7 +91,30 @@
 #endif
 }
 
+- (void)deleteEmptyObjectsOfClass:(NSString *)className inContext:(NSManagedObjectContext *)context {
+	NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:className];
+	NSArray * results;
+	NSError * error;
+	
+	request.predicate = [NSPredicate predicateWithFormat:@"serverId = nil"];
+	
+	results = [context executeFetchRequest:request error:&error];
+	if (error)
+		PPLog(@"%@", error);
+
+	for (NSManagedObject * obj in results)
+		[context deleteObject:obj];
+}
+
+- (void)deleteEmptyObjectsOfClass:(NSString *)className {
+	NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+	[self deleteEmptyObjectsOfClass:className inContext:context];
+}
+
 - (void)syncDeletedObjectsOfClasses:(NSArray *)classes {
+	for (NSString * className in classes) {
+		[self deleteEmptyObjectsOfClass:className];
+	}
 	DLog(@"SHOULD START DELETE SYNC");
 }
 
