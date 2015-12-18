@@ -47,13 +47,10 @@
 	
 	((AppDelegate *)UIApplication.sharedApplication.delegate).mainController = self;
 
-	timer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
-    [self loadDatabase];
     [self syncDatabase];
     panelShown = NO;
     panelView.hidden = NO;
     overlay.alpha = 0;
-	hasLoaded = NO;
 
     titleLabel.text = NSLocalizedString(@"Main Page", @"");
     lastNotificationsLabel.text = NSLocalizedString(@"Last Notifications", @"");
@@ -142,8 +139,10 @@
 - (void)syncDatabase {
     SyncHelper * syncer = [SyncHelper new];
 
-    classesToSync = 0;	
+    classesToSync = 0;
+	hasLoaded = NO;
 	loaderView.hidden = NO;
+	timer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
 
 #ifdef SKIP_SYNC
 	NSArray * classes = @[];
@@ -184,11 +183,6 @@
     DLog(@"END SYNC");
 	[self viewWillAppear:YES];
 	loaderView.hidden = YES;
-}
-
-- (void)loadDatabase {
-    // http://stackoverflow.com/questions/10417353/how-to-deal-with-a-multiple-user-database
-    DPPLog(@"Should try to load the correct db with coredata");
 }
 
 - (void)hidePanel {
