@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
+//	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(keyboardWillShow:)
@@ -53,12 +53,12 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[[NSNotificationCenter defaultCenter] removeObserver:self.view];
-	
-	NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
-	[context.undoManager endUndoGrouping];
-	if (!saved) {
-		[context.undoManager undoNestedGroup];
-	}
+//	
+//	NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+//	[context.undoManager endUndoGrouping];
+//	if (!saved) {
+//		[context.undoManager undoNestedGroup];
+//	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -116,7 +116,7 @@
 	saved = YES;
 
 	for (OrderedOption * option in allOptions) {
-		option.dish = self.dish;
+		option.orderedDish = self.dish;
 	}
 	[self.dish sanitize];
 	self.dish.comment = commentView.text;

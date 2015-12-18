@@ -91,7 +91,30 @@
 #endif
 }
 
+- (void)deleteEmptyObjectsOfClass:(NSString *)className inContext:(NSManagedObjectContext *)context {
+	NSFetchRequest * request = [NSFetchRequest fetchRequestWithEntityName:className];
+	NSArray * results;
+	NSError * error;
+	
+	request.predicate = [NSPredicate predicateWithFormat:@"serverId = nil"];
+	
+	results = [context executeFetchRequest:request error:&error];
+	if (error)
+		PPLog(@"%@", error);
+
+	for (NSManagedObject * obj in results)
+		[context deleteObject:obj];
+}
+
+- (void)deleteEmptyObjectsOfClass:(NSString *)className {
+	NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
+	[self deleteEmptyObjectsOfClass:className inContext:context];
+}
+
 - (void)syncDeletedObjectsOfClasses:(NSArray *)classes {
+	for (NSString * className in classes) {
+		[self deleteEmptyObjectsOfClass:className];
+	}
 	DLog(@"SHOULD START DELETE SYNC");
 }
 
@@ -150,10 +173,12 @@
 			
 			if (rel) {
 				NSManagedObject * relation = [self objectOfClass:rel.destinationEntity.managedObjectClassName withId:value];
-				if (rel.isToMany)
-					name = [NSString stringWithFormat:@"add%@Object:", [name capitalizedString]];
-				else
-					name = [NSString stringWithFormat:@"set%@:", [name capitalizedString]];
+				NSString *firstCapChar = [[name substringToIndex:1] capitalizedString];
+				NSString *cappedString = [name stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:firstCapChar];
+				if (rel.isToMany) {
+					name = [NSString stringWithFormat:@"add%@Object:", cappedString];
+				} else
+					name = [NSString stringWithFormat:@"set%@:", cappedString];
 				SEL selector = NSSelectorFromString(name);
 				((void (*)(id, SEL, id))[obj methodForSelector:selector])(obj, selector, relation);
 				continue;

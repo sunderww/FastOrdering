@@ -2,12 +2,11 @@
 //  Table.m
 //  FastOrdering
 //
-//  Created by Sunder on 22/10/2015.
+//  Created by Sunder on 12/11/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
 #import "Table.h"
-#import "Order.h"
 #import "Plan.h"
 
 
@@ -17,7 +16,6 @@
 @dynamic name;
 @dynamic serverId;
 @dynamic updatedAt;
-@dynamic orders;
 @dynamic plan;
 
 @end

@@ -27,6 +27,7 @@
 + (instancetype)sharedHelper;
 + (SocketIO *)sharedSocket;
 + (void)connectSocket;
++ (void)disconnect;
 
 @property (nonatomic, retain) SocketIO *    socket;
 

@@ -15,7 +15,7 @@
 - (void)sanitizeInContext:(NSManagedObjectContext *)context {
 	for (OrderedOption * option in self.options.allObjects) {
 		if (option.qty.integerValue == 0) {
-			option.dish = nil;
+			option.orderedDish = nil;
 			option.option = nil;
 			[context deleteObject:option];
 		}

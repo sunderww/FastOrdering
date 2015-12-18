@@ -44,6 +44,16 @@ static SocketHelper *   _sharedHelper = nil;
 	[helper.socket connectToHost:kSocketIOHost onPort:kSocketIOPort withParams:@{}];
 }
 
++ (void)disconnect {
+	SocketHelper * helper = [SocketHelper sharedHelper];
+
+	if (!helper.socket.isConnected) return ;
+
+	DLog(@"Socket disconnected");
+	[helper.socket sendEvent:@"logout" withData:nil];
+	helper.socket = nil;
+}
+
 
 #pragma mark - Delegate and listener methods
 

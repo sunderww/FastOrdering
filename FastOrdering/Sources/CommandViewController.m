@@ -88,6 +88,9 @@
 	if (didOrder) {
 		[self saveContext];
 	}
+//	} else {
+//		[delegate.managedObjectContext undo];
+//	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,34 +120,36 @@
 }
 
 - (void)showController:(UIViewController *)controller {
-	if (presentController) {
-		[presentController.view removeFromSuperview];
-		presentController = nil;
-	}
-	
-	presentController = controller;
-
-	CGRect frame = presentController.view.frame;
-	frame.origin.x += frame.size.width;
-	presentController.view.frame = frame;
-	
-	[self.view addSubview:presentController.view];
-	[UIView animateWithDuration:0.5 animations:^{
-		CGRect frame = presentController.view.frame;
-		frame.origin.x -= frame.size.width;
-		presentController.view.frame = frame;
-	}];
+	[self.mainController.navigationController pushViewController:controller animated:YES];
+//	if (presentController) {
+//		[presentController.view removeFromSuperview];
+//		presentController = nil;
+//	}
+//	
+//	presentController = controller;
+//
+//	CGRect frame = presentController.view.frame;
+//	frame.origin.x += frame.size.width;
+//	presentController.view.frame = frame;
+//	
+//	[self.view addSubview:presentController.view];
+//	[UIView animateWithDuration:0.5 animations:^{
+//		CGRect frame = presentController.view.frame;
+//		frame.origin.x -= frame.size.width;
+//		presentController.view.frame = frame;
+//	}];
 }
 
 - (void)popPresentController {
-	[UIView animateWithDuration:0.5 animations:^{
-		CGRect frame = presentController.view.frame;
-		frame.origin.x += frame.size.width;
-		presentController.view.frame = frame;
-	} completion:^(BOOL finished) {
-		[presentController.view removeFromSuperview];
-		presentController = nil;
-	}];
+	[self.mainController.navigationController popViewControllerAnimated:YES];
+//	[UIView animateWithDuration:0.5 animations:^{
+//		CGRect frame = presentController.view.frame;
+//		frame.origin.x += frame.size.width;
+//		presentController.view.frame = frame;
+//	} completion:^(BOOL finished) {
+//		[presentController.view removeFromSuperview];
+//		presentController = nil;
+//	}];
 }
 
 #pragma mark - UITextView and UITextField delegate methods

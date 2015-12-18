@@ -2,7 +2,7 @@
 //  Order.h
 //  FastOrdering
 //
-//  Created by Sunder on 25/10/2015.
+//  Created by Sunder on 12/11/2015.
 //  Copyright (c) 2015 lucas.bergognon. All rights reserved.
 //
 
@@ -16,9 +16,9 @@
 @property (nonatomic, retain) NSString * comments;
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSNumber * dinerNumber;
-@property (nonatomic, retain) NSString * table_id;
 @property (nonatomic, retain) NSNumber * price;
 @property (nonatomic, retain) NSString * serverId;
+@property (nonatomic, retain) NSString * table_id;
 @property (nonatomic, retain) NSDate * updatedAt;
 @property (nonatomic, retain) NSString * waiter_id;
 @property (nonatomic, retain) NSSet *dishes;
