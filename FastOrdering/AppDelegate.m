@@ -220,6 +220,7 @@
 - (void)mergeNestedContext {
 	NSManagedObjectContext * context = [contexts lastObject];
 
+	NSLog(@"DZOIUDJOZDJOZIJDOIZJDOIZJDOIZDJOIZJDOIZJDOIJZDOIJZDOIJZDOIJZDOIJ");
 	[context performBlockAndWait:^{
 		NSError * error;
 		

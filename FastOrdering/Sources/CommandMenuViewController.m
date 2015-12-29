@@ -13,6 +13,8 @@
 #import "NSManagedObject+create.h"
 #import "OrderedDish.h"
 #import "DishCategory+Custom.h"
+#import "AppDelegate.h"
+#import "Menu.h"
 
 #define kDishCellTag(section, row)  ((((section) + 1) * 100) + (row) + 1)
 #define kDishCellSectionForTag(tag) (((tag) / 100) - 1)
@@ -52,6 +54,7 @@
 #pragma mark - Helper methods
 
 - (void)order {
+	NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
 	NSMutableArray * orderedDishes = [NSMutableArray new];
 
 	for (NSUInteger i = 0 ; i < dishes.count ; ++i) {
@@ -59,11 +62,11 @@
 			NSNumber * quantity = counts[i][j];
 			
 			if (quantity.unsignedIntegerValue > 0) {
-				OrderedDish * dish = [OrderedDish create];
+				OrderedDish * dish = [OrderedDish createInContext:context];
 				
-				dish.dish = dishes[i][j];
+				dish.dish = [context objectWithID:((Dish *)dishes[i][j]).objectID];
 				dish.qty = quantity;
-				dish.menu = self.composition.menu;
+				dish.menu = [context objectWithID:self.composition.menu.objectID];
 				[orderedDishes addObject:dish];
 			}
 		}

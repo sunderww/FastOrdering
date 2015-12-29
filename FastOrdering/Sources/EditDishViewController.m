@@ -126,8 +126,9 @@
 }
 
 - (IBAction)validate {
+	[responder resignFirstResponder];
 	saved = YES;
-
+ 
 	for (OrderedOption * option in allOptions) {
 		option.orderedDish = self.dish;
 	}
