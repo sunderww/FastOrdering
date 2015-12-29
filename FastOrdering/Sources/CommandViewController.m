@@ -27,10 +27,14 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	[SocketHelper.sharedHelper pushDelegate:self];
+
 	
-	context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+	AppDelegate * appDelegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
+	[appDelegate createNestedContext];
+	context = appDelegate.managedObjectContext;
 	
 	if (self.order) {
+		self.order = [context objectWithID:self.order.objectID];
 		forceReview = YES;
 	} else {
 		self.order = [Order create];
@@ -79,6 +83,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+	AppDelegate * delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	[super viewWillDisappear:animated];
 	
 	[SocketHelper.sharedHelper popDelegate:self];
@@ -86,11 +91,11 @@
 	presentController = nil;
 
 	if (didOrder) {
-		[self saveContext];
+		[delegate mergeNestedContext];
+		[delegate saveContext];
+	} else if (!showingController) {
+		[delegate deleteNestedContext];
 	}
-//	} else {
-//		[delegate.managedObjectContext undo];
-//	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,6 +125,7 @@
 }
 
 - (void)showController:(UIViewController *)controller {
+	showingController = YES;
 	[self.mainController.navigationController pushViewController:controller animated:YES];
 //	if (presentController) {
 //		[presentController.view removeFromSuperview];
@@ -141,6 +147,7 @@
 }
 
 - (void)popPresentController {
+	showingController = NO;
 	[self.mainController.navigationController popViewControllerAnimated:YES];
 //	[UIView animateWithDuration:0.5 animations:^{
 //		CGRect frame = presentController.view.frame;
@@ -213,11 +220,8 @@
 #pragma mark - CommandMenuView delegate methods
 
 - (void)didOrderDishes:(NSArray *)dishes {
-	AppDelegate * delegate = ((AppDelegate *)UIApplication.sharedApplication.delegate);
-
 	[self.order addDishes:[NSSet setWithArray:dishes]];
 
-	[self saveContext];
 	[self buttonClicked:reviewButton];
 }
 
@@ -262,9 +266,6 @@
 	self.order.table_id = tableNumberField.text;
 	self.order.dinerNumber = @(numPAField.text.integerValue);
 	self.order.comments = commentTextView.text;
-
-//	DPPLog(@"FORCE FAIL");
-//	return [self orderFailed];
 	
 	if (!helper.socket.isConnected) return [self orderFailed];
 	
@@ -291,17 +292,6 @@
 
 	// find a way to get a callback
 	timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(orderFailed) userInfo:nil repeats:NO];
-}
-
-#pragma mark - CoreData MOC operations
-
-- (void)saveContext {
-	NSError * error;
-
-	[context save:&error];
-	if (error) {
-		PPLog(@"%@", error);
-	}
 }
 
 #pragma mark - SocketIO delegate methods

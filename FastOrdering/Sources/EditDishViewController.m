@@ -29,8 +29,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+	AppDelegate * appDelegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
+	[appDelegate createNestedContext];
+	context = appDelegate.managedObjectContext;
+	self.dish = [((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext objectWithID:self.dish.objectID];
 	
-//	[((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext.undoManager beginUndoGrouping];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(keyboardWillShow:)
@@ -53,12 +57,14 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[[NSNotificationCenter defaultCenter] removeObserver:self.view];
-//	
-//	NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
-//	[context.undoManager endUndoGrouping];
-//	if (!saved) {
-//		[context.undoManager undoNestedGroup];
-//	}
+	
+	AppDelegate * delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
+	
+	if (saved) {
+		[delegate mergeNestedContext];
+	} else {
+		[delegate deleteNestedContext];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,14 +76,21 @@
 	NSMutableArray * tmp = [NSMutableArray new];
 	NSMutableArray * allOptionsTmp = [NSMutableArray new];
 
-	categories = self.dish.dish.optioncategories.allObjects;
+	NSMutableArray * categoriesTmp = [NSMutableArray new];
+	for (OptionCategory * category in self.dish.dish.optioncategories.allObjects) {
+		[categoriesTmp addObject:[context objectWithID:category.objectID]];
+	}
+	categories = categoriesTmp;
+
 	for (OptionCategory * category in categories) {
 		NSMutableArray * orderedOptions = [NSMutableArray new];
 		for (Option * option in category.option.allObjects) {
 			OrderedOption * ordered = [self.dish orderedOptionWithOption:option];
-			if (!ordered) {
-				ordered = [OrderedOption create];
-				ordered.option = option;
+			if (ordered) {
+				ordered = [context objectWithID:ordered.objectID];
+			} else {
+				ordered = [OrderedOption createInContext:context];
+				ordered.option = [context objectWithID:option.objectID];
 				// Don't set the OrderedDish yet (because we could not cancel)
 				ordered.qty = 0;
 			}
@@ -118,7 +131,6 @@
 	for (OrderedOption * option in allOptions) {
 		option.orderedDish = self.dish;
 	}
-	[self.dish sanitize];
 	self.dish.comment = commentView.text;
 	[self.delegate popEditDishView];
 }
@@ -146,7 +158,8 @@
 		cell = [[ReviewExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
 	
-	cell.text = ((OptionCategory *)categories[section]).name;
+	OptionCategory * category = [context objectWithID:((OptionCategory *)categories[section]).objectID];
+	cell.text = category.name;
 	return cell;
 }
 
@@ -167,6 +180,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString * CellIdentifier = @"OptionCell";
 	OrderedOption * option = options[indexPath.section][indexPath.row - 1];
+	option = [context objectWithID:option.objectID];
 	
 	OptionCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	

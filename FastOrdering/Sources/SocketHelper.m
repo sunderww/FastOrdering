@@ -97,6 +97,7 @@ static SocketHelper *   _sharedHelper = nil;
 }
 
 - (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
+	PPLog(@"EVENT %@", packet.name);
 	for (id<SocketIODelegate> delegate in delegates) {
 		if ([delegate respondsToSelector:@selector(socketIO:didReceiveEvent:)]) {
 			[delegate socketIO:socket didReceiveEvent:packet];

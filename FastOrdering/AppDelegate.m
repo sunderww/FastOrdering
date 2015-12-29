@@ -22,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	contexts = [NSMutableArray new];
 	LoginViewController * controller;
 
 	// Delete all old notifications
@@ -188,19 +189,50 @@
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- (NSManagedObjectContext *)managedObjectContext
-{
+- (NSManagedObjectContext *)managedObjectContext {
+	return contexts.count > 0 ? [contexts lastObject] : self.originalContext;
+}
+
+- (NSManagedObjectContext *)originalContext {
 	if (_managedObjectContext != nil) {
 		return _managedObjectContext;
 	}
 	
 	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 	if (coordinator != nil) {
-		_managedObjectContext = [[NSManagedObjectContext alloc] init];
+		_managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 		[_managedObjectContext setPersistentStoreCoordinator:coordinator];
 		_managedObjectContext.undoManager = [NSUndoManager new];
 	}
 	return _managedObjectContext;
+}
+
+- (void)createNestedContext {
+	NSManagedObjectContext * context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+	context.parentContext = self.managedObjectContext;
+	[contexts addObject:context];
+}
+
+- (void)deleteNestedContext {
+	[contexts removeLastObject];
+}
+
+- (void)mergeNestedContext {
+	NSManagedObjectContext * context = [contexts lastObject];
+
+	[context performBlockAndWait:^{
+		NSError * error;
+		
+		if (![context save:&error]) {
+			PPLog(@"Can't merge nested context : %@", error);
+		} else {
+			DLog(@"Merged nested context");
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[self deleteNestedContext];
+			});
+		}
+	}];
+
 }
 
 // Returns the managed object model for the application.
@@ -276,7 +308,7 @@
 - (void)socketReceivedEvent:(NSString *)name withPacket:(SocketIOPacket *)packet {
 	if (![name isEqualToString:@"notifications"]) return ;
 	
-	Notification * notification = [Notification create];
+	Notification * notification = [Notification createInContext:self.originalContext];
 	NSData * data = [packet.data dataUsingEncoding:NSUTF8StringEncoding];
 	NSArray * info = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
 	if (info.count < 2) {

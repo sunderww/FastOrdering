@@ -36,6 +36,7 @@
 	CGSize keyboardSize;
 	UITextField * responder;
 	BOOL saved;
+	NSManagedObjectContext * context;
 }
 
 @property (nonatomic, retain) OrderedDish *			dish;

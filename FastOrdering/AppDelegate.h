@@ -21,8 +21,8 @@
 #define USE_EIP_SERVER
 
 #ifdef USE_EIP_SERVER
-	#define kSocketIOHost		@"10.224.9.184" // IP WHEN ON EPITECH NETWORK
-//	#define kSocketIOHost       @"163.5.84.184" // IP THE REST OF THE TIME...
+//	#define kSocketIOHost		@"10.224.9.184" // IP WHEN ON EPITECH NETWORK
+	#define kSocketIOHost       @"163.5.84.184" // IP THE REST OF THE TIME...
     #define kSocketIOPort       4242
 #else
     #define kSocketIOHost       @"127.0.0.1"
@@ -40,7 +40,9 @@
 
 #pragma mark - AppDelegate
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, SocketEventListener>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, SocketEventListener> {
+	NSMutableArray *	contexts;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -52,6 +54,11 @@
 @property (nonatomic, retain) NSString * restaurantId;
 
 - (void)saveContext;
+- (void)createNestedContext;
+- (void)deleteNestedContext;
+- (void)mergeNestedContext;
+- (NSManagedObjectContext *)originalContext;
+
 - (NSURL *)applicationDocumentsDirectory;
 - (void)loadCoreData;
 

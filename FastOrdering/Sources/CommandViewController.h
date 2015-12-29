@@ -53,6 +53,7 @@
 	NSTimer *						timer;
 	BOOL							didOrder;
 	BOOL							forceReview;
+	BOOL							showingController;
 	CGSize							keyboardSize;
 }
 
