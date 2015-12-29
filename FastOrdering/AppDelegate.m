@@ -318,7 +318,7 @@
 	}
 	
 	NSDateFormatter * formatter = [NSDateFormatter new];
-	formatter.dateFormat = @"dd/MM/yy hh:mm";
+	formatter.dateFormat = @"dd/MM/yy HH:mm";
 
 	NSDictionary * notificationDict = info[1];
 	NSString * date = [NSString stringWithFormat:@"%@ %@", notificationDict[@"date"], notificationDict[@"hour"]];
@@ -327,6 +327,7 @@
 	notification.msg = notificationDict[@"msg"];
 	notification.numTable = notificationDict[@"numTable"];
 	
+	[self saveContext];
 	[self handleNotification:notification];
 }
 
@@ -335,7 +336,7 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
 	NSURL * url = [NSURL URLWithString:notification.userInfo[@"notificationId"]];
 	NSManagedObjectID * objectID = [self.persistentStoreCoordinator managedObjectIDForURIRepresentation:url];
-	Notification * notif = (Notification *)[self.managedObjectContext existingObjectWithID:objectID error:NULL];
+	Notification * notif = (Notification *)[self.originalContext existingObjectWithID:objectID error:NULL];
 
 	
 	if (self.mainController.onMainPage) {
