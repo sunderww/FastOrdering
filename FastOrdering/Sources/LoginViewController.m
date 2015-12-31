@@ -69,6 +69,9 @@
 
 	MainViewController * controller = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
 	[self.navigationController pushViewController:controller animated:YES];
+	
+	waitingResponse = NO;
+	loader.hidden = YES;
 	loginButton.enabled = YES;
 }
 
@@ -114,7 +117,7 @@
 
 #pragma mark - SocketIO delegate methods
 
-- (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
+- (void)socketError {
 	if (waitingResponse) {
 		DLog(@"SocketIO error for connection");
 		
@@ -122,6 +125,14 @@
 		loader.hidden = YES;
 		[self loginFailedWithWrongKey:@NO];
 	}
+}
+
+- (void)socketIO:(SocketIO *)socket onError:(NSError *)error {
+	[self socketError];
+}
+
+- (void)socketIODidDisconnect:(SocketIO *)socket disconnectedWithError:(NSError *)error {
+	[self socketError];
 }
 
 /*
