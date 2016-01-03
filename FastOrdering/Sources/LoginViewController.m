@@ -62,6 +62,7 @@
 
 - (void)nextPage {
 	if (!restaurantId) restaurantId = @"skipped_login";
+	if (!waitingResponse) return ;
 	
 	AppDelegate * delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
 	delegate.restaurantId = restaurantId;
@@ -94,10 +95,9 @@
 	waitingResponse = YES;
 	loader.hidden = NO;
 
-	[SocketHelper.sharedSocket sendEvent:@"authentication" withData:@{@"user_key": keyField.text} andAcknowledge:^(id argsData) {
+	[SocketHelper.sharedHelper authenticateWithKey:keyField.text andAcknowledgement:^(id argsData) {
 		DPPLog(@"%@", argsData);
 
-		waitingResponse = NO;
 		loader.hidden = NO;
 
 		NSDictionary * data = (NSDictionary *)argsData;

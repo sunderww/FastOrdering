@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "SocketIOTransport.h"
 
+#define kReconnectInterval	10.0
+
 static SocketHelper *   _sharedHelper = nil;
 
 @implementation SocketHelper
@@ -18,6 +20,7 @@ static SocketHelper *   _sharedHelper = nil;
 	if (self = [super init]) {
 		delegates = [NSMutableArray new];
 		eventListeners = [NSMutableDictionary new];
+		forceDisconnect = NO;
 	}
 	return self;
 }
@@ -45,15 +48,36 @@ static SocketHelper *   _sharedHelper = nil;
 }
 
 + (void)disconnect {
-	SocketHelper * helper = [SocketHelper sharedHelper];
-
-	if (!helper.socket.isConnected) return ;
-
-	DLog(@"Socket disconnected");
-	[helper.socket sendEvent:@"logout" withData:nil];
-	helper.socket = nil;
+	[[SocketHelper sharedHelper] disconnect];
 }
 
+#pragma mark - Useful methods
+
+- (void)disconnect {
+	if (!self.socket.isConnected) return ;
+	
+	DLog(@"Disconnecting socket");
+	[timer invalidate];
+	timer = nil;
+	forceDisconnect = YES;
+	[self.socket sendEvent:@"logout" withData:nil];
+	[self.socket disconnect];
+	self.socket = nil;
+	forceDisconnect = NO;
+}
+
+- (void)tryReconnect:(NSTimer *)aTimer {
+	PPLog(@"Trying to reconnect socket...");
+	forceDisconnect = YES;
+	[self.socket disconnect];
+	[self.socket connectToHost:kSocketIOHost onPort:kSocketIOPort withParams:@{}];
+	[self.socket sendEvent:@"authentication" withData:@{@"user_key": userKey}];
+}
+
+- (void)authenticateWithKey:(NSString *)key andAcknowledgement:(void(^)(id argsData))ack {
+	userKey = key;
+	[self.socket sendEvent:@"authentication" withData:@{@"user_key": userKey} andAcknowledge:ack];
+}
 
 #pragma mark - Delegate and listener methods
 
@@ -120,10 +144,16 @@ static SocketHelper *   _sharedHelper = nil;
 
 - (void)socketIODidConnect:(SocketIO *)socket {
 	PPLog(@"CONNECT");
+	[timer invalidate];
+	timer = nil;
+	forceDisconnect = NO;
 }
 
 - (void)socketIODidDisconnect:(SocketIO *)socket disconnectedWithError:(NSError *)error {
-	PPLog(@"DECO %@", error);
+	if (!forceDisconnect && userKey) {
+		PPLog(@"DECO %@", error);		
+		timer = [NSTimer scheduledTimerWithTimeInterval:kReconnectInterval target:self selector:@selector(tryReconnect:) userInfo:nil repeats:YES];
+	}
 }
 
 - (void)socketIO:(SocketIO *)socket onError:(NSError *)error {

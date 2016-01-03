@@ -111,7 +111,7 @@
 	controller = nil;
 	mainView.hidden = NO;
 	titleLabel.text = NSLocalizedString(@"Main Page", @"");
-	[self viewWillAppear:NO];
+	[self viewDidAppear:NO];
 	
 	[self postChange];
 }
@@ -181,7 +181,7 @@
 		PPLog(@"%@", error);
 	}
     DLog(@"END SYNC");
-	[self viewWillAppear:YES];
+	[self viewDidAppear:YES];
 	loaderView.hidden = YES;
 }
 
@@ -238,7 +238,7 @@
         controller = nil;
         mainView.hidden = NO;
         titleLabel.text = NSLocalizedString(@"Main Page", @"");
-		[self viewWillAppear:NO];
+		[self viewDidAppear:NO];
     }
 
 	[self postChange];

@@ -22,6 +22,9 @@
 	NSMutableArray *		delegates;
 	NSMutableDictionary *	eventListeners;
 	AppDelegate *			appDelegate;
+	NSTimer *				timer;
+	BOOL					forceDisconnect;
+	NSString *				userKey;
 }
 
 + (instancetype)sharedHelper;
@@ -35,5 +38,7 @@
 - (void)popDelegate:(id<SocketIODelegate>)delegate;
 - (void)registerListener:(id<SocketEventListener>)listener forEvent:(NSString *)eventName;
 - (void)unregisterListener:(id<SocketEventListener>)listener forEvent:(NSString *)eventName;
+
+- (void)authenticateWithKey:(NSString *)key andAcknowledgement:(void(^)(id argsData))ack;
 
 @end
