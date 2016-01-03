@@ -106,6 +106,8 @@
 #pragma mark - Helper methods
 
 - (void)orderFailed {
+	if (loaderView.hidden) return; // Error didn't happen when ordering
+
 	loaderView.hidden = YES;
 	[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"") message:NSLocalizedString(@"Order_ErrorMessage", @"") delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
 }

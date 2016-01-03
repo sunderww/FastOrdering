@@ -71,7 +71,9 @@ static SocketHelper *   _sharedHelper = nil;
 	forceDisconnect = YES;
 	[self.socket disconnect];
 	[self.socket connectToHost:kSocketIOHost onPort:kSocketIOPort withParams:@{}];
-	[self.socket sendEvent:@"authentication" withData:@{@"user_key": userKey}];
+	[self.socket sendEvent:@"authentication" withData:@{@"user_key": userKey} andAcknowledge:^(id argsData) {
+		DLog(@"osef");
+	}];
 }
 
 - (void)authenticateWithKey:(NSString *)key andAcknowledgement:(void(^)(id argsData))ack {
