@@ -6,11 +6,14 @@
 //  Copyright (c) 2014 lucas.bergognon. All rights reserved.
 //
 
+#import <AudioToolbox/AudioToolbox.h>
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "Notification+Custom.h"
 #import "NSManagedObject+create.h"
 #import "MainViewController.h"
+
+#define kVibrateSoundID		1352
 
 @implementation AppDelegate
 
@@ -348,6 +351,8 @@
 
 - (void)handleNotification:(Notification *)notification {
 	UILocalNotification * local = [UILocalNotification new];
+
+	AudioServicesPlaySystemSound(kVibrateSoundID);
 
 	local.alertBody = notification.computedMessage;
 //	local.soundName = UILocalNotificationDefaultSoundName;

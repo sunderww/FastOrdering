@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		471384061C3D1BA900D48FB8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 471384051C3D1BA900D48FB8 /* AudioToolbox.framework */; };
 		84008C6D1A75FAB40012F873 /* SocketHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84008C6C1A75FAB40012F873 /* SocketHelper.m */; };
 		8403EDC41A51036E001421D3 /* UIColor+String.m in Sources */ = {isa = PBXBuildFile; fileRef = 8403EDC31A51036E001421D3 /* UIColor+String.m */; };
 		8403EDD01A5681F7001421D3 /* SyncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8403EDCF1A5681F7001421D3 /* SyncHelper.m */; };
@@ -126,6 +127,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		471384051C3D1BA900D48FB8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		84008C6B1A75FAB40012F873 /* SocketHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketHelper.h; sourceTree = "<group>"; };
 		84008C6C1A75FAB40012F873 /* SocketHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketHelper.m; sourceTree = "<group>"; };
 		8403EDC21A51036E001421D3 /* UIColor+String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+String.h"; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				471384061C3D1BA900D48FB8 /* AudioToolbox.framework in Frameworks */,
 				8408227319F4994D009BE528 /* Security.framework in Frameworks */,
 				8408227119F49949009BE528 /* CFNetwork.framework in Frameworks */,
 				8408226F19F49940009BE528 /* libicucore.dylib in Frameworks */,
@@ -600,6 +603,7 @@
 		84C1A17419EDE8D100E64B40 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				471384051C3D1BA900D48FB8 /* AudioToolbox.framework */,
 				845DE83F1B9B452400FF4509 /* Unirest */,
 				844B06B01ABBB76400DCFBB3 /* SLExpandableTableView */,
 				84B1EA3D1A57680400985E57 /* SailsIO */,
