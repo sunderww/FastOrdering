@@ -54,8 +54,6 @@ static SocketHelper *   _sharedHelper = nil;
 #pragma mark - Useful methods
 
 - (void)disconnect {
-	if (!self.socket.isConnected) return ;
-	
 	DLog(@"Disconnecting socket");
 	[timer invalidate];
 	timer = nil;
