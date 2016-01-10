@@ -27,7 +27,6 @@ module.exports = {
                 return res.redirect('/register');
             }
             
-            // Should I do that in afterCreate ??           // Not sure if user should be add DOC UNCLEAR
             Restaurant.create({name: values.restaurant, users: user.id}).exec(function restaurantCreated(err, restaurant){
                 if (err) {
                     console.log(err);
