@@ -11,23 +11,20 @@ module.exports = {
    */
    create: function (req, res) {
     if (req.method=="POST") {
-     OptionServices.create(req, function(){
-        if (false) {
-          console.log("Option creation failed");
-          return res.json({message: err.ValidationError});
+      OptionServices.create(req, function(ret){
+        if (!ret[0]) {
+          console.log("Option creation failed " + ret[1].ValidationError);
+          req.flash('error', ret[1].ValidationError);
         }
-        else
+        else {
           console.log("Option created with success");
-        Option.find( function(err, options) {
-          return res.view({options:options});
-        });
-     });
+          req.flash('success', "L'option " + ret[1].name + " a été créé avec succès!");
+        }
+        OptionServices.read(req,function(ret){return res.view(ret);});
+      });
     }
-    else {
-      Option.find( function(err, options) {
-          return res.view({options:options});
-        });
-    }
+    else
+      OptionServices.read(req,function(ret){return res.view(ret);});
   },
 
 
@@ -35,15 +32,7 @@ module.exports = {
    * `OptionController.read()`
    */
   read: function (req, res) {
-    if (req.param("id")) {
-        Option.find({id: req.param("id")} ,function(err, doc) {
-          return res.send(doc);
-      });
-    } else {
-        Option.find( function(err, doc) {
-	      return res.json({elements: doc});
-      });
-    }
+    OptionServices.read(req, function(ret){return res.json({elements: ret['options']});});
   },
 
 
@@ -51,27 +40,38 @@ module.exports = {
    * `OptionController.delete()`
    */
   delete: function (req, res) {
-    Option.destroy({id:req.param("id")}).exec(function(err, doc) {
-      console.log("Delete Option --> " + req.param('id'));
-      return res.redirect('/option/create');
+    Option
+    .destroy({restaurant:req.session.user.restaurant, id:req.param("id")})
+    .exec(function(err, doc) {
+      if (err) {
+        console.log("Delete Option failed--> " + req.param('id'));
+        req.flash('error', err.ValidationError);
+      }
+      else {
+        console.log("Delete Option success --> " + req.param('id'));
+        req.flash('success', "L'option a été supprimée avec succès");
+      }
+      res.redirect('/option/create');
     });
   },
-
 
   /**
    * `OptionController.update()`
    */
-  update: function (req, res) {
-      if (req.method=="POST") {
-          OptionServices.post_update(req, function(){
-            return res.redirect('/option/create');
-          });
-      }
-      else {
-        OptionServices.pre_update(req, function(options){
-          return res.view({option:options['option'], categories: options['options']});
-        });
-      }
+   update: function (req, res) {
+    if (req.method=="POST") {
+      OptionServices.update(req, function(ret){
+        if (!ret[0]) {
+          console.log("Option update failed");
+          req.flash('error', ret[1].ValidationError);
+        }
+        else {
+          console.log("Option updated with success");
+          req.flash('success', "La catégorie a été mise à jour avec succès");
+        }
+          return res.redirect('/option/create');
+      });
+    } else
+      OptionServices.read(req, function(ret){return res.view(ret);});
   }
 };
-

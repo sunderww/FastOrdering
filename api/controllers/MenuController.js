@@ -20,6 +20,7 @@ module.exports = {
       Menu.create({
         name:req.param("menu_name"),
         price: req.param('price'),
+        restaurant:req.session.user.restaurant
       }).exec(function(err,model){
         if (err) {
           console.log("Menu creation failed");
@@ -64,26 +65,46 @@ module.exports = {
   * @return {JSON} Retourne le résultat présent en base de données
   */
   read: function(req, res) {
-        if (req.param("id")) {
-      Menu.findOne({id:req.param("id")}, function(err, doc) {
+    if (req.param('from')) {
+      Menu.find({name: { '!' : ["alacarte"]}, restaurant:req.session.user.restaurant}).where({'createdAt' : {'>=':new Date(req.param('from'))}}).exec(function(err, doc){
+        doc.forEach(function(e){
+          e.restaurant_id = e.restaurant;
+          delete e.restaurant;
+        });
         return res.json({elements: doc});
-      });  
+      });
     }
-	  Menu.find({name: { '!' : ["alacarte"]}}, function(err, doc) {
-	      return res.json({elements: doc});
-	  });
+    else {
+      Menu.find({name: { '!' : ["alacarte"]}, restaurant:req.session.user.restaurant}).exec(function(err, doc){
+        doc.forEach(function(e){
+          e.restaurant_id = e.restaurant;
+          delete e.restaurant;
+        });
+        return res.json({elements: doc});
+      });
+    }
+
+   //      if (req.param("id")) {
+   //    Menu.findOne({id:req.param("id")}, function(err, doc) {
+   //      return res.json({elements: doc});
+   //    });  
+   //  }
+	  // Menu.find({name: { '!' : ["alacarte"]}}, function(err, doc) {
+	  //     return res.json({elements: doc});
+	  // });
   },
 
-  getMenu : function(res, req) {
- if (req.param("id")) {
-      Menu.findOne({id:req.param("id")}, function(err, doc) {
-        return res.json({elements: doc});
-      });  
-    }
-    Menu.find({name: { '!' : ["alacarte"]}}, function(err, doc) {
-        return res.json({elements: doc});
-    });
-  },
+  // getMenu : function(res, req) {
+    
+ // if (req.param("id")) {
+ //      Menu.findOne({id:req.param("id")}, function(err, doc) {
+ //        return res.json({elements: doc});
+ //      });  
+ //    }
+ //    Menu.find({name: { '!' : ["alacarte"]}}, function(err, doc) {
+ //        return res.json({elements: doc});
+ //    });
+  // },
 
 
     delete: function(req, res) {

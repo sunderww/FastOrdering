@@ -1,4 +1,38 @@
 <body class="dashboard-page sb-l-o sb-r-c">
+<style>
+
+   .col-adjust-8 {
+    padding: 0 15px;
+}
+h4 {text-align: center!important; width:100% !important; }
+@media (max-width: 700px) {
+h4 {margin-left:0%; }
+    .col-adjust-8 code {
+        display: none;
+    }
+    .col-adjust-8 > .row > div {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .hero-content{
+        border-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .hero-content .col-adjust-8 h3,
+    .hero-content .col-adjust-8 > .row:first-child > div {
+        margin-bottom: 0px !important;
+    }
+    .col-adjust-8.demo-btn-groups > .row > div,
+    .col-adjust-8.demo-btn-dropdowns > .row > div,
+    .col-adjust-8.demo-btn-ladda > .row > div {
+        width: 33%;
+        margin-bottom: 10px;
+    }
+    .col-adjust-8.demo-btn-ladda > .row > div > .btn {
+        min-width: 100px;
+    } 
+}
+</style>
 
     <!-- Start: Main -->
     <div id="main">
@@ -12,25 +46,7 @@
 
 
             <!-- Start: Topbar -->
-            <header id="topbar">
-                <div class="topbar-left">
-                    <ol class="breadcrumb">
-                        <li class="crumb-active">
-                            <a href="dashboard">Cuisine</a>
-                        </li>
-                        <li class="crumb-icon">
-                            <a href="dashboard">
-                                <span class="glyphicon glyphicon-home"></span>
-                            </a>
-                        </li>
-                        <li class="crumb-link">
-                            <a href="dashboard">Accueil</a>
-                        </li>
-                        <li class="crumb-trail">Cuisine</li>
-                    </ol>
-                </div>
-
-            </header>
+            <% include ../ariane.ejs %>
             <!-- End: Topbar -->
             <!-- Begin: Content -->
             <section id="content" class="animated fadeIn">
@@ -55,41 +71,68 @@
                                             <input value="<%= dish.price %>"  type="number" name="price" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label">Categories</label>
-                                        <div class="col-lg-8">
-                                            <select id="categories" name="categories_ids" multiple="multiple">
+  <div class="form-group">
+                                    <center><h4 for="inputStandard" class="col-lg-3 control-label">Categories</h4></center>
+                                </div>                                    
+                                <div class="form-group">
+                                    <div class="col-adjust-8 mb30">
+                                        <div class="row mt20 text-center">
+                                               <% _.each(categories, function(category) { %>
+                                               <% select = "default" %>
+                                               <% _.each(dish.categories, function(category_id) { %>
+                                               <% if (category_id.id == category.id) { %>
+                                               <% select = "success" %>
+                                               <%    } %>    
+                                               <% }) %>
+                                        <div class="col-xs-2">
+                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-<%= select %> btn-block categories"><%= category.name %></button>
+                                        </div>
+                                               <% }) %>           
+                                    </div>
+                                </div>
+                            </div>
+                                            <select id="categories" name="categories_ids" style="display:none" multiple="multiple">
                                                <% _.each(categories, function(category) { %>
                                                <% select = "" %>
-                                               <% _.each(dish.categories_ids, function(category_id) { %>
-
-                                               <% if (category_id == category.id) { %>
+                                               <% _.each(dish.categories, function(category_id) { %>
+                                               <% if (category_id.id == category.id) { %>
                                                <% select = "selected" %>
-                                               <%    } %>                                                        
-
-                                                                                       
-                                               <% }) %>                                           <option <%= select %> value="<%= category.id %>"><%= category.name %></option>               
-                                               <% }) %>                                                        
+                                               <%    } %>    
+                                               <% }) %>
+                                               <option <%= select %> value="<%= category.id %>"><%= category.name %></option>               
+                                               <% }) %>                 
                                            </select>
-                                       </div>
-                                   </div>
-                                   <div class="form-group">
-                                    <label for="inputStandard" class="col-lg-3 control-label">Options</label>
-                                    <div class="col-lg-8">
-                                        <select id="optioncategories" name="optioncategories_ids" multiple="multiple">
+                                       
+  <div class="form-group">
+   <select  style="display:none" id="optioncategories" name="optioncategories_ids" multiple="multiple">
                                            <% _.each(optioncategories, function(category) { %>
                                            <% select = "" %>
-                                           <% _.each(dish.optioncategories_ids, function(category_id) { %>
-                                           <%= category.id %>
-                                           <% if (category_id == category.id) { %>
+                                           <% _.each(dish.optioncategories, function(category_id) { %>
+                                           <% if (category_id.id == category.id) { %>
                                            <% select = "selected" %>
                                            <%    } %>                    
                                            <% }) %>
                                            <option <%= select %> value="<%= category.id %>"><%= category.name %></option>
                                            <% }) %>              
-                                       </select>
-                                   </div>
-                               </div>                                    
+                                       </select>                                  <center><h4 for="inputStandard" class="col-lg-3 control-label">Categories des options</h4></center>
+                                </div>                               
+                                <div class="form-group">
+                                    <div class="col-adjust-8 mb30">
+                                        <div class="row mt20 text-center">
+                                          <% _.each(optioncategories, function(category) { %>
+                                           <% select = "default" %>
+                                           <% _.each(dish.optioncategories, function(category_id) { %>
+                                           <% if (category_id.id == category.id) { %>
+                                           <% select = "success" %>
+                                           <%    } %>                    
+                                           <% }) %>
+                                        <div class="col-xs-2">
+                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-<%= select %> btn-block optioncategories"><%= category.name %></button>
+                                        </div>
+                                               <% }) %>           
+                                    </div>
+                                </div>
+                            </div>                                                                  
                                <input value="<%= dish.id %>"  type="hidden" name="id">
 
                                <div class="form-group">
@@ -146,25 +189,23 @@
 <script type="text/javascript" src="/assets/js/demo.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-
     "use strict";
+    Core.init();
+    
+    $("button").click(function(){
+        if ($(this).hasClass("optioncategories"))
+            var typ = "optioncategories";
+        else
+            var typ = "categories";
+        if ($(this).hasClass("btn-default")) {
+           $("#" + typ).append('<option selected value="'+ $(this).attr('cat-id') +'"></option>');
+            $(this).removeClass("btn-default").addClass("btn-success");
+        }
+        else {
+            $("#"+typ+" option[value='"+$(this).attr('cat-id')+"']").remove();
+            $(this).removeClass("btn-success").addClass("btn-default");
+        }
+    });
 
-            // Init Theme Core     
-            Core.init();
-
-            // Init Demo JS     
-            Demo.init();
-   // $('#categories').multiselect();
-        // io.socket.get('/dishcategory/read', function (body, response) {
-        //     var res = "";
-        //     body = body.elements;
-        //     console.log(body);
-        //     for (var i = body.length - 1; i >= 0; i--) {
-        //         // console.log(body[i].id);
-        //         res += '<option value="' + body[i].id +'">' + body[i].name +'</option>';
-        //     };
-        //     // console.log(res);
-        //     $("#categories").html(res);
-        // });
 });
 </script>

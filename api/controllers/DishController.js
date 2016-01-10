@@ -4,6 +4,7 @@
  * @class DishController
  * @constructor
  */
+
 module.exports = {
 
     /**
@@ -16,27 +17,21 @@ module.exports = {
      */
     create: function (req, res) {
 		if (req.method=="POST") {
-			Dish.create({
-				id: req.param("id"),
-				name:req.param("name"),
-				price:req.param("price"),
-				categories_ids: req.param("categories_ids"),
-				optioncategories_ids: req.param("optioncategories_ids")
-			    }).exec(function(err,model) {
-				    if (err) {
-						console.log("Dish creation failed " + err.ValidationError);
-						return res.json(500, {message: err.ValidationError});
-				    }
-					else {
-						req.flash('Dish created with success');
-						console.log("Dish created with success");
-						Dish.find( function(err, doc) {return res.view({dishs:doc});});
-					}
+			DishServices.create(req, function(ret){
+				if (!ret[0]) {
+					console.log("Dish creation failed " + ret[1].ValidationError);
+        			req.flash('error', ret[1].ValidationError);
+				}
+				else {
+        			req.flash('success', "Le plat " + ret[1].name + " a été crée avec succès");
+					console.log("Dish created with success");
+				}
+				DishServices.read(req, function(ret){return res.view(ret);});
 			});
 		}
 		else
-			Dish.find(function(err, doc) {return res.view({dishs:doc});});
-   },
+			DishServices.read(req, function(ret){return res.view(ret);});
+   	},
 
 
     /**
@@ -47,57 +42,53 @@ module.exports = {
      * @return {JSON} Retourne les résultat présents en base de données (0 ou 1 ou plusieurs plats)
      */
     read: function (req, res) {
-	if (req.param("id")) {
-		    Dish.find({id: req.param("id")} ,function(err, doc) {
-			    return res.send(doc);
+		DishServices.read(req, function(ret){
+			ret.dishs.forEach(function(entry){
+				entry.restaurant_id = entry.restaurant.id;
+				entry.categories_id = new Array();
+				entry.categories.forEach(function(e){
+					entry.categories_id.push(e.id);
+					delete e;
+				});
+				entry.options = new Array();
+				entry.optioncategories.forEach(function(e){
+					entry.options.push(e.id);
+					delete e;
+				});
+				delete entry.restaurant;
+				delete entry.optioncategories;
 			});
-		} else {
-		    Dish.find( function(err, doc) {
-			doc.forEach(function(entry) {
-				entry.createdAt = new Date("1995-12-17T03:24:00");
-				entry.updatedAt = new Date("1995-12-17T03:24:00");
-			    entry.options = entry.optioncategories_ids;
-			    delete entry.optioncategories_ids;
-			});
-		    return res.json({elements: doc});
-			});
-		}
-    },
-    delete: function (req, res) {
-	    Dish.destroy({id:req.param("id")}).exec(function(err, doc) {
-		  	console.log("Delete dish --> " + req.param('id'));
-			res.redirect('/dish/create');
+			return res.json({elements: ret.dishs});
 		});
+    },
+
+    delete: function (req, res) {
+	    Dish.destroy({restaurant:req.session.user.restaurant, id:req.param("id")}).exec(function(err) {
+	        if (err) {
+		        console.log("Delete Dish failed--> " + req.param('id'));
+		        req.flash('error', err.ValidationError);
+	      	}
+	      	else {
+		        console.log("Delete Dish success --> " + req.param('id'));
+		        req.flash('success', "Le plat a été supprimé avec succès");
+	      	}
+	      	res.redirect('/dish/create');
+	    });
 	},
     update: function (req, res) {
-		var CATEGORIES;
-		var OPTIONCATEGORIES;
-		DishCategory.find(function(err, doc) {
-			CATEGORIES = doc;
-		});
-		OptionCategory.find(function(err, doc) {
-			OPTIONCATEGORIES = doc;
-		});
 		if (req.method=="POST") {
-			Dish.update({id:req.param("id")},{
-				name:req.param("name"),
-				price:req.param("price"),
-				categories_ids: req.param("categories_ids"),
-				optioncategories_ids: req.param("optioncategories_ids")
-			    }).exec(function(err,model) {
-				    if (err) {
-						console.log("Dish update failed");
-						return res.json({message: err.ValidationError});
-					}
-					else
-						console.log("Dish updated with success");
+			DishServices.update(req, function(ret){
+		        if (!ret[0]) {
+					console.log("Dish update failed " + ret[1].ValidationError);
+          			req.flash('error', ret[1].ValidationError);
+				}
+				else {
+          			req.flash('success', "Le plat a été mise à jour avec succès");
+					console.log("Dish updated with success");
+				}
+				return res.redirect('/dish/create');
 			});
-			res.redirect('/dish/create');
-		} else {
-
-		    Dish.findOne({id: req.param("id")} ,function(err, doc) {
-			    return res.view({dish:doc, categories: CATEGORIES, optioncategories:OPTIONCATEGORIES});
-			});		   
-		}
+		} else
+			DishServices.read(req, function(ret){return res.view(ret);});
 	}
 };

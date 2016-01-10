@@ -7,6 +7,67 @@
 var Promise = require('q');
 module.exports = {
 
+	getDetails2: function(req, cb) {
+		OrderedDish.find({order: req.param('id_command')}).populateAll().exec(function(err, ret){
+			var res = new Object;
+			var str = '<ul class="nav nav-tabs tabs-border nav-justified">';
+			
+				
+			ret.forEach(function(entry,i){
+			    if (res[entry.menu.name] == undefined) {
+					console.log(i);
+					if (i == 0)
+						str += '<li class="active">';
+					else
+						str += '<li>';
+						str += '<a aria-expanded="true" href="#'+entry.menu.name+'" data-toggle="tab">'+entry.menu.name+'</a>'
+	            	+ '</li>';
+					res[entry.menu.name] = new Array();
+			    }
+			    res[entry.menu.name].push(entry);
+			});
+			str += '</ul><div class="tab-content">';
+			
+
+
+			for (var i  in res) {
+				
+				ret = "";
+				res[i].forEach(function(entry) {
+		        	var s_options = "</br>";
+		        	entry.options.forEach(function(option){
+		        		s_options = s_options + "</br>" + option.qty + " " + option.name;
+		        	});
+				    var ready = (entry.status == "toDeliver") ? "btn btn-success readyy" : "btn btn-danger readyy";
+		           	ret += '<div style="display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
+		            + '<div style="height:100px">'
+		            + '<span class="element-zoom" style="float:left;font-size:40px;"> ' + entry.qty + '</span>'
+		            + '<span class="element-zoom" style="padding-top:10px;width:200px;float:left !important;">' + entry.dish.name + " " + s_options 
+		      		+ '</br><div style="padding-top:10px;width:200px" id="' + entry.id + '">'
+		            + '<button  class="' + ready + '">Pret</button>'
+		            + '<button class="btn btn-primary question">Serveur</button>'
+		            + '</div>'
+		            + '</span>'
+		            + '<div style="padding-right:30%;padding-top:10px;" class="element-zoom">'+entry.comment+'</div>'
+		            + '</div>'
+		            + '</br>'
+		            + '</span>'
+		        	+ '</div>'
+		        	;
+				});
+
+					str += '<h3 class="mt5">Description des plats</h3><hr class="short alt">';
+					str += '<div id="'+res[i][0].menu.name+'" class="tab-pane active">';
+
+				str += '<p>'
+				+ ret
+				+ '</p>'
+                + '</div>';
+                
+			};
+			cb(str);
+      	});		
+	},
     getOneDetail: function(req,cb){
 		console.log("getOneDetail");
 		var ret = "";

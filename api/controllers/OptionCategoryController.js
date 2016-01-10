@@ -12,54 +12,52 @@ module.exports = {
    */
   create: function (req, res) {
     if (req.method=="POST" ) {
-   	OptionCategory.create({
-   		name:req.param("name")
-   		}).exec(function(err, model){
+     	OptionCategory.create({
+     		name:req.param("name"),
+        restaurant: req.session.user.restaurant
+     	})
+      .exec(function(err, optionCategory){
         if (err) {
-          console.log("OptionCategory creation failed");
-          return res.json({message: err.ValidationError});
+          console.log("OptionCategory creation failed " + ret[1].ValidationError);
+          req.flash('error', err.ValidationError);
         }
-        console.log("OptionCategory created with success");
-
-     	   OptionCategory.find( function(err, doc) {
-          return res.view({optioncategories:doc});
-        });      
-   	});
+        else {
+          console.log("OptionCategory created with success");
+          req.flash('success', 'La catégorie ' + optionCategory.name + " a été créé avec succès");
+        }
+        OptionCategoryServices.read(req, function(ret) {return res.view({optioncategories:ret});});      
+     	});
     }
     else 
-      OptionCategory.find( function(err, doc) {
-          return res.view({optioncategories:doc});
-        });      
+      OptionCategoryServices.read(req, function(ret) {return res.view({optioncategories:ret});});      
   },
-
 
   /**
    * `OptionCategoryController.read()`
    */
   read: function (req, res) {
-    if (req.param("id")) {
-        OptionCategory.find({id: req.param("id")} ,function(err, doc) {
-          return res.send(doc);
-      });
-    } else {
-        OptionCategory.find().populate("option").exec( function(err, doc) {
-          return res.json({elements: doc});
-      });
-    }
+      OptionCategoryServices.read(req, function(ret) {
+        ret.forEach(function(e){
+          ret.restaurant_id = e.restaurant.id;
+          delete restaurant;
+        });
+        return res.json({elements:ret});
+      });      
   },
 
   read_lucas: function(req, res) {
-     OptionCategory.find().populate("option").exec( function(err, doc) {
-          var result = new Array();
-          doc.forEach(function(entry){
-          var option_ids = new Array();
-            entry.option.forEach(function(e){
-              option_ids.push(e.id);
-            });
-            result.push({"option_ids":option_ids , "name": entry.name, "createdAt": entry.createdAt, "updatedAt":entry.updatedAt, "id":entry.id})
-          });
-          return res.json(result);
+    OptionCategoryServices.read(req, function(optionsCategory) {
+      optionsCategory.forEach(function(entry){
+        entry.option_ids = new Array();
+        entry.option.forEach(function(e){
+          entry.option_ids.push(e.id);
+        });
+        entry.restaurant_id = entry.restaurant.id;
+        delete entry.option;
+        delete entry.restaurant;        
       });
+      return res.json(optionsCategory);
+    });
   },
 
 
@@ -67,35 +65,41 @@ module.exports = {
    * `OptionCategoryController.delete()`
    */
   delete: function (req, res) {
-        OptionCategory.destroy({id:req.param("id")}).exec(function(err, doc) {
-          console.log("Delete OptionCategory --> " + req.param('id'));
-          return res.redirect('/optioncategory/create');
-      });
+    OptionCategory
+    .destroy({restaurant:req.session.user.restaurant, id:req.param("id")})
+    .exec(function(err) {
+      if (err) {
+        console.log("Delete OptionCategory failed--> " + req.param('id'));
+        req.flash('error', err.ValidationError);
+      }
+      else {
+        console.log("Delete OptionCategory success --> " + req.param('id'));
+        req.flash('success', "La catégorie a été supprimée avec succès");
+      }
+      res.redirect('/optioncategory/create');
+    });  
   },
-
 
   /**
    * `OptionCategoryController.update()`
    */
   update: function (req, res) {
     if (req.method=="POST") {
-      OptionCategory.update({id:req.param("id")},{
-        name:req.param("name"),
-          }).
-      exec(function(err,model) {
+      OptionCategory
+      .update({restaurant: req.session.user.restaurant,id:req.param("id")},{name:req.param("name")})
+      .exec(function(err,model) {
         if (err) {
           console.log("Failed OptionCategory update");
-          return res.json({message: err.ValidationError});
+          req.flash('error', err.ValidationError);
         }
-        else
+        else {
           console.log("OptionCategory updated with success");
-
+          req.flash('success', "La catégorie a été mise à jour avec succès");
+        }
+        res.redirect('/optioncategory/create/');
       });
-      res.redirect('/optioncategory/create/');
     }
-    else {
-        OptionCategory.findOne({id: req.param("id")} ,function(err, doc) {return res.view({option:doc});}); 
-    }
+    else
+      OptionCategoryServices.read(req, function(ret) {return res.view({optioncategory:ret});});      
   }
 };
-

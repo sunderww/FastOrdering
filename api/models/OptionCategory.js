@@ -8,9 +8,16 @@
 module.exports = {
 
   attributes: {
-    name: "string",
+    name: {
+    	type:"string",
+    	required:true
+    },
 	option:{
       collection: "option"
+    },
+    restaurant: {
+    	model: "restaurant",
+    	required: true
     }
   }
 };

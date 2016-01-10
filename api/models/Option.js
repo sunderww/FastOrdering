@@ -6,9 +6,14 @@
 */
 
 module.exports = {
-
-  attributes: {
-    name: "string"
-  }
+  	attributes: {
+	    name: {
+	    	type:"string", 
+	    	required:true
+	    },
+	    restaurant: {
+	    	model: "restaurant", 
+	    	required: true
+	    }
+	}
 };
-

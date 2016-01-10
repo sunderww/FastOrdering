@@ -8,8 +8,12 @@
 module.exports = {
   attributes: {
       name: "string",
-      menu_id: "string",
-      categories_ids: "array",
-      position: 'integer'
+      menu: {model:"menu", required:false},
+      categories: {collection:"DishCategory", required:false},
+      position: 'integer',
+     restaurant: {
+    	model: "restaurant",
+    	required: true
+    }  		
     }
 };

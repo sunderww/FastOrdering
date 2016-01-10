@@ -1,4 +1,38 @@
-d<body class="dashboard-page sb-l-o sb-r-c">
+<body class="dashboard-page sb-l-o sb-r-c">
+    <style>
+
+    .col-adjust-8 {
+        padding: 0 15px;
+    }
+    h4 {text-align: center!important; width:100% !important; }
+    @media (max-width: 700px) {
+        h4 {margin-left:0%; }
+        .col-adjust-8 code {
+            display: none;
+        }
+        .col-adjust-8 > .row > div {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .hero-content{
+            border-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        .hero-content .col-adjust-8 h3,
+        .hero-content .col-adjust-8 > .row:first-child > div {
+            margin-bottom: 0px !important;
+        }
+        .col-adjust-8.demo-btn-groups > .row > div,
+        .col-adjust-8.demo-btn-dropdowns > .row > div,
+        .col-adjust-8.demo-btn-ladda > .row > div {
+            width: 33%;
+            margin-bottom: 10px;
+        }
+        .col-adjust-8.demo-btn-ladda > .row > div > .btn {
+            min-width: 100px;
+        } 
+    }
+    </style>
 
     <!-- Start: Main -->
     <div id="main">
@@ -8,29 +42,8 @@ d<body class="dashboard-page sb-l-o sb-r-c">
 
         <!-- Start: Content-Wrapper -->
         <section id="content_wrapper">
-
-
-
             <!-- Start: Topbar -->
-            <header id="topbar">
-                <div class="topbar-left">
-                    <ol class="breadcrumb">
-                        <li class="crumb-active">
-                            <a href="dashboard">Cuisine</a>
-                        </li>
-                        <li class="crumb-icon">
-                            <a href="dashboard">
-                                <span class="glyphicon glyphicon-home"></span>
-                            </a>
-                        </li>
-                        <li class="crumb-link">
-                            <a href="dashboard">Accueil</a>
-                        </li>
-                        <li class="crumb-trail">Cuisine</li>
-                    </ol>
-                </div>
-
-            </header>
+            <% include ../ariane.ejs %>           
             <!-- End: Topbar -->
             <!-- Begin: Content -->
             <section id="content" class="animated fadeIn">
@@ -48,89 +61,70 @@ d<body class="dashboard-page sb-l-o sb-r-c">
                                         <div class="col-lg-8">
                                             <input value="<%= option.name %>" type="text" name="name" class="form-control">
                                         </div>
-                                    </div>                                   
+                                    </div>   
                                     <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label">Categories</label>
-                                                <div class="col-lg-8">
-                                                    <select id="categories" name="optioncategories_ids" multiple="multiple" style="width:100%">
-                                             <% _.each(categories, function(category) { %>
-                                                    <% select = "" %>
-                                                 <% _.each(category.option, function(category_id) { %>
-                                                    <% if (category_id.id == option.id) { %>
-                                                    <% select = "selected" %>
-                                             <%    } %>
-                                                <% }) %>
-
-                                                        <option <%= select %> value="<%= category.id %>"><%= category.name %></option>                                          
-                                                                                                        
-                                            <% }) %>                                                        
-                                                    </select>
-                                                </div>
-                                    </div>
-                                    <input value="<%= option.id %>"  type="hidden" name="id">
-
-                                    <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label"></label>
-                                        <div class="col-lg-8">
-                                            <input type="submit" value="Mettre a jour" class="form-control btn-primary">
+                                     <select  style="display:none" id="categories" name="optioncategories_ids" multiple="multiple">
+                                         <% _.each(optioncategories, function(category) { %>
+                                         <% select = "" %>
+                                         <% _.each(category.option, function(category_id) { %>
+                                         <% if (category_id.id == option.id) { %>
+                                         <% select = "selected" %>
+                                         <%    } %>                    
+                                         <% }) %>
+                                         <option <%= select %> value="<%= category.id %>"><%= category.name %></option>
+                                         <% }) %>              
+                                     </select>                                  <center><h4 for="inputStandard" class="col-lg-3 control-label">Categories des options</h4></center>
+                                 </div>                               
+                                 <div class="form-group">
+                                    <div class="col-adjust-8 mb30">
+                                        <div class="row mt20 text-center">
+                                          <% _.each(optioncategories, function(category) { %>
+                                          <% select = "default" %>
+                                          <% _.each(category.option, function(category_id) { %>
+                                          <% if (category_id.id == option.id) { %>
+                                          <% select = "success" %>
+                                          <%    } %>                    
+                                          <% }) %>
+                                          <div class="col-xs-2">
+                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-<%= select %> btn-block optioncategories"><%= category.name %></button>
                                         </div>
+                                        <% }) %>           
                                     </div>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+
+                            <input value="<%= option.id %>"  type="hidden" name="id">
+                            <div class="form-group">
+                                <label for="inputStandard" class="col-lg-3 control-label"></label>
+                                <div class="col-lg-8">
+                                    <input type="submit" value="Mettre a jour" class="form-control btn-primary">
+                                </div>
+                            </div>
+                        </form>
                     </div>
-            </section>
+                </div>
+            </div>
         </section>
+    </section>
+</div>
+<script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/utility/utility.js"></script>
+<script type="text/javascript" src="/assets/js/main.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    "use strict";
+    Core.init();
+    
+    $("button").click(function(){
+        if ($(this).hasClass("btn-default")) {
+           $("#categories").append('<option selected value="'+ $(this).attr('cat-id') +'"></option>');
+           $(this).removeClass("btn-default").addClass("btn-success");
+       }
+       else {
+        $("#categories option[value='"+$(this).attr('cat-id')+"']").remove();
+        $(this).removeClass("btn-success").addClass("btn-default");
+    }
+});
 
-
-    </div>
-
-
-
-    <!-- jQuery -->
-    <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/vendor/plugins/magnific/jquery.magnific-popup.js"></script>
-
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <!-- Theme Javascript -->
-    <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
-    <script type="text/javascript" src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="/assets/js/demo.js"></script>
-
-
-    <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <!-- Page Plugins -->
-    <script type="text/javascript" src="/vendor/plugins/magnific/jquery.magnific-popup.js"></script>
-
-    <!-- Admin Forms Javascript -->
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
-
-    <!-- Theme Javascript -->
-    <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
-    <script type="text/javascript" src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="/assets/js/demo.js"></script>
-    <script type="text/javascript">
-    jQuery(document).ready(function() {
-
-        "use strict";
-
-            // Init Theme Core     
-            Core.init();
-
-            // Init Demo JS     
-            Demo.init();
-   
-    });
-    </script>
+});
+</script>    

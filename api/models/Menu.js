@@ -12,5 +12,9 @@ module.exports = {
       	required: true
       },
       price: "integer",
+          restaurant: {
+    	model: "restaurant",
+    	required: true
+    }
   }
 };

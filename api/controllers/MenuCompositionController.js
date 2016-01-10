@@ -17,18 +17,15 @@ module.exports = {
   * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
   */
   create: function (req, res) {
-    MenuComposition.create({
-      name:req.param("name"),
-      menu_id:req.param("menu_id"),
-      categories_ids: req.param("categories_ids"),
-      position: req.param('position')
-    }).exec(function(err, model){
-      if (err) {
+    MenuCompositionServices.create(req, function(ret){
+      if (!ret[0]) {
         console.log("MenuComposition creation failed");
-        return res.json({message: err.ValidationError});
+        return res.json({message: ret[1].ValidationError});
       }
-      console.log("DishCategory created with success");
-      return res.json({message: model.id});
+      else {
+        console.log("MenuComposition created with success");
+        return res.json({message: ret[1].id});
+      }
     });
   },
 
@@ -41,12 +38,21 @@ module.exports = {
   */
   read: function (req, res) {
     if (req.param("id")) {
-      MenuComposition.find({menu_id:req.param("id")}, function(err, doc) {
+      MenuComposition.find({menu_id:req.param("id")}).populateAll().exec(function(err, doc) {
         return res.json({elements: doc});
       });  
     }
     else {
-      MenuComposition.find( function(err, doc) {
+      MenuComposition.find().populateAll().exec(function(err, doc) {
+        doc.forEach(function(e){
+          e.restaurant_id = e.restaurant.id;
+          e.categories_ids = new Array();
+          e.categories.forEach(function(en){
+            e.categories_ids.push(en.id);
+            delete en;
+          });
+          delete e.categories;
+        });
         return res.json({elements: doc});
       });      
     }
@@ -60,12 +66,12 @@ module.exports = {
   * @return {JSON} Retourne le résultat présent en base de données 
   */
   delete: function (req, res) {
-    if (req.param("id")) {
-      MenuComposition.destroy({id:req.param("id")}, function(err, doc) {
+    // if (req.param("id")) {
+      MenuComposition.destroy({}, function(err, doc) {
         console.log("Delete MenuComposition --> " + req.param('id'));
         return res.json({elements: doc});
       });  
-    }
+    // }
   }  
 };
 

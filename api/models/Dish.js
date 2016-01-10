@@ -9,7 +9,10 @@
 module.exports = {
 
   attributes: {
-   
+    restaurant: {
+      model: 'restaurant',
+      required: true
+    },  
     /**
     * Nom du plat
     * 
@@ -44,15 +47,13 @@ module.exports = {
   		type: 'boolean',
   		defaultsTo: true
   	},
-
-     
-    categories_ids: {
-      type: "array",
-      defaultsTo: []
+    categories: {
+      collection: "dishCategory",
+      required: false
     },
-    optioncategories_ids: {
-      type: "array",
-      defaultsTo: []
+    optioncategories: {
+      collection: "optionCategory",
+      required: false
     }    
   }
 };

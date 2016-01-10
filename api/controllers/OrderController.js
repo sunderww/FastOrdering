@@ -55,12 +55,9 @@ getOneOrder: function(req, res) {
 question: function(req, res) {
   console.log("question");
   if (req.param("id")) {
-    OrderedDish.findOne({id: req.param("id")}).then(function(ordered){
-        var user = Order.findOne({id:ordered.order})
-      .then(function(order){return order.waiter_id;})
-      .then(function(order){return User.findOne({id:order}).then(function(user) {return user.socket_id});});
-        var numTable = Order.findOne({id:ordered.order}).then(function(order){return order.table_id;});
-        return [user, numTable];
+    OrderedDish.findOne({id: req.param("id")}).populate('order').then(function(ordered){
+        var user =  User.findOne({id:ordered.order.waiter_id}).then(function(user) {return user.socket_id});
+        return [user, ordered.order.table_id];
     }).spread(function(socket_id, numTable){
       var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "J'ai une question !", numTable:numTable}
       sails.sockets.emit(socket_id, 'notifications', data);
@@ -76,25 +73,13 @@ ready: function(req, res) {
     console.log("Order ready");
   if (req.param("id")) {
     OrderedDish.findOne({id: req.param("id")})
-    .populate('order')
-    .populate('dish')
+    .populateAll()   
     .then(function(ordered){
-     //    var dish = Dish.findOne({id:ordered.dish})
-	    // .then(function(dish) {return dish.name});
-     //    var order = Order.findOne({id:ordered.order})
-	    // .then(function(order){return order;});
-
-        // var user = Order.findOne({id:ordered.order})
-	    // .then(function(order){return order.waiter_id;})
-	    // .then(function(waiter_id){return 
         var user = User.findOne({id:ordered.order.waiter_id}).then(function(user) {return user.socket_id});
-
-        // var numTable = Order.findOne({id:ordered.order}).then(function(order){return order.table_id;});
         var status = Order.updateStatus(ordered);
         return ["ordered", user, ordered.dish.name, status, ordered.order.table_id, ordered.status];
     }).spread(function(one, socket_id, dish, new_status, numTable, current_status){
-        console.log(new_status);
-        console.log(current_status);
+        console.log(socket_id);
         var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
         if (current_status == "cooking")
           sails.sockets.emit(socket_id, 'notifications', data);
@@ -171,7 +156,12 @@ json: function (req, res) {
     	    return res.json(result);
     	});
     },
-
+    
+    getDetails2: function(req, res){
+      OrderServices.getDetails2(req,function(result){
+          return res.json(result);
+      });
+    },
 };
 
 

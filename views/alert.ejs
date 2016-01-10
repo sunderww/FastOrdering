@@ -1,0 +1,19 @@
+<% var success = req.flash('success') %>
+<% var errors = req.flash('error') %>
+<% if (success.length > 0) { %>
+	    <%- req.flash('success') %>
+	<div class="alert alert-success dark alert-dismissable alert-border-left">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+	    <i class="fa fa-check pr10"></i>
+	    <%= success %>
+	</div>
+<% } %>
+<% if (errors.length > 0) { %>
+	<div class="alert alert-danger dark alert-dismissable alert-border-left">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+	    <i class="fa fa-warning pr10"></i>
+ 		<% Object.keys(errors).forEach(function(error) { %>
+			<%= JSON.stringify(errors[error]) %>
+		<% }) %>
+	</div>
+<% } %>

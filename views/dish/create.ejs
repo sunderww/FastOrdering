@@ -1,208 +1,176 @@
-<body class="dashboard-page sb-l-o sb-r-c">
+<body class="admin-elements-page">
+<style>
 
-    <!-- Start: Main -->
-    <div id="main">
+   .col-adjust-8 {
+    padding: 0 15px;
+}
+h4 {text-align: center!important; width:100% !important; }
+@media (max-width: 700px) {
+h4 {margin-left:0%; }
+    .col-adjust-8 code {
+        display: none;
+    }
+    .col-adjust-8 > .row > div {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .hero-content{
+        border-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .hero-content .col-adjust-8 h3,
+    .hero-content .col-adjust-8 > .row:first-child > div {
+        margin-bottom: 0px !important;
+    }
+    .col-adjust-8.demo-btn-groups > .row > div,
+    .col-adjust-8.demo-btn-dropdowns > .row > div,
+    .col-adjust-8.demo-btn-ladda > .row > div {
+        width: 33%;
+        margin-bottom: 10px;
+    }
+    .col-adjust-8.demo-btn-ladda > .row > div > .btn {
+        min-width: 100px;
+    } 
+}
+</style>
 
-        <% include ../header.ejs %>
-        <% include ../sidebar.ejs %>
+<!-- Start: Main -->
+<div id="main">
 
-        <!-- Start: Content-Wrapper -->
-        <section id="content_wrapper">
-            <!-- Start: Topbar -->
-            <header id="topbar">
-                <div class="topbar-left">
-                    <ol class="breadcrumb">
-                        <li class="crumb-active">
-                            <a href="dashboard">Cuisine</a>
-                        </li>
-                        <li class="crumb-icon">
-                            <a href="dashboard">
-                                <span class="glyphicon glyphicon-home"></span>
-                            </a>
-                        </li>
-                        <li class="crumb-link">
-                            <a href="dashboard">Accueil</a>
-                        </li>
-                        <li class="crumb-trail">Cuisine</li>
-                    </ol>
-                </div>
-            </header>
-            <!-- End: Topbar -->
-            <!-- Begin: Content -->
-            <section id="content" class="animated fadeIn">
-                <!-- Dashboard Tiles -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel">
-                            <div class="panel-heading">
-                                <span class="panel-title"> (<%- req.flash('message ') %>)Ajouter un plat</span>
+    <% include ../header.ejs %>
+    <% include ../sidebar.ejs %>
+
+    <!-- Start: Content-Wrapper -->
+    <section id="content_wrapper">
+        <!-- Start: Topbar -->
+        <% include ../ariane.ejs %>
+        <!-- End: Topbar -->
+        <!-- Begin: Content -->
+        <section id="content" class="animated fadeIn">
+            <!-- Dashboard Tiles -->
+            <div class="row">
+                <div class="col-md-12">
+                    <% include ../alert.ejs %>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span class="panel-title">Ajouter un plat</span>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form" action="/dish/create" method="POST">
+                                <div class="form-group">
+                                    <label for="inputStandard" class="col-lg-3 control-label">Nom</label>
+                                    <div class="col-lg-8">
+                                        <input value="" type="text" name="name" class="form-control">
+                                    </div>
+                                </div>                                   
+                                <div class="form-group">
+                                    <label for="inputStandard" class="col-lg-3 control-label">Prix</label>
+                                    <div class="col-lg-8">
+                                        <input type="string" step="any" name="price" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <center><h4 for="inputStandard" class="col-lg-3 control-label">Categories</h4></center>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-adjust-8 mb30">
+                                        <div class="row mt20 text-center">
+                                        <% _.each(categories, function(category) { %>
+                                        <div class="col-xs-2">
+                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-default btn-block categories"><%= category.name %></button>
+                                        </div>
+                                        <% }) %>              
+                                    </div>
+                                </div>
+                            <select style="display:none;" id="categories" name="categories_ids" multiple="multiple">
+                            </select>
                             </div>
-                            <div class="panel-body">
-                                <form class="form-horizontal" role="form" action="/dish/create" method="POST">
-                                    <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label">Nom</label>
-                                        <div class="col-lg-8">
-                                            <input value="" type="text" name="name" class="form-control">
+                                <div class="form-group">
+                                    <center><h4 for="inputStandard" class="col-lg-3 control-label">Categories des options</h4></center>
+                                </div>
+                             <div class="form-group" >
+                                    <div class="col-adjust-8 mb30" >
+                                        <div class="row mt20 text-center">
+                             <% _.each(optioncategories, function(category) { %>
+                                    <div class="col-xs-2">
+                                        <button style="" type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-default btn-block optioncategories"><%= category.name %></button>
                                         </div>
-                                    </div>                                   
-                                    <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label">Prix</label>
-                                        <div class="col-lg-8">
-                                            <input type="string" step="any" name="price" class="form-control">
+                                 <% }) %> 
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label">Categories</label>
-                                                <div class="col-lg-8">                     
-                                            <div class="col-md-6 pl40">
-                                                <div class="option-group field">
-                                                
-                                                    <label class="option block option-primary">
-                                                        <input name="languages" value="FR" type="checkbox">
-                                                        <span class="checkbox"></span> Fluent french            
-                                                    </label>
-                                              
-                                                    <label class="option block option-primary mt10">
-                                                        <input name="languages" value="EN" type="checkbox">
-                                                        <span class="checkbox"></span> Fluent english              
-                                                    </label>
-                                                    
-                                                    <label class="option block option-primary mt10">
-                                                        <input name="languages" value="CH" type="checkbox">
-                                                        <span class="checkbox"></span> Fluent chinese            
-                                                    </label>                                
-                                                    
-                                                </div>                        
-                                            </div><!-- end section -->
-                                            
-                                        
-
-<!--                                                     <select id="categories" name="categories_ids" multiple="multiple">
-                                                    </select>
- -->                                                </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label">OptionsCategories</label>
-                                                <div class="col-lg-8">
-                                                    <select id="optioncategories" name="optioncategories_ids" multiple="multiple">
-                                                    </select>
-                                                </div>
-                                    </div>                                    
-                                    <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label"></label>
-                                        <div class="col-lg-8">
-                                            <input type="submit" value="Ajouter" class="form-control btn-primary">
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
+                                   <select style="display:none;" id="optioncategories" name="optioncategories_ids" multiple="multiple">
+                                
+                             </select>
+                         </div>
+                                                    <!-- </div>                                     -->
+                     <div class="form-group">
+                        <label for="inputStandard" class="col-lg-3 control-label"></label>
+                        <div class="col-lg-8">
+                            <input type="submit" id="send" value="Ajouter" class="form-control btn-primary">
                         </div>
                     </div>
-                    <div class="col-md-12">
-                            <div class="panel panel-visible" id="spy6">
-                                <div class="panel-heading">
-                                    <div class="panel-title hidden-xs">
-                                        <span class="glyphicon glyphicon-tasks"></span>Liste des plats</div>
-                                </div>
-                                <div class="panel-body pn">
-                                    <table class="table display" id="datatable7" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Nom</th>
-                                                <th>Prix</th>
-                                                <th>Modifier</th>
-                                                <th>Supprimer</th>
-                                            </tr>
-                                        </thead> 
-                                        <tbody>
-                                            <% _.each(dishs, function(dish) { %>
-                                                <tr>
-                                                    <th><%= dish.name %></th>
-                                                    <th><%= dish.price %></th>
-                                                    <th><a href="/dish/update?id=<%= dish.id %>"><i class="glyphicons glyphicons-pencil"></a></i></th>
-                                                    <th><a href="/dish/delete?id=<%= dish.id %>"><i class="glyphicons glyphicons-bin"></i></a></th>
-                                                </tr>
-                                            <% }) %>
-                                        </tbody>   
-                                    </table>
-                                </div>
-                            </div>
-                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-visible" id="spy6">
+            <div class="panel-heading">
+                <div class="panel-title hidden-xs">
+                    <span class="glyphicon glyphicon-tasks"></span>Liste des plats</div>
                 </div>
-
-            </section>
-        </section>
-
-
+                <div class="panel-body pn">
+                    <table class="table display" id="datatable7" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prix</th>
+                                <th>Modifier</th>
+                                <th>Supprimer</th>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                            <% _.each(dishs, function(dish) { %>
+                            <tr>
+                                <th><%= dish.name %></th>
+                                <th><%= dish.price %></th>
+                                <th><a href="/dish/update?id=<%= dish.id %>"><i class="glyphicons glyphicons-pencil"></a></i></th>
+                                <th><a href="/dish/delete?id=<%= dish.id %>"><i class="glyphicons glyphicons-bin"></i></a></th>
+                            </tr>
+                            <% }) %>
+                        </tbody>   
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
+</section>
+</section>
 
-
-    <!-- jQuery -->
+</div>
     <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/vendor/plugins/magnific/jquery.magnific-popup.js"></script>
-
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <!-- Theme Javascript -->
     <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
     <script type="text/javascript" src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="/assets/js/demo.js"></script>
-
-
-    <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
-
-    <!-- Page Plugins -->
-    <script type="text/javascript" src="/vendor/plugins/magnific/jquery.magnific-popup.js"></script>
-
-    <!-- Admin Forms Javascript -->
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
-    <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
-
-    <!-- Theme Javascript -->
-    <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
-    <script type="text/javascript" src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="/assets/js/demo.js"></script>
-    <script type="text/javascript">
-    jQuery(document).ready(function() {
-
-        "use strict";
-
-            // Init Theme Core     
-            Core.init();
-
-            // Init Demo JS     
-            Demo.init();
-   // $('#categories').multiselect();
-        io.socket.get('/dishcategory/read', function (body, response) {
-            var res = "";
-            body = body.elements;
-            console.log(body);
-            for (var i = body.length - 1; i >= 0; i--) {
-                // console.log(body[i].id);
-                res += '<option value="' + body[i].id +'">' + body[i].name +'</option>';
-            };
-            // console.log(res);
-            $("#categories").html(res);
-        });
-
-        io.socket.get('/optioncategory/read', function (body, response) {
-            var res = "";
-            body = body.elements;
-            for (var i = body.length - 1; i >= 0; i--) {
-                res += '<option value="' + body[i].id +'">' + body[i].name +'</option>';
-            };
-            console.log(res);
-            $("#optioncategories").html(res);
-        });        
+  <script type="text/javascript">
+jQuery(document).ready(function() {
+    "use strict";
+    Core.init();
+    
+    $("button").click(function(){
+        if ($(this).hasClass("optioncategories"))
+            var typ = "optioncategories";
+        else
+            var typ = "categories";
+        if ($(this).hasClass("btn-default")) {
+           $("#" + typ).append('<option selected value="'+ $(this).attr('cat-id') +'"></option>');
+            $(this).removeClass("btn-default").addClass("btn-success");
+        }
+        else {
+            $("#"+typ+" option[value='"+$(this).attr('cat-id')+"']").remove();
+            $(this).removeClass("btn-success").addClass("btn-default");
+        }
     });
-    </script>
+
+});
+</script>

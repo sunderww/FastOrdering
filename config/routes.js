@@ -40,7 +40,6 @@ module.exports.routes = {
     'get /login': 'SessionController.login',
     'post /login': 'SessionController.trylogin',
     '/logout': 'SessionController.logout',
-    '/authentication': 'SessionController.loginFromPhone',
 
     // User
     'get /register': 'UserController.register',

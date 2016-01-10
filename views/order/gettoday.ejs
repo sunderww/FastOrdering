@@ -72,25 +72,52 @@
                 </div>
                                   <section id="content" class="animated fadeIn">
 
-                        <div style="width:1000px !important;margin:auto"class="row table-layout" id="modal-content">
-
-                <div id="modal-panel"  style="width:1000px!important;margin:0px;padding:0px; margin:auto" class="popup-large bg-none mfp-with-anim mfp-hide">
 
 
-                    <div style="width:1000px!important;margin:0px;padding:0px;" class="panel">
-                        <div class="panel-heading">
-                            <span class="panel-icon"><i></i>
-                            </span>
-                            <span class="panel-title">Contenu de la Commande</span>
-                        </div>
-                     <div class="panel-body">
-                        <h3 class="mt5">Description des plats</h3>
-                        <hr class="short alt">
-			            <div style="display:inline-block !important;width:1000px" class="dish-zoom"></div>
-                    </div>
-                    </div>
-                </div>
-                </div>
+                                    <div style="width:1000px !important;margin:auto"class="row table-layout" id="modal-content">
+
+                                        <div id="modal-panel"  style="width:1000px!important;margin:0px;padding:0px; margin:auto" class="popup-large bg-none mfp-with-anim mfp-hide">
+
+
+                                            <div style="width:1000px!important;margin:0px;padding:0px;" class="panel">
+                                                <div class="panel-heading">
+                                                    <span class="panel-icon"><i></i>
+                                                    </span>
+                                                    <span class="panel-title">Contenu de la Commande</span>
+                                                </div>
+                                                <div class='dish-zoom'>
+                                                </div>
+                                            <!--     <div class="panel-body">
+                                                    <h3 class="mt5">Description des plats</h3>
+                                                    <hr class="short alt">
+                                                    <div style="display:inline-block !important;width:1000px" class=""></div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+<!-- 
+                                    <div style="width:1000px !important;margin:auto"class="row table-layout" id="modal-content">
+
+                                        <div id="modal-panel"  style="width:1000px!important;margin:0px;padding:0px; margin:auto" class="popup-large bg-none mfp-with-anim mfp-hide">
+
+
+                                            <div style="width:1000px!important;margin:0px;padding:0px;" class="panel">
+                                                <div class="panel-heading">
+                                                    <span class="panel-icon"><i></i>
+                                                    </span>
+                                                    <span class="panel-title">Contenu de la Commande</span>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <h3 class="mt5">Description des plats</h3>
+                                                    <hr class="short alt">
+                                                    <div style="display:inline-block !important;width:1000px" class="dish-zoom"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
 
 
         </section>
@@ -146,7 +173,7 @@
     <script type="text/javascript">
         jQuery(document).ready(function() {
 
-            // "use strict";
+            "use strict";
 
 
 
@@ -180,10 +207,10 @@
 
 
             // Init Theme Core     
-            // Core.init();
+            Core.init();
 
             // Init Demo JS     
-            // Demo.init();
+            Demo.init();
             // function getMenu (id) {
 
                 // io.socket.get('/menu/read?id=' + id, function (body, response) {
@@ -204,36 +231,99 @@
 
             }, 5000);
 
-            // Form Skin Switcher
+            // $('html').on('click',".panel-footer" ,function() {
+            //     $(".dish-zoom").html("");
+            // var idCommand = $(this).parent().attr("idCommand");
+            // io.socket.get('/order/getDetails?id_command=' + idCommand, function (ordered, response) {
+            //    for (var i = 0; i < ordered.length; i++) {
+            //     io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order +'&menu_id=' + ordered[i].menu + '&'+'dish_id=' + ordered[i].dish, function (ret, response) {
+            //                 console.log(response);
+            //                 $(".dish-zoom").append(response.body);
+            //         });
+            //    };
+            //     $.magnificPopup.open({
+            //         removalDelay: 500, //delay removal by X to allow out-animation,
+            //         items: {
+            //             src: "#modal-panel"
+            //         },
+            //         callbacks: {
+            //             beforeOpen: function(e) {
+            //                 var Animation = "mfp-zoomOut"
+            //                 this.st.mainClass = Animation;
+            //             }
+            //         },
+            //         midClick: true 
+            //     });
+            //  });
+
+            // });
+
             $('html').on('click',".panel-footer" ,function() {
                 $(".dish-zoom").html("");
             var idCommand = $(this).parent().attr("idCommand");
-            io.socket.get('/order/getDetails?id_command=' + idCommand, function (ordered, response) {
-               for (var i = 0; i < ordered.length; i++) {
-                            console.log(ordered[i]);
-                   
-                io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order +'&menu_id=' + ordered[i].menu + '&'+'dish_id=' + ordered[i].dish, function (ret, response) {
-                            console.log(response);
+            io.socket.get('/order/getDetails2?id_command=' + idCommand, function (ordered, response) {
+                // console.log(response.body);
+               // for (var i = 0; i < ordered.length; i++) {
+               //  io.socket.get('/order/getDetailsOrder?ordered_dish='+ ordered[i].id + '&order_id='+ ordered[i].order +'&menu_id=' + ordered[i].menu + '&'+'dish_id=' + ordered[i].dish, function (ret, response) {
+               //              console.log(response);
                             $(".dish-zoom").append(response.body);
-                    });
-               };
-	        // Inline Admin-Form example 
+               //      });
+               // };
                 $.magnificPopup.open({
                     removalDelay: 500, //delay removal by X to allow out-animation,
                     items: {
                         src: "#modal-panel"
                     },
-                    // overflowY: 'hidden', // 
                     callbacks: {
                         beforeOpen: function(e) {
                             var Animation = "mfp-zoomOut"
                             this.st.mainClass = Animation;
                         }
                     },
-                    midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+                    midClick: true 
                 });
              });
 
             });
+
+    // Populates theme styles for Tabs - Trash function 
+            var tabOptions = [];
+            var tabToggle = $(".toggle-tab-style .tab-style-option");
+            var tabCount = $(tabToggle).length;
+
+            $(tabToggle).each(function(index, element) {
+                var optionVal = $(element).attr('opt');
+
+                // gather options and push to array
+                tabOptions.push(optionVal);
+
+                // on last loop filter for uniques
+                if (index == tabCount - 1) {
+                    jQuery.unique(tabOptions);
+                }
+            });
+
+            // Changes theme style on Tabs - Trash function 
+            $(tabToggle).click(function() {
+                var tabStyle = $(this).data('opt');
+                var Options = tabOptions.join(" ");
+
+                // GARBAGE JS - left tab navigation has styles widget outside of its menu.
+                // Requires slightly different class detection
+                if ($(this).parent().hasClass('tab-style-left')) {
+                    $(this).parents("div.tab-block").children("ul").removeClass(Options).addClass(tabStyle);
+                } else {
+                    // Assign option to parent of clicked tab widget. Remove all other options
+                    $(this).parents("ul").removeClass(Options).addClass(tabStyle);
+                }
+                // remove active class from options and add
+                // the class to the newly clicked option
+                $(this).siblings().removeClass("active");
+                $(this).addClass("active");
+
+            });
+
+
+
         });
     </script>

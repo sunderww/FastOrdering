@@ -1,58 +1,81 @@
-var Promise = require('q');
 module.exports = {
-	
+
 	create: function(req, cb) {
-		Promise.all([
-			OptionCategory.findOne({id:req.param("optioncategories_ids")}),
-			Option.create({name:req.param("name")})
-		])
-		.spread(function(options, option){
-          	if (!option)
-
-          	options.option.add(option);
-            options.save();
+		console.log("Option created")
+		Option.create({
+			id: req.param("id"),
+			name:req.param("name"),
+			restaurant: req.session.user.restaurant
 		})
-		.catch(function(err){
-			cb(err);
-		})
-		.done(function(){
-			return cb();
-      });
-	},
-
-	pre_update: function(req, cb){
-		var ret = new Array();
-		Promise.all([
-			OptionCategory.find().populate("option"),
-			Option.findOne({id: req.param("id")}),
-		])
-		.spread(function(options, option){
-    		ret = {'option': option, 'options': options};
-		})
-		.catch(function(err){
-			cb(err);
-		})
-		.done(function(){
-			return cb(ret);
-      	});
-	},
-
-	post_update: function(req, cb) {
-		Promise.all([
-			OptionCategory.findOne({id:req.param("optioncategories_ids")}),
-    		Option.destroy({id:req.param("id")})
-		])
-		.spread(function(options){
-			Option.create({id:req.param('id'), name:req.param('name')}).exec(function(err, option){
-				options.option.add(option);
-    			options.save();
+		.then(function(option){
+			var ar = new Array();
+			ar.concat(req.param("optioncategories_ids")).forEach(function(entry){
+				OptionCategory
+				.findOne({restaurant: req.session.user.restaurant, id:entry})
+				.exec(function(err, optionCategory){
+					if (!err && optionCategory != undefined) {
+						optionCategory.option.add(option);
+						optionCategory.save();
+					}
+				});
 			});
+			return cb([true, option]);
 		})
-		.catch(function(err){
-			cb(err);
-		})
-		.done(function(){
-			return cb(null);
-      	});		
-	}
+		.catch(function(err) {
+			return cb([false, err]);
+		});
+	},
+
+	update: function(req, cb) {
+		Option
+		.destroy({restaurant:req.session.user.restaurant,id:req.param("id")})
+		.then(function(dish) {
+			OptionServices.create(req, function(ret){
+				cb(ret);
+			});
+		});
+	},
+
+	read: function(req, cb) {
+		if (req.param('from')) {
+			Option
+			.find({restaurant:req.session.user.restaurant})
+	    	.where({'createdAt' : {'>=':new Date(req.param('from'))}})
+			.populateAll()
+			.then(function(options) {
+	        	OptionCategory
+	        	.find({restaurant:req.session.user.restaurant})
+	        	.populateAll()
+	        	.then(function(optioncategories){
+	        		cb({options:options, optioncategories:optioncategories});
+	        	});
+	      	});
+		}
+		else if (!req.param('id')) {
+			Option
+			.find({restaurant:req.session.user.restaurant})
+			.populateAll()
+			.then(function(options) {
+	        	OptionCategory
+	        	.find({restaurant:req.session.user.restaurant})
+	        	.populateAll()
+	        	.then(function(optioncategories){
+	        		cb({options:options, optioncategories:optioncategories});
+	        	});
+	      	});
+		}
+		else {
+			Option
+			.findOne({id:req.param('id'),restaurant:req.session.user.restaurant})
+			.populateAll()
+			.then(function(option) {
+	        	OptionCategory
+	        	.find({restaurant:req.session.user.restaurant})
+	        	.populateAll()
+	        	.then(function(optioncategories){
+	        		cb({option:option, optioncategories:optioncategories});
+	        	});
+	      	});
+		}
+	},
 }
