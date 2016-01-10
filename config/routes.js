@@ -69,6 +69,10 @@ module.exports.routes = {
     
     // Stats
     '/stats' : 'StatsController.index',
+    
+    // Bill
+    '/bill' : 'BillController.index',
+    '/bill/print/:id': 'BillController.print',
 
     '/elements' : 'DishController.read',
     '/menus' : 'MenuController.read',

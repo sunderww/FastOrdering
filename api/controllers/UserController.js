@@ -27,7 +27,6 @@ module.exports = {
                 return res.redirect('/register');
             }
             
-            // Should I do that in afterCreate ??           // Not sure if user should be add DOC UNCLEAR
             Restaurant.create({name: values.restaurant, users: user.id}).exec(function restaurantCreated(err, restaurant){
                 if (err) {
                     console.log(err);
@@ -68,12 +67,23 @@ module.exports = {
         if (req.session.user)
         res.redirect('/dashboard');
         
-        var values = req.params.all();
+        var restaurantValue = {
+            name: req.param('restaurant'),
+            adress: req.param('adress'),
+            postalcode: req.param('postalcode'),
+            phone: req.param('phone'),
+            siret: req.param('siret'),
+            rcs: req.param('rcs')
+        };
         
-        values.role = UserRole.manager; // Create an Manager
-        delete values.restaurant;
-        
-        User.create(values).exec(function userCreated(err, user) {
+        var userValue = {
+            email: req.param('email'),
+            password: req.param('password'),
+            confirm_password: req.param('confirm_password'),
+            role: UserRole.manager
+        };
+
+        User.create(userValue).exec(function userCreated(err, user) {
             if (err) {
                 console.log(err);
                 req.session.flash = {
@@ -81,8 +91,9 @@ module.exports = {
                 }
                 return res.redirect('/register');
             }
-            // Should I do that in afterCreate ??           // Not sure if user should be add DOC UNCLEAR
-            Restaurant.create({name: req.param('restaurant'), users: user.id}).exec(function restaurantCreated(err, restaurant){
+            
+            restaurantValue.users = user.id;
+            Restaurant.create(restaurantValue).exec(function restaurantCreated(err, restaurant){
                 if (err) {
                     console.log(err);
                     return res.serverError(err);
@@ -98,7 +109,6 @@ module.exports = {
             });
             // Redirect and Login
             res.redirect('/login');
-            // res.json(user); 
             req.session.flash = {};
         });
     },

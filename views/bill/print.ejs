@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-ca" http-equiv="Content-Language" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>LOGO</title>
+<style type="text/css">
+.auto-style6 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+}
+.auto-style15 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ background-color: #dadfd8;
+ font-variant: small-caps;
+ text-align: center;
+}
+.auto-style17 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ background-color: #dadfd8;
+ text-align: center;
+}
+.auto-style18 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ background-color: #dadfd8;
+ text-align: right;
+ font-variant: small-caps;
+}
+.auto-style1 {
+ border-left: 1px solid #C0C0C0;
+ border-top: 1px solid #C0C0C0;
+ text-align: center;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ font-variant: small-caps;
+}
+.auto-style13 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ background-color: #dadfd8;
+ font-variant: small-caps;
+ text-align: left;
+}
+.auto-style19 {
+ border-right-width: 0;
+ border-bottom-width: 0;
+ border-left-color: #C0C0C0;
+ border-left-width: 0;
+ border-top-color: #C0C0C0;
+ border-top-width: 0;
+}
+.auto-style21 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ text-align: center;
+}
+.auto-style22 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ text-align: left;
+}
+.auto-style23 {
+ border-left: 1px solid #C0C0C0;
+ border-right-style: solid;
+ border-right-width: 1px;
+ border-top: 1px solid #C0C0C0;
+ border-bottom-style: solid;
+ border-bottom-width: 1px;
+ text-align: right;
+}
+</style>
+</head>
+
+<body>
+
+<table style="width: 70%; height: 750px;" class="auto-style19" align="left">
+ <tr>
+ <td colspan="5" style="height: 248px" >
+ <table style="width: 100%" class="auto-style19">
+ <tr>
+ <td class="auto-style1" style="height: 75px; width: 30%;"></td>
+ <td class="auto-style1" colspan="4" style="height: 75px; width: 100%;">FACTURE</td>
+ </tr>
+ <tr>
+ <td class="auto-style13" style="width: 30%"><%= restaurant.name %></td>
+ <td class="auto-style15" style="width: 15%" rowspan="2">Siret</td>
+ <td class="auto-style15" style="width: 15%" rowspan="2">Date</td>
+ </tr>
+ <tr>
+ <td class="auto-style13" style="width: 30%">
+     <%= restaurant.adress %></br>
+     <%= restaurant.postalcode %></br>
+     Numéro: <%= restaurant.phone %></br>
+ </td>
+ </tr>
+ <tr>
+ <td class="auto-style22" style="width: 30%; height: 44px;"> </td>
+ <td class="auto-style21" style="width: 15%; height: 44px;">
+ <%= restaurant.siret %></td>
+ <td class="auto-style21" id="date" style="width: 15%; height: 44px;">
+ </td>
+ <script>
+ var today = new Date();
+ document.getElementById('date').innerHTML=today;
+</script>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="5" >
+  </td>
+ </tr>
+ <tr>
+ <td class="auto-style15" style="width: 50%">Description</td>
+ <td class="auto-style15" style="width: 10%">Quantité</td>
+ <td class="auto-style15" style="width: 10%">Prix Unité</td>
+ <td class="auto-style15" style="width: 20%">Montant</td>
+ </tr>
+ <% var result = 0 %>
+ <% _.each(products, function(product) { %>
+ <tr>
+ <td class="auto-style21" style="height: 50px; width: 50%;"><%= product.menu._settledValue.name %></td>
+ <td class="auto-style21" style="height: 50px; width: 10%;"><%= product.qty %></td>
+ <td class="auto-style21" style="height: 50px"><%= product.menu._settledValue.price %></td>
+ <td class="auto-style21" style="height: 50px; width: 20%;"><%= product.menu._settledValue.price * product.qty %><% result += product.menu._settledValue.price * product.qty %></td>
+ </tr>
+ <% }); %>
+ <tr>
+     <td class="auto-style15" colspan="3">
+     <td class="auto-style15" colspan="1">Net à Payer</td>
+ </tr>
+ <tr>
+     <td class="auto-style6" colspan="3">
+     <td class="auto-style21"><%= result %></td>
+ </tr>
+ <tr>
+ <td class="auto-style6" colspan="2" rowspan="2"><em>Les conditions de vente sont 
+déterminées dans le contrat général de vente de l'entreprise. </em></td>
+ </tr>
+ <tr>
+ <td class="auto-style18" colspan="2"><%= restaurant.name %></td>
+ </tr>
+ </table>
+
+</body>
+
+</html>
