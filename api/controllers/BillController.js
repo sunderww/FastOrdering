@@ -17,22 +17,18 @@ module.exports = {
 		},
 		
 		print: function(req, res) {
-			OrderedDish.find({order_id: req.param("id")}).then(function(ordered){
-				var data = new Array();
-				ordered.forEach(function(s){
-					var dish = Dish.findOne({id:s.dish_id}).then(function(dish) {return dish})
-					var menu = Menu.findOne({id:s.menu_id}).then(function(menu) {return menu});
-					data.push({dish:dish, menu:menu, qty:s.qty});
-				});
-				return data;
-			}).then(function(data){
-                Restaurant.findOne({id: req.session.user.restaurant}).then(function(restaurant){
-                    console.log(data);
+            
+            console.log(req.param("id"));
+            OrderedDish.find({order: req.param("id")}).populateAll().then(function(doc){
+              console.log(doc);
+              return doc;
+            }).then(function(data) {
+                Restaurant.findOne({id: req.session.user.restaurant}).then(function(restaurant) {
                     return res.view('bill/print', {restaurant: restaurant, products : data});
-                }).catch(function(err) {
-                    return res.serverError(err);
                 });
-			});
+            }).catch(function(err) {
+                return res.serverError(err);
+            });
 		}
 };
 

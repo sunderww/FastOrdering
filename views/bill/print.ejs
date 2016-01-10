@@ -154,10 +154,10 @@
  <% var result = 0 %>
  <% _.each(products, function(product) { %>
  <tr>
- <td class="auto-style21" style="height: 50px; width: 50%;"><%= product.menu._settledValue.name %></td>
+ <td class="auto-style21" style="height: 50px; width: 50%;"><%= product.menu.name %></td>
  <td class="auto-style21" style="height: 50px; width: 10%;"><%= product.qty %></td>
- <td class="auto-style21" style="height: 50px"><%= product.menu._settledValue.price %></td>
- <td class="auto-style21" style="height: 50px; width: 20%;"><%= product.menu._settledValue.price * product.qty %><% result += product.menu._settledValue.price * product.qty %></td>
+ <td class="auto-style21" style="height: 50px"><%= product.menu.price %></td>
+ <td class="auto-style21" style="height: 50px; width: 20%;"><%= product.menu.price * product.qty %><% result += product.menu.price * product.qty %></td>
  </tr>
  <% }); %>
  <tr>
