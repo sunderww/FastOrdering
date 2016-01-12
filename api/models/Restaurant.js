@@ -23,7 +23,32 @@ module.exports = {
     keys: {
         collection: 'key',
         via: 'restaurant'
-    }
+    },
+    
+    adress: {
+        type: 'string',
+        required: true
+    },
+    
+    postalcode: {
+        type: 'string',
+        required: true
+    },
+    
+    phone: {
+        type: 'string',
+        required: true
+    },
+    
+    siret: {
+        type: 'string',
+        required: true
+    },
+    
+    rcs: {
+        type: 'string',
+        required: true
+    },
 
   	// plan_id: 'string',
 

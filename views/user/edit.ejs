@@ -54,11 +54,13 @@
                                             <input class="form-control" placeholder="Password" type="password" name="password" value="">
                                             <label>Confirmation du mot de passe :</label>
                                             <input class="form-control" placeholder="Confirmation Password" type="password" name="confirm_password" value="" >
+                                            <% if (user.role != 4) { %>
                                             <label>Role :</label>
                                             <select name="role" class="form-control" value=<%= user.role %> >
                                                 <option value="2">Chef</option>
                                                 <option value="1">Serveur</option>
                                             </select>
+                                            <% } %>
                                         </div>
                                         <input type="submit" class="btn btn-primary" value="Submit"</input>
                                         <a href="/user/destroy/<%= user.id %>" class="btn btn-danger">Delete</a>

@@ -44,7 +44,6 @@ module.exports = {
   		}
 
         res.redirect('/booking');
-  // 		res.json(booking);
 	  	req.session.flash = {};
   	});	
   },
@@ -63,7 +62,6 @@ module.exports = {
   	});
   },
 
-    // TODO
   update: function(req, res){
     
     var datetime = String((sails.moment(req.param('date') + " " + req.param('time'), "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DD HH:mm:ss")));
@@ -81,7 +79,6 @@ module.exports = {
   	});
   },
 
-    // A check
   index: function(req, res) {
   	Booking.find({restaurant_id : req.session.user.restaurant}, function foundBooking(err, bookings) {
   		if (err) 
