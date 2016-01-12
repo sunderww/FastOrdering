@@ -17,7 +17,6 @@ module.exports = {
 			});
 			
 			var ar = new Array();
-			console.log(req.param("categories_ids"));
 			ar.concat(req.param("categories_ids")).forEach(function(entry){
 				DishCategory.findOne({id:entry}).exec(function(err, category){
 					console.log(category);

@@ -44,7 +44,10 @@ module.exports = {
     }
     else {
       MenuComposition.find().populateAll().exec(function(err, doc) {
+       
         doc.forEach(function(e){
+        console.log(e.menu);
+          e.menu_id = e.menu.id;
           e.restaurant_id = e.restaurant.id;
           e.categories_ids = new Array();
           e.categories.forEach(function(en){

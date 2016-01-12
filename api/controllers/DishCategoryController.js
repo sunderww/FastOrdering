@@ -55,6 +55,16 @@ module.exports = {
     });
   },
 
+
+  cats: function(req, res) {
+    DishCategory
+    .find({restaurant:sails.session.user.restaurant})
+    .exec(function(err, dishCategories) {
+      console.log(dishCategories);
+      return res.json({elements:dishCategories});
+    });
+  },
+
   delete: function (req, res) {
     DishCategory.destroy({restaurant:req.session.user.restaurant, id:req.param("id")}).exec(function(err) {
       if (err) {

@@ -77,7 +77,7 @@ module.exports.routes = {
     '/manage_plan' : 'PlanController.index',
     '/compos' : 'MenuCompositionController.read',
     '/alacarte' : 'MenuController.alacarte',
-    '/cats' : 'DishCategoryController.read',
+    '/cats' : 'DishCategoryController.cats',
     '/options': 'OptionCategoryController.read',
     '/send_order': 'DishController.create',
     '/optioncategory' : 'OptionCategoryController.read_lucas',

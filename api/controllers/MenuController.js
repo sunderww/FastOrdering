@@ -68,6 +68,7 @@ module.exports = {
     if (req.param('from')) {
       Menu.find({name: { '!' : ["alacarte"]}, restaurant:req.session.user.restaurant}).where({'createdAt' : {'>=':new Date(req.param('from'))}}).exec(function(err, doc){
         doc.forEach(function(e){
+          e.menu_id = e.id;
           e.restaurant_id = e.restaurant;
           delete e.restaurant;
         });
