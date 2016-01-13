@@ -82,7 +82,7 @@ module.exports.routes = {
     '/compos' : 'MenuCompositionController.compos',
     '/alacarte' : 'MenuController.alacarte',
     '/cats' : 'DishCategoryController.cats',
-    '/options': 'OptionCategoryController.read',
+    '/options': 'OptionCategoryController.options',
     '/send_order': 'DishController.create',
     '/optioncategory' : 'OptionCategoryController.read_lucas',
     '/orderedoption' : 'OrderedOptionController.read_lucas',

@@ -61,7 +61,7 @@ module.exports = {
           OptionCategory
           .find({restaurant:user.restaurant.id})
           .exec(function(err, optionCategories) {
-            return res.json({elements:optioncategories});
+            return res.json({elements:optionCategories});
           });
         });
       }
