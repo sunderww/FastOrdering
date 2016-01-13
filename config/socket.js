@@ -37,7 +37,7 @@
        console.log("update_order(send_order)");
 
        OrderServices.deleteOrder(id, function () {
-        OrderServices.createOrder(json, function (result) {
+        OrderServices.createOrder(socket.id, json, function (result) {
           sails.io.sockets.emit('receive_order', result);
           return cb(result);
         });
@@ -45,7 +45,7 @@
      } else {
        console.log("send_order");
 
-      OrderServices.createOrder(json, function (result) {
+      OrderServices.createOrder(socket.id, json, function (result) {
         console.log(result);
         socket.emit('receive_order', result);
         return cb(result);

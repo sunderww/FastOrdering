@@ -222,7 +222,7 @@ module.exports = {
 					});
 	},
 
-	createOrder: function(json, cb) {
+	createOrder: function(socket_id, json, cb) {
 		console.log("createOrder")
 		var ret;
 		
@@ -231,10 +231,14 @@ module.exports = {
 			table_id:json.numTable,
 			dinerNumber:json.numPA,
 			comments: json.globalComment,
-			waiter_id:sails.session.user
 		})
 		.then(function(order){
 			
+			SessionServices.getUser(socket_id, function(user){
+				order.waiter_id = user;
+				order.save();
+			});
+
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
 					var current = json['order'][a].content[i];
