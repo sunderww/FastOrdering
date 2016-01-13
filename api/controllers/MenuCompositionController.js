@@ -63,12 +63,11 @@ module.exports = {
     SessionServices.getUser(req.socket.id, function(user){
       MenuComposition.find({restaurant:user.restaurant.id}).exec(function(err, ret){
         ret.forEach(function(e){
-          e.menu_id = e.menu.id;
+          e.menu_id = e.menu;
           e.categories_ids = e.categories;
           delete e.categories;
           delete e.menu;
         });
-        console.log(ret);
         return res.json({elements: ret});        
       })
     });
