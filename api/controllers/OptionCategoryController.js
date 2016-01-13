@@ -60,6 +60,7 @@ module.exports = {
         SessionServices.getUser(req.socket.id, function(user){
           OptionCategory
           .find({restaurant:user.restaurant.id})
+          .populate('option')
           .exec(function(err, optionCategories) {
             return res.json({elements:optionCategories});
           });

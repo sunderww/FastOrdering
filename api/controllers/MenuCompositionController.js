@@ -72,7 +72,6 @@ module.exports = {
           delete e.categories;
           delete e.menu;
         });
-          console.log(ret);
         return res.json({elements: ret});        
       })
     });
