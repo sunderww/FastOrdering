@@ -64,6 +64,7 @@ module.exports = {
       MenuComposition.find({restaurant:user.restaurant.id}).exec(function(err, ret){
         ret.forEach(function(e){
           e.menu_id = e.menu;
+          console.log(e.categories);
           e.categories_ids = e.categories;
           delete e.categories;
           delete e.menu;
