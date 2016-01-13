@@ -153,13 +153,13 @@ module.exports = {
     SessionServices.getUser(req.socket.id, function(user){
       Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).exec(function(err, doc){
         MenuComposition.find({menu:doc.id}).populate('categories').exec(function(err, result){
-          result.forEach(function(e){
-            e.compo = new Array();
-            e.categories.forEach(function(en){
-              e.compo.push(en.id);
-            });
-          });
-          return res.json({elements: {id:0, name:"alacarte", compo:result.compo}});
+          // result.forEach(function(e){
+          //   e.compo = new Array();
+          //   e.categories.forEach(function(en){
+          //     e.compo.push(en.id);
+          //   });
+          // });
+          return res.json({elements: {id:0, name:"alacarte", compo:result}});
         });
       });
     });
