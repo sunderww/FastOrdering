@@ -61,14 +61,18 @@ module.exports = {
 
   compos: function(req, res) {
     SessionServices.getUser(req.socket.id, function(user){
-      MenuComposition.find({restaurant:user.restaurant.id}).exec(function(err, ret){
+      MenuComposition.find({restaurant:user.restaurant.id}).populate('DishCategory')exec(function(err, ret){
         ret.forEach(function(e){
           e.menu_id = e.menu;
-          console.log(e);
-          e.categories_ids = e.categories;
+          e.categories_ids = new Array();
+          e.categories.forEach(function(en){
+            e.categories_ids.push(en.id);
+            delete en;
+          });
           delete e.categories;
           delete e.menu;
         });
+          console.log(ret);
         return res.json({elements: ret});        
       })
     });
