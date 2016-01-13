@@ -15,7 +15,6 @@ module.exports = {
 				
 			ret.forEach(function(entry,i){
 			    if (res[entry.menu.name] == undefined) {
-					console.log(i);
 					if (i == 0)
 						str += '<li class="active">';
 					else
