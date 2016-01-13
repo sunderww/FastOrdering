@@ -70,6 +70,7 @@ module.exports = {
         var restaurantValue = {
             name: req.param('restaurant'),
             adress: req.param('adress'),
+            city: req.param('city'),
             postalcode: req.param('postalcode'),
             phone: req.param('phone'),
             siret: req.param('siret'),
