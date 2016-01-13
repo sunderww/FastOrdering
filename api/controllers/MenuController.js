@@ -84,6 +84,33 @@ module.exports = {
         return res.json({elements: doc});
       });
     }
+  },
+
+  menus: function(req, res) {
+    if (req.param('from')) {
+      SessionServices.getUser(req.socket.id, function(user){
+        Menu.find({name: { '!' : ["alacarte"]}, restaurant:user.restaurant.id}).where({'createdAt' : {'>=':new Date(req.param('from'))}}).exec(function(err, doc){
+          doc.forEach(function(e){
+            e.menu_id = e.id;
+            e.restaurant_id = e.restaurant;
+            delete e.restaurant;
+          });
+          return res.json({elements: doc});
+        });
+      });
+    }
+    else {
+    SessionServices.getUser(req.socket.id, function(user){
+      Menu.find({name: { '!' : ["alacarte"]}, restaurant:user.restaurant.id}).exec(function(err, doc){
+        doc.forEach(function(e){
+          e.restaurant_id = e.restaurant;
+          delete e.restaurant;
+        });
+        return res.json({elements: doc});
+      });
+    });
+    }
+
 
    //      if (req.param("id")) {
    //    Menu.findOne({id:req.param("id")}, function(err, doc) {

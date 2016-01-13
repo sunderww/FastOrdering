@@ -43,10 +43,8 @@ module.exports = {
       });  
     }
     else {
-      MenuComposition.find().populateAll().exec(function(err, doc) {
-       
+      MenuComposition.find({restaurant:req.session.user.restaurant}).populateAll().exec(function(err, doc) {
         doc.forEach(function(e){
-        console.log(e.menu);
           e.menu_id = e.menu.id;
           e.restaurant_id = e.restaurant.id;
           e.categories_ids = new Array();
@@ -59,6 +57,19 @@ module.exports = {
         return res.json({elements: doc});
       });      
     }
+  },
+
+  compos: function(req, res) {
+    SessionServices.getUser(req.id, function(user){
+      MenuComposition.find({restaurant:user.restaurant}).exec(function(err, ret){
+        ret.forEach(function(e){
+          e.menu_id = e.menu.id;
+          e.categories_ids = e.categories;
+          delete e.categories;
+        });
+        return res.json({elements: ret});        
+      })
+    });
   },
 
   /**

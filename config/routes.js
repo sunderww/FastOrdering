@@ -73,13 +73,13 @@ module.exports.routes = {
     '/bill' : 'BillController.index',
     '/bill/print/:id': 'BillController.print',
 
-    '/elements' : 'DishController.read',
-    '/menus' : 'MenuController.read',
+    '/elements' : 'DishController.elements',
+    '/menus' : 'MenuController.menus',
     '/kitchen' : 'OrderController.getToday',   
     '/table/create' : 'TableController.create',
 
     '/manage_plan' : 'PlanController.index',
-    '/compos' : 'MenuCompositionController.read',
+    '/compos' : 'MenuCompositionController.compos',
     '/alacarte' : 'MenuController.alacarte',
     '/cats' : 'DishCategoryController.cats',
     '/options': 'OptionCategoryController.read',

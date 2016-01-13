@@ -66,7 +66,6 @@
     });
 
     socket.on('get_last_orders', function(cb){
-      console.log(sails.session.user.email);
       OrderServices.getLastOrders(10, function (result) {
           cb({"orders": result});
       });

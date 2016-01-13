@@ -55,13 +55,13 @@ module.exports = {
     });
   },
 
-
   cats: function(req, res) {
-    DishCategory
-    .find({restaurant:sails.session.user.restaurant})
-    .exec(function(err, dishCategories) {
-      console.log(dishCategories);
-      return res.json({elements:dishCategories});
+    SessionServices.getUser(req.socket.id, function(user){
+      DishCategory
+      .find({restaurant:user.restaurant.id})
+      .exec(function(err, dishCategories) {
+        return res.json({elements:dishCategories});
+      });
     });
   },
 

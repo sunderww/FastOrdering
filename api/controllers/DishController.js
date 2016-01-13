@@ -16,15 +16,9 @@ module.exports = {
      * @return {Integer} Retourne 200 si ok sinon 500 avec un message d'erreur
      */
     create: function (req, res) {
-		console.log(res);
 		if (req.method=="POST") {
 			DishServices.create(req, function(ret){
 				if (!ret[0]) {
-					console.log(ret[1].ValidationError)
-					// .forEach(function(e){
-						// console.log(e);
-					// });
-
 					console.log("Dish creation failed " + ret[1].ValidationError);
         			req.flash('error', ret[1].ValidationError);
 				}
@@ -67,9 +61,22 @@ module.exports = {
 				delete entry.optioncategories;
 				delete entry.categories;
 			});
-			console.log(ret.dishs);
 			return res.json({elements: ret.dishs});
 		});
+    },
+
+    elements: function(req, res) {
+    	SessionServices.getUser(req.socket.id, function(user){
+    		Dish.find({restaurant:user.restaurant.id}).exec(function(err, ret){
+    			ret.forEach(function(entry){
+	    			entry.categories_ids = entry.categories;
+	    			entry.options = entry.optioncategories;
+	    			delete entry.categories;
+	    			delete entry.optioncategories;
+    			});
+				return res.json({elements: ret});
+    		});
+    	});
     },
 
     delete: function (req, res) {

@@ -20,11 +20,11 @@ module.exports = {
 	        	cb({"answer": false});
 	        	return;
 	        }
-		     sails.session.user = key.user;
+		    sails.session.user = key.user;
   			// User.findOne({key:key.id}).populateAll().exec(function(err, user){
-		       User.update({id:key.user.id}, {socket_id:socket_id}).then(function(user){ 
+		    User.update({id:key.user.id}, {socket_id:socket_id}).then(function(user){ 
 		       	console.log("done");
-		       }).then(function(){
+		    }).then(function(){
 		       	  var ret = (key == undefined || key.active == false) ? false : true;
             console.log("Access " + ((ret == false) ? "Denied" : "Granted" ));
        		if (ret == true)
@@ -68,4 +68,12 @@ module.exports = {
 		// 	return cb(ret);
 		// });
     },
+
+    getUser: function(socket_id, cb){
+    	User.findOne({socket_id:socket_id}).populateAll().exec(function(err, user){
+    		if (err)
+    			console.log("Access denied from socket");
+   			cb(user);
+    	});
+    }
 }

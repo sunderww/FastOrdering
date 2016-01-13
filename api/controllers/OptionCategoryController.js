@@ -45,6 +45,29 @@ module.exports = {
       });      
   },
 
+  options: function(req, res) {
+      if (req.param('from')) {
+        SessionServices.getUser(req.socket.id, function(user){
+          OptionCategory
+          .find({restaurant:user.restaurant.id})
+          .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+          .exec(function(err, optionCategories) {
+            return res.json({elements:optioncategories});
+          });
+        });
+      }
+      else if (!req.param('id')) {
+        SessionServices.getUser(req.socket.id, function(user){
+          OptionCategory
+          .find({restaurant:user.restaurant.id})
+          .exec(function(err, optionCategories) {
+            return res.json({elements:optioncategories});
+          });
+        });
+      }
+  },
+
+
   read_lucas: function(req, res) {
     OptionCategoryServices.read(req, function(optionsCategory) {
       optionsCategory.forEach(function(entry){
