@@ -67,6 +67,10 @@ module.exports.policies = {
         '*': 'isManager',
     },
     
+    RestaurantController: {
+        '*': 'isManager',
+    },
+    
     DishController: {
       read: true
     },
