@@ -61,7 +61,7 @@ module.exports = {
 
   compos: function(req, res) {
     SessionServices.getUser(req.socket.id, function(user){
-      MenuComposition.find({restaurant:user.restaurant.id}).populate('DishCategory').exec(function(err, ret){
+      MenuComposition.find({restaurant:user.restaurant.id}).populate('categories').exec(function(err, ret){
         ret.forEach(function(e){
           e.menu_id = e.menu;
           e.categories_ids = new Array();
