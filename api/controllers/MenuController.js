@@ -150,19 +150,29 @@ module.exports = {
   * @return {JSON} Retourne le menu a la carte 
   */
   alacarte: function(req, res) {
-    Menu.findOne({name:"alacarte"}).exec(function(err, doc){
-      MenuComposition.find({menu:doc.id}).exec(function(err, result){
-        id = 0;
-        compos = new Array();
-        if (result.length > 0) {
-          for (var i = result.length - 1; i >= 0; i--) {
-            for (var a =  result[i].categories_ids.length - 1; a >= 0; a--) {
-              compos.push( result[i].categories_ids[a]);
-            };
-          };
-          id = doc.id;
-        }
-        res.json({elements: {id:id, name:"alacarte", compo:compos}});
+    SessionServices.getUser(req.socket.id, function(user){
+      Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).exec(function(err, doc){
+        MenuComposition.find({menu:doc.id}).populate('categories').exec(function(err, result){
+          // id = 0;
+          // compos = new Array();
+          result.forEach(function(e){
+            e.id = 0;
+            e.compos = new Array();
+            e.categories.forEach(function(en){
+              e.compos.push(en.id);
+            });
+          });
+          // if (result.length > 0) {
+          //   for (var i = result.length - 1; i >= 0; i--) {
+          //     for (var a =  result[i].categories_ids.length - 1; a >= 0; a--) {
+          //       compos.push( result[i].categories_ids[a]);
+          //     };
+          //   };
+          //   id = doc.id;
+          // }
+          console.log(result);
+          return res.json({elements: result});
+        });
       });
     });
   }
