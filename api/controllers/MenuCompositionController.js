@@ -60,8 +60,8 @@ module.exports = {
   },
 
   compos: function(req, res) {
-    SessionServices.getUser(req.id, function(user){
-      MenuComposition.find({restaurant:user.restaurant}).exec(function(err, ret){
+    SessionServices.getUser(req.socket.id, function(user){
+      MenuComposition.find({restaurant:user.restaurant.id}).exec(function(err, ret){
         ret.forEach(function(e){
           e.menu_id = e.menu.id;
           e.categories_ids = e.categories;
