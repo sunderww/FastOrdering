@@ -67,10 +67,16 @@ module.exports = {
 
     elements: function(req, res) {
     	SessionServices.getUser(req.socket.id, function(user){
-    		Dish.find({restaurant:user.restaurant.id}).exec(function(err, ret){
+    		Dish.find({restaurant:user.restaurant.id}).populate('categories').populate('optioncategories').exec(function(err, ret){
     			ret.forEach(function(entry){
-	    			entry.categories_ids = entry.categories;
-	    			entry.options = entry.optioncategories;
+	    			entry.categories_ids = new Array();
+	    			entry.categories.forEach(function(e){
+	    				entry.categories_ids.push(e.id);
+	    			});
+	    			entry.options = new Array();
+	    			entry.optioncategories.forEach(function(e){
+	    				entry.options.push(e.id);
+	    			});
 	    			delete entry.categories;
 	    			delete entry.optioncategories;
     			});
