@@ -155,7 +155,9 @@ module.exports = {
         MenuComposition.find({menu:doc.id}).populate('categories').exec(function(err, result){
           var compos = new Array();
           result.forEach(function(e){
-            compos.push(e.id);
+            e.categories.forEach(function(en){
+              compos.push(en.id);
+            });
           });
           return res.json({elements: {id:0, name:"alacarte", compo:compos}});
         });
