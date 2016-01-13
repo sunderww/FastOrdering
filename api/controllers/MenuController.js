@@ -151,7 +151,7 @@ module.exports = {
   */
   alacarte: function(req, res) {
     Menu.findOne({name:"alacarte"}).exec(function(err, doc){
-      MenuComposition.find({menu_id:doc.id}).exec(function(err, result){
+      MenuComposition.find({menu:doc.id}).exec(function(err, result){
         id = 0;
         compos = new Array();
         if (result.length > 0) {

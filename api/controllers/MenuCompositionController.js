@@ -67,6 +67,7 @@ module.exports = {
           e.categories_ids = e.categories;
           delete e.categories;
         });
+        console.log(ret);
         return res.json({elements: ret});        
       })
     });
