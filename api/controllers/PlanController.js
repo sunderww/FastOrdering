@@ -17,7 +17,21 @@
 
 module.exports = {
 
-    create: function (req, res) {
+  index: function (req, res) {
+      Plan.find(function foundPlan(err, plans) {
+      if (err) return next(err);
+      Table.find(function foundTable(err,table) {
+        if (err) return next(err);
+        res.view({
+          plans_collection: plans,
+          tables_collection: table
+        });
+      })
+      
+    });
+  },
+
+  create: function (req, res) {
     console.log(req.body);
     var nreq = JSON.parse(req.param("json"));
     console.log(nreq);
@@ -35,66 +49,40 @@ module.exports = {
       }
       else {
       	for (var i = 0;i < shapes.length; i++) {
-			Table.create({
-		      name:shapes[i].name,
-		      plan:shapes[i].plan,
-		      waiters:shapes[i].waiters,
-		      posx:shapes[i].posx,
-		      posy:shapes[i].posy
-		    }).exec(function(err,model){
-		      if (err) {
-		        return res.json({
-		          message: err.ValidationError
-		        });
-		      }
-		        console.log(req.param('name') + " (Table) has been updated");       
-		    });
+    			Table.create({
+    		      name:shapes[i].name,
+    		      plan:shapes[i].plan,
+    		      waiters:shapes[i].waiters,
+    		      posx:shapes[i].posx,
+    		      posy:shapes[i].posy
+  		    }).exec(function(err,model){
+  		      if (err) {
+  		        return res.json({
+  		          message: err.ValidationError
+  		        });
+  		      }
+  		        console.log(req.param('name') + " (Table) has been updated");       
+  		    });
       	}
       	console.log(err);
       	console.log(req.param("title") + " a été sauvegardé");
-        Plan.find( function(err, doc) {
-  			res.redirect('/plan');
-			Table.find(function foundTable(err,table) {
-  			if (err) return next(err);
-  			res.view({
-	  			plans_collection: doc,
-	  			tables_collection: table
-	  		});
-  		})
-  		});      
+        res.redirect('/plan');
       }
     });
-  },
-
-
-
-  index: function (req, res) {
-  		Plan.find(function foundPlan(err, plans) {
-  		if (err) return next(err);
-  		Table.find(function foundTable(err,table) {
-  			if (err) return next(err);
-  			res.view({
-	  			plans_collection: plans,
-	  			tables_collection: table
-	  		});
-  		})
-  		
-  	});
   },
 
   /**
    * `PlanController.destroy()`
    */
+
   destroyAll: function (req, res) {
   	Plan.destroy({}).exec(function deleteCB(err){
 	  console.log('Plan collection has been deleted');
-	});
-	Table.destroy({}).exec(function deleteCB(err){
-      console.log('Table collection has been deleted');
-    });
-    return res.json({
-      todo: 'plan collection flushed, all is lost'
-    });
+  	});
+  	Table.destroy({}).exec(function deleteCB(err){
+        console.log('Table collection has been deleted');
+      });
+    res.redirect('/plan');
   },
 
   /**
@@ -153,13 +141,9 @@ module.exports = {
 				      	console.log(err);
 				      	console.log(req.param("title") + " a été sauvegardé");
 				        Plan.find( function(err, doc) {
-				  			res.redirect('/plan');
 							Table.find(function foundTable(err,table) {
 				  			if (err) return next(err);
-				  			res.view({
-					  			plans_collection: doc,
-					  			tables_collection: table
-					  		});
+                  res.redirect('/plan');
 				  		})
 				  		});
 	       				}
@@ -195,33 +179,19 @@ module.exports = {
   	console.log(req.body);
   	if (req.param("json")) {
   		Plan.find({name: req.param("json")}, function(err, doc) {
-  			res.redirect('/plan');
 			Table.find(function foundTable(err,table) {
   			if (err) return next(err);
-  			res.view({
-	  			plans_collection: plans,
-	  			tables_collection: table
-	  		});
+          res.redirect('/plan');
   		})
   		});
   	} else {
   		Plan.find( function(err, doc) {
-  			res.redirect('/plan');
 			Table.find(function foundTable(err,table) {
   			if (err) return next(err);
-  			res.view({
-	  			plans_collection: plans,
-	  			tables_collection: table
-	  		});
+          res.redirect('/plan');
   		})
   		});
   	}
   },
 
-  /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to PlanController)
-   */
- // _config: {}
-  
 };
