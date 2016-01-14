@@ -68,22 +68,39 @@ module.exports = {
       }
   },
 
-
-  read_lucas: function(req, res) {
-    OptionCategoryServices.read(req, function(optionsCategory) {
-      optionsCategory.forEach(function(entry){
-        entry.option_ids = new Array();
-        entry.option.forEach(function(e){
-          entry.option_ids.push(e.id);
+  optioncategory: function(req, res) {
+    if (!req.param('restaurant'))
+      return res.json('No restaurant selected');
+    if (req.param('from')) {
+      OptionCategory
+      .find({restaurant:req.param('restaurant')})
+      .populate('option')
+      .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+      .then(function(optioncategory) {
+        optioncategory.forEach(function(entry){
+          entry.option_ids = new Array();
+          entry.option.forEach(function(e){
+            entry.option_ids.push(e.id);
+          });
         });
-        entry.restaurant_id = entry.restaurant.id;
-        delete entry.option;
-        delete entry.restaurant;        
+        return res.json(optioncategory);
       });
-      return res.json(optionsCategory);
-    });
+    }
+    else {
+      OptionCategory
+      .find({restaurant:req.param('restaurant')})
+      .populate('option')
+      .then(function(optioncategory) {
+        optioncategory.forEach(function(entry){
+          entry.option_ids = new Array();
+          entry.option.forEach(function(e){
+            entry.option_ids.push(e.id);
+          });
+        });
+        return res.json(optioncategory);
+      });
+    }    
   },
-
 
   /**
    * `OptionCategoryController.delete()`

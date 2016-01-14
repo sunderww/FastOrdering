@@ -77,6 +77,48 @@ module.exports = {
     });
   },
 
+  menucomposition: function(req, res) {
+      if (!req.param('restaurant'))
+        return res.json('No restaurant selected');
+      if (req.param('from')) {
+        MenuComposition
+        .find({restaurant:req.param('restaurant')})
+        .populate('categories')
+        .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+        .then(function(menucomposition) {
+          menucomposition.forEach(function(e){
+            e.menu_id = e.menu;
+            e.categories_ids = new Array();
+            e.categories.forEach(function(en){
+              e.categories_ids.push(en.id);
+              delete en;
+            });
+            delete e.categories;
+            delete e.menu;
+          });
+          return res.json(menucomposition);
+        });
+      }
+      else {
+        MenuComposition
+        .find({restaurant:req.param('restaurant')})
+        .populate('categories')
+        .then(function(menucomposition) {
+          menucomposition.forEach(function(e){
+            e.menu_id = e.menu;
+            e.categories_ids = new Array();
+            e.categories.forEach(function(en){
+              e.categories_ids.push(en.id);
+              delete en;
+            });
+            delete e.categories;
+            delete e.menu;
+          });
+          return res.json(menucomposition);
+        });
+    }
+  },
+
   /**
   * Permet de recupérer une composition spécifique si un id est présent
   *
