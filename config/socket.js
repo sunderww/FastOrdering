@@ -39,7 +39,7 @@
        OrderServices.deleteOrder(id, function () {
          SessionServices.getUser(socket.id, function(user){
           OrderServices.createOrder(user, json, function (result) {
-            sails.io.sockets.emit('receive_order', result);
+            sails.sockets.broadcast(user.restaurant.id, 'receive_order', result);
             return cb(result);
           });
          });
@@ -48,8 +48,7 @@
        console.log("send_order");
        SessionServices.getUser(socket.id, function(user){
         OrderServices.createOrder(user, json, function (result) {
-          console.log(result);
-          socket.emit('receive_order', result);
+          sails.sockets.broadcast(user.restaurant.id, 'receive_order', result);
           return cb(result);
           });
        });
@@ -83,8 +82,14 @@
   * disconnects                                                              *
   *                                                                          *
   ***************************************************************************/
-     afterDisconnect: function(session, socket, cb) {
-	 cb();
+  afterDisconnect: function(session, socket, cb) {
+    // console.log(socket);
+    // SessionServices.getUser(socket.id, function(user){
+	     // console.log(sails.sockets.subscribers(user.restaurant.id));
+      // if (req.isSocket) 
+      //   sails.sockets.leave(socket.id, user.restaurant.id);
+    // });
+    cb();
     // By default: do nothing.
   },
 

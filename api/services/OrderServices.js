@@ -278,5 +278,16 @@ module.exports = {
 		})
 		.done(function(){
 		});		
-	}
+	},
+	// receive_order: function(user) {
+	// 	User.find({restaurant:user.restaurant}).exec(function(err, users)){
+	// 		if (err)
+	// 			console.log(err);
+	// 		else {
+	// 			users.forEach(function(entry){
+	// 				sails.socket.emit
+	// 			});
+	// 		}
+	// 	});
+	// }
 }

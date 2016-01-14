@@ -28,6 +28,7 @@ module.exports = {
             console.log("Access " + ((ret == false) ? "Denied" : "Granted" ));
        		if (ret == true)
 	     		console.log("Socket id --> "  + socket_id);
+       		 sails.sockets.join(socket_id, key.restaurant.id);
        		cb({"answer":ret, "restaurant_id":key.restaurant.id});
 		       });
 		});
@@ -38,6 +39,12 @@ module.exports = {
     		if (err)
     			console.log("Access denied from socket");
    			cb(user);
+    	});
+    },
+
+    getUsersFromRestaurant: function(user, cb) {
+    	User.find({restaurant:user.restaurant}).exec(function(){
+
     	});
     }
 }
