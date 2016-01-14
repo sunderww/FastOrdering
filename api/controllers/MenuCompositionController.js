@@ -69,15 +69,8 @@ module.exports = {
           e.categories_ids = new Array();
           e.categories.forEach(function(en){
             e.categories_ids.push(en.id);
-            delete en.id;
-            delete en.name;
-            delete en.restaurant;
-            delete en.updatedAt;
-            delete en.createdAt;
-            delete en.id;
-            delete en;
           });
-          delete e.categories;
+          e.categories = undefined;
           delete e.menu;
         });
         return res.json({elements: ret});        
@@ -101,6 +94,7 @@ module.exports = {
               e.categories_ids.push(en.id);
               delete en;
             });
+            e.categories = undefined;
             delete e.categories;
             delete e.menu;
           });
