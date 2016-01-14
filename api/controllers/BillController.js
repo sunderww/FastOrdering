@@ -9,18 +9,20 @@
 module.exports = {
 		index: function(req, res) {
 			Order.find().then(function (orders){
-				return res.view('bill/index', {orders : orders});
-				
-			}).catch(function(err) {
+                return orders;
+            }).then(function (orders) {
+                OrderedDish.find().populateAll().then(function (data) {
+                    console.log(data);
+                    return res.view('bill/index', {orders : orders, products: data});
+                });
+            }).catch(function(err) {
 				res.serverError(err);
 			});
 		},
 		
 		print: function(req, res) {
             
-            console.log(req.param("id"));
             OrderedDish.find({order: req.param("id")}).populateAll().then(function(doc){
-              console.log(doc);
               return doc;
             }).then(function(data) {
                 Restaurant.findOne({id: req.session.user.restaurant}).then(function(restaurant) {
