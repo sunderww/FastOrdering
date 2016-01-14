@@ -46,8 +46,9 @@ module.exports.routes = {
     'post /register': 'UserController.createRestaurant', // Create an Admin User with restaurant
     '/user': 'UserController.index',
     '/user/edit': 'UserController.edit',
-
-    // '/user/': 'UserController.show', TODO
+    
+    // Restaurant
+    '/restaurant/edit': 'Restaurant.edit',
     
     // Key
     // If want restful modify address by /key/:id/action

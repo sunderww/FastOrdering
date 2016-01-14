@@ -156,17 +156,33 @@
  <tr>
  <td class="auto-style21" style="height: 50px; width: 50%;"><%= product.menu.name %></td>
  <td class="auto-style21" style="height: 50px; width: 10%;"><%= product.qty %></td>
- <td class="auto-style21" style="height: 50px"><%= product.menu.price %></td>
- <td class="auto-style21" style="height: 50px; width: 20%;"><%= product.menu.price * product.qty %><% result += product.menu.price * product.qty %></td>
+ <td class="auto-style21" style="height: 50px"><%= product.menu.price %> €</td>
+ <td class="auto-style21" style="height: 50px; width: 20%;"><%= product.menu.price * product.qty %><% result += product.menu.price * product.qty %> €</td>
  </tr>
  <% }); %>
+ <tr>
+     <td class="auto-style15" colspan="3">
+     <td class="auto-style15" colspan="1">HT</td>
+ </tr>
+ <tr>
+     <td class="auto-style6" colspan="3">
+     <td class="auto-style21"><%= result %> €</td>
+ </tr>
+ <tr>
+     <td class="auto-style15" colspan="3">
+     <td class="auto-style15" colspan="1">TVA : <%= restaurant.tva %> %</td>
+ </tr>
+ <tr>
+     <td class="auto-style6" colspan="3">
+     <td class="auto-style21"><%= result * restaurant.tva / 100 %> €</td>
+ </tr>
  <tr>
      <td class="auto-style15" colspan="3">
      <td class="auto-style15" colspan="1">Net à Payer</td>
  </tr>
  <tr>
      <td class="auto-style6" colspan="3">
-     <td class="auto-style21"><%= result %></td>
+     <td class="auto-style21"><%= result * (restaurant.tva / 100 + 1) %> €</td>
  </tr>
  <tr>
  <td class="auto-style6" colspan="2" rowspan="2"><em>Les conditions de vente sont 
