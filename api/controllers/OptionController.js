@@ -36,6 +36,26 @@ module.exports = {
   },
 
 
+  option: function(req, res) {
+    if (!req.param('restaurant'))
+      return res.json('No restaurant selected');
+    if (req.param('from')) {
+      Option
+      .find({restaurant:req.param('restaurant')})
+      .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+      .then(function(options) {
+        return res.json(options);
+      });
+    }
+    else if (!req.param('id')) {
+      Option
+      .find({restaurant:req.param('restaurant')})
+      .then(function(options) {
+        return res.json(options);
+      });
+    }    
+  },
+
   /**
    * `OptionController.delete()`
    */

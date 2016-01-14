@@ -65,6 +65,27 @@ module.exports = {
     });
   },
 
+  dishcategory: function(req, res) {
+    if (!req.param('restaurant'))
+      return res.json('No restaurant selected');
+    if (req.param('from')) {
+      DishCategory
+      .find({restaurant:req.param('restaurant')})
+      .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+      .then(function(dishCategories) {
+        return res.json(dishCategories);
+      });
+    }
+    else {
+      DishCategory
+      .find({restaurant:req.param('restaurant')})
+      .then(function(dishCategories) {
+        return res.json(dishCategories);
+      });
+    }  
+  },
+
+
   delete: function (req, res) {
     DishCategory.destroy({restaurant:req.session.user.restaurant, id:req.param("id")}).exec(function(err) {
       if (err) {

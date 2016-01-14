@@ -28,17 +28,36 @@ module.exports = {
 
     },
 
-    read_lucas: function (req, res) {
-    
-      OrderedOption.find( function(err, doc) {
-        doc.forEach(function(ordered){
+    orderedoption: function (req, res) {
+      if (!req.param('restaurant'))
+        return res.json('No restaurant selected');
+      if (req.param('from')) {
+        OrderedOption
+        .find({restaurant:req.param('restaurant')})
+        .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+        .then(function(orderedoption) {
+        orderedoption.forEach(function(ordered){
           ordered.option_id = ordered.option;
           ordered.orderedDish_id = ordered.ordered_dish;
           delete ordered.option;
           delete ordered.ordered_dish;
         });
-        return res.json(doc);
-      });
+          return res.json(orderedoption);
+        });
+      }
+      else {
+        OrderedOption
+        .find({restaurant:req.param('restaurant')})
+        .then(function(orderedoption) {
+        orderedoption.forEach(function(ordered){
+          ordered.option_id = ordered.option;
+          ordered.orderedDish_id = ordered.ordered_dish;
+          delete ordered.option;
+          delete ordered.ordered_dish;
+        });
+          return res.json(orderedoption);
+        });
+    } 
   },
 };
 

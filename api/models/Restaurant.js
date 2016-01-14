@@ -30,6 +30,11 @@ module.exports = {
         required: true
     },
     
+    city: {
+        type: 'string',
+        required: true
+    },
+    
     postalcode: {
         type: 'string',
         required: true
@@ -49,6 +54,11 @@ module.exports = {
         type: 'string',
         required: true
     },
+    
+    tva: {
+        type: 'float',
+        defaultsTo: 10
+    }
 
   	// plan_id: 'string',
 

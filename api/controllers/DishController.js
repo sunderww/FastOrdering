@@ -85,6 +85,52 @@ module.exports = {
     	});
     },
 
+    dish: function(req, res) {
+	   	if (!req.param('restaurant'))
+	      return res.json('No restaurant selected');
+	    if (req.param('from')) {
+	      Dish
+	      .find({restaurant:req.param('restaurant')})
+	      .populate('categories').populate('optioncategories')
+	      .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+	      .then(function(dish) {
+    			dish.forEach(function(entry){
+	    			entry.categories_ids = new Array();
+	    			entry.categories.forEach(function(e){
+	    				entry.categories_ids.push(e.id);
+	    			});
+	    			entry.optioncategories_ids = new Array();
+	    			entry.optioncategories.forEach(function(e){
+	    				entry.optioncategories_ids.push(e.id);
+	    			});
+	    			delete entry.categories;
+	    			delete entry.optioncategories;
+    			});
+	        return res.json(dish);
+	      });
+	    }
+	    else {
+	      Dish
+	      .find({restaurant:req.param('restaurant')})
+	      .populate('categories').populate('optioncategories')
+	      .then(function(dish) {
+    			dish.forEach(function(entry){
+	    			entry.categories_ids = new Array();
+	    			entry.categories.forEach(function(e){
+	    				entry.categories_ids.push(e.id);
+	    			});
+	    			entry.optioncategories_ids = new Array();
+	    			entry.optioncategories.forEach(function(e){
+	    				entry.optioncategories_ids.push(e.id);
+	    			});
+	    			delete entry.categories;
+	    			delete entry.optioncategories;
+    			});
+	        return res.json(dish);
+	      });
+    }      	
+    },
+
     delete: function (req, res) {
 	    Dish.destroy({restaurant:req.session.user.restaurant, id:req.param("id")}).exec(function(err) {
 	        if (err) {

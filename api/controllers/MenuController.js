@@ -102,38 +102,31 @@ module.exports = {
     else {
     SessionServices.getUser(req.socket.id, function(user){
       Menu.find({name: { '!' : ["alacarte"]}, restaurant:user.restaurant.id}).exec(function(err, doc){
-        doc.forEach(function(e){
-          e.restaurant_id = e.restaurant;
-          delete e.restaurant;
-        });
         return res.json({elements: doc});
       });
     });
     }
-
-
-   //      if (req.param("id")) {
-   //    Menu.findOne({id:req.param("id")}, function(err, doc) {
-   //      return res.json({elements: doc});
-   //    });  
-   //  }
-	  // Menu.find({name: { '!' : ["alacarte"]}}, function(err, doc) {
-	  //     return res.json({elements: doc});
-	  // });
   },
 
-  // getMenu : function(res, req) {
-    
- // if (req.param("id")) {
- //      Menu.findOne({id:req.param("id")}, function(err, doc) {
- //        return res.json({elements: doc});
- //      });  
- //    }
- //    Menu.find({name: { '!' : ["alacarte"]}}, function(err, doc) {
- //        return res.json({elements: doc});
- //    });
-  // },
-
+  menu: function(req, res) {
+      if (!req.param('restaurant'))
+        return res.json('No restaurant selected');
+      if (req.param('from')) {
+        Menu
+        .find({restaurant:req.param('restaurant')})
+        .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+        .then(function(menu) {
+          return res.json(menu);
+        });
+      }
+      else {
+        Menu
+        .find({restaurant:req.param('restaurant')})
+        .then(function(menu) {
+          return res.json(menu);
+        });
+    }
+  },
 
     delete: function(req, res) {
         Menu.destroy({id:req.param("id")}).exec(function(err, doc) {

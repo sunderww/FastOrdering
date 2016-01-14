@@ -1,0 +1,113 @@
+<body class="dashboard-page sb-l-o sb-r-c">
+
+    <!-- Start: Main -->
+    <div id="main">
+
+        <% include ../header.ejs %>
+        <% include ../sidebar.ejs %>
+
+        <!-- Start: Content-Wrapper -->
+        <section id="content_wrapper">
+
+
+
+            <!-- Start: Topbar -->
+            <header id="topbar">
+                <div class="topbar-left">
+                    <ol class="breadcrumb">
+                        <li class="crumb-active">
+                            <a href="dashboard">Accueil</a>
+                        </li>
+                        <li class="crumb-icon">
+                            <a href="/dashboard">
+                                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+                        </li>
+                        <li class="crumb-link">
+                            <a href="/dashboard">Accueil</a>
+                        </li>
+                        <li class="crumb-trail">Paramètres</li>
+                    </ol>
+                </div>
+
+            </header>
+            <!-- End: Topbar -->
+
+            <!-- Begin: Content -->
+            <section id="content" class="animated fadeIn">
+                <!-- Dashboard Tiles -->
+
+
+                    <div class="row table-layout" id="modal-content">
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <span class="panel-title">Paramètre du restaurant :</span>
+                                </div>
+
+                                <div class="panel-body">
+                                    <form action="/restaurant/update/" method="POST" class="form-signin">
+                                        <div class="form-group">
+                                            <label>Nom du restaurant :</label>
+                                            <input class="form-control" placeholder="Nom du restaurant" name="restaurant" value="<%= restaurant.name %>">
+                                            <label>Adresse :</label>
+                                            <input class="form-control" placeholder="Adresse" name="adress" value="<%= restaurant.adress %>">
+                                            <label>Ville :</label>
+                                            <input class="form-control" placeholder="Ville" name="city" value="<%= restaurant.city %>">
+                                            <label>Code postal :</label>
+                                            <input class="form-control" type="number" placeholder="Code postal" name="postalcode" value="<%= restaurant.postalcode %>">
+                                            <label>Téléphone :</label>
+                                            <input class="form-control" type="number" placeholder="Téléphone" name="phone" value="<%= restaurant.phone %>">
+                                            <label>Siret :</label>
+                                            <input class="form-control" placeholder="Siret" name="siret" value="<%= restaurant.siret %>">
+                                            <label>RCS :</label>
+                                            <input class="form-control" placeholder="RCS" name="rcs" value="<%= restaurant.rcs %>">
+                                            <label>TVA :</label>
+                                            <input class="form-control" type="number" placeholder="TVA" name="tva" value="<%= restaurant.tva %>">
+                                        </div>
+                                        <input type="submit" class="btn btn-primary" value="Submit"</input>
+                                        <input type="hidden" name="_csrf" value="<%=_csrf %>" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            <!-- End: Main -->
+
+            <!-- BEGIN: PAGE SCRIPTS -->
+
+            <!-- jQuery -->
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>
+
+
+            <script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="../vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
+
+            <!-- Bootstrap -->
+            <script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+
+            <!-- Page Plugins -->
+            <script type="text/javascript" src="../vendor/plugins/magnific/jquery.magnific-popup.js"></script>
+
+            <!-- Admin Forms Javascript -->
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
+            <script type="text/javascript" src="../assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
+
+            <!-- Theme Javascript -->
+            <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
+            <script type="text/javascript" src="../assets/js/main.js"></script>
+            <script type="text/javascript" src="../assets/js/demo.js"></script>

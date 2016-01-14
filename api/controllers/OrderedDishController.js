@@ -79,6 +79,36 @@ module.exports = {
     } 
   },
 
+
+  ordereddish: function (req, res) {
+      if (!req.param('restaurant'))
+        return res.json('No restaurant selected');
+      if (req.param('from')) {
+        OrderedDish
+        .find({restaurant:req.param('restaurant')})
+        .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+        .then(function(order) {
+          order.forEach(function(entry){
+            entry.menu_id = entry.menu;
+            entry.dish_id = entry.dish;
+          });
+          return res.json(order);
+        });
+      }
+      else {
+        OrderedDish
+        .find({restaurant:req.param('restaurant')})
+        .then(function(order) {
+          order.forEach(function(entry){
+            entry.menu_id = entry.menu;
+            entry.dish_id = entry.dish;
+          });
+          return res.json(order);
+        });
+    }     
+  },
+
+
   delete: function(id) {
     OrderedDish.destroy().exec(function(res, doc) {
       return res.ok("ok");

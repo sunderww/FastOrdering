@@ -70,6 +70,7 @@ module.exports = {
         var restaurantValue = {
             name: req.param('restaurant'),
             adress: req.param('adress'),
+            city: req.param('city'),
             postalcode: req.param('postalcode'),
             phone: req.param('phone'),
             siret: req.param('siret'),
@@ -106,6 +107,13 @@ module.exports = {
                     }
                 });
                 
+                Menu.create({name:"alacarte", restaurant:restaurant}).exec(function(){
+                    if (err) {
+                        console.log(err);
+                        return res.serverError(err);
+                    }
+                });
+
             });
             // Redirect and Login
             res.redirect('/login');

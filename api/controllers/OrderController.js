@@ -113,15 +113,30 @@ json: function (req, res) {
       });
     } else {
       Order.find(function(err, orders) {
-        // orders.forEach(function(entry){
-        //   entry.
-        // });
-
         return res.view({orders:orders});
       });
     }
-    
   },
+
+    order: function(req, res) {
+      if (!req.param('restaurant'))
+        return res.json('No restaurant selected');
+      if (req.param('from')) {
+        Order
+        .find({restaurant:req.param('restaurant')})
+        .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+        .then(function(order) {
+          return res.json(order);
+        });
+      }
+      else {
+        Order
+        .find({restaurant:req.param('restaurant')})
+        .then(function(order) {
+          return res.json(order);
+        });
+    }       
+    },
 
   getToday: function(req, res) {
     Order.find()

@@ -29,6 +29,20 @@
 
    	});
    },
+   
+   /**
+   * `UserController.show()`
+   */
+   edit: function(req, res) {
+       Restaurant.findOne({id: req.session.user.restaurant}).exec(function(err, restaurant) {
+           if (err)
+               return res.serverError(err);
+           if (!restaurant)
+               return res.notFound();
+           
+           res.view('restaurant/edit', {restaurant: restaurant});
+       });
+   },
 
 
   /**
@@ -45,9 +59,13 @@
    * `RestaurantController.update()`
    */
    update: function (req, res) {
-   	return res.json({
-   		todo: 'update() is not implemented yet!'
-   	});
+       Restaurant.update(req.session.user.restaurant, req.params.all()).exec(function Updated(err, updated){
+           if (err) {
+               return res.redirect('/restaurant/edit/'); // TODO ERROR GESTION (flash err)
+           }
+           
+           return res.redirect('/restaurant/edit/');
+       });
    },
 
 

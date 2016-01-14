@@ -46,8 +46,9 @@ module.exports.routes = {
     'post /register': 'UserController.createRestaurant', // Create an Admin User with restaurant
     '/user': 'UserController.index',
     '/user/edit': 'UserController.edit',
-
-    // '/user/': 'UserController.show', TODO
+    
+    // Restaurant
+    '/restaurant/edit': 'Restaurant.edit',
     
     // Key
     // If want restful modify address by /key/:id/action
@@ -78,16 +79,26 @@ module.exports.routes = {
     '/kitchen' : 'OrderController.getToday',   
     '/table/create' : 'TableController.create',
 
+
+
+    '/option' : 'OptionController.option',
+    '/optioncategory' : 'OptionCategoryController.optioncategory',
+    '/dishcategory' : 'DishCategoryController.dishcategory',
+    '/dish': 'DishController.dish',
+    '/order' : 'OrderController.order',
+    '/ordereddish' : 'OrderedDishController.order',
+    '/orderedoption' : 'OrderedOptionController.order',
+    '/menu' : 'MenuController.menu',
+    '/menucomposition' : 'MenuCompositionController.menucomposition',
+
+
     '/manage_plan' : 'PlanController.index',
     '/compos' : 'MenuCompositionController.compos',
     '/alacarte' : 'MenuController.alacarte',
     '/cats' : 'DishCategoryController.cats',
     '/options': 'OptionCategoryController.options',
     '/send_order': 'DishController.create',
-    '/optioncategory' : 'OptionCategoryController.read_lucas',
-    '/orderedoption' : 'OrderedOptionController.read_lucas',
     '/orders' : 'OrderController.read_xavier',
-    '/ordereddish' : 'OrderedDishController.read_lucas',
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

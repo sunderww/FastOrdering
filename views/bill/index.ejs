@@ -38,31 +38,49 @@
             <!-- Begin: Content -->
             <section id="content" class="animated fadeIn">
                 <!-- Dashboard Tiles -->
-                
+
                 <div class="col-md-12">
-                    <div class="panel">
-                        <div class="panel-heading">
-                            <span class="panel-title">Factures :</span>
+                    <div class="panel-heading">
+                        <span class="panel-title">Factures :</span>
+                    </div>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <% var num = 1 %>
+                        <% _.each(orders, function(order) { %>
+                        <div class="panel">
+                            <div class="panel-heading" role="tab" id="heading<%= num %>">
+                                <div class="row">
+                                    <div class="col-md-3">Table : <%= order.table_id %></div>
+                                    <div class="col-md-3">Nb personnes : <%= order.dinerNumber %></div>
+                                    <div class="col-md-3">Heure création : <%= order.time %></div>
+                                    <div class="col-md-3"><a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= num %>" aria-expanded="true" aria-controls="collapse<%= num %>" class="btn btn-sm btn-warning">Voir</a></div>
+                                </div>
+                            </div>
+                            <div id="collapse<%= num %>" class="panel-collapse collapse <% if (num != 1) { %>in<% } %>" role="tabpanel" aria-labelledby="heading<%= num %>">
+                                <table class="table table-striped">
+                                    <% _.each(products, function(product) { %>
+                                    <% if (order.id == product.order) { %>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td>Quantité</td>
+                                        <td>Prix Unité</td>
+                                        <td>Montant</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr data-id="<%= order.id %>" data-model="order">
+                                        <td>product.menu.name</td>
+                                        <td>product.qty</td>
+                                        <td>product.menu.price</td>
+                                        <td>product.menu.price * product.qty</td>
+                                        <td><a href="/bill/print/<%= order.id %>" class="btn btn-sm btn-warning">Imprimer</a></td>
+                                    </tr>
+                                    <% } %>
+                                    <% }); %>
+                                </table>
+                            </div>
                         </div>
-                        <table class="table table-striped">
-                            <tr>
-                                <td>Table :</td>
-                                <td>Nb personnes :</td>
-                                <td>Heure création :</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <% _.each(orders, function(order) { %>
-                            <tr data-id="<%= order.id %>" data-model="order">
-                                <td><%= order.table_id %></td>
-                                <td><%= order.dinerNumber %></td>
-                                <td><%= order.time %></td>
-                                <td><a href="/bill/print/<%= order.id %>" class="btn btn-sm btn-warning">Imprimer</a></td>
-                                <td><a href="/user/destroy/<%= order.id %>" class="btn btn-sm btn-danger">Editer</a></td> 
-                                <td></td>
-                            </tr>
-                            <% }); %>
-                        </table>
+                        <% num = num + 1 %>
+                        <% }); %>
+                        
                     </div>
                 </div>
             </section>
@@ -105,3 +123,4 @@
 <script type="text/javascript" src="../assets/js/utility/utility.js"></script>
 <script type="text/javascript" src="../assets/js/main.js"></script>
 <script type="text/javascript" src="../assets/js/demo.js"></script>
+<script>$('.collapse').collapse()</script>

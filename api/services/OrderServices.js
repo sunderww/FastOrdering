@@ -84,7 +84,7 @@ module.exports = {
         	});
 		    var ready = (ordered_dish.status == "toDeliver") ? "btn btn-success readyy" : "btn btn-danger readyy";
            	ret = '<div style="display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
-            + '<h3>Menu - '+ menu + ' </h3>'
+            + '<h3>Menu - '+ menu.name + ' </h3>'
             + '<div style="height:100px">'
             + '<span class="element-zoom" style="float:left;font-size:40px;"> ' + ordered_dish.qty + '</span>'
             + '<span class="element-zoom" style="padding-top:10px;width:200px;float:left !important;">' + dish.name + " " + s_options 
@@ -129,7 +129,7 @@ module.exports = {
 			    entry.qty = (entry.qty).toString();
 			    entry.id = entry.dish;
 			    if (entry.menu.name == "alacarte")
-				    entry.menu_id = 0
+				    entry.menu_id = 0;
 			    else
 				    entry.menu_id = entry.menu.id;
 			    entry.order_id = entry.order;
@@ -219,7 +219,7 @@ module.exports = {
 						}
 						else {
 							SessionServices.getUser(socket_id, function(user){
-								Menu.findOne({restaurant:user.restaurant, name:"alacarte"}).then(function(menu){
+								Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).then(function(menu){
 									ordered.menu = menu;
 								 	ordered.save();
 								});
