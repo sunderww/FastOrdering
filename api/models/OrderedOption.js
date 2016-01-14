@@ -22,6 +22,10 @@ module.exports = {
     ordered_dish: {
       type: "string",
       required: true
-    }
+    },
+    restaurant: {
+      model: "restaurant",
+      required: true
+    },      
   }
 };

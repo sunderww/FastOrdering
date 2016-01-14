@@ -61,7 +61,10 @@ module.exports = {
     * @require true
     */
     menu: {model: "menu"},
-    
+    restaurant: {
+      model: "restaurant",
+      required: true
+    },    
     /**
     * Commentaire
     * 
