@@ -11,7 +11,7 @@ module.exports = {
 			Order.find().then(function (orders){
                 return orders;
             }).then(function (orders) {
-                OrderedDish.find().then(function (data) {
+                OrderedDish.find().populateAll().then(function (data) {
                     console.log(data);
                     return res.view('bill/index', {orders : orders, products: data});
                 });
