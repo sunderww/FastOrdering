@@ -12,7 +12,6 @@ module.exports = {
                 return orders;
             }).then(function (orders) {
                 OrderedDish.find().populateAll().then(function (data) {
-                    console.log(data);
                     return res.view('bill/index', {orders : orders, products: data});
                 });
             }).catch(function(err) {
