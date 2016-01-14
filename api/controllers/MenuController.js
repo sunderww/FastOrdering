@@ -24,9 +24,12 @@ module.exports = {
       }).exec(function(err,model){
         if (err) {
           console.log("Menu creation failed");
-          return res.json({message: err.ValidationError});
+          req.flash('error', ret[1].ValidationError);
         }
-        console.log("Menu created with success");
+        else {
+          console.log("Menu created with success");
+          req.flash('success', "Le menu " + ret[1].name + " a été crée avec succès");
+        }
         Menu.find(function(err, doc) {return res.view({menus:doc});});
       }); 
       }

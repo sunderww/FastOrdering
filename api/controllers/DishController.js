@@ -19,7 +19,7 @@ module.exports = {
 		if (req.method=="POST") {
 			DishServices.create(req, function(ret){
 				if (!ret[0]) {
-					console.log("Dish creation failed " + ret[1].ValidationError);
+					console.log("MenuComposition creation failed " + ret[1].ValidationError);
         			req.flash('error', ret[1].ValidationError);
 				}
 				else {

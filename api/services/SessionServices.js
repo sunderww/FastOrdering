@@ -22,7 +22,7 @@ module.exports = {
 	        }
 		    User.update({id:key.user.id}, {socket_id:socket_id}).then(function(user){ 
 		       	console.log("done");
-	     		console.log("Session --> "  + user.email);
+	     		console.log("Session --> "  + user);
 		    }).then(function(){
 		       	  var ret = (key == undefined || key.active == false) ? false : true;
             console.log("Access " + ((ret == false) ? "Denied" : "Granted" ));
