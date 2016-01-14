@@ -11,8 +11,6 @@ module.exports = {
 		OrderedDish.find({order: req.param('id_command')}).populateAll().exec(function(err, ret){
 			var res = new Object;
 			var str = '<ul class="nav nav-tabs tabs-border nav-justified">';
-			
-				
 			ret.forEach(function(entry,i){
 			    if (res[entry.menu.name] == undefined) {
 					if (i == 0)
@@ -26,8 +24,6 @@ module.exports = {
 			    res[entry.menu.name].push(entry);
 			});
 			str += '</ul><div class="tab-content">';
-			
-
 
 			for (var i  in res) {
 				
@@ -38,7 +34,7 @@ module.exports = {
 		        		s_options = s_options + "</br>" + option.qty + " " + option.name;
 		        	});
 				    var ready = (entry.status == "toDeliver") ? "btn btn-success readyy" : "btn btn-danger readyy";
-		           	ret += '<div style="display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
+		           	ret += '<div style="padding:1%;display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
 		            + '<div style="height:100px">'
 		            + '<span class="element-zoom" style="float:left;font-size:40px;"> ' + entry.qty + '</span>'
 		            + '<span class="element-zoom" style="padding-top:10px;width:200px;float:left !important;">' + entry.dish.name + " " + s_options 
@@ -166,7 +162,7 @@ module.exports = {
 		var ret = new Array();
 
 		Promise.all([
-			  Order.find().sort("createdAt ASC").limit(limit)
+			  Order.find().sort("createdAt DESC").limit(limit)
 		])
 		.spread(function(orders){
 			orders.forEach(function(order) {
@@ -182,7 +178,7 @@ module.exports = {
 			cb(err);
 		})
 		.done(function(){
-			return cb(ret);
+			return cb(ret.reverse());
 		});
 	},
 

@@ -177,12 +177,6 @@ h4 {margin-left:0%; }
     <script type="text/javascript" src="/assets/js/demo.js"></script>
 
 
-    <script type="text/javascript" src="/vendor/jquery/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/vendor/jquery/jquery_ui/jquery-ui.min.js"></script>
-
-    <!-- Bootstrap -->
-    <script type="text/javascript" src="/assets/js/bootstrap/bootstrap.min.js"></script>
-
     <!-- Page Plugins -->
     <script type="text/javascript" src="/vendor/plugins/magnific/jquery.magnific-popup.js"></script>
 
@@ -192,11 +186,7 @@ h4 {margin-left:0%; }
     <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery-ui-touch-punch.min.js"></script>
     <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.spectrum.min.js"></script>
     <script type="text/javascript" src="/assets/admin-tools/admin-forms/js/jquery.stepper.min.js"></script>
-
-    <!-- Theme Javascript -->
-    <script type="text/javascript" src="/assets/js/utility/utility.js"></script>
-    <script type="text/javascript" src="/assets/js/main.js"></script>
-    <script type="text/javascript" src="/assets/js/demo.js"></script>
+  
     <script type="text/javascript">
     jQuery(document).ready(function() {
 
@@ -243,13 +233,7 @@ $("html").on('click', ".categories",function(){
                         categories_ids:categories_ids});   
 
                     io.socket.get('/menucomposition/read?id=<%= menu.id %>', function (body, response) {
-                        window.location.replace("/menucomposition/read");
-                        // body = body.elements;$("#composition-menu").empty();
-
-                        // for (var i = 0; i < body.length; i++) {
-                        //     $("#composition-menu").append('<div>' + body[i].name + '<span class="delete-composition" id-composition="' + body[i].id  +'" style="float:right !important">Supprimer</span></div>');
-                        // };
-
+                        window.location.replace("/menu/create");
                     });
 
                     $(this).text("Ajouter une composition");
