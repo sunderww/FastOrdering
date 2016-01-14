@@ -127,12 +127,12 @@ module.exports = {
   * @return {JSON} Retourne le résultat présent en base de données 
   */
   delete: function (req, res) {
-    // if (req.param("id")) {
-      MenuComposition.destroy({}, function(err, doc) {
+    if (req.param("id")) {
+      MenuComposition.destroy({id:req.param("id")}, function(err, doc) {
         console.log("Delete MenuComposition --> " + req.param('id'));
         return res.json({elements: doc});
       });  
-    // }
+    }
   }  
 };
 
