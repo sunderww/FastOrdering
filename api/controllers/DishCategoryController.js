@@ -28,7 +28,7 @@ module.exports = {
       }
       else {
         console.log("DishCategory created with success");
-        req.flash('success', "La catégorie d'option " + dishCategory.name + "a été créé avec succès");
+        req.flash('success', "La catégorie d'option " + dishCategory.name + " a été créé avec succès");
       }
       DishCategoryServices.read(req, function(ret) {return res.view({categories:ret});});
     });

@@ -20,13 +20,12 @@ module.exports = {
     MenuCompositionServices.create(req, function(ret){
       if (!ret[0]) {
         console.log("MenuComposition creation failed " + ret[1].ValidationError);
-
-              req.flash('error', ret[1].ValidationError);
+        req.flash('error', ret[1].ValidationError);
         return res.json({message: ret[1].id});
       }
       else {
         console.log("MenuComposition created with success");
-              req.flash('success', "La composition " + ret[1].name + " a été crée avec succès");
+        req.flash('success', "La composition " + ret[1].name + " a été crée avec succès");
         return res.json({message: ret[1].id});
       }
     });
@@ -70,6 +69,12 @@ module.exports = {
           e.categories_ids = new Array();
           e.categories.forEach(function(en){
             e.categories_ids.push(en.id);
+            delete en.id;
+            delete en.name;
+            delete en.restaurant;
+            delete en.updatedAt;
+            delete en.createdAt;
+            delete en.id;
             delete en;
           });
           delete e.categories;

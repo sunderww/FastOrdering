@@ -231,9 +231,9 @@ module.exports = {
 	createOrder: function(user, json, cb) {
 		console.log("createOrder")
 		var ret;
-		
+		var id = json.id == null ? 0: json.id;
 		Order.create({
-			id:id,
+			id:json.id,
 			table_id:json.numTable,
 			dinerNumber:json.numPA,
 			comments: json.globalComment,

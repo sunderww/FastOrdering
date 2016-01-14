@@ -181,9 +181,9 @@ json: function (req, res) {
       });
     },
     deleteAll: function(req, res) {
-      Order.destroy().exec(function());
-      Ordereddish.destroy().exec(function());
-      OrderedOption.destroy().exec(function());
+      Order.destroy().exec(function(){});
+      Ordereddish.destroy().exec(function(){});
+      OrderedOption.destroy().exec(function(){});
     }
 };
 
