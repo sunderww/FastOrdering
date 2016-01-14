@@ -106,6 +106,13 @@ module.exports = {
                     }
                 });
                 
+                Menu.create({name:"alacarte", restaurant:restaurant}).exec(function(){
+                    if (err) {
+                        console.log(err);
+                        return res.serverError(err);
+                    }
+                });
+
             });
             // Redirect and Login
             res.redirect('/login');
