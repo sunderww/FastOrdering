@@ -225,11 +225,13 @@ $("html").on('click', ".categories",function(){
                     ""
                     var name = $(".add-one .composition-name").val();
                     var price = $(".add-one .composition-price").val();
+                    var position = $(".add-one .composition-position").val();
                     var categories_ids = $("#categories").val();
                     var res =  io.socket.post('/menucomposition/create', 
                         {menu_id:"<%= menu.id %>",
                         name:name,
                         price:price, 
+                        position:position,
                         categories_ids:categories_ids});   
 
                     io.socket.get('/menucomposition/read?id=<%= menu.id %>', function (body, response) {

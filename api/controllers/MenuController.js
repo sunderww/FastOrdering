@@ -24,9 +24,12 @@ module.exports = {
       }).exec(function(err,model){
         if (err) {
           console.log("Menu creation failed");
-          return res.json({message: err.ValidationError});
+          req.flash('error', ret[1].ValidationError);
         }
-        console.log("Menu created with success");
+        else {
+          console.log("Menu created with success");
+          req.flash('success', "Le menu " + ret[1].name + " a été crée avec succès");
+        }
         Menu.find(function(err, doc) {return res.view({menus:doc});});
       }); 
       }
@@ -89,7 +92,7 @@ module.exports = {
   menus: function(req, res) {
     if (req.param('from')) {
       SessionServices.getUser(req.socket.id, function(user){
-        Menu.find({name: { '!' : ["alacarte"]}, restaurant:user.restaurant.id}).where({'createdAt' : {'>=':new Date(req.param('from'))}}).exec(function(err, doc){
+        Menu.find({name: { '!' : ["alacarte"]}, restaurant:user.restaurant.id}).where({'createdAt' : {'>=':new Date(req.param('from'))}}).sort("position DESC").exec(function(err, doc){
           doc.forEach(function(e){
             e.menu_id = e.id;
             e.restaurant_id = e.restaurant;
@@ -101,7 +104,7 @@ module.exports = {
     }
     else {
     SessionServices.getUser(req.socket.id, function(user){
-      Menu.find({name: { '!' : ["alacarte"]}, restaurant:user.restaurant.id}).exec(function(err, doc){
+      Menu.find({name: { '!' : ["alacarte"]}, restaurant:user.restaurant.id}).sort("position DESC").exec(function(err, doc){
         return res.json({elements: doc});
       });
     });

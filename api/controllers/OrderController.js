@@ -76,14 +76,18 @@ ready: function(req, res) {
     .populateAll()   
     .then(function(ordered){
         var user = User.findOne({id:ordered.order.waiter_id}).then(function(user) {return user.socket_id});
+        var current_status = ordered.status;
         var status = Order.updateStatus(ordered);
-        return ["ordered", user, ordered.dish.name, status, ordered.order.table_id, ordered.status];
+        return ["ordered", user, ordered.dish.name, status, ordered.order.table_id, current_status];
     }).spread(function(one, socket_id, dish, new_status, numTable, current_status){
-        var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est pret!", numTable:numTable}
-        // if (current_status == "cooking")
+        if (current_status == "cooking") {
+          var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est prêt!", numTable:numTable}
           sails.sockets.emit(socket_id, 'notifications', data);
-        // else
-          // new_status = current_status;
+        }
+        else {
+          var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " n'est plus prêt!", numTable:numTable}
+          sails.sockets.emit(socket_id, 'notifications', data);
+        }
         return res.json({status:new_status});
     });
   }
@@ -176,7 +180,11 @@ json: function (req, res) {
           return res.json(result);
       });
     },
-
+    deleteAll: function(req, res) {
+      Order.destroy().exec(function(){});
+      Ordereddish.destroy().exec(function(){});
+      OrderedOption.destroy().exec(function(){});
+    }
 };
 
 

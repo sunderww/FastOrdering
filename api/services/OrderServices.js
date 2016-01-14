@@ -79,7 +79,7 @@ module.exports = {
         		s_options = s_options + "</br>" + option.qty + " " + option.option.name;
         	});
 		    var ready = (ordered_dish.status == "toDeliver") ? "btn btn-success readyy" : "btn btn-danger readyy";
-           	ret = '<div style="display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
+           	ret = '<div style="padding:1%;display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
             + '<h3>Menu - '+ menu.name + ' </h3>'
             + '<div style="height:100px">'
             + '<span class="element-zoom" style="float:left;font-size:40px;"> ' + ordered_dish.qty + '</span>'
@@ -231,9 +231,9 @@ module.exports = {
 	createOrder: function(user, json, cb) {
 		console.log("createOrder")
 		var ret;
-		
+		var id = json.id == null ? 0: json.id;
 		Order.create({
-			id:id,
+			id:json.id,
 			table_id:json.numTable,
 			dinerNumber:json.numPA,
 			comments: json.globalComment,
