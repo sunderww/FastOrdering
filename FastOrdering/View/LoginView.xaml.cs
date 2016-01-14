@@ -21,7 +21,7 @@ namespace FastOrdering.View
 		public LoginView()
 		{
 			this.InitializeComponent();
-			ID.Text = "$2a$10$iJadROc3r8A/ERPvgTWHxuGXuEBlPYZjWSjCyPPv6yS.pM7E.naCa";
+			ID.Text = "$2a$10$3brPbpUJ1hQCWgOLOLKXPO6DDTZn74E3E30C.tIEaP8FnRoGvimN2";
 			connecting = false;
 		}
 
@@ -54,6 +54,7 @@ namespace FastOrdering.View
 			LoadingRing.IsActive = true;
 			connecting = true;
 			sock = new Socket();
+			System.Diagnostics.Debug.WriteLine("test");
 			Socket.Authentication(ID.Text, ConnectUser);
 		}
 		#endregion

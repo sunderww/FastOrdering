@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         <!-- Title Bar -->
         <Grid x:Name="TitleBar" Background="{StaticResource PhoneAccentBrush}" Grid.Row ="0" Height="50">
-            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Commandes" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="Commandes" Foreground="White" VerticalAlignment="Center" FontSize="25"/>
         </Grid>
         <Grid Grid.Row="1" Style="{StaticResource LayoutGridStyle}">
             <Border Name="history" Background="White" Opacity="0.9" CornerRadius="5" Margin="50">

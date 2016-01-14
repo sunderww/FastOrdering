@@ -21,11 +21,14 @@ namespace FastOrdering.Model
 		#endregion
 
 		#region Methods
-		public Notification(int numTable, string msg, DateTime hour, DateTime date)
+		public Notification(int numTable, string msg, DateTime hour, string date)
 		{
 			this.numTable = numTable;
 			this.msg = msg;
-			this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
+			DateTime d;
+			if (DateTime.TryParseExact(date, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
+				this.date = new DateTime(d.Year, d.Month, d.Day, hour.Hour, hour.Minute, hour.Second);
+			//this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
 			this.id = (notifications.Count > 0) ? notifications.Last().ID + 1 : 0;
 		}
 		#endregion

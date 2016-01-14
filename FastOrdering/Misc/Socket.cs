@@ -86,6 +86,7 @@ namespace FastOrdering.Misc
 		static public void Authentication(string key, Func<bool, bool> connectUser)
 		{
 			JObject jsonObject = new JObject();
+			System.Diagnostics.Debug.WriteLine("test2");
 			jsonObject["user_key"] = key;
 			socket.Emit("authentication", new AckImpl(async (data) =>
 			{
@@ -242,6 +243,7 @@ namespace FastOrdering.Misc
 			foreach (Object compo in output["elements"])
 			{
 				str = compo.ToString();
+				System.Diagnostics.Debug.WriteLine(str);
 				Composition.compositions.Add(JsonConvert.DeserializeObject<Composition>(str));
 			}
 		}

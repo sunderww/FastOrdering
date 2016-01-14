@@ -83,7 +83,7 @@ namespace FastOrdering.Model
 			this.numTable = numTable;
 			this.pa = numPA;
 			DateTime d;
-			if (DateTime.TryParseExact(date, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
+			if (DateTime.TryParseExact(date, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out d))
 				this.date = new DateTime(d.Year, d.Month, d.Day, hour.Hour, hour.Minute, hour.Second);
 			//this.date = new DateTime(date.Year, date.Month, date.Day, hour.Hour, hour.Minute, hour.Second);
 			this.id = numOrder;

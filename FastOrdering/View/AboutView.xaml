@@ -23,7 +23,7 @@
             </Grid.ColumnDefinitions>-->
 
             <!--<Image x:Name="DrawerIcon" Grid.Column="0" Source="/Assets/LinesWhite.png" HorizontalAlignment="Left" Tapped="DrawerIcon_Tapped"/>-->
-            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="A propos de Fast Ordering" Foreground="White" VerticalAlignment="Center" FontSize="18"/>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="A propos de Fast Ordering" Foreground="White" VerticalAlignment="Center" FontSize="25"/>
         </Grid>
         <!-- Drawer Layout -->
         <!--<drawerLayout:DrawerLayout x:Name="DrawerLayout" Grid.Row="1" Style="{StaticResource LayoutGridStyle}">-->
