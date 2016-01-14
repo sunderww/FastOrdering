@@ -53,6 +53,10 @@ module.exports = {
         defaultsTo: "ordered"
       },       
       comments: {type:"string"},
+      restaurant: {
+      model: "restaurant",
+      required: true
+      },  
   },
 
   updateStatus: function(ordered) {

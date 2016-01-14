@@ -37,19 +37,22 @@
        console.log("update_order(send_order)");
 
        OrderServices.deleteOrder(id, function () {
-        OrderServices.createOrder(socket.id, json, function (result) {
-          sails.io.sockets.emit('receive_order', result);
-          return cb(result);
-        });
+         SessionServices.getUser(socket.id, function(user){
+          OrderServices.createOrder(user, json, function (result) {
+            sails.io.sockets.emit('receive_order', result);
+            return cb(result);
+          });
+         });
       });
      } else {
        console.log("send_order");
-
-      OrderServices.createOrder(socket.id, json, function (result) {
-        console.log(result);
-        socket.emit('receive_order', result);
-        return cb(result);
-        });
+       SessionServices.getUser(socket.id, function(user){
+        OrderServices.createOrder(user, json, function (result) {
+          console.log(result);
+          socket.emit('receive_order', result);
+          return cb(result);
+          });
+       });
     }
   });
 

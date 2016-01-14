@@ -200,11 +200,12 @@ module.exports = {
 		});
 	},
 
-	createOrderedDish: function(socket_id, order, current, currentt) {
+	createOrderedDish: function(user, order, current, currentt) {
 		OrderedDish.create({
 					   	order:order,
 					    qty:parseInt(current.qty),
 						comment:current.comment,
+						restaurant:user.restaurant
 					})
 					.exec(function(err,ordered){
 						 Dish.findOne({id:current.id}).then(function(dish){
@@ -218,22 +219,20 @@ module.exports = {
 							});
 						}
 						else {
-							SessionServices.getUser(socket_id, function(user){
-								Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).then(function(menu){
-									ordered.menu = menu;
-								 	ordered.save();
-								});
+							Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).then(function(menu){
+								ordered.menu = menu;
+							 	ordered.save();
 							});
 						}
 						if (typeof current.options != 'undefined') {
 							for (var u = 0; u < current.options.length; u++) {
-								OrderServices.createOrderOption(current.options[u], ordered);
+								OrderServices.createOrderOption(user, current.options[u], ordered);
 							}
 						}
 					});
 	},
 
-	createOrder: function(socket_id, json, cb) {
+	createOrder: function(user, json, cb) {
 		console.log("createOrder")
 		var ret;
 		
@@ -242,19 +241,16 @@ module.exports = {
 			table_id:json.numTable,
 			dinerNumber:json.numPA,
 			comments: json.globalComment,
+			waiter_id: user,
+			restaurant:user.restaurant
 		})
 		.then(function(order){
 			
-			SessionServices.getUser(socket_id, function(user){
-				order.waiter_id = user;
-				order.save();
-			});
-
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
 					var current = json['order'][a].content[i];
 					var currentt = json['order'][a];
-					OrderServices.createOrderedDish(socket_id, order, current, currentt);
+					OrderServices.createOrderedDish(user, order, current, currentt);
 				}
 			}
 			ret = {numOrder: order.id, numTable: json.numTable, numPA: json.numPA, date:order.date, hour:order.time};
@@ -267,10 +263,10 @@ module.exports = {
 		});
 	}
 	,
-	createOrderOption: function(current, ordered) {
+	createOrderOption: function(user, current, ordered) {
 		Promise.all([
 			Option.findOne({id:current.id}),
-			OrderedOption.create({qty:current.qty, ordered_dish:ordered.id}),
+			OrderedOption.create({restaurant:user.restaurant, qty:current.qty, ordered_dish:ordered.id}),
 		])
 		.spread(function(option, optionordered){
 			optionordered.option = option;
