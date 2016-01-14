@@ -86,8 +86,8 @@ module.exports.routes = {
     '/dishcategory' : 'DishCategoryController.dishcategory',
     '/dish': 'DishController.dish',
     '/order' : 'OrderController.order',
-    '/ordereddish' : 'OrderedDishController.order',
-    '/orderedoption' : 'OrderedOptionController.order',
+    '/ordereddish' : 'OrderedDishController.ordereddish',
+    '/orderedoption' : 'OrderedOptionController.orderedoption',
     '/menu' : 'MenuController.menu',
     '/menucomposition' : 'MenuCompositionController.menucomposition',
 
