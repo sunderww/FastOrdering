@@ -39,7 +39,7 @@ module.exports = {
       },
 
       dinerNumber :{
-        type: 'integer',
+        type: 'string',
         required: true
       },
   	

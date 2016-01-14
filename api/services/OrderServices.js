@@ -166,7 +166,7 @@ module.exports = {
 		var ret = new Array();
 
 		Promise.all([
-			  Order.find().sort("createdAt ASC").limit(limit)
+			  Order.find().sort("createdAt DESC").limit(limit)
 		])
 		.spread(function(orders){
 			orders.forEach(function(order) {
