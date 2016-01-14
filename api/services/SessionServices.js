@@ -28,7 +28,7 @@ module.exports = {
             console.log("Access " + ((ret == false) ? "Denied" : "Granted" ));
        		if (ret == true)
 	     		console.log("Socket id --> "  + socket_id);
-       		cb({"answer":ret, "restaurant_id":key.restaurant});
+       		cb({"answer":ret, "restaurant_id":key.restaurant.id});
 		       });
 		});
     },
