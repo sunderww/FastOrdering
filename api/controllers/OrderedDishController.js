@@ -89,8 +89,12 @@ module.exports = {
         .where({'createdAt' : {'>=':new Date(req.param('from'))}})
         .then(function(order) {
           order.forEach(function(entry){
+            entry.order_id = entry.order;
             entry.menu_id = entry.menu;
             entry.dish_id = entry.dish;
+            delete order;
+            delete menu;
+            delete dish;
           });
           return res.json(order);
         });
@@ -100,8 +104,12 @@ module.exports = {
         .find({restaurant:req.param('restaurant')})
         .then(function(order) {
           order.forEach(function(entry){
+            entry.order_id = entry.order;
             entry.menu_id = entry.menu;
             entry.dish_id = entry.dish;
+            delete order;
+            delete menu;
+            delete dish;
           });
           return res.json(order);
         });
