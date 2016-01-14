@@ -82,10 +82,9 @@ module.exports = {
         	opt.forEach(function(option){
         		s_options = s_options + "</br>" + option.qty + " " + option.option.name;
         	});
-
 		    var ready = (ordered_dish.status == "toDeliver") ? "btn btn-success readyy" : "btn btn-danger readyy";
            	ret = '<div style="display:inline-block !important;width:500px;margin:0px;" class="admin-form">'
-            + '<h3>Menu - '+ menu.name + ' </h3>'
+            + '<h3>Menu - '+ menu + ' </h3>'
             + '<div style="height:100px">'
             + '<span class="element-zoom" style="float:left;font-size:40px;"> ' + ordered_dish.qty + '</span>'
             + '<span class="element-zoom" style="padding-top:10px;width:200px;float:left !important;">' + dish.name + " " + s_options 
@@ -114,7 +113,7 @@ module.exports = {
 		var ret = "Error: nothing";
 	       Promise.all([
 			Order.findOne({id:order_id}),
-			OrderedDish.find({order: order_id}),
+			OrderedDish.find({order: order_id}).populate('menu'),
 			OrderedOption.find()
 			])
 		.spread(function(order, ordered, opt){
@@ -129,7 +128,10 @@ module.exports = {
 		 		entry.option = rr;
 			    entry.qty = (entry.qty).toString();
 			    entry.id = entry.dish;
-			    entry.menu_id = entry.menu;
+			    if (entry.menu.name == "alacarte")
+				    entry.menu_id = 0
+			    else
+				    entry.menu_id = entry.menu.id;
 			    entry.order_id = entry.order;
 			    delete entry.dish;
 			    delete entry.menu;
@@ -198,7 +200,7 @@ module.exports = {
 		});
 	},
 
-	createOrderedDish: function(order, current, currentt) {
+	createOrderedDish: function(socket_id, order, current, currentt) {
 		OrderedDish.create({
 					   	order:order,
 					    qty:parseInt(current.qty),
@@ -209,10 +211,20 @@ module.exports = {
 						 	ordered.dish = dish;
 						 	ordered.save();
 						 });
-						Menu.findOne({id:currentt.menuId}).then(function(menu){
-							ordered.menu = menu;
-						 	ordered.save();
-						});
+						if (currentt.menuId != 0) {
+							Menu.findOne({id:currentt.menuId}).then(function(menu){
+								ordered.menu = menu;
+							 	ordered.save();
+							});
+						}
+						else {
+							SessionServices.getUser(socket_id, function(user){
+								Menu.findOne({restaurant:user.restaurant, name:"alacarte"}).then(function(menu){
+									ordered.menu = menu;
+								 	ordered.save();
+								});
+							});
+						}
 						if (typeof current.options != 'undefined') {
 							for (var u = 0; u < current.options.length; u++) {
 								OrderServices.createOrderOption(current.options[u], ordered);
@@ -242,7 +254,7 @@ module.exports = {
 				for (var i = 0;json['order'][a].content[i]; i++) {
 					var current = json['order'][a].content[i];
 					var currentt = json['order'][a];
-					OrderServices.createOrderedDish(order, current, currentt);
+					OrderServices.createOrderedDish(socket_id, order, current, currentt);
 				}
 			}
 			ret = {numOrder: order.id, numTable: json.numTable, numPA: json.numPA, date:order.date, hour:order.time};
