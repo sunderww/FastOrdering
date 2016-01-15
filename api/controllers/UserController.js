@@ -116,8 +116,8 @@ module.exports = {
 
             });
             // Redirect and Login
-            res.redirect('/login');
             req.session.flash = {};
+            res.redirect('/login');
         });
     },
     
@@ -153,8 +153,8 @@ module.exports = {
             
             console.log("User created");
             // res.json(user);
+            req.session.flash = {};  
             res.redirect('/user');
-            //res.session.flash = {};  
         });
     },
     

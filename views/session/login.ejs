@@ -65,12 +65,12 @@
                     <div class="panel panel-info mt10 br-n panel-heading heading-border">
                         
                         <!-- Error -->
-                        <% if (flash && flash.err) { %>
+                        <% if (flash && flash.login) { %>
+                        <% Object.keys(flash.login).forEach(function(error) { %>
                         <ul class="alert alert-danger">
-                            <% Object.keys(flash.err).forEach(function(error) { %>
-                            <li><%- JSON.stringify(flash.err[error]) %> </li>
-                            <% }) %>
+                            <%= flash.login[error].message %>
                         </ul>
+                        <% }) %>
                         <% } %>
 
                         <form method="post" action="/login" id="contact">
