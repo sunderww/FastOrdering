@@ -18,7 +18,7 @@ module.exports = {
         // If there is no email OR no password
         if (!req.param('email') || !req.param('password')) {
             
-            var emailPasswordRequired = [{name: 'emailPasswordRequired', message: 'You must enter an email and password.'}];
+            var emailPasswordRequired = [{name: 'emailPasswordRequired', message: 'Vous devez entrer un Email et Mot de passe.'}];
 
             req.session.flash = {login: emailPasswordRequired};
             return res.redirect('/login');
@@ -33,7 +33,7 @@ module.exports = {
            
             // If there is NO user
             if (!user) {
-                var invalidPasswordEmail = [{name: 'invalidPasswordEmail', message: 'Invalid combination of Email / Password'}];
+                var invalidPasswordEmail = [{name: 'invalidPasswordEmail', message: 'Email ou Mot de passe invalide.'}];
                 
                 req.session.flash = {login: invalidPasswordEmail};
                 return res.redirect('/login');
@@ -48,7 +48,7 @@ module.exports = {
                 
                 // If password DO NOT match
                 if (!valid) {
-                    var invalidPasswordEmail = [{name: 'invalidPasswordEmail', message: 'Invalid combination of Email / Password'}];
+                    var invalidPasswordEmail = [{name: 'invalidPasswordEmail', message: 'Email ou Mot de passe invalide.'}];
                    
                     req.session.flash = {login: invalidPasswordEmail};
                     return res.redirect('/login');
@@ -58,7 +58,7 @@ module.exports = {
                 req.session.user = user;
                 
                 console.log("Connection User --> " + user.email);
-                req.sesson.flash = {};
+                req.session.flash = {};
                 res.redirect('/dashboard');
             });
         });
