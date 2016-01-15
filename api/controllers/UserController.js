@@ -153,7 +153,7 @@ module.exports = {
             
             console.log("User created");
             // res.json(user);
-            res.session.flash = {};  
+            req.session.flash = {};  
             res.redirect('/user');
         });
     },
