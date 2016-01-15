@@ -57,7 +57,19 @@ public class HistoryFragment extends Fragment {
     static public void addOrderToList(JSONObject cmd) {
         if (_mItems.size() >= _mSizeList)
             _mItems.remove(_mSizeList - 1);
-        _mItems.add(0, new OrderStruct(cmd));
+
+        OrderStruct order = new OrderStruct(cmd);
+        System.out.println("NEW NUM = " + order.get_mNumOrder());
+        for (int i = 0; i < _mItems.size(); i++) {
+            OrderStruct orderFromList = _mItems.get(i);
+            if (orderFromList.get_mNumOrder().equals(order.get_mNumOrder())) {
+                System.out.println("REMOVED COMMAND");
+                _mItems.remove(i);
+                break;
+            }
+        }
+        System.out.println("ADDED COMMAND");
+        _mItems.add(0, order);
         if (_mAdapter != null)
             _mAdapter.notifyDataSetChanged();
     }
