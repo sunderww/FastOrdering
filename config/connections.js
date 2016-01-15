@@ -45,7 +45,8 @@ module.exports.connections = {
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'fastOrdering'
+    database: 'fastOrdering',
+    timezone: 'gmt+1'
   },
 
   /***************************************************************************
@@ -86,7 +87,8 @@ module.exports.connections = {
     database: 'FastOrdering',
     port: 5432,
     pool: false,
-    ssl: false
+    ssl: false,
+    timezone: 'gmt+1'
   },
   
   /***************************************************************************
@@ -101,7 +103,8 @@ module.exports.connections = {
     port: 6379,
     user: null,
     password: null,
-    database: "fast"
+    database: "fast",
+    timezone: 'gmt+1'
   },
   
   /***************************************************************************
