@@ -18,7 +18,7 @@ module.exports = {
      	})
       .exec(function(err, optionCategory){
         if (err) {
-          console.log("OptionCategory creation failed " + ret[1].ValidationError);
+          console.log("OptionCategory creation failed " + err.ValidationError);
           req.flash('error', err.ValidationError);
         }
         else {

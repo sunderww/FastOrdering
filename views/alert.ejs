@@ -11,11 +11,13 @@
 <% if (errors.length > 0) { %>
 	<div class="alert alert-danger dark alert-dismissable alert-border-left">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+ 		<% Object.keys(errors[0]).forEach(function(error) { %>
 	    <i class="fa fa-warning pr10"></i>
- 		<% Object.keys(errors).forEach(function(error,i) { %>
-			<% var errs =  errors %>
-			<%-  JSON.stringify(errs) %>
-			</br>tt
+			<%= error %>
+			<%=  errors[0][error][0]['message'] %>
+			</br>
 		<% }) %>
 	</div>
 <% } %>
+
+

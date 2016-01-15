@@ -23,7 +23,7 @@ module.exports = {
        restaurant:req.session.user.restaurant,
      }).exec(function(err, dishCategory) {
       if (err) {
-        console.log("DishCategory creation failed " + ret[1].ValidationError);
+        console.log("DishCategory creation failed " + err.ValidationError);
         req.flash('error', err.ValidationError);
       }
       else {

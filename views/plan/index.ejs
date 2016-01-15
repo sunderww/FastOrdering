@@ -471,6 +471,7 @@
                                     var title = document.getElementById('current_title').value;
                                     var prepare = {"title":title, "dimX":stepX, "dimY":stepY, "numShapes":cShapes, "position":shapes};
 
+                                    console.log(result);
                                     var resultLength = result.length;
                                     for (var i = 0; i < resultLength; i++) {
                                         if (result[i].title.localeCompare(title) == 0) {
@@ -670,7 +671,7 @@
                                 
                                 <div id="board_selector">
                                     <div id="board_list">
-                                        <button id="board_0" class="board_select">Titre</button>
+                                        <!-- <button id="board_0" class="board_select">Titre</button> -->
                                         <% _.each(plans_collection, function(plan) { %>
                                             <button id="board_<%= plan.name %>" class="board_select"><%= plan.name %></button>
                                         <% }) %>
