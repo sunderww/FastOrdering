@@ -231,9 +231,9 @@ module.exports = {
 	createOrder: function(user, json, cb) {
 		console.log("createOrder")
 		var ret;
-		var id = json.id == null ? 0: json.id;
+		var id = json.numOrder == null ? 0: json.numOrder;
 		Order.create({
-			id:json.id,
+			id:id,
 			table_id:json.numTable,
 			dinerNumber:json.numPA,
 			comments: json.globalComment,
@@ -251,8 +251,8 @@ module.exports = {
 			}
 			ret = {numOrder: order.id, numTable: json.numTable, numPA: json.numPA, date:order.date, hour:order.time};
 		})
-		.catch(function(err){
-			console.log(err);
+		.catch(function(){
+			// console.log(err);
 		})
 		.done(function(){
 			return cb(ret);

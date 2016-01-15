@@ -35,16 +35,8 @@ module.exports = {
     },
 
     getUser: function(socket_id, cb){
-    	User.findOne({socket_id:socket_id}).populateAll().exec(function(err, user){
-    		if (err)
-    			console.log("Access denied from socket");
+    	User.findOne({socket_id:socket_id}).populateAll().then(function(user){
    			cb(user);
-    	});
-    },
-
-    getUsersFromRestaurant: function(user, cb) {
-    	User.find({restaurant:user.restaurant}).exec(function(){
-
     	});
     }
 }

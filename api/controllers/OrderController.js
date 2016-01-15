@@ -80,6 +80,7 @@ ready: function(req, res) {
         var status = Order.updateStatus(ordered);
         return ["ordered", user, ordered.dish.name, status, ordered.order.table_id, current_status];
     }).spread(function(one, socket_id, dish, new_status, numTable, current_status){
+        console.log(current_status);
         if (current_status == "cooking") {
           var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: "Le plat " + dish + " est prêt!", numTable:numTable}
           sails.sockets.emit(socket_id, 'notifications', data);
@@ -182,7 +183,7 @@ json: function (req, res) {
     },
     deleteAll: function(req, res) {
       Order.destroy().exec(function(){});
-      Ordereddish.destroy().exec(function(){});
+      OrderedDish.destroy().exec(function(){});
       OrderedOption.destroy().exec(function(){});
     }
 };

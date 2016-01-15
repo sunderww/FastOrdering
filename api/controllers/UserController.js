@@ -107,7 +107,7 @@ module.exports = {
                     }
                 });
                 
-                Menu.create({name:"alacarte", restaurant:restaurant}).exec(function(){
+                Menu.create({name:"alacarte", price:0, restaurant:restaurant}).exec(function(){
                     if (err) {
                         console.log(err);
                         return res.serverError(err);
