@@ -20,7 +20,7 @@ module.exports = {
             
             var emailPasswordRequired = [{name: 'emailPasswordRequired', message: 'You must enter an email and password.'}];
 
-            req.session.flash = {err: emailPasswordRequired};
+            req.session.flash = {login: emailPasswordRequired};
             return res.redirect('/login');
         }
         
@@ -35,7 +35,7 @@ module.exports = {
             if (!user) {
                 var invalidPasswordEmail = [{name: 'invalidPasswordEmail', message: 'Invalid combination of Email / Password'}];
                 
-                req.session.flash = {err: invalidPasswordEmail};
+                req.session.flash = {login: invalidPasswordEmail};
                 return res.redirect('/login');
             }
             
@@ -50,7 +50,7 @@ module.exports = {
                 if (!valid) {
                     var invalidPasswordEmail = [{name: 'invalidPasswordEmail', message: 'Invalid combination of Email / Password'}];
                    
-                    req.session.flash = {err: invalidPasswordEmail};
+                    req.session.flash = {login: invalidPasswordEmail};
                     return res.redirect('/login');
                 }
                 
@@ -58,6 +58,7 @@ module.exports = {
                 req.session.user = user;
                 
                 console.log("Connection User --> " + user.email);
+                req.sesson.flash = {};
                 res.redirect('/dashboard');
             });
         });
