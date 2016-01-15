@@ -204,18 +204,18 @@ module.exports = {
 						restaurant:user.restaurant
 					})
 					.exec(function(err,ordered){
-						 Dish.findOne({id:current.id}).then(function(dish){
+						 Dish.findOne({id:current.id}).populateAll().exec(function(err, dish){
 						 	ordered.dish = dish;
 						 	ordered.save();
 						 });
 						if (currentt.menuId != 0) {
-							Menu.findOne({id:currentt.menuId}).then(function(menu){
+							Menu.findOne({id:currentt.menuId}).populateAll().exec(function(err, menu){
 								ordered.menu = menu;
 							 	ordered.save();
 							});
 						}
 						else {
-							Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).then(function(menu){
+							Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).populateAll().exec(function(err, menu){
 								ordered.menu = menu;
 							 	ordered.save();
 							});
@@ -261,7 +261,7 @@ module.exports = {
 	,
 	createOrderOption: function(user, current, ordered) {
 		Promise.all([
-			Option.findOne({id:current.id}),
+			Option.findOne({id:current.id}).populateAll(),
 			OrderedOption.create({restaurant:user.restaurant, qty:current.qty, ordered_dish:ordered.id}),
 		])
 		.spread(function(option, optionordered){
@@ -274,16 +274,5 @@ module.exports = {
 		})
 		.done(function(){
 		});		
-	},
-	// receive_order: function(user) {
-	// 	User.find({restaurant:user.restaurant}).exec(function(err, users)){
-	// 		if (err)
-	// 			console.log(err);
-	// 		else {
-	// 			users.forEach(function(entry){
-	// 				sails.socket.emit
-	// 			});
-	// 		}
-	// 	});
-	// }
+	}
 }
