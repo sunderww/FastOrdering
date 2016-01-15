@@ -8,6 +8,7 @@ var Promise = require('q');
 
 module.exports = {
 
+
  	loginFromPhone : function(json, socket_id, cb) {
 		console.log("Authentication ");
 		var ret;

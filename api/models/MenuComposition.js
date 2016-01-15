@@ -7,10 +7,10 @@
 
 module.exports = {
   attributes: {
-      name: "string",
-      menu: {model:"menu", required:false},
+      name: {type: "string",required:true },
+      menu: {model:"menu", required:true},
       categories: {collection:"DishCategory", required:false},
-      position: 'integer',
+      position: {type:'integer', required:true},
      restaurant: {
     	model: "restaurant",
     	required: true

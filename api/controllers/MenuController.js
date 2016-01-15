@@ -21,16 +21,16 @@ module.exports = {
         name:req.param("menu_name"),
         price: req.param('price'),
         restaurant:req.session.user.restaurant
-      }).exec(function(err,model){
+      }).exec(function(err,menu){
         if (err) {
           console.log("Menu creation failed");
           req.flash('error', err.ValidationError);
         }
         else {
           console.log("Menu created with success");
-          req.flash('success', "Le menu " + err.name + " a été crée avec succès");
+          req.flash('success', "Le menu " + menu.name + " a été crée avec succès");
         }
-        Menu.find(function(err, doc) {return res.view({menus:doc});});
+        Menu.find(function(err, menus) {return res.view({menus:menus});});
       });
       }
       else {
@@ -49,13 +49,15 @@ module.exports = {
   */
   update: function (req, res) {
    MenuServices.update(req.param('id'), req, function(data){
-          if (data[1] == true) {
+          if (data[0] == true) {
             console.log("Menu updated with success");
+            req.flash('success', "Le menu " + data[1].name + " a été crée avec succès");
             return res.redirect('/menu/create');
           }
           else {
             console.log("Failed Menu updated");
-            return res.view(data[0]);
+            req.flash('error', data[1].ValidationError);
+            return res.redirect('/menu/create');
           }
    });
   },
