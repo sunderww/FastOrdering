@@ -79,7 +79,7 @@ public class LoginActivity extends Activity {
         });
 
         //Set key "enter" to validate to connect
-//        StockMenu.instance().write("/pass", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
+        StockMenu.instance().write("/pass", "$2a$10$BJxQp5KVCuui/trKjnnkneVldtHHweJoIshxwuZ3rFy6XGhFSFESq");
         EditText addCourseText = (EditText) findViewById(R.id.field_pass);
         addCourseText.setText(StockMenu.instance().read("/pass"));
 
@@ -172,7 +172,12 @@ public class LoginActivity extends Activity {
                 Log.d("LOGINACTIVITY", "CONNECT");
                 JSONObject obj = new JSONObject();
                 try {
+//                    TODO TO uncomment 12/01
                     obj.put("user_key", StockMenu.instance().read("/pass"));
+//                    obj.put("user_key", "$2a$10$BJxQp5KVCuui/trKjnnkneVldtHHweJoIshxwuZ3rFy6XGhFSFESq");
+//                    obj.put("user_key", "$2a$10$Q32OSOPQGJVE7RIjP/brCu2WHnjq2x/nWzlDWfjnpxKRUjKe42J0K");
+
+
 //                    obj.put("user_key", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
 //                    obj.put("user_key", "$2a$10$9cGnq1jrpqFtkoUOk.WpwuQqThmLBCb9UuXt0Kw4cbWuwMxmoLNyK");
                 } catch (JSONException e) {
@@ -321,6 +326,7 @@ public class LoginActivity extends Activity {
                 Log.d("LOGINACTIVITY", "ANSWER MENUS");
 
                 try {
+                    Log.d("LOGINACTIVITY", "MENUS=" + objects[0].toString());
                     StockMenu.instance().write("/menus", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
 
 //                    getSharedPreferences("DATACARD", 0).edit().putString("/menus", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
@@ -343,6 +349,7 @@ public class LoginActivity extends Activity {
             public void call(Object... objects) {
                 Log.d("LOGINACTIVITY", "ANSWER COMPOS");
                 try {
+                    Log.d("LOGINACTIVITY", "COMPOS=" + objects[0].toString());
                     StockMenu.instance().write("/compos", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
 
 //                    getSharedPreferences("DATACARD", 0).edit().putString("/compos", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
@@ -366,6 +373,7 @@ public class LoginActivity extends Activity {
                 Log.d("LOGINACTIVITY", "ANSWER CATS");
                 try {
                     StockMenu.instance().write("/cats", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
+                    Log.d("LOGINACTIVITY", "CATS=" + objects[0].toString());
 
 //                    getSharedPreferences("DATACARD", 0).edit().putString("/cats", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
                 } catch (JSONException e) {
@@ -388,6 +396,7 @@ public class LoginActivity extends Activity {
             public void call(Object... objects) {
                 Log.d("LOGINACTIVITY", "ANSWER ALACARTE");
                 try {
+                    Log.d("LOGINACTIVITY", "ALACARTE=" + objects[0].toString());
                     StockMenu.instance().write("/alacarte", new JSONObject(objects[0].toString()).getJSONObject("body").toString());
 
 //                    getSharedPreferences("DATACARD", 0).edit().putString("/alacarte", new JSONObject(objects[0].toString()).getJSONObject("body").toString()).commit();
@@ -413,7 +422,7 @@ public class LoginActivity extends Activity {
             @Override
             public void call(Object... objects) {
                 try {
-                    Log.d("HISTORY", "ORDER=" + new JSONObject(objects[0].toString()));
+                    Log.d("HISTORY", "LAST ORDERS=" + new JSONObject(objects[0].toString()));
                     HistoryFragment.getLastOrders(new JSONObject(objects[0].toString()));
                 } catch (JSONException e) {
                     Log.d("LOGINACTIVITY", "EXCEPTION JSON:" + e.toString());

@@ -37,6 +37,8 @@ public class CardStruct {
 			}
 		} catch (JSONException e) {
 			Log.d("CARDSTRUCT", "EXCEPTION JSON:" + e.toString());
+			e.printStackTrace();
+
 		}
 	}
 
