@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SocketIO.h"
 #import "SyncHelper.h"
 #import "LoaderView.h"
 #import "Order.h"
+#import "SocketHelper.h"
 
-@interface MainViewController : UIViewController <SyncerDelegate, UITableViewDataSource, UITableViewDelegate> {
+@interface MainViewController : UIViewController <SyncerDelegate, UITableViewDataSource, UITableViewDelegate, SocketEventListener> {
     IBOutletCollection(UIButton) NSArray *  panelButtons;
 
     IBOutlet UIButton *     logOutButton;
@@ -37,6 +39,7 @@
     IBOutlet LoaderView *   loaderView;
 
     BOOL                    panelShown;
+	BOOL					syncing;
     NSUInteger              classesToSync;
     UIViewController *      controller;
     NSArray *               lastOrders;
@@ -44,6 +47,8 @@
     NSTimer *               timer;
 	BOOL					hasLoaded;
 }
+
+@property (nonatomic, assign) BOOL	doNotSync;
 
 - (IBAction)buttonClicked:(id)sender;
 - (IBAction)logOut;

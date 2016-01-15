@@ -63,6 +63,8 @@ NSObject *  dictSafeValue(NSObject *obj) {
 - (NSDictionary *)toJSON {
 	NSMutableDictionary * dict = [NSMutableDictionary new];
 	
+	if (self.serverId.length)
+		dict[@"numOrder"] = self.serverId;
 	dict[@"numTable"] = dictSafeValue(self.table_id);
 	dict[@"numPA"] = dictSafeValue(self.dinerNumber);
 	dict[@"globalComment"] = dictSafeValue(self.comments);

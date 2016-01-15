@@ -270,25 +270,30 @@
 	self.order.comments = commentTextView.text;
 	
 	if (!helper.socket.isConnected) return [self orderFailed];
-	
+
 	DPPLog(@"Will send JSON :\n%@\n\n", self.order.toJSONString);
+	self.mainController.doNotSync = YES;
 
 	loaderView.hidden = NO;
 	[helper.socket sendEvent:@"send_order" withData:self.order.toJSON andAcknowledge:^(id argsData) {
 		NSDictionary * dict = argsData;
-		
+
 		if (dict[@"error"] || !dict.count) {
 			PPLog(@"%@", dict[@"error"]);
+			self.mainController.doNotSync = NO;
 			[timer fire];
 		} else {
 			[timer invalidate];
-			loaderView.hidden = YES;
-			didOrder = YES;
 			
 			self.order.createdAt = [NSDate date];
 			self.order.updatedAt = [NSDate date];
 			self.order.serverId = dict[@"numOrder"];
-			[self.mainController goBackToMainPage];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				loaderView.hidden = YES;
+				didOrder = YES;
+				[self.mainController goBackToMainPage];
+				self.mainController.doNotSync = NO;
+			});
 		}
 	}];
 

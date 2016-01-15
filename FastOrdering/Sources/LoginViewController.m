@@ -49,6 +49,7 @@
 #endif
 	
 #ifdef kSkipLoginView
+	waitingResponse = YES;
 	[SocketHelper connectSocket];
 	[self nextPage];
 #endif
@@ -87,12 +88,12 @@
 
 - (IBAction)login {
 	[SocketHelper connectSocket];
-	loginButton.enabled = NO;
+	waitingResponse = YES;
 	
 #ifdef kLoginDoNotValidate
 	[self nextPage];
 #else
-	waitingResponse = YES;
+	loginButton.enabled = NO;
 	loader.hidden = NO;
 
 	[SocketHelper.sharedHelper authenticateWithKey:keyField.text andAcknowledgement:^(id argsData) {

@@ -60,6 +60,7 @@
     for (UIButton * button in panelButtons)
         [button setTitle:NSLocalizedString(button.titleLabel.text, @"").capitalizedString forState:UIControlStateNormal];
     [orderButton setTitle:NSLocalizedString(@"order", @"").uppercaseString forState:UIControlStateNormal];
+	[[SocketHelper sharedHelper] registerListener:self forEvent:@"receive_order"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -138,7 +139,11 @@
 
 - (void)syncDatabase {
     SyncHelper * syncer = [SyncHelper new];
+	
+	if (syncing) return ;
+	syncing = YES;
 
+	syncer.restaurantId = ((AppDelegate *)UIApplication.sharedApplication.delegate).restaurantId;
     classesToSync = 0;
 	hasLoaded = NO;
 	loaderView.hidden = NO;
@@ -155,25 +160,16 @@
         [syncer syncClassNamed:class];
     }
     [syncer syncDeletedObjectsOfClasses:classes];
-//#warning DEBUG
 #ifdef SKIP_SYNC
 	[self syncEnded];
 #endif
-//	DLog(@"SOCKET TEST");
-//	[socket sendAcknowledgement:@"/elements" withArgs:@[@{@"url":@"/elements"}]];
-//	[socket sendEvent:@"/elements" withData:nil];
-//	[socket sendJSON:@{@"url": @"/elements"} withAcknowledge:^(id argsData) {
-//		DPPLog(@"%@", argsData);
-//	}];
-//	[socket sendMessage:@"/elements" withAcknowledge:^(id argsData) {
-//		DPPLog(@"%@", argsData);
-//	}];
 }
 
 - (void)syncEnded {
     NSManagedObjectContext * context = ((AppDelegate *)UIApplication.sharedApplication.delegate).managedObjectContext;
     NSError * error;
-    
+
+	syncing = NO;
 	[timer invalidate];
 	if ([context save:&error]) {
 		DLog(@"SYNC EXECUTED, CONTEXT SAVED");
@@ -311,6 +307,17 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 
 	[self goToOrder:order];
+}
+
+#pragma mark - SocketIO Delegate methods
+
+- (void)socketReceivedEvent:(NSString *)name withPacket:(SocketIOPacket *)packet {
+	if (![name isEqualToString:@"receive_order"]) return ;
+
+	if (!self.doNotSync) {
+		[self syncDatabase];
+		[self reloadData];
+	}
 }
 
 /*

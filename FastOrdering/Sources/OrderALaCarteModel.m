@@ -65,8 +65,7 @@
 #pragma mark - SLExpandableTableView delegate and datasource methods
 
 - (BOOL)tableView:(SLExpandableTableView *)tableView canExpandSection:(NSInteger)section {
-	DishCategory * category = ((MenuComposition *)compositions[section]).categories.allObjects.firstObject;
-	return category.dishes.count > 0;
+	return YES;
 }
 
 - (BOOL)tableView:(SLExpandableTableView *)tableView needsToDownloadDataForExpandableSection:(NSInteger)section {

@@ -20,6 +20,7 @@
 #define kParsingUpdatedAtKey        @"updatedAt"
 #define kParsingRelationToOneSuffix @"_id"
 #define kParsingRelationManySuffix  @"_ids"
+#define kParameterRestaurantId		@"restaurant"
 
 #pragma mark - SyncHelper
 
@@ -41,7 +42,12 @@
 		[self.delegate syncDidStartForClass:name];
 	
 #ifndef USE_SOCKET_REQUEST
-	NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%d/%@", kSocketIOHost, kSocketIOPort, name]];
+	NSDateFormatter * formatter = [NSDateFormatter new];
+	formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS";
+
+	NSString * lastUpdate = [formatter stringFromDate:[self latestUpdateOfClass:name]];
+	NSString * params = [NSString stringWithFormat:@"?%@=%@&from=%@", kParameterRestaurantId, self.restaurantId, lastUpdate];
+	NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%d/%@%@", kSocketIOHost, kSocketIOPort, name, params]];
 	
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		NSError * error;
@@ -115,7 +121,6 @@
 	for (NSString * className in classes) {
 		[self deleteEmptyObjectsOfClass:className];
 	}
-	DLog(@"SHOULD START DELETE SYNC");
 }
 
 #pragma mark - Helper methods
