@@ -9,8 +9,6 @@ d<body class="dashboard-page sb-l-o sb-r-c">
         <!-- Start: Content-Wrapper -->
         <section id="content_wrapper">
 
-
-
             <!-- Start: Topbar -->
             <% include ../ariane.ejs %>
             <!-- End: Topbar -->
@@ -21,12 +19,18 @@ d<body class="dashboard-page sb-l-o sb-r-c">
                     <div class="col-md-12">
                         <div class="panel">
                             <div class="panel-heading">
-                                <span class="panel-title">Mettre a jour une categorie</span>
+                                <span class="panel-title">Mettre à jour une catégorie</span>
                             </div>
                             <div class="panel-body">
                                 <form class="form-horizontal" role="form" action="/dishcategory/update" method="POST">
                                     <div class="form-group">
-                                        <label for="inputStandard" class="col-lg-3 control-label">Nom</label>
+                                        <label for="inputStandard" class="col-lg-3 control-label">Nom réel</label>
+                                        <div class="col-lg-8">
+                                            <input value="<%= category.real_name %>" type="text" name="real_name" class="form-control">
+                                        </div>
+                                    </div>                                   
+                                    <div class="form-group">
+                                        <label for="inputStandard" class="col-lg-3 control-label">Nom in App</label>
                                         <div class="col-lg-8">
                                             <input value="<%= category.name %>" type="text" name="name" class="form-control">
                                         </div>
