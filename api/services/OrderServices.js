@@ -186,7 +186,7 @@ module.exports = {
 		console.log("deleteOrder");
 		Promise.all([
 			Order.destroy({id:id}),
-			OrderedDish.destroy({order_id:id})
+			OrderedDish.destroy({order:id})
 		])
 		.catch(function(err){
 			cb(err);
