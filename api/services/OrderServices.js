@@ -205,19 +205,25 @@ module.exports = {
 					})
 					.exec(function(err,ordered){
 						 Dish.findOne({id:current.id}).populateAll().exec(function(err, dish){
-						 	ordered.dish = dish;
-						 	ordered.save();
+						 	if (dish != undefined) {
+							 	ordered.dish = dish;
+							 	ordered.save();
+						 	}
 						 });
 						if (currentt.menuId != 0) {
 							Menu.findOne({id:currentt.menuId}).populateAll().exec(function(err, menu){
-								ordered.menu = menu;
-							 	ordered.save();
+								if (menu != undefined) {
+									ordered.menu = menu;
+								 	ordered.save();
+								}
 							});
 						}
 						else {
 							Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).populateAll().exec(function(err, menu){
-								ordered.menu = menu;
-							 	ordered.save();
+								if (menu != undefined) {
+									ordered.menu = menu;
+							 		ordered.save();									
+								}
 							});
 						}
 						if (typeof current.options != 'undefined') {

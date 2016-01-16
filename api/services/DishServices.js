@@ -20,7 +20,7 @@ module.exports = {
 			var ar = new Array();
 			ar.concat(req.param("categories_ids")).forEach(function(entry){
 				DishCategory.findOne({restaurant:req.session.user.restaurant,id:entry}).exec(function(err, dishCategory){
-					if (!err) {
+					if (dishCategory != undefined) {
 						dish.categories.add(dishCategory);
 						dish.save();
 					}
@@ -29,7 +29,7 @@ module.exports = {
 			ar = new Array();
 			ar.concat(req.param("optioncategories_ids")).forEach(function(entry){
 				OptionCategory.findOne({restaurant:req.session.user.restaurant,id:entry}).exec(function(err, optionCategory){
-					if (!err) {
+					if (optionCategory != undefined) {
 						dish.optioncategories.add(optionCategory);
 						dish.save();
 					}

@@ -64,7 +64,7 @@ module.exports.connections = {
 //    port: 27017,
      user: '',
      password: '',
-      database: 'FastOrdering44',
+      database: 'FastOrdering_v2',
       schema: true
   },
 
