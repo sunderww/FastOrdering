@@ -63,7 +63,7 @@ module.exports = {
 
   compos: function(req, res) {
     SessionServices.getUser(req.socket.id, function(user){
-      MenuComposition.find({restaurant:user.restaurant.id}).populate('categories').exec(function(err, ret){
+      MenuComposition.find({restaurant:user.restaurant.id}).sort("position ASC").populate('categories').exec(function(err, ret){
         ret.forEach(function(e){
           e.menu_id = e.menu;
           e.categories_ids = new Array();
@@ -86,6 +86,7 @@ module.exports = {
         .find({restaurant:req.param('restaurant')})
         .populate('categories')
         .where({'createdAt' : {'>=':new Date(req.param('from'))}})
+        .sort("position ASC")
         .then(function(menucomposition) {
           menucomposition.forEach(function(e){
             e.menu_id = e.menu;
@@ -104,6 +105,7 @@ module.exports = {
       else {
         MenuComposition
         .find({restaurant:req.param('restaurant')})
+        .sort("position ASC")
         .populate('categories')
         .then(function(menucomposition) {
           menucomposition.forEach(function(e){
