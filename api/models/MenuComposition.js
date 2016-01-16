@@ -8,7 +8,7 @@
 module.exports = {
   attributes: {
       name: {type: "string",required:true },
-      menu: {model:"menu", required:true},
+      menu: {model:"menu", required:false},
       categories: {collection:"DishCategory", required:false},
       position: {type:'integer', required:true},
      restaurant: {

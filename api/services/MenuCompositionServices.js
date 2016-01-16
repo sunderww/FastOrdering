@@ -7,8 +7,10 @@ module.exports = {
       		restaurant:req.session.user.restaurant
 		})
 		.exec(function(err, menuComposition){
-			if (err)
+			if (err) {
+				console.log(err);
 				return cb([false, err]);
+			}
 			else {
 				Menu.findOne({id:req.param("menu_id")}).exec(function(err, menu){
 					if (!err) {
@@ -31,11 +33,5 @@ module.exports = {
 			}
 			cb([true, menuComposition]);
 		});
-		// .catch(function(err) {
-		// 	console.log(err);
-		// 	cb([false, err]);
-		// })
-		// .done(function() {
-		// });
 	}
 }

@@ -49,12 +49,15 @@ module.exports = {
   */
   update: function (req, res) {
    MenuServices.update(req.param('id'), req, function(data){
-          if (data[0] == true) {
+          if (data[1] == true) {
             console.log("Menu updated with success");
-            req.flash('success', "Le menu " + data[1].name + " a été crée avec succès");
+            req.flash('success', "Le menu a été mis à jour avec succès");
             return res.redirect('/menu/create');
           }
-          else {
+          else if (data[0] == true) {
+            return res.view(data[1]);
+          }
+          else if (data[0] == false) {
             console.log("Failed Menu updated");
             req.flash('error', data[1].ValidationError);
             return res.redirect('/menu/create');
