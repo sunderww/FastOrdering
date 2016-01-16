@@ -53,6 +53,7 @@ module.exports = {
     		      name:shapes[i].name,
     		      plan:shapes[i].plan,
     		      waiters:shapes[i].waiters,
+              dishes:shapes[i].dishes,
     		      posx:shapes[i].posx,
     		      posy:shapes[i].posy
   		    }).exec(function(err,model){
@@ -61,7 +62,7 @@ module.exports = {
   		          message: err.ValidationError
   		        });
   		      }
-  		        console.log(req.param('name') + " (Table) has been updated");       
+  		        console.log(req.param('name') + " (Table) mise à jour");       
   		    });
       	}
       	console.log(err);
@@ -77,10 +78,10 @@ module.exports = {
 
   destroyAll: function (req, res) {
   	Plan.destroy({}).exec(function deleteCB(err){
-	  console.log('Plan collection has been deleted');
+	  console.log('La collection Plan a été supprimée');
   	});
   	Table.destroy({}).exec(function deleteCB(err){
-        console.log('Table collection has been deleted');
+        console.log('La collection Table a été supprimée');
       });
     res.redirect('/plan');
   },
@@ -102,7 +103,7 @@ module.exports = {
     	if (err) {
     		console.log(err);
     	} else {
-			console.log('Plan ' + nreq.old_title + " have been cleansed");
+			console.log("Plan a été purgé");
 		    Plan.create({
 			    name:nreq.title,
 			    dimX:nreq.dimX,
@@ -120,13 +121,14 @@ module.exports = {
 	       				if (err) {
 	       					console.log(err);
 	       				} else {
-	       					console.log('Tables of ' + nreq.old_title + " have been cleansed");
+	       					console.log('Table: ' + nreq.old_title + " a été purgé");
 				      		for (var i = 0;i < shapes.length; i++) {
-					      		console.log("Tables updating");
+					      		console.log("Mise à jour des Tables");
 								Table.create({
 								    name:shapes[i].name,
 								    plan:shapes[i].plan,
 								    waiters:shapes[i].waiters,
+                    dishes:shapes[i].dishes,
 								    posx:shapes[i].posx,
 								    posy:shapes[i].posy
 							    }).exec(function(err,model){
@@ -135,7 +137,7 @@ module.exports = {
 								        	message: "error"
 								        });
 							    	}
-							        console.log(req.param('name') + " (Table) has been created");       
+							        console.log("(Table) a été créée");       
 							    });
 				      		}
 				      	console.log(err);

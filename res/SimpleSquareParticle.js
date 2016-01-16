@@ -1,3 +1,4 @@
+// Simple class example
 
 function SimpleSquareParticle(posX, posY, nbr) {
 		this.x = posX;
@@ -9,14 +10,17 @@ function SimpleSquareParticle(posX, posY, nbr) {
 		this.color = "#FF0000";
 		this.radiuX = 5;
 		this.radiuY = 5;
-		this.number = nbr + 1;
-		this.server = "Not assigned"
+		this.number =  nbr;
+		this.server = "Not assigned";
+		this.dishes = 1;
 }
 
+//The function below returns a Boolean value representing whether the point with the coordinates supplied "hits" the particle.
 SimpleSquareParticle.prototype.hitTest = function(hitX,hitY) {
 	return((hitX > this.x - this.radiusX)&&(hitX < this.x + this.radiusX)&&(hitY > this.y - this.radiusY)&&(hitY < this.y + this.radiusY));
 }
 
+//A function for drawing the particle.
 SimpleSquareParticle.prototype.drawToContext = function(theContext) {
 	theContext.fillStyle = "red";
 	theContext.fillStyle = this.color;

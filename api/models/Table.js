@@ -25,7 +25,7 @@ module.exports = {
   	},
 
     dishes: {
-      type: 'integer'
+      type: 'string'
     },
 
     posx: {
