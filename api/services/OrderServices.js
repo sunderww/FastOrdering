@@ -206,18 +206,18 @@ module.exports = {
 					.exec(function(err,ordered){
 						 Dish.findOne({id:current.id}).populateAll().exec(function(err, dish){
 						 	ordered.dish = dish;
-						 	ordered.save(function(err){console.log(err)});
+						 	ordered.save();
 						 });
 						if (currentt.menuId != 0) {
 							Menu.findOne({id:currentt.menuId}).populateAll().exec(function(err, menu){
 								ordered.menu = menu;
-							 	ordered.save(function(err){console.log(err)});
+							 	ordered.save();
 							});
 						}
 						else {
 							Menu.findOne({restaurant:user.restaurant.id, name:"alacarte"}).populateAll().exec(function(err, menu){
 								ordered.menu = menu;
-							 	ordered.save(function(err){console.log(err)});
+							 	ordered.save();
 							});
 						}
 						if (typeof current.options != 'undefined') {
@@ -263,13 +263,13 @@ module.exports = {
 	createOrderOption: function(user, current, ordered) {
 		Promise.all([
 			Option.findOne({id:current.id}).populateAll(),
-			OrderedOption.create({restaurant:user.restaurant, qty:current.qty, ordered_dish:ordered.id}).populateAll(),
+			OrderedOption.create({restaurant:user.restaurant, qty:current.qty, ordered_dish:ordered.id}),
 		])
 		.spread(function(option, optionordered){
 			optionordered.option = option;
-			optionordered.save(function(err){console.log(err)});
+			optionordered.save();
 			ordered.options.add(optionordered);
-			ordered.save(function(err){console.log(err)});
+			ordered.save();
 		}).catch(function(err){
 			console.log(err);
 		})
