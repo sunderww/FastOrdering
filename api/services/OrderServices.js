@@ -263,7 +263,7 @@ module.exports = {
 	createOrderOption: function(user, current, ordered) {
 		Promise.all([
 			Option.findOne({id:current.id}).populateAll(),
-			OrderedOption.create({restaurant:user.restaurant, qty:current.qty, ordered_dish:ordered.id}),
+			OrderedOption.create({restaurant:user.restaurant, qty:current.qty, ordered_dish:ordered.id}).populateAll(),
 		])
 		.spread(function(option, optionordered){
 			optionordered.option = option;
