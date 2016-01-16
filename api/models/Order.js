@@ -60,14 +60,11 @@ module.exports = {
   },
 
   updateStatus: function(ordered) {
-    // var status = OrderedDish.findOne({id: id}).then(function(ordered) {
       var status = ordered.status == "toDeliver" ? "cooking" : "toDeliver";
       OrderedDish.update({id: ordered.id}, {status:status}, function(err) {
         if (err)
           console.log("UpdateStatus Order --> " + err);
       });
       return status;
-    // });
-    // return status;
   }
 };
