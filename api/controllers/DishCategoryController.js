@@ -20,6 +20,7 @@ module.exports = {
     if (req.method=="POST") {
     	DishCategory.create({
        name:req.param("name"),
+       real_name: req.param("real_name"),
        restaurant:req.session.user.restaurant,
      }).exec(function(err, dishCategory) {
       if (err) {
@@ -103,7 +104,7 @@ module.exports = {
   update: function (req, res) {
     if (req.method=="POST") {
       DishCategory
-      .update({restaurant:req.session.user.restaurant, id:req.param("id")}, {name:req.param("name")})
+      .update({restaurant:req.session.user.restaurant, id:req.param("id")}, {real_name: req.param("real_name"),name:req.param("name")})
       .exec(function(err, dishCategory) {
         if (err) {
           console.log("Failed Dish update");
