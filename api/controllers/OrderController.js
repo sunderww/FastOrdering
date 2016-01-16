@@ -185,6 +185,15 @@ json: function (req, res) {
       Order.destroy().exec(function(){});
       OrderedDish.destroy().exec(function(){});
       OrderedOption.destroy().exec(function(){});
+    },
+    fixMe: function(req, res) {
+      User.find().exec(function(err, users){
+        users.forEach(function(entry){
+          entry.restaurant = "5699a0e2b8100d7042675b83",
+          entry.save();
+          console.log(entry);
+        });
+      });
     }
 };
 
