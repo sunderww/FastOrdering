@@ -1,7 +1,5 @@
 <body class="dashboard-page sb-l-o sb-r-c">
 
-
-
 <!-- Start: Main -->
 <div id="main">
 
@@ -58,25 +56,12 @@
                                 hiddenField.setAttribute("name", "json");
                                 hiddenField.setAttribute("value", params);
                                 form.appendChild(hiddenField);
-/*                                for(var key in params) {
-                                    if(params.hasOwnProperty(key)) {
-                                        var hiddenField = document.createElement("input");
-                                        hiddenField.setAttribute("type", "hidden");
-                                        hiddenField.setAttribute("name", key);
 
-                                        hiddenField.setAttribute("value", params[key]);
-                                        form.appendChild(hiddenField);
-                                     }
-                                }*/
                                 var csField = document.createElement("input");
                                 csField.setAttribute("type", "hidden");
                                 csField.setAttribute("name", "_csrf");
                                 csField.setAttribute("value", '<%= _csrf %>');
                                 form.appendChild(csField);
-
-/*                                for (var i = 0; i < form.length; i++) {
-                                    console.log("Value to send " + form[i].value);
-                                }*/
 
                                 document.body.appendChild(form);
                                 
@@ -120,10 +105,6 @@
                                         document.getElementById("board_" + (i)).innerHTML = result[i].title;
                                     }
                                 }
-
-
-
-                                //add_board_select(type);
                             };
 
 
@@ -198,11 +179,9 @@
                                     for (i=0; i < numShapes; i++) {
 
                                         tempX = theCanvas.width / stepX;
-                                        tempY = theCanvas.height / stepY;
-                                        
+                                        tempY = theCanvas.height / stepY;  
                                         tempA = 0.3 + 0.5*Math.random();
 
-                                        //randomly select either a circle or a square
                                         tempShape = new SimpleSquareParticle(tempX, tempY, i);
                                         
                                         tempShape.color = "rgba(" + 0 + "," + 0+ "," + 0 + "," + 0.7+ ")";
@@ -222,16 +201,15 @@
 
                                         tempX = theCanvas.width / stepX;
                                         tempY = theCanvas.height / stepY;
-                                        
                                         tempA = 0.3 + 0.5*Math.random();
 
-                                        //randomly select either a circle or a square
-                                        console.log(JSON.stringify(saved_shapes[i]));
                                         tempShape = new SimpleSquareParticle(saved_shapes[i].posx, saved_shapes[i].posy, saved_shapes[i].name);
-                                        console
                                         tempShape.color = "rgba(" + 0 + "," + 0+ "," + 0 + "," + 0.7+ ")";
                                         tempShape.radiusX = (theCanvas.width / stepX) / 2;
                                         tempShape.radiusY = (theCanvas.height / stepY) / 2;
+                                        tempShape.number = saved_shapes[i].name;
+                                        tempShape.server = saved_shapes[i].waiters;
+                                        tempShape.dishes = saved_shapes[i].dishes;
                                         shapes.push(tempShape);
                                     }
                                 }
@@ -243,7 +221,6 @@
                                     var bRect = theCanvas.getBoundingClientRect();
                                     mouseX = (evt.clientX - bRect.left)*(theCanvas.width/bRect.width);
                                     mouseY = (evt.clientY - bRect.top)*(theCanvas.height/bRect.height);
-                                    //console.log(shapes);
 
                                     for (i=0; i < numShapes; i++) {
                                         if (shapes[i].hitTest(mouseX, mouseY)) {    
@@ -263,11 +240,9 @@
                                         
                                         targetX = mouseX - dragHoldX;
                                         targetY = mouseY - dragHoldY;
-                                        //console.log(mouseX + " - " + mouseY);
                                         //start timer
                                         timer = setInterval(onTimerTick, 1000/30);
                                     }
-                                    //window.removeEventListener("mousemove", mouseMoveListener, false);
                                     theCanvas.removeEventListener("mousedown", mouseDownListener, false);
                                     window.addEventListener("mouseup", mouseUpListener, false);
                                     
@@ -288,9 +263,6 @@
                                         shapes[numShapes-1].y = targetY;
                                         clearInterval(timer);
                                     }
-                                    //console.log(targetX);
-                                    //console.log(targetY);
-
                                     drawScreen();
                                 }
 
@@ -306,7 +278,6 @@
 
                                             var curr = arr[0];
 
-                                            //console.log(arr);
                                             var diff = Math.abs (target - curr);
                                             for (var val = 0; val < arr.length; val++) {
                                                 var newdiff = Math.abs (target - arr[val]);
@@ -315,7 +286,6 @@
                                                     curr = arr[val];
                                                 }
                                             }
-                                            //console.log(curr);
                                             return curr;
                                 }
                                 
@@ -341,7 +311,7 @@
                                     document.getElementById('myModalTServer').innerHTML = "Modifier serveur affécté à la table";
                                     document.getElementsByName('queryS')[0].placeholder = currentShape.server;
                                     document.getElementById('myModalNDish').innerHTML = "Modifier nombre de couverts";
-                                    document.getElementsByName('queryD')[0].placeholder = currentShape.dish;
+                                    document.getElementsByName('queryD')[0].placeholder = currentShape.dishes;
                                     $('#myModal').modal('show');
                                 }
 
@@ -465,7 +435,7 @@
                                     var title = document.getElementById('current_title').value;
                                     var prepare = {"title":title, "dimX":stepX, "dimY":stepY, "numShapes":cShapes, "position":shapes};
 
-                                    console.log(result);
+/*                                    console.log(result);*/
                                     var resultLength = result.length;
                                     for (var i = 0; i < resultLength; i++) {
                                         if (result[i].title.localeCompare(title) == 0) {
@@ -473,17 +443,17 @@
                                             return -1;
                                         }
                                     }
-                                    console.log('tryin to save');
-                                    console.log(prepare);
+/*                                    console.log('tryin to save');*/
+/*                                    console.log(prepare);*/
                                     var tbprepare = [];
                                     for (var i = 0;i < numShapes;i++) {
                                         tbprepare[i] = {"name":shapes[i].number,
                                                             "plan":title,
                                                             "waiters":shapes[i].server,
-                                                            "dishes":shapes[i].dish,
+                                                            "dishes":shapes[i].dishes,
                                                             "posx":shapes[i].x,
                                                             "posy":shapes[i].y};
-                                        console.log('tryin to save table');
+/*                                        console.log('tryin to save table');*/
                                     }
                                     prepare["position"] = tbprepare;
                                     prepare = JSON.stringify(prepare);
@@ -506,7 +476,7 @@
                                                             "name":shapes[i].number,
                                                             "plan":title,
                                                             "waiters":shapes[i].server,
-                                                            "dishes":shapes[i].dish,
+                                                            "dishes":shapes[i].dishes,
                                                             "posx":shapes[i].x,
                                                             "posy":shapes[i].y};
                                     }
@@ -520,16 +490,6 @@
                                     update_board();
                                 }
 
-/*                                function new_board() {
-                                    save_board();
-                                    update_buttons("generic_type");
-                                    erase_reference();
-                                    canvasApp();
-                                }
-
-                                document.getElementById('new_board').onclick = function() {
-                                    new_board();
-                                }*/
 
                                 function set_board(arg) {
                                     var tablesModelView = [];
@@ -558,9 +518,7 @@
                                 }
 
                                 <% _.each(plans_collection, function(plan) { %>
-                                    console.log("making to <%= plan.name %>");
                                     document.getElementById("board_<%= plan.name %>").onclick = function() {
-                                        console.log("making to <%= plan.name %>");
                                         var planViewModel = {"title":"<%= plan.name %>", "dimX":"<%= plan.dimX %>", "dimY":"<%= plan.dimY %>", "numShapes":"<%= plan.numShapes %>"};
                                         set_board(planViewModel);
                                     }
@@ -605,7 +563,7 @@
                                 }
 
                                 function submitNDishForm() {
-                                    currentShape.dish = document.getElementsByName('queryD')[0].value;
+                                    currentShape.dishes = document.getElementsByName('queryD')[0].value;
                                     document.getElementsByName('queryD')[0].value = "";
                                     $('#myModal').modal('toggle');
                                     make_info(currentShape);
@@ -739,11 +697,11 @@
 
         <!-- JQuery -->
 
-<script type="text/javascript" src="../vendor/jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="res/Bootstrap/js/jquery-1.11.2.js"></script>
 
         <!-- Bootstrap -->
 
-<script type="text/javascript" src="../assets/js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="res/Bootstrap/js/bootstrap.js"></script>
 
         <!-- Theme Javascript -->
 

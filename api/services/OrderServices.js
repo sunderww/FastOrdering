@@ -206,11 +206,8 @@ module.exports = {
 					.exec(function(err,ordered){
 						 Dish.findOne({id:current.id}).exec(function(err, dish){
 						 	if (dish != undefined) {
-								try {
-								console.log(dish);
 							 	ordered.dish = dish;
 							 	ordered.save();
-								} catch (err) {};
 						 	}
 						 });
 						if (currentt.menuId != 0) {
@@ -250,6 +247,7 @@ module.exports = {
 			restaurant:user.restaurant
 		})
 		.then(function(order){
+			
 			for (var a = 0;json['order'][a]; a++) {
 				for (var i = 0;json['order'][a].content[i]; i++) {
 					var current = json['order'][a].content[i];
@@ -257,7 +255,6 @@ module.exports = {
 					OrderServices.createOrderedDish(user, order, current, currentt);
 				}
 			}
-
 			ret = {numOrder: order.id, numTable: json.numTable, numPA: json.numPA, date:order.date, hour:order.time};
 			console.log(ret);
 		})

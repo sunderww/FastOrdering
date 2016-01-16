@@ -10,7 +10,7 @@ function SimpleSquareParticle(posX, posY, nbr) {
 		this.color = "#FF0000";
 		this.radiuX = 5;
 		this.radiuY = 5;
-		this.number = nbr + 1;
+		this.number = nbr;
 		this.server = "Not assigned";
 		this.dish = 1;
 }

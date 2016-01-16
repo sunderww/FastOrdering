@@ -12,7 +12,7 @@ module.exports = {
    * `TableController.create()`
    */
   create: function (req, res) {
-    console.log("Trying to save Table");
+    console.log("Sauvegarde de Table...");
     Table.create({
       name:req.param("name"),
       waiters:req.param("waiters"),
@@ -25,7 +25,7 @@ module.exports = {
           message: err.ValidationError
         });
       }
-        console.log(req.param('name') + " (Table) has been created");       
+        console.log(req.param('name') + " (Table) a été créée");       
     });
   },
 
@@ -47,7 +47,7 @@ module.exports = {
    * `TableController.update()`
    */
   update: function (req, res) {
-    console.log("Trying to update Table");
+    console.log("Mise à jour de Table...");
     Table.update({
       name:req.param("name"),
       waiters:req.param("waiters"),
@@ -60,7 +60,7 @@ module.exports = {
           message: err.ValidationError
         });
       }
-        console.log(req.param('name') + " (Table) has been updated");       
+        console.log(req.param('name') + " (Table) a été mise à jour");       
     });
   },
 
