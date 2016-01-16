@@ -27,13 +27,23 @@ module.exports = {
 	},
 
 	update: function(req, cb) {
-		Option
-		.destroy({restaurant:req.session.user.restaurant,id:req.param("id")})
-		.then(function(dish) {
-			OptionServices.create(req, function(ret){
-				cb(ret);
+		if (req.param('name') != '') {
+			Option
+			.destroy({restaurant:req.session.user.restaurant,id:req.param("id")})
+			.then(function(dish) {
+				OptionServices.create(req, function(ret){
+					cb(ret);
+				});
 			});
-		});
+		}
+		else {
+			Option.update({id: req.param("id")},{
+				name:req.param("name"),
+				restaurant: req.session.user.restaurant
+			}).exec(function(err, res){
+				cb([false,err]);
+			});
+		}
 	},
 
 	read: function(req, cb) {

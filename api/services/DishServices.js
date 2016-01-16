@@ -76,12 +76,23 @@ module.exports = {
 	},
 
 	update: function(req, cb) {
-		Dish.destroy({id:req.param("id")})
-		.then(function(dish) {
-			DishServices.create(req, function(ret){
-				cb(ret);
+		if (req.param('name') != '' && req.param('price') != '') {
+			Dish.destroy({id:req.param("id")})
+			.then(function(dish) {
+				DishServices.create(req, function(ret){
+					cb(ret);
+				});
 			});
-		});
+		}
+		else {
+			Dish.update({id: req.param("id")},{
+				restaurant:req.session.user.restaurant,
+				name:req.param("name"),
+				price:req.param("price")
+			}).exec(function(err, res){
+				cb([false, err]);
+			});
+		}
 	}
 
 }
