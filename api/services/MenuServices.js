@@ -1,11 +1,11 @@
 var Promise = require('q');
 module.exports = {
-	
+        	
 	update: function(id,req,  cb) {
 		var data;
 		Promise.all([
-			MenuComposition.find({menu:id,restaurant:req.session.user.restaurant}).populateAll(),
-			MenuComposition.find({restaurant:req.session.user.restaurant}).populateAll(),
+			MenuComposition.find({menu:id,restaurant:req.session.user.restaurant}).sort("position ASC").populateAll(),
+			MenuComposition.find({restaurant:req.session.user.restaurant}).sort("position ASC").populateAll(),
 			Menu.findOne({id:id}).populateAll(),
 			DishCategory.find({restaurant:req.session.user.restaurant})
 		])
