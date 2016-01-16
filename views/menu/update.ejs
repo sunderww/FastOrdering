@@ -67,7 +67,7 @@ h4 {margin-left:0%; }
                                         <div class="row mt20 text-center">
                                         <% _.each(dish_category, function(category) { %>
                                         <div class="col-xs-2">
-                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-default btn-block categories"><%= category.name %></button>
+                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-default btn-block categories"><%= category.real_name %></button>
                                         </div>
                                         <% }) %>              
                                     </div>
@@ -130,7 +130,7 @@ h4 {margin-left:0%; }
                                        <% _.each(selected_compositions, function(selected_composition) { %>
                                         <div class="col-xs-2" style="text-align:center;"><%= selected_composition.name %> 
                                                 <% _.each(selected_composition.categories, function(cat) {%>
-                                                 <button type="button" id-composition="<%= selected_composition.id %>" class="btn disabled btn-xs btn-info btn-block " style="float:right !important"><%= cat.name %></button>
+                                                 <button type="button" id-composition="<%= selected_composition.id %>" class="btn disabled btn-xs btn-info btn-block " style="float:right !important"><%= cat.real_name %></button>
                                                 <% }) %>
                                             <button type="button" id-composition="<%= selected_composition.id %>" class="btn btn-xs btn-danger btn-block delete-composition" >Supprimer</button>
 
@@ -197,17 +197,17 @@ h4 {margin-left:0%; }
 
             Demo.init();
 
-$("html").on('click', ".categories",function(){
-        if ($(this).hasClass("btn-default")) {
-           $("#categories").append('<option selected value="'+ $(this).attr('cat-id') +'"></option>');
-           console.log("toto");
-            $(this).removeClass("btn-default").addClass("btn-success");
-        }
-        else {
-            $("#categories option[value='"+$(this).attr('cat-id')+"']").remove();
-            $(this).removeClass("btn-success").addClass("btn-default");
-        }
-    });
+        $("html").on('click', ".categories",function(){
+            if ($(this).hasClass("btn-default")) {
+               $("#categories").append('<option selected value="'+ $(this).attr('cat-id') +'"></option>');
+               console.log("toto");
+                $(this).removeClass("btn-default").addClass("btn-success");
+            }
+            else {
+                $("#categories option[value='"+$(this).attr('cat-id')+"']").remove();
+                $(this).removeClass("btn-success").addClass("btn-default");
+            }
+        });
 
 
             $(".delete-composition").click(function(e){
