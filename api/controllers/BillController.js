@@ -8,7 +8,7 @@
 
 module.exports = {
 		index: function(req, res) {
-			Order.find().then(function (orders){
+			Order.find().sort('createdAt DESC').then(function (orders){
                 return orders;
             }).then(function (orders) {
                 OrderedDish.find().populateAll().then(function (data) {
