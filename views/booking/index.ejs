@@ -96,6 +96,7 @@
             <link rel='stylesheet' href='/fullcalendar/fullcalendar.css' />
             <script type="text/javascript" src='/fullcalendar/lib/moment.min.js'></script>
             <script type="text/javascript" src='/fullcalendar/fullcalendar.min.js'></script>
+            <script type="text/javascript" src='/fullcalendar/lang-all.js'></script>
             <script type="text/javascript">
                 jQuery(document).ready(function() {
 
@@ -110,6 +111,7 @@
                         selectable: true,
                         editable: false,
                         eventLimit: true,
+                        lang: 'fr',
                         events: [
                         <% _.each(bookings, function(booking) { %>
                         {
