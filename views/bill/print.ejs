@@ -154,10 +154,17 @@
  <% var result = 0 %>
  <% _.each(products, function(product) { %>
  <tr>
- <td class="auto-style21" style="height: 50px; width: 50%;"><%= product.menu.name %></td>
- <td class="auto-style21" style="height: 50px; width: 10%;"><%= product.qty %></td>
- <td class="auto-style21" style="height: 50px"><%= Number(product.menu.price).toFixed(2) %> €</td>
- <td class="auto-style21" style="height: 50px; width: 20%;"><%= Number(product.menu.price * product.qty).toFixed(2) %><% result += product.menu.price * product.qty %> €</td>
+     <% if (product.menu && product.menu.name && product.menu.price) { %>
+         <td class="auto-style21" style="height: 50px; width: 50%;"><%= product.menu.name %></td>
+         <td class="auto-style21" style="height: 50px; width: 10%;"><%= product.qty %></td>
+         <td class="auto-style21" style="height: 50px"><%= Number(product.menu.price).toFixed(2) %> €</td>
+         <td class="auto-style21" style="height: 50px; width: 20%;"><%= Number(product.menu.price * product.qty).toFixed(2) %><% result += product.menu.price * product.qty %> €</td>
+     <% } else if (product.dish && product.dish.name && product.dish.price) {%>
+         <td class="auto-style21" style="height: 50px; width: 50%;"><%= product.dish.name %></td>
+         <td class="auto-style21" style="height: 50px; width: 10%;"><%= product.qty %></td>
+         <td class="auto-style21" style="height: 50px"><%= Number(product.dish.price).toFixed(2) %> €</td>
+         <td class="auto-style21" style="height: 50px; width: 20%;"><%= Number(product.dish.price * product.qty).toFixed(2) %><% result += product.dish.price * product.qty %> €</td>
+    <% } %>
  </tr>
  <% }); %>
  <tr>
