@@ -43,6 +43,8 @@
 	
 #ifndef USE_SOCKET_REQUEST
 	NSDateFormatter * formatter = [NSDateFormatter new];
+	NSTimeZone * timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+	formatter.timeZone = timeZone;
 	formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS";
 
 	NSString * lastUpdate = [formatter stringFromDate:[self latestUpdateOfClass:name]];

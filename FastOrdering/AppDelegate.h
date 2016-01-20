@@ -35,7 +35,7 @@
 // uncomment this line to begin with an empty db
 //#define kShouldDropDB
 
-#define kServerKey	@"$2a$10$hNRDTYzRYtvADp0TzWN1Zur9eSkklhqpd56N1Jp7TMSTZeW/XLgY2"
+#define kServerKey	@"$2a$10$zyo5xSaVbSGNEyTLKMI9wO0wJCytljtibH34A4.FrK8cghXGzytN."
 
 
 #pragma mark - AppDelegate
