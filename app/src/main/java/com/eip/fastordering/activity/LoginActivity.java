@@ -98,6 +98,16 @@ public class LoginActivity extends Activity {
                 return false;
             }
         });
+
+        if (_mSocket != null && _mSocket.connected()) {
+            _mProgressDialog = new ProgressDialog(this);
+            _mProgressDialog.setTitle(getBaseContext().getString(R.string.spinner_title));
+            _mProgressDialog.setMessage(getBaseContext().getString(R.string.spinner_desc));
+            _mProgressDialog.setCanceledOnTouchOutside(false);
+            _mProgressDialog.show();
+
+            fetchAllMenu();
+        }
     }
 
     /**
