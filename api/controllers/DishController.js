@@ -53,12 +53,12 @@ module.exports = {
 					delete e;
 				});
 				entry.options = new Array();
-				entry.optioncategories.forEach(function(e){
+				entry.optcats.forEach(function(e){
 					entry.options.push(e.id);
 					delete e;
 				});
 				delete entry.restaurant;
-				delete entry.optioncategories;
+				delete entry.optcats;
 				delete entry.categories;
 			});
 			return res.json({elements: ret.dishs});
@@ -67,18 +67,18 @@ module.exports = {
 
     elements: function(req, res) {
     	SessionServices.getUser(req.socket.id, function(user){
-    		Dish.find({restaurant:user.restaurant.id}).populate('categories').populate('optioncategories').exec(function(err, ret){
+    		Dish.find({restaurant:user.restaurant.id}).populate('categories').populate('optcats').exec(function(err, ret){
     			ret.forEach(function(entry){
 	    			entry.categories_ids = new Array();
 	    			entry.categories.forEach(function(e){
 	    				entry.categories_ids.push(e.id);
 	    			});
 	    			entry.options = new Array();
-	    			entry.optioncategories.forEach(function(e){
+	    			entry.optcats.forEach(function(e){
 	    				entry.options.push(e.id);
 	    			});
 	    			delete entry.categories;
-	    			delete entry.optioncategories;
+	    			delete entry.optcats;
     			});
 				return res.json({elements: ret});
     		});
@@ -91,7 +91,7 @@ module.exports = {
 	    if (req.param('from')) {
 	      Dish
 	      .find({restaurant:req.param('restaurant')})
-	      .populate('categories').populate('optioncategories')
+	      .populate('categories').populate('optcats')
 	      .where({'createdAt' : {'>=':new Date(req.param('from'))}})
 	      .then(function(dish) {
     			dish.forEach(function(entry){
@@ -99,12 +99,12 @@ module.exports = {
 	    			entry.categories.forEach(function(e){
 	    				entry.categories_ids.push(e.id);
 	    			});
-	    			entry.optioncategories_ids = new Array();
-	    			entry.optioncategories.forEach(function(e){
-	    				entry.optioncategories_ids.push(e.id);
+	    			entry.optcats_ids = new Array();
+	    			entry.optcats.forEach(function(e){
+	    				entry.optcats_ids.push(e.id);
 	    			});
 	    			delete entry.categories;
-	    			delete entry.optioncategories;
+	    			delete entry.optcats;
     			});
 	        return res.json(dish);
 	      });
@@ -112,19 +112,19 @@ module.exports = {
 	    else {
 	      Dish
 	      .find({restaurant:req.param('restaurant')})
-	      .populate('categories').populate('optioncategories')
+	      .populate('categories').populate('optcats')
 	      .then(function(dish) {
     			dish.forEach(function(entry){
 	    			entry.categories_ids = new Array();
 	    			entry.categories.forEach(function(e){
 	    				entry.categories_ids.push(e.id);
 	    			});
-	    			entry.optioncategories_ids = new Array();
-	    			entry.optioncategories.forEach(function(e){
-	    				entry.optioncategories_ids.push(e.id);
+	    			entry.optcats_ids = new Array();
+	    			entry.optcats.forEach(function(e){
+	    				entry.optcats_ids.push(e.id);
 	    			});
 	    			delete entry.categories;
-	    			delete entry.optioncategories;
+	    			delete entry.optcats;
     			});
 	        return res.json(dish);
 	      });

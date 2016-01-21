@@ -66,14 +66,14 @@ h4 {margin-left:0%; }
                                     <div class="form-group" >
                                         <div class="col-adjust-8 mb30" >
                                             <div class="row mt20 text-center">
-                                               <% _.each(optioncategories, function(category) { %>
+                                               <% _.each(optcats, function(category) { %>
                                                <div class="col-xs-2">
-                                                <button style="" type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-default btn-block optioncategories"><%= category.name %></button>
+                                                <button style="" type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-default btn-block optcats"><%= category.name %></button>
                                             </div>
                                             <% }) %> 
                                         </div>
                                     </div>
-                                    <select style="display:none;" id="categories" name="optioncategories_ids" multiple="multiple">
+                                    <select style="display:none;" id="categories" name="optcats_ids" multiple="multiple">
                                         
                                     </select>
                                 </div>

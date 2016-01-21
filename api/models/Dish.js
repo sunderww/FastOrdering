@@ -51,7 +51,7 @@ module.exports = {
       collection: "dishCategory",
       required: false
     },
-    optioncategories: {
+    optcats: {
       collection: "optionCategory",
       required: false
     }    

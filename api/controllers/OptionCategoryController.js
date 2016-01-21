@@ -25,11 +25,11 @@ module.exports = {
           console.log("OptionCategory created with success");
           req.flash('success', 'La catégorie ' + optionCategory.name + " a été créé avec succès");
         }
-        OptionCategoryServices.read(req, function(ret) {return res.view({optioncategories:ret});});      
+        OptionCategoryServices.read(req, function(ret) {return res.view({optcats:ret});});      
      	});
     }
     else 
-      OptionCategoryServices.read(req, function(ret) {return res.view({optioncategories:ret});});      
+      OptionCategoryServices.read(req, function(ret) {return res.view({optcats:ret});});      
   },
 
   /**
@@ -52,7 +52,7 @@ module.exports = {
           .find({restaurant:user.restaurant.id})
           .where({'createdAt' : {'>=':new Date(req.param('from'))}})
           .exec(function(err, optionCategories) {
-            return res.json({elements:optioncategories});
+            return res.json({elements:optcats});
           });
         });
       }

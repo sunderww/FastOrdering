@@ -45,7 +45,8 @@ module.exports.connections = {
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'fastOrdering'
+    port: 8889,
+    database: 'fastOrdering_v2'
   },
 
   /***************************************************************************
