@@ -82,11 +82,9 @@ public class NavigationDrawerFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		mDrawerListView = (ListView) inflater.inflate(
-				R.layout.fragment_navigation_drawer, container, false);
+		mDrawerListView = (ListView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 		mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -201,8 +199,11 @@ public class NavigationDrawerFragment extends Fragment {
 			mDrawerListView.setItemChecked(0, true);
 			mCallbacks.onNavigationDrawerItemSelected(0);
 
-			mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			LoginActivity._mSocket.disconnect();
+
+			mainActivity.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			startActivity(mainActivity);
+			getActivity().finish();
 			return;
 		}
 		if (mDrawerListView != null) {
@@ -219,6 +220,7 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+		System.out.println("ATTAAAAAACH NAVIGATION");
 		try {
 			mCallbacks = (NavigationDrawerCallbacks) activity;
 		} catch (ClassCastException e) {

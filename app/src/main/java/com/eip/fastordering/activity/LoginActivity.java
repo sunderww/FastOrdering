@@ -407,8 +407,9 @@ public class LoginActivity extends Activity {
                 _mProgressDialog.dismiss();
 
                 Intent mainActivity = new Intent(LoginActivity.this, Main.class);
-                mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                mainActivity.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(mainActivity);
+                finish();
             }
         });
     }
