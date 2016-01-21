@@ -45,7 +45,7 @@ module.exports.connections = {
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'fastOrdering',
+    database: 'fastOrdering_v2',
     timezone: 'gmt+1'
   },
 
