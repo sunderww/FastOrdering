@@ -30,161 +30,187 @@ import java.util.List;
 
 public class NotificationsFragment extends Fragment {
 
-	private static final String            ARG_SECTION_NUMBER = "section_number";
-	private static final int               _mSizeList         = 20;
-	public static        List<NotifStruct> _mItems            = new ArrayList<>();
-	public static AdapterNotif _mAdapter;
-	private static View _mRootView = null;
-	private static NotificationsFragment _mFragment;
+    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final int _mSizeList = 20;
+    public static List<NotifStruct> _mItems = new ArrayList<>();
+    public static AdapterNotif _mAdapter;
+    private static View _mRootView = null;
+    private static NotificationsFragment _mFragment;
 
-	/**
-	 * Constructor
-	 */
-	public NotificationsFragment() {
-		_mRootView = null;
-	}
+    /**
+     * Constructor
+     */
+    public NotificationsFragment() {
+        _mRootView = null;
+    }
 
-	public static NotificationsFragment newInstance(int sectionNumber) {
-		_mFragment = new NotificationsFragment();
-		Bundle args = new Bundle();
-		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-		_mFragment.setArguments(args);
+    public static NotificationsFragment newInstance(int sectionNumber) {
+        _mFragment = new NotificationsFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        _mFragment.setArguments(args);
 
-		_mItems.clear();
-		return _mFragment;
-	}
+        _mItems.clear();
+        return _mFragment;
+    }
 
-	static private void checkListEmpty() {
-		if (_mRootView != null) {
-			ImageButton button = (ImageButton) _mRootView.findViewById(R.id.notif_rectangle_red);
-			TextView text = (TextView) _mRootView.findViewById(R.id.notification_clean_text);
-			if (_mItems.isEmpty()) {
-				button.setVisibility(View.GONE);
-				text.setVisibility(View.GONE);
-			} else {
-				button.setVisibility(View.VISIBLE);
-				text.setVisibility(View.VISIBLE);
-			}
-		}
-	}
+    static private void checkListEmpty(Activity activity) {
+        if (_mRootView != null) {
+            final ImageButton button = (ImageButton) _mRootView.findViewById(R.id.notif_rectangle_red);
+            final TextView text = (TextView) _mRootView.findViewById(R.id.notification_clean_text);
+            if (_mItems.isEmpty()) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        button.setVisibility(View.GONE);
+                        text.setVisibility(View.GONE);
+                    }
+                });
+            } else {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        button.setVisibility(View.VISIBLE);
+                        text.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }
+    }
 
-	public static void addNotificationToList(JSONObject notif, Activity activity) {
-		if (_mItems.size() >= _mSizeList)
-			_mItems.remove(_mSizeList - 1);
-		_mItems.add(0, new NotifStruct(notif));
-		if (_mAdapter != null) {
-			activity.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					_mAdapter.notifyDataSetChanged();
-				}
-			});
-		}
-		checkListEmpty();
-		try {
-			createNotificationLauncher("Nouvelle notification", notif.getString("msg"));
-		} catch (JSONException e) {
-			Log.d("NOTIFICATIONSFRAGMENT", "EXCEPTION JSON:" + e.toString());
-		}
-	}
+    static private void checkListEmpty() {
+        if (_mRootView != null) {
+            ImageButton button = (ImageButton) _mRootView.findViewById(R.id.notif_rectangle_red);
+            TextView text = (TextView) _mRootView.findViewById(R.id.notification_clean_text);
+            if (_mItems.isEmpty()) {
+                button.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
+            } else {
+                button.setVisibility(View.VISIBLE);
+                text.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
-	static public void createNotificationLauncher(String title, String text) {
-		Main._mBuilder.setContentTitle(title).setContentText(text);
-		int mNotificationId = 001;
-		Main._mNotifyMgr.notify(mNotificationId, Main._mBuilder.build());
-	}
+    public static void addNotificationToList(JSONObject notif, Activity activity) {
+        if (_mItems.size() >= _mSizeList)
+            _mItems.remove(_mSizeList - 1);
+        _mItems.add(0, new NotifStruct(notif));
+        if (_mAdapter != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    _mAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+        checkListEmpty(activity);
+        try {
+            createNotificationLauncher("Nouvelle notification", notif.getString("msg"));
+        } catch (JSONException e) {
+            Log.d("NOTIFICATIONSFRAGMENT", "EXCEPTION JSON:" + e.toString());
+        }
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		_mRootView = inflater.inflate(R.layout.fragment_notifications, container, false);
+    static public void createNotificationLauncher(String title, String text) {
+        Main._mBuilder.setContentTitle(title).setContentText(text);
+        int mNotificationId = 001;
+        Main._mNotifyMgr.notify(mNotificationId, Main._mBuilder.build());
+    }
 
-		/***
-		 * Create a custom adapter for the listview of orders
-		 */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        _mRootView = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-		_mAdapter = new AdapterNotif(container.getContext(), _mItems);
-		final ListView lv = (ListView) _mRootView.findViewById(R.id.notification_list);
+        /***
+         * Create a custom adapter for the listview of orders
+         */
 
-		ImageButton button = (ImageButton) _mRootView.findViewById(R.id.notif_rectangle_red);
-		button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				_mItems.clear();
-				_mAdapter.notifyDataSetChanged();
-				checkListEmpty();
-			}
-		});
+        _mAdapter = new AdapterNotif(container.getContext(), _mItems);
+        final ListView lv = (ListView) _mRootView.findViewById(R.id.notification_list);
 
-		checkListEmpty();
+        ImageButton button = (ImageButton) _mRootView.findViewById(R.id.notif_rectangle_red);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                _mItems.clear();
+                _mAdapter.notifyDataSetChanged();
+                checkListEmpty();
+            }
+        });
 
-		lv.setEmptyView(_mRootView.findViewById(R.id.notification_list_empty));
-		lv.setAdapter(_mAdapter);
-		lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-		lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+        checkListEmpty();
 
-			@Override
-			public void onItemCheckedStateChanged(ActionMode mode,
-												  int position, long id, boolean checked) {
-				// Capture total checked items
-				final int checkedCount = lv.getCheckedItemCount();
-				// Set the CAB title according to total checked items
-				String selected = (checkedCount > 1) ? getString(R.string.choose_plural) : getString(R.string.choose_singular);
-				mode.setTitle(checkedCount + " " + selected);
-				// Calls toggleSelection method from ListViewAdapter Class
-				_mAdapter.toggleSelection(position);
-			}
+        lv.setEmptyView(_mRootView.findViewById(R.id.notification_list_empty));
+        lv.setAdapter(_mAdapter);
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
-			@Override
-			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-				switch (item.getItemId()) {
-					case R.id.delete:
-						// Calls getSelectedIds method from ListViewAdapter Class
-						SparseBooleanArray selected = _mAdapter
-								.getSelectedIds();
-						// Captures all selected ids with a loop
-						for (int i = (selected.size() - 1); i >= 0; i--) {
-							if (selected.valueAt(i)) {
-								NotifStruct selecteditem = _mAdapter
-										.getItem(selected.keyAt(i));
-								// Remove selected items following the ids
-								_mAdapter.remove(selecteditem);
-								_mItems.remove(selecteditem);
-								checkListEmpty();
-							}
-						}
-						// Close CAB
-						mode.finish();
-						return true;
-					default:
-						return false;
-				}
-			}
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode,
+                                                  int position, long id, boolean checked) {
+                // Capture total checked items
+                final int checkedCount = lv.getCheckedItemCount();
+                // Set the CAB title according to total checked items
+                String selected = (checkedCount > 1) ? getString(R.string.choose_plural) : getString(R.string.choose_singular);
+                mode.setTitle(checkedCount + " " + selected);
+                // Calls toggleSelection method from ListViewAdapter Class
+                _mAdapter.toggleSelection(position);
+            }
 
-			@Override
-			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-				mode.getMenuInflater().inflate(R.menu.activity_main, menu);
-				return true;
-			}
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        if (_mAdapter.isEmpty()) {
+                            mode.finish();
+                            return true;
+                        }
+                        // Calls getSelectedIds method from ListViewAdapter Class
+                        SparseBooleanArray selected = _mAdapter.getSelectedIds();
+                        // Captures all selected ids with a loop
+                        for (int i = (selected.size() - 1); i >= 0; i--) {
+                            if (selected.valueAt(i)) {
+                                NotifStruct selecteditem = _mAdapter.getItem(selected.keyAt(i));
+                                // Remove selected items following the ids
+                                _mAdapter.remove(selecteditem);
+                                _mItems.remove(selecteditem);
+                                checkListEmpty();
+                            }
+                        }
+                        // Close CAB
+                        mode.finish();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
 
-			@Override
-			public void onDestroyActionMode(ActionMode mode) {
-				_mAdapter.removeSelection();
-			}
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                mode.getMenuInflater().inflate(R.menu.activity_main, menu);
+                return true;
+            }
 
-			@Override
-			public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-				return false;
-			}
-		});
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                _mAdapter.removeSelection();
+            }
 
-		return _mRootView;
-	}
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+        });
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		((Main) activity).onSectionAttached(
-				getArguments().getInt(ARG_SECTION_NUMBER));
-	}
+        return _mRootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((Main) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
 
 }
