@@ -26,7 +26,6 @@
   *                                                                          *
   ***************************************************************************/
   onConnect: function(session, socket) {
-    console.log("Connect");
 
       socket.on('send_order', function(json, cb) {
        try {
