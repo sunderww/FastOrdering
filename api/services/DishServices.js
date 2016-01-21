@@ -18,9 +18,11 @@ module.exports = {
 		})
 		.then(function(dish){
 			var ar = new Array();
+			console.log(req.param("categories_ids"));
 			ar.concat(req.param("categories_ids")).forEach(function(entry){
 				DishCategory.findOne({restaurant:req.session.user.restaurant,id:entry}).exec(function(err, dishCategory){
 					if (dishCategory != undefined) {
+						console.log(dishCategory);
 						dish.categories.add(dishCategory);
 					if (req.param('optcats_ids') == undefined)
 						dish.save();
@@ -28,10 +30,10 @@ module.exports = {
 				});
 			});
 			ar = new Array();
-			ar.concat(req.param("optioncategories_ids")).forEach(function(entry){
+			ar.concat(req.param("optcats_ids")).forEach(function(entry){
 				OptionCategory.findOne({restaurant:req.session.user.restaurant,id:entry}).exec(function(err, optionCategory){
 					if (optionCategory != undefined) {
-						dish.optioncategories.add(optionCategory);
+						dish.optcats.add(optionCategory);
 						dish.save();
 					}
 				});
@@ -52,7 +54,7 @@ module.exports = {
 				OptionCategory.find({restaurant:req.session.user.restaurant})
 			])
 			.spread(function(dishs, categories, options){
-				cb({dishs:dishs, categories: categories, optioncategories:options});
+				cb({dishs:dishs, categories: categories, optcats:options});
 			});
 		}		
 		else if (!req.param("id")) {
@@ -62,7 +64,7 @@ module.exports = {
 				OptionCategory.find({restaurant:req.session.user.restaurant})
 			])
 			.spread(function(dishs, categories, options){
-				cb({dishs:dishs, categories: categories, optioncategories:options});
+				cb({dishs:dishs, categories: categories, optcats:options});
 			});
 		}
 		else {
@@ -72,7 +74,7 @@ module.exports = {
 				OptionCategory.find({restaurant:req.session.user.restaurant})
 			])
 			.spread(function(dish, categories, options){
-				cb({dish:dish, categories: categories, optioncategories:options});
+				cb({dish:dish, categories: categories, optcats:options});
 			});
 		}
 	},

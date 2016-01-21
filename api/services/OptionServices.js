@@ -9,7 +9,7 @@ module.exports = {
 		})
 		.then(function(option){
 			var ar = new Array();
-			ar.concat(req.param("optioncategories_ids")).forEach(function(entry){
+			ar.concat(req.param("optcats_ids")).forEach(function(entry){
 				OptionCategory
 				.findOne({restaurant: req.session.user.restaurant, id:entry})
 				.exec(function(err, optionCategory){
@@ -56,8 +56,8 @@ module.exports = {
 	        	OptionCategory
 	        	.find({restaurant:req.session.user.restaurant})
 	        	.populateAll()
-	        	.then(function(optioncategories){
-	        		cb({options:options, optioncategories:optioncategories});
+	        	.then(function(optcats){
+	        		cb({options:options, optcats:optcats});
 	        	});
 	      	});
 		}
@@ -69,8 +69,8 @@ module.exports = {
 	        	OptionCategory
 	        	.find({restaurant:req.session.user.restaurant})
 	        	.populateAll()
-	        	.then(function(optioncategories){
-	        		cb({options:options, optioncategories:optioncategories});
+	        	.then(function(optcats){
+	        		cb({options:options, optcats:optcats});
 	        	});
 	      	});
 		}
@@ -82,8 +82,8 @@ module.exports = {
 	        	OptionCategory
 	        	.find({restaurant:req.session.user.restaurant})
 	        	.populateAll()
-	        	.then(function(optioncategories){
-	        		cb({option:option, optioncategories:optioncategories});
+	        	.then(function(optcats){
+	        		cb({option:option, optcats:optcats});
 	        	});
 	      	});
 		}

@@ -63,8 +63,8 @@
                                         </div>
                                     </div>   
                                     <div class="form-group">
-                                     <select  style="display:none" id="categories" name="optioncategories_ids" multiple="multiple">
-                                         <% _.each(optioncategories, function(category) { %>
+                                     <select  style="display:none" id="categories" name="optcats_ids" multiple="multiple">
+                                         <% _.each(optcats, function(category) { %>
                                          <% select = "" %>
                                          <% _.each(category.option, function(category_id) { %>
                                          <% if (category_id.id == option.id) { %>
@@ -78,7 +78,7 @@
                                  <div class="form-group">
                                     <div class="col-adjust-8 mb30">
                                         <div class="row mt20 text-center">
-                                          <% _.each(optioncategories, function(category) { %>
+                                          <% _.each(optcats, function(category) { %>
                                           <% select = "default" %>
                                           <% _.each(category.option, function(category_id) { %>
                                           <% if (category_id.id == option.id) { %>
@@ -86,7 +86,7 @@
                                           <%    } %>                    
                                           <% }) %>
                                           <div class="col-xs-2">
-                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-<%= select %> btn-block optioncategories"><%= category.name %></button>
+                                            <button type="button" cat-id="<%= category.id %>" class="btn btn-xs btn-<%= select %> btn-block optcats"><%= category.name %></button>
                                         </div>
                                         <% }) %>           
                                     </div>
