@@ -86,7 +86,7 @@ ready: function(req, res) {
         var status = Order.updateStatus(ordered);
         return [user, ordered.dish.name, status, ordered.order.table_id, current_status];
     }).spread(function(socket_id, dish, new_status, numTable, current_status){
-        if (current_status == "toDeliver") {
+        if (current_status != "toDeliver") {
           var msg = "Le plat " + dish + " est prêt!";
           msg = socket_id.email == "xavier@fastordering.fr" ? msg.latinise() : msg;
           var data = {date: moment().format("DD/MM/YY"),hour: moment().format("HH:mm"),msg: msg, numTable:numTable}
