@@ -79,7 +79,7 @@ public class LoginActivity extends Activity {
         });
 
         //Set key "enter" to validate to connect
-        StockMenu.instance().write("/pass", "$2a$10$BJxQp5KVCuui/trKjnnkneVldtHHweJoIshxwuZ3rFy6XGhFSFESq");
+//        StockMenu.instance().write("/pass", "$2a$10$7j7QLOwyEY6b4BBs.Zmcd.//D2QhNWRSVVINh4qaqZZQ5mgpoAKum");
         EditText addCourseText = (EditText) findViewById(R.id.field_pass);
         addCourseText.setText(StockMenu.instance().read("/pass"));
 
@@ -235,13 +235,13 @@ public class LoginActivity extends Activity {
             @Override
             public void call(Object... args) {
                 Log.d("RECEIVEORDER", "NOTIF ORDER");
-                Log.d("RECEIVEORDER", "NOTIF=" + (JSONObject) args[0]);
+                Log.d("RECEIVEORDER", "NOTIF=" + args[0]);
                 HistoryFragment.addOrderToList((JSONObject) args[0]);
             }
         }).on("notifications", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                Log.d("NOTIF", "Notif recue");
+                Log.d("NOTIF", "Notif recue = " + args[0]);
                 NotificationsFragment.addNotificationToList((JSONObject) args[0], LoginActivity.this);
             }
         }).on("update", new Emitter.Listener() {

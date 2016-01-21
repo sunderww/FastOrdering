@@ -19,12 +19,12 @@
         android:id="@+id/notif_label_one"
         android:text="@string/ipsum"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textSize="17sp"
         android:layout_toRightOf="@+id/notif_icon"
         android:layout_marginLeft="5dp"
-        android:singleLine="true">
+        >
     </TextView>
 
     <TextView
