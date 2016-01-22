@@ -27,6 +27,7 @@
     IBOutlet UIView *       centralView;
     IBOutlet UIView *       overlay;
     IBOutlet UILabel *      titleLabel;
+	IBOutlet UIButton *		syncButton;
 
     IBOutlet UIView *       mainView;
     IBOutlet UILabel *      lastOrdersLabel;
@@ -53,6 +54,7 @@
 - (IBAction)buttonClicked:(id)sender;
 - (IBAction)logOut;
 - (IBAction)showPanel;
+- (IBAction)reSync;
 
 - (void)goToOrder:(Order *)order;
 - (void)goBackToMainPage;

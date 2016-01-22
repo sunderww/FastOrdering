@@ -130,6 +130,7 @@
 - (void)checkLoadStatus {
 	if (!hasLoaded) {
 		loaderView.hidden = YES;
+		syncButton.enabled = YES;
 		[timer invalidate];
 		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"error", @"").capitalizedString message:NSLocalizedString(@"Sync_ErrorMessage", @"") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 	}
@@ -147,6 +148,7 @@
     classesToSync = 0;
 	hasLoaded = NO;
 	loaderView.hidden = NO;
+	syncButton.enabled = NO;
 	timer = [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(checkLoadStatus) userInfo:nil repeats:YES];
 
 #ifdef SKIP_SYNC
@@ -179,6 +181,7 @@
     DLog(@"END SYNC");
 	[self viewDidAppear:YES];
 	loaderView.hidden = YES;
+	syncButton.enabled = YES;
 }
 
 - (void)hidePanel {
@@ -200,6 +203,13 @@
 }
 
 #pragma mark - IBAction methods
+
+- (IBAction)reSync {
+	if (!self.doNotSync) {
+		[self syncDatabase];
+		[self reloadData];
+	}
+}
 
 - (IBAction)showPanel {
     panelShown = !panelShown;
@@ -314,10 +324,7 @@
 - (void)socketReceivedEvent:(NSString *)name withPacket:(SocketIOPacket *)packet {
 	if (![name isEqualToString:@"receive_order"]) return ;
 
-	if (!self.doNotSync) {
-		[self syncDatabase];
-		[self reloadData];
-	}
+	[self reSync];
 }
 
 /*
