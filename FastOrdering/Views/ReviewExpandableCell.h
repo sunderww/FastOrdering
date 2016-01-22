@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "SLExpandableTableView.h"
 
-@interface ReviewExpandableCell : UITableViewCell <UIExpandingTableViewCell>
+@interface ReviewExpandableCell : UITableViewCell <UIExpandingTableViewCell> {
+	UIImageView * arrow;
+}
 
 @property (nonatomic, retain) NSString * text;
 @property (nonatomic, assign, getter = isLoading) BOOL loading;
 @property (nonatomic, readonly) UIExpansionStyle expansionStyle;
 
 - (void)setExpansionStyle:(UIExpansionStyle)expansionStyle animated:(BOOL)animated;
+- (void)initialize;
 
 @end

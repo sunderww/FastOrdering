@@ -11,7 +11,9 @@
 #import "DishCategory.h"
 #import "MenuComposition.h"
 
-@interface CategoryExpandableCell : UITableViewCell <UIExpandingTableViewCell>
+@interface CategoryExpandableCell : UITableViewCell <UIExpandingTableViewCell> {
+	UIImageView * arrow;
+}
 
 @property (nonatomic, retain) DishCategory * category;
 @property (nonatomic, retain) MenuComposition * composition;
@@ -19,5 +21,6 @@
 @property (nonatomic, readonly) UIExpansionStyle expansionStyle;
 
 - (void)setExpansionStyle:(UIExpansionStyle)expansionStyle animated:(BOOL)animated;
+- (void)initialize;
 
 @end

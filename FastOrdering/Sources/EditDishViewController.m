@@ -157,6 +157,7 @@
 	
 	if (!cell) {
 		cell = [[ReviewExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		[cell initialize];
 	}
 	
 	OptionCategory * category = [context objectWithID:((OptionCategory *)categories[section]).objectID];

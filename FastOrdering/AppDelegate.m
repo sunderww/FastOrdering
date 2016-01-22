@@ -141,9 +141,9 @@
 	}
 	
 #ifdef USE_EIP_SERVER
-	[defaults setBool:@YES forKey:@"EIPServer"];
+	[defaults setBool:YES forKey:@"EIPServer"];
 #else
-	[defaults setBool:@NO forKey:@"EIPServer"];
+	[defaults setBool:NO forKey:@"EIPServer"];
 #endif
 	[defaults synchronize];
 }

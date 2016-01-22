@@ -103,6 +103,7 @@
 	
 	if (!cell) {
 		cell = [[CategoryExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		[cell initialize];
 	}
 	
 	cell.category = categories[section];

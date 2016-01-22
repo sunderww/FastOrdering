@@ -47,6 +47,7 @@
 	
 	if (!cell) {
 		cell = [[MenuExpandableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		[cell initialize];
 	}
 	
 	cell.menu = menus[section];
@@ -74,11 +75,10 @@
 	UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
 	if (!cell) {
-		//        cell = [[NSBundle mainBundle] loadNibNamed:@"NotificationCell" owner:self options:nil][0];
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		cell.indentationLevel = 1;
 	}
 	
-	//  cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", composition.name, composition.serverId];
 	cell.textLabel.text = composition.name;
 	return cell;
 }
