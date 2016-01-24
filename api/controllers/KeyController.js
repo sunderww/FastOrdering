@@ -12,13 +12,14 @@ module.exports = {
     create: function(req, res) {
         if (req.session.user) {
             KeyServices.generateCode(function codeGenerated(err, code){
-                console.log("??" + err + code);
                 if (err)
                     return res.serverError(err);
                 if (code) {
                     Key.create({code: code, restaurant: req.session.user.restaurant}).exec(function keyCreated(err, key) {
-                        if (err)
-                            return res.serverError(err)
+                        if (err) {
+                            console.log(err);
+                            return res.serverError(err);
+                        }
                         res.redirect('/user');
                     });
                 }

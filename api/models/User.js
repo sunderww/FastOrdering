@@ -92,7 +92,7 @@ module.exports = {
         
         User.find({email: values.email}).exec(function findEmail(err, found) {
             console.log(found);
-            if (found.length > 0) {  
+            if (found && found.length > 0) {  
                 errors.push("Email already use");
             }
             if (err)
