@@ -22,6 +22,7 @@ module.exports = {
 				DishCategory.findOne({restaurant:req.session.user.restaurant,id:entry}).exec(function(err, dishCategory){
 					if (dishCategory != undefined) {
 						dish.categories.add(dishCategory);
+					if (req.param('optcats_ids') == undefined)
 						dish.save();
 					}
 				});
@@ -35,6 +36,7 @@ module.exports = {
 					}
 				});
 			});
+
 			cb([true, dish]);
 		})
 		.catch(function(err) {
@@ -94,5 +96,4 @@ module.exports = {
 			});
 		}
 	}
-
 }
