@@ -19,11 +19,12 @@ module.exports = {
 		.then(function(dish){
 			var ar = new Array();
 			console.log(req.param("categories_ids"));
+			console.log(req.param("optcats_ids"));
 			ar.concat(req.param("categories_ids")).forEach(function(entry){
 				DishCategory.findOne({restaurant:req.session.user.restaurant,id:entry}).exec(function(err, dishCategory){
 					if (dishCategory != undefined) {
-						console.log(dishCategory);
 						dish.categories.add(dishCategory);
+					if (req.param('optcats_ids') == undefined)
 						dish.save();
 					}
 				});
@@ -37,6 +38,7 @@ module.exports = {
 					}
 				});
 			});
+
 			cb([true, dish]);
 		})
 		.catch(function(err) {
