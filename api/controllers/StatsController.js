@@ -53,10 +53,14 @@ module.exports = {
 			// for (i = 12; i < 24; i++) {
 			// 	results.ca.push(reqRes[i].price);
 			// }
-			
 			console.log(reqRes);
+			return results;
+		}).then(function (results) {
 			console.log(results);
-			return res.view('stats/index', {stats : results});
+			OrderedDish.find({restaurant: req.session.user.restaurant}).populateAll().then(function(menu) {
+				console.log(menu);
+				return res.view('stats/index', {stats : results, menus: menu});
+			});			
 		})
 		.catch(function(err) {
 			return cb(undefined, err);

@@ -183,20 +183,26 @@
                     }
                 }
             },
+            <% 
+                var qty = 0;
+                var menus_percent = {}; 
+                _.each (menus, function(menu) {
+                    if (menu.menu && menu.menu.name && menus_percent[menu.menu.name]) {
+                        menus_percent[menu.menu.name] += menu.qty;
+                        qty += menu.qty;
+                    }
+                    else if (menu.menu && menu.menu.name){
+                        menus_percent[menu.menu.name] = menu.qty;
+                        qty += menu.qty;
+                    }
+                }); %>
             series: [{
                 name: "Brands",
                 colorByPoint: true,
-                data: [{
-                    name: "Délices",
-                    y: 65
-                }, {
-                    name: "alacarte",
-                    y: 25,
-                    sliced: true,
-                    selected: true
-                }, {
-                    name: "Gourmet",
-                    y: 10
+                <% var pass = false %>
+                data: [{<% for (var key in menus_percent) { %><% if (pass === true) { %>},{<% } %>
+                    name: "<%= key %>",
+                    y: <%= menus_percent[key] / qty * 100 %><% pass = true %><% } %>
                 }]
             }]
         });
