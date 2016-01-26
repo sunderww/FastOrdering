@@ -8,10 +8,10 @@
 
 module.exports = {
 		index: function(req, res) {
-			Order.find().sort('createdAt DESC').then(function (orders){
+			Order.find({restaurant: req.session.user.restaurant}).sort('createdAt DESC').then(function (orders){
                 return orders;
             }).then(function (orders) {
-                OrderedDish.find().populateAll().then(function (data) {
+                OrderedDish.find({restaurant: req.session.user.restaurant}).populateAll().then(function (data) {
                     return res.view('bill/index', {orders : orders, products: data});
                 });
             }).catch(function(err) {
