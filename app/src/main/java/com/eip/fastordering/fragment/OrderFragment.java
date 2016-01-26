@@ -279,6 +279,10 @@ public class OrderFragment extends Fragment {
 				getArguments().getInt(ARG_SECTION_NUMBER));
 	}
 
+	public static JSONObject get_mOrder() {
+		return _mOrder;
+	}
+
 	/**
 	 * Custom adapter for slider
 	 */

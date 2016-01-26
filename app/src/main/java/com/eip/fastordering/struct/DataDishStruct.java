@@ -18,18 +18,18 @@ public class DataDishStruct {
         mOptions = new HashMap<>();
 
         //TODO Fetch options correctly from dish and put them here.
-        if (!elementStruct.get_mIdsOptions().isEmpty())
-            System.out.println("Element has options");
-        else
-            System.out.println("Element has no options");
+//        if (!elementStruct.get_mIdsOptions().isEmpty())
+//            System.out.println("Element has options");
+//        else
+//            System.out.println("Element has no options");
 
 
         for (String string : elementStruct.get_mIdsOptions()) {
-            System.out.println("Current cat option is=" + OrderFragment.get_mOptions().getNameGroupOptionById(string));
+//            System.out.println("Current cat option is=" + OrderFragment.get_mOptions().getNameGroupOptionById(string));
             Map<String, String> detailedOptions = new HashMap<>();
             for (String string1 : OrderFragment.get_mOptions().getOptionsById(string).get_optionValues().keySet()) {
                 detailedOptions.put(string1, "0");
-                System.out.println("Setting option = " + OrderFragment.get_mOptions().getNameOptionById(string1));
+//                System.out.println("Setting option = " + OrderFragment.get_mOptions().getNameOptionById(string1));
             }
             mOptions.put(string, detailedOptions);
         }

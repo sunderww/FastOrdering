@@ -165,7 +165,7 @@ public class OrderCardFragment extends Fragment {
                 ids.add(id);
                 nb.add("0");
                 OrderFragment.get_mElements();
-                System.out.println("Preparing options for item : " + id + " " + OrderFragment.getNameElementById(id));
+//                System.out.println("Preparing options for item : " + id + " " + OrderFragment.getNameElementById(id));
                 datas.add(new DataDishStruct(OrderFragment.get_mElements().get(id)));
             }
             _mListDataChild.put(_mListDataHeader.get(_mListDataHeader.size() - 1), ids);

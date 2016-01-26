@@ -148,15 +148,6 @@ public class OrderOrderFragment extends Fragment {
     static void addMenuToOrder(String menuId, HashMap<String, String> dishes, Map<String, DataDishStruct> optionMap) {
         List<String> listHeaderAdapter = _mListAdapter.get_listDataHeader();
 
-        int i = 0;
-
-//		System.out.println("=================================");
-//		for (Map.Entry<String, DataDishStruct> entry : optionMap.entrySet()) {
-//			System.out.println("KEY=" + entry.getKey());
-//
-//		}
-//		System.out.println("=================================");
-
         for (String menu : listHeaderAdapter) {
             if (menu.equals(menuId)) {
                 int j = 0;
@@ -183,7 +174,6 @@ public class OrderOrderFragment extends Fragment {
                 checkListEmpty();
                 return;
             }
-            ++i;
         }
 
         listHeaderAdapter.add(menuId);
@@ -306,6 +296,14 @@ public class OrderOrderFragment extends Fragment {
         _mExpListView.setGroupIndicator(null);
 
         if (_mDetails != null) {
+            if (OrderFragment.get_mOrder() != null) {
+                try {
+                    String comment = OrderFragment.get_mOrder().getString("globalComment");
+                    ((TextView) _mRootView.findViewById(R.id.order_order_comcontent)).setText(comment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             ((TextView) _mRootView.findViewById(R.id.order_order_table_edit)).setText(_mDetails.get_mNumTable());
             ((TextView) _mRootView.findViewById(R.id.order_order_pa_edit)).setText(_mDetails.get_mNumPA());
         }
