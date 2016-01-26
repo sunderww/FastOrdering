@@ -39,7 +39,6 @@ public class LoginActivity extends Activity {
 
     /**
      * Create JSONObject with /event to ask to the server
-     *
      * @param URL
      * @return
      */
@@ -60,7 +59,6 @@ public class LoginActivity extends Activity {
 
     /**
      * Create the content of the view
-     *
      * @param savedInstanceState
      */
     @Override
@@ -112,7 +110,6 @@ public class LoginActivity extends Activity {
 
     /**
      * Create the options menu
-     *
      * @param menu
      * @return
      */
@@ -127,7 +124,6 @@ public class LoginActivity extends Activity {
      * Handle action bar item clicks here. The action bar will
      * automatically handle clicks on the Home/Up button, so long
      * as you specify a parent activity in AndroidManifest.xml.
-     *
      * @param item
      * @return
      */
@@ -142,7 +138,6 @@ public class LoginActivity extends Activity {
 
     /**
      * Handle different case with keyboard/focus
-     *
      * @param event
      * @return
      */
@@ -182,14 +177,13 @@ public class LoginActivity extends Activity {
                 Log.d("LOGINACTIVITY", "CONNECT");
                 JSONObject obj = new JSONObject();
                 try {
-//                    TODO TO uncomment 12/01
                     obj.put("user_key", StockMenu.instance().read("/pass"));
+                    //MongoDB
 //                    obj.put("user_key", "$2a$10$BJxQp5KVCuui/trKjnnkneVldtHHweJoIshxwuZ3rFy6XGhFSFESq");
-//                    obj.put("user_key", "$2a$10$Q32OSOPQGJVE7RIjP/brCu2WHnjq2x/nWzlDWfjnpxKRUjKe42J0K");
 
+                    //MySQL
+//                    obj.put("user_key", "$2a$10$L1ILmJrsRlonQnBfykNapuR9l./q/WQOAiq2o8B8nPailprqoq0Pu");
 
-//                    obj.put("user_key", "$2a$10$Hkq1oadAQtH8FR80B7OXtesEYBIGRgi7dQxWFY78GGP89zwQtQGdG");
-//                    obj.put("user_key", "$2a$10$9cGnq1jrpqFtkoUOk.WpwuQqThmLBCb9UuXt0Kw4cbWuwMxmoLNyK");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -220,7 +220,6 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		System.out.println("ATTAAAAAACH NAVIGATION");
 		try {
 			mCallbacks = (NavigationDrawerCallbacks) activity;
 		} catch (ClassCastException e) {
