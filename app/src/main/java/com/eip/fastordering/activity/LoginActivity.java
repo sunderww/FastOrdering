@@ -179,7 +179,7 @@ public class LoginActivity extends Activity {
                 try {
                     obj.put("user_key", StockMenu.instance().read("/pass"));
                     //MongoDB
-//                    obj.put("user_key", "$2a$10$BJxQp5KVCuui/trKjnnkneVldtHHweJoIshxwuZ3rFy6XGhFSFESq");
+//                    obj.put("user_key", "$2a$10$7j7QLOwyEY6b4BBs.Zmcd.//D2QhNWRSVVINh4qaqZZQ5mgpoAKum");
 
                     //MySQL
 //                    obj.put("user_key", "$2a$10$L1ILmJrsRlonQnBfykNapuR9l./q/WQOAiq2o8B8nPailprqoq0Pu");

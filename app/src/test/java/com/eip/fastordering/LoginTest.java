@@ -4,8 +4,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.eip.fastordering.activity.LoginActivity;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Ack;
 import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +21,7 @@ import org.robolectric.annotation.Config;
 
 import java.net.URISyntaxException;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -26,6 +33,11 @@ public class LoginTest {
     @Before
     public void setUp() throws Exception {
         activity = Robolectric.setupActivity(LoginActivity.class);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Robolectric.reset();
     }
 
     /**
@@ -82,5 +94,88 @@ public class LoginTest {
 
         assertTrue(button.performClick());
     }
+
+    /**
+     * Check authentication success
+     * @throws Exception
+     */
+    @Test
+    public void testSocketLoginSuccess() throws Exception {
+        //Init the socket
+        try {
+            final Socket _mSocket = IO.socket(LoginActivity._mIpServer);
+            if (_mSocket != null) {
+                _mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        JSONObject obj = new JSONObject();
+                        try {
+                            //MongoDB
+                            obj.put("user_key", "$2a$10$7j7QLOwyEY6b4BBs.Zmcd.//D2QhNWRSVVINh4qaqZZQ5mgpoAKum");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        _mSocket.emit("authentication", obj, new Ack() {
+                            @Override
+                            public void call(Object... args) {
+                                try {
+                                    JSONObject rep = new JSONObject(args[0].toString());
+                                    assertTrue(rep.getBoolean("answer"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
+                _mSocket.connect();
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        Thread.sleep(2000);
+    }
+
+    /**
+     * Check authentication fail
+     * @throws Exception
+     */
+    @Test
+    public void testSocketLoginFail() throws Exception {
+        //Init the socket
+        try {
+            final Socket _mSocket = IO.socket(LoginActivity._mIpServer);
+            if (_mSocket != null) {
+                _mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        JSONObject obj = new JSONObject();
+                        try {
+                            //MongoDB
+                            obj.put("user_key", "$2a$10$7j7QLOwyEY6b4BBs.Zmcd.//D2QhNWRSVVINh4qaqZZQ5mgpoAKu");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        _mSocket.emit("authentication", obj, new Ack() {
+                            @Override
+                            public void call(Object... args) {
+                                try {
+                                    JSONObject rep = new JSONObject(args[0].toString());
+                                    assertFalse(rep.getBoolean("answer"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
+                _mSocket.connect();
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        Thread.sleep(2000);
+    }
+
 }
 

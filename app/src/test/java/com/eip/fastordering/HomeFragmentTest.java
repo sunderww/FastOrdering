@@ -6,6 +6,7 @@ import android.widget.ListView;
 import com.eip.fastordering.activity.Main;
 import com.eip.fastordering.fragment.HomeFragment;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,11 @@ public class HomeFragmentTest {
     @Before
     public void setUp() throws Exception {
         activity = Robolectric.setupActivity(Main.class);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Robolectric.reset();
     }
 
     /**

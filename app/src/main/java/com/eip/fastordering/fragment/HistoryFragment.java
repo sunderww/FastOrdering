@@ -59,16 +59,16 @@ public class HistoryFragment extends Fragment {
             _mItems.remove(_mSizeList - 1);
 
         OrderStruct order = new OrderStruct(cmd);
-        System.out.println("NEW NUM = " + order.get_mNumOrder());
+//        System.out.println("NEW NUM = " + order.get_mNumOrder());
         for (int i = 0; i < _mItems.size(); i++) {
             OrderStruct orderFromList = _mItems.get(i);
             if (orderFromList.get_mNumOrder().equals(order.get_mNumOrder())) {
-                System.out.println("REMOVED COMMAND");
+//                System.out.println("REMOVED COMMAND");
                 _mItems.remove(i);
                 break;
             }
         }
-        System.out.println("ADDED COMMAND");
+//        System.out.println("ADDED COMMAND");
         _mItems.add(0, order);
         if (_mAdapter != null)
             _mAdapter.notifyDataSetChanged();
