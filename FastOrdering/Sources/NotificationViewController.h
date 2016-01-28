@@ -10,6 +10,7 @@
 
 @interface NotificationViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView *  tableView;
+	IBOutlet UILabel *		noNotificationLabel;
     
     NSArray *   data;
 }

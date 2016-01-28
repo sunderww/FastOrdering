@@ -30,11 +30,14 @@
 {
     [super viewDidLoad];
 
+	noNotificationLabel.text = NSLocalizedString(noNotificationLabel.text, @"");
 	[self reloadData];
 }
 
 - (void)reloadData {
 	data = [Notification allObjectsSortedWithDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
+	tableView.hidden = !data.count;
+	noNotificationLabel.hidden = data.count;
 }
 
 - (void)didReceiveMemoryWarning

@@ -28,6 +28,8 @@
 "Sync_ErrorMessage"				=	"Impossible de synchroniser l'application au serveur. Veuillez vérifier votre connexion internet.";
 "Connectivity_ErrorMessage"		=	"Impossible de se connecter au serveur. Veuillez vérifier votre connexion internet.";
 "Login_ErrorMessage"			=	"Nous n'avons pas pu vous connecter. Veuillez vérifier votre clé utilisateur réessayez.";
+"No_Order"						=	"Aucune commande";
+"No_Notification"				=	"Aucune notification";
 
 /* Vocabulary */
 "add"							=	"ajouter";

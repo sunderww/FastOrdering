@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 
 @interface HistoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+	IBOutlet UILabel *		noOrdersLabel;
 	IBOutlet UITableView *  orders;
 	NSMutableArray *        data;
 }

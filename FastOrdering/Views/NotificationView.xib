@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NotificationViewController">
             <connections>
+                <outlet property="noNotificationLabel" destination="S4Y-CF-Sp3" id="Nrs-ZY-DPJ"/>
                 <outlet property="tableView" destination="CWg-4B-I23" id="NSM-MF-9qY"/>
                 <outlet property="view" destination="iN0-l3-epB" id="OuW-Eg-JEt"/>
             </connections>
@@ -26,6 +27,13 @@
                         <outlet property="delegate" destination="-1" id="tSF-QG-aNV"/>
                     </connections>
                 </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No_Notification" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="S4Y-CF-Sp3">
+                    <rect key="frame" x="0.0" y="274" width="320" height="21"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
         </view>
