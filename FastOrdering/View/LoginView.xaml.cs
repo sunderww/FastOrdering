@@ -21,7 +21,7 @@ namespace FastOrdering.View
 		public LoginView()
 		{
 			this.InitializeComponent();
-			ID.Text = "$2a$10$3brPbpUJ1hQCWgOLOLKXPO6DDTZn74E3E30C.tIEaP8FnRoGvimN2";
+			ID.Text = "$2a$10$GtWfpWW70GVuvs4eqymIgOJ3W8WVvS7rWrNBlE5it1QWf4EdtkcUW";
 			connecting = false;
 		}
 
