@@ -11,7 +11,7 @@
 #import "Order+Custom.h"
 #import "NSManagedObject+create.h"
 
-#define kHistoryOrderLoadCount  10
+#define kHistoryOrderLoadCount  20
 
 @interface HistoryViewController ()
 

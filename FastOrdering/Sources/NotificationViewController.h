@@ -11,8 +11,12 @@
 @interface NotificationViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView *  tableView;
 	IBOutlet UILabel *		noNotificationLabel;
+	IBOutlet UIButton *		deleteButton;
     
     NSArray *   data;
+	NSUInteger	selectCount;
 }
+
+- (IBAction)deleteSelectedNotifications;
 
 @end

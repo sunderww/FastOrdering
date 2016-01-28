@@ -10,6 +10,7 @@
 #import "NSManagedObject+create.h"
 #import "Notification.h"
 #import "NotificationCell.h"
+#import "AppDelegate.h"
 
 @interface NotificationViewController ()
 
@@ -29,13 +30,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
 
+	[deleteButton setTitle:NSLocalizedString([deleteButton titleForState:UIControlStateNormal], @"").capitalizedString forState:UIControlStateNormal];
 	noNotificationLabel.text = NSLocalizedString(noNotificationLabel.text, @"");
 	[self reloadData];
 }
 
 - (void)reloadData {
+	selectCount = 0;
+	deleteButton.hidden = YES;
+
 	data = [Notification allObjectsSortedWithDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
+	[tableView reloadData];
 	tableView.hidden = !data.count;
 	noNotificationLabel.hidden = data.count;
 }
@@ -66,6 +73,33 @@
 	
 	cell.notification = data[indexPath.row];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+	selectCount--;
+	
+	if (!selectCount)
+		deleteButton.hidden = YES;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	selectCount++;
+	deleteButton.hidden = NO;
+}
+
+#pragma mark - IBAction methods
+
+- (IBAction)deleteSelectedNotifications {
+	AppDelegate * appDelegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
+	NSManagedObjectContext * context = appDelegate.managedObjectContext;
+
+	for (NSIndexPath * indexPath in [tableView indexPathsForSelectedRows]) {
+		Notification * notif = data[indexPath.row];
+		[context deleteObject:notif];
+	}
+	
+	[self reloadData];
+	[appDelegate saveContext];
 }
 
 /*

@@ -313,116 +313,6 @@
 	XCTAssertEqualObjects(json, dict, @"Table order JSON is not right : `%@` != `%@`", json, dict);
 }
 
-- (void)testOrderJSONWithOptions {
-	
-}
-
-- (void)testOrderJSONComplete {
-	[self populateDB];
-
-	// Create a complex order
-//	Order * order = [Order createInContext:self.moc];
-//	order.comments = @"Coupon 10€";
-//	order.table_id = @"16";
-//	order.dinerNumber = @4;
-//	order.createdAt = [NSDate date];
-//	order.updatedAt = [NSDate date];
-//	
-////	OrderContent * content1 = [OrderContent createInContext:self.moc];
-////	OrderContent * content2 = [OrderContent createInContext:self.moc];
-//	MenuComposition * compo2 = [MenuComposition retrieveWithServerId:@"compo2" inContext:self.moc];
-//	MenuComposition * carte = [MenuComposition retrieveWithServerId:@"Carte_Dessert" inContext:self.moc];
-//	Dish * dish4 = [Dish retrieveWithServerId:@"dish4" inContext:self.moc]; // Plat 2
-//	Dish * dish6 = [Dish retrieveWithServerId:@"dish6" inContext:self.moc]; // Dessert 2
-//	Dish * dish7 = [Dish retrieveWithServerId:@"dish7" inContext:self.moc]; // Dessert 3 (carte only)
-////	content1.order = order;
-////	content1.menuComposition = compo2;
-////	content2.order = order;
-////	content2.menuComposition = carte;
-//	
-//	// Be careful to put dishes that are inside the correct menucomposition
-//	OrderedDish * ordered4 = [OrderedDish createInContext:self.moc];
-//	ordered4.dish = dish4;
-//	ordered4.qty = @4;
-////	ordered4.content = content1;
-//	ordered4.comment = @"Extra Sauce for 2";
-//	
-//	OrderedDish * ordered6Menu = [OrderedDish createInContext:self.moc];
-//	ordered6Menu.dish = dish6;
-//	ordered6Menu.qty = @1;
-////	ordered6Menu.content = content1;
-//	
-//	OrderedDish * ordered6Carte = [OrderedDish createInContext:self.moc];
-//	ordered6Carte.dish = dish6;
-//	ordered6Carte.qty = @2;
-////	ordered6Carte.content = content2;
-//	
-//	OrderedDish * ordered7 = [OrderedDish createInContext:self.moc];
-//	ordered7.dish = dish7;
-//	ordered7.qty = @1;
-////	ordered7.content = content2;
-//	ordered7.comment = @"aaa";
-//	
-//	
-//	// And test the result
-//	NSDictionary * json = order.toJSONTest;
-//	NSDictionary * content1Dict = @{ @"menuId": @"menu",
-//									 @"content": [NSCountedSet setWithArray:@[
-//											 @{@"id": @"dish4", @"qty": @4, @"comment": @"Extra Sauce for 2"},
-//											 @{@"id": @"dish6", @"qty": @1, @"comment": @""},
-//											 ]]
-//									};
-//	NSDictionary * content2Dict = @{ @"menuId": @"menu a la carte",
-//									 @"content": [NSCountedSet setWithArray:@[
-//											 @{@"id": @"dish6", @"qty": @2, @"comment": @""},
-//											 @{@"id": @"dish7", @"qty": @1, @"comment": @"aaa"},
-//											 ]]
-//									 };
-//
-//	NSDictionary * dict = @{
-//							@"numTable": @"16",
-//							@"numPA": @4,
-//							@"globalComment": @"Coupon 10€",
-//							@"order": [NSCountedSet setWithArray:@[content1Dict, content2Dict]]
-//							};
-//
-//	XCTAssertEqualObjects(json, dict, @"Complete order JSON is not right : `%@` != `%@`", json, dict);
-}
-
-- (void)testSanitizeEmpty {
-}
-
-- (void)testSanitizeWithSimpleSanitizing {
-	
-}
-
-- (void)testSanitizeWithComplexSanitizing {
-
-}
-
-- (void)testSanitizeWithoutSanitizing {
-	
-}
-
-- (void)testSanitizeComplete {
-
-}
-
-- (void)testDishesGroupedByMenu {
-	[self populateDB];
-	
-	
-}
-
-- (void)testAlacarteContents {
-	XCTAssert(YES, @"Pass");
-}
-
-- (void)testCreateAlacarteContents {
-	XCTAssert(YES, @"Pass");
-}
-
-
 - (void)testorderedDishWithDishAndCompositionEmpty {
 	Order * order = [Order createInContext:self.moc];
 	XCTAssertNil([order orderedDishWithDish:nil andComposition:nil], @"I should not be getting any answer");
@@ -447,7 +337,8 @@
 	
 	// Initialize variables
 	Order * order = [Order createInContext:self.moc];
-	
+
+	XCTAssertNotNil(order);
 //	XCTAssertNil([order orderedDishWithDish:dish4 andComposition:compo1], @"I should not get any answer");
 //	XCTAssertNil([order orderedDishWithDish:dish6 andComposition:compo2], @"I should not get any answer");
 //	XCTAssertNil([order orderedDishWithDish:dish1 andComposition:compo2], @"I should not get any answer");
