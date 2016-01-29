@@ -269,12 +269,13 @@
 	self.order.dinerNumber = @(numPAField.text.integerValue);
 	self.order.comments = commentTextView.text;
 	
+	loaderView.hidden = NO;
+
 	if (!helper.socket.isConnected) return [self orderFailed];
 
 	DPPLog(@"Will send JSON :\n%@\n\n", self.order.toJSONString);
 	self.mainController.doNotSync = YES;
 
-	loaderView.hidden = NO;
 	[helper.socket sendEvent:@"send_order" withData:self.order.toJSON andAcknowledge:^(id argsData) {
 		NSDictionary * dict = argsData;
 
