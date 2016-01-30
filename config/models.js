@@ -18,8 +18,13 @@ module.exports.models = {
   *                                                                          *
   ***************************************************************************/
 <<<<<<< HEAD
+<<<<<<< HEAD
 //    connection: 'mysql',
      connection: 'mongodb',
+=======
+//     connection: 'mysql',
+   connection: 'mongodb',
+>>>>>>> 4b10970... Test unitaires
 =======
 //     connection: 'mysql',
    connection: 'mongodb',

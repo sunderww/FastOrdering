@@ -18,7 +18,10 @@ module.exports = {
 		.then(function(dish){
 			var ar = new Array();
 <<<<<<< HEAD
+<<<<<<< HEAD
 			console.log(req.param("categories_ids"));
+=======
+>>>>>>> 4b10970... Test unitaires
 =======
 >>>>>>> 4b10970... Test unitaires
 			ar.concat(req.param("categories_ids")).forEach(function(entry){
