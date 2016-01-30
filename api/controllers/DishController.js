@@ -99,9 +99,9 @@ module.exports = {
 	    			entry.categories.forEach(function(e){
 	    				entry.categories_ids.push(e.id);
 	    			});
-	    			entry.optcats_ids = new Array();
+	    			entry.optioncategories_ids = new Array();
 	    			entry.optcats.forEach(function(e){
-	    				entry.optcats_ids.push(e.id);
+	    				entry.optioncategories_ids.push(e.id);
 	    			});
 	    			delete entry.categories;
 	    			delete entry.optcats;
@@ -119,9 +119,9 @@ module.exports = {
 	    			entry.categories.forEach(function(e){
 	    				entry.categories_ids.push(e.id);
 	    			});
-	    			entry.optcats_ids = new Array();
+	    			entry.optioncategories_ids = new Array();
 	    			entry.optcats.forEach(function(e){
-	    				entry.optcats_ids.push(e.id);
+	    				entry.optioncategories_ids.push(e.id);
 	    			});
 	    			delete entry.categories;
 	    			delete entry.optcats;
