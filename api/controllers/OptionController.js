@@ -17,7 +17,7 @@ module.exports = {
           req.flash('error', ret[1].ValidationError);
         }
         else {
-          console.log("Option created with success");
+          console.log("Option created with success " + ret[1].id);
           req.flash('success', "L'option " + ret[1].name + " a été créé avec succès!");
         }
         OptionServices.read(req,function(ret){return res.view(ret);});
@@ -86,10 +86,10 @@ module.exports = {
           req.flash('error', ret[1].ValidationError);
         }
         else {
-          console.log("Option updated with success");
-          req.flash('success', "La catégorie a été mise à jour avec succès");
+          console.log("Option updated with success " + req.param('id'));
+          req.flash('success', "La catégorie a été mise à jour avec succès" );
         }
-          return res.redirect('/option/create');
+        return res.redirect('/option/create');
       });
     } else
       OptionServices.read(req, function(ret){return res.view(ret);});

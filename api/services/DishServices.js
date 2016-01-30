@@ -9,7 +9,6 @@ var Promise = require('q');
 module.exports = {
 
 	create: function(req, cb) {
-		console.log("Dish creating")
 		Dish.create({
 			restaurant:req.session.user.restaurant,
 			id: req.param("id"),
@@ -18,8 +17,6 @@ module.exports = {
 		})
 		.then(function(dish){
 			var ar = new Array();
-			console.log(req.param("categories_ids"));
-			console.log(req.param("optcats_ids"));
 			ar.concat(req.param("categories_ids")).forEach(function(entry){
 				DishCategory.findOne({restaurant:req.session.user.restaurant,id:entry}).exec(function(err, dishCategory){
 					if (dishCategory != undefined) {
@@ -59,7 +56,7 @@ module.exports = {
 		}		
 		else if (!req.param("id")) {
 			Promise.all([
-				Dish.find({restaurant:req.session.user.restaurant}).populateAll(),
+				Dish.find({restaurant:req.session.user.restaurant}).sort("createdAt DESC").populateAll(),
 				DishCategory.find({restaurant:req.session.user.restaurant}),
 				OptionCategory.find({restaurant:req.session.user.restaurant})
 			])

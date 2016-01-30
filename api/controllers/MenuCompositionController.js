@@ -24,7 +24,7 @@ module.exports = {
         return res.json({message: ret[1].id});
       }
       else {
-        console.log("MenuComposition created with success");
+        console.log("MenuComposition created with success " + ret[1].id);
         req.flash('success', "La composition " + ret[1].name + " a été crée avec succès");
         return res.json({message: ret[1].id});
       }
@@ -45,7 +45,7 @@ module.exports = {
       });  
     }
     else {
-      MenuComposition.find({restaurant:req.session.user.restaurant}).populateAll().exec(function(err, doc) {
+      MenuComposition.find({restaurant:req.session.user.restaurant}).populateAll().sort("createdAt DESC").exec(function(err, doc) {
         doc.forEach(function(e){
           e.menu_id = e.menu.id;
           e.restaurant_id = e.restaurant.id;

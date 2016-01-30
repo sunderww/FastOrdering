@@ -12,6 +12,7 @@ module.exports = {
     	else if (!req.param('id')) {
 	    	DishCategory
 	    	.find({restaurant:req.session.user.restaurant})
+			.sort("createdAt DESC")
 	    	.populateAll()
 	    	.exec(function(err, dishCategories) {
 	    		cb(dishCategories);

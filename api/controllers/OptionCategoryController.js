@@ -22,7 +22,7 @@ module.exports = {
           req.flash('error', err.ValidationError);
         }
         else {
-          console.log("OptionCategory created with success");
+          console.log("OptionCategory created with success " + optionCategory.id);
           req.flash('success', 'La catégorie ' + optionCategory.name + " a été créé avec succès");
         }
         OptionCategoryServices.read(req, function(ret) {return res.view({optcats:ret});});      
@@ -134,7 +134,7 @@ module.exports = {
           req.flash('error', err.ValidationError);
         }
         else {
-          console.log("OptionCategory updated with success");
+          console.log("OptionCategory updated with success "+ req.param('id'));
           req.flash('success', "La catégorie a été mise à jour avec succès");
         }
         res.redirect('/optioncategory/create/');
