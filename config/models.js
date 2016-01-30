@@ -17,8 +17,13 @@ module.exports.models = {
   * connections (see `config/connections.js`)                                *
   *                                                                          *
   ***************************************************************************/
+<<<<<<< HEAD
 //    connection: 'mysql',
      connection: 'mongodb',
+=======
+//     connection: 'mysql',
+   connection: 'mongodb',
+>>>>>>> 4b10970... Test unitaires
 
   /***************************************************************************
   *                                                                          *

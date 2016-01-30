@@ -28,7 +28,7 @@ module.exports = {
         req.flash('error', err.ValidationError);
       }
       else {
-        console.log("DishCategory created with success");
+        console.log("DishCategory created with success " + dishCategory.id);
         req.flash('success', "La catégorie d'option " + dishCategory.name + " a été créé avec succès");
       }
       DishCategoryServices.read(req, function(ret) {return res.view({categories:ret});});
@@ -111,7 +111,7 @@ module.exports = {
           req.flash('error', err.ValidationError);
         }
         else {
-          console.log("Dish updated with success");
+          console.log("Dish updated with success " + req.param("id"));
           req.flash('success', "La catégorie d'option a été mise à jour avec succès");
         }
         res.redirect('/dishcategory/create');

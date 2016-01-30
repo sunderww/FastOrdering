@@ -1,45 +1,83 @@
-// var request = require('supertest');
+var request = require('supertest');
+  var server = request.agent('http://localhost:4343');
+var ID = null;
+var assert = require('assert');
 
-// describe('--> Option <--', function() {
-// it('Create a Option', function (done) {
-// 				request(sails.hooks.http.app)
-// 	              .post('/Option/create')
-// 	              .send({
-// 	               name:"UnitTest",
-// 	               optioncategories_ids:"55cccc54f80d3658724d6f7f"
-// 	               })
-// 	              .end(function (err, res) {
-// 	                  done(err);
-// 	            });
-// 		});
-// 		it('List Options', function (done) {
-// 		   request(sails.hooks.http.app)
-// 			.post('/Option/read')
-// 			.send()
-// 			.expect(200)
-// 			.end(function (err, res) {
-// 			    done(err);
-// 			});
-// 		});
+function loginUser() {
+    return function(done) {
+            server.post('/login')
+            .send({email:'test_restaurant@fastordering.fr', password:'tototo'})
+            .expect("Location", "/dashboard")
+            .end(function(err, res){
+              done(err);
+            });
+    };
+}
+
+function listOption() {
+	return function(done) {
+		   server
+			.post('/option/read')
+			.send()
+			.expect(200)
+			.end(function (err, res) {
+	            var res = JSON.parse(res.text);
+		        ID = res.elements[0];
+	            onResponse(err, res,done);
+			});
+	};
+}
+
+function onResponse(err, res, done) {
+	if (err) return done(err);
+    	return done();
+}
+describe('--> Option <--', function() {
+ it('login', loginUser());
+it('Create a Option', function (done) {
+				server
+	              .post('/option/create')
+	              .send({
+	               name:"Saignan"
+	               })
+	              .expect(200)
+	              .end(function (err, res) {
+	                  done(err);
+	            });
+		});
+		it('List Options', listOption());
 		
-// 		it('Update a Option', function (done) {
-// 	           request(sails.hooks.http.app)
-// 	              .post('/Option/update')
-// 	              .send({id:"572f78e6937726dc7abffff3",
-// 	               name:"UnitTest2",
-// 	               })
-// 	              .expect(302)
-// 	              .end(function (err, res) {
-// 	                  done(err);
-// 	            });
-// 		});
-// 		it('Delete a Option', function (done) {
-// 	           request(sails.hooks.http.app)
-// 	              .post('/Option/delete')
-// 	              .send({id:"572f78e6937726dc7abffff3"})
-// 	              .expect(302)
-// 	              .end(function (err, res) {
-// 	                  done(err);
-// 	            });
-// 		});
-// });
+		it('Try API route Option', function(done){
+ 			server
+			.post('/option?restaurant=56a9e447aa963d4f2a896fd2')
+			.send()
+			.expect(200)
+			.end(function (err, res) {
+	            var res = JSON.parse(res.text);
+	            if (res.length > 0)
+		            assert(res[0].name != undefined, "Option creation failed");
+	            onResponse(err, res,done);
+			});
+		});
+
+		it('Update a Option', function (done) {
+	           server
+	              .post('/Option/update')
+	              .send({id:ID.id,
+	               name:"Saignant",
+	               })
+	              .expect(302)
+	              .end(function (err, res) {
+	                  done(err);
+	            });
+		});
+		it('Delete a Option', function (done) {
+	           server
+	              .post('/Option/delete')
+	              .send({id:ID.id})
+	              .expect(302)
+	              .end(function (err, res) {
+	                  done(err);
+	            });
+		});
+});

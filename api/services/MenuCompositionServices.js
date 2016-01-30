@@ -17,7 +17,6 @@ module.exports = {
 						menuComposition.save();
 					}
 				});
-				
 				var ar = new Array();
 				ar.concat(req.param("categories_ids")).forEach(function(entry){
 					DishCategory.findOne({id:entry}).exec(function(err, category){

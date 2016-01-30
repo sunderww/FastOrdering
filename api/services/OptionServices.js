@@ -1,7 +1,6 @@
 module.exports = {
 
 	create: function(req, cb) {
-		console.log("Option created")
 		Option.create({
 			id: req.param("id"),
 			name:req.param("name"),
@@ -64,6 +63,7 @@ module.exports = {
 		else if (!req.param('id')) {
 			Option
 			.find({restaurant:req.session.user.restaurant})
+			.sort("createdAt DESC")
 			.populateAll()
 			.then(function(options) {
 	        	OptionCategory

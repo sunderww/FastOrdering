@@ -24,7 +24,7 @@ module.exports = {
 				}
 				else {
         			req.flash('success', "Le plat " + ret[1].name + " a été crée avec succès");
-					console.log("Dish created with success");
+					console.log("Dish created with success " + ret[1].id);
 				}
 				DishServices.read(req, function(ret){
 					return res.view(ret);
@@ -153,7 +153,7 @@ module.exports = {
 				}
 				else {
           			req.flash('success', "Le plat a été mise à jour avec succès");
-					console.log("Dish updated with success");
+					console.log("Dish updated with success " + req.param('id'));
 				}
 				return res.redirect('/dish/create');
 			});

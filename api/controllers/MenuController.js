@@ -27,7 +27,7 @@ module.exports = {
           req.flash('error', err.ValidationError);
         }
         else {
-          console.log("Menu created with success");
+          console.log("Menu created with success "+ menu.id);
           req.flash('success', "Le menu " + menu.name + " a été crée avec succès");
         }
         Menu.find(function(err, menus) {return res.view({menus:menus});});
@@ -50,11 +50,12 @@ module.exports = {
   update: function (req, res) {
    MenuServices.update(req.param('id'), req, function(data){
           if (data[1] == true) {
-            console.log("Menu updated with success");
-            req.flash('success', "Le menu a été mis à jour avec succès");
+            console.log("Menu updated with success " + req.param('id'));
+            req.flash('success', "Le menu a été mis à jour avec succès ");
             return res.redirect('/menu/create');
           }
           else if (data[0] == true) {
+            console.log("Menu updated with success " + req.param('id'));
             return res.view(data[1]);
           }
           else if (data[0] == false) {
@@ -83,7 +84,8 @@ module.exports = {
       });
     }
     else {
-      Menu.find({name: { '!' : ["alacarte"]}, restaurant:req.session.user.restaurant}).exec(function(err, doc){
+      
+      Menu.find({name: { '!' : ["alacarte"]}, restaurant:req.session.user.restaurant}).sort("createdAt DESC").exec(function(err, doc){
         doc.forEach(function(e){
           e.restaurant_id = e.restaurant;
           delete e.restaurant;
