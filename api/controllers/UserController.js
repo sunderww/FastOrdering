@@ -129,7 +129,12 @@ module.exports = {
         if (!req.session.user)
         return res.redirect('/login');
         
-        var values = req.params.all();
+        var values = {
+            email: req.param('email'),
+            password: req.param('password'),
+            confirm_password: req.param('confirm_password'),
+            role: req.param('role'),            
+        };
         
         values.restaurant = req.session.user.restaurant;
         values.key = req.param('id');
